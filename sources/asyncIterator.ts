@@ -203,7 +203,7 @@ export abstract class AsyncIterator<T>
      * Get an {@link AsyncIterator} that will only return values that match the provided condition.
      * @param condition The condition to run against each of the values in this {@link AsyncIterator}.
      */
-    public where(condition: (value: T) => boolean): AsyncIterator<T>
+    public where(condition: (value: T) => (boolean | PromiseLike<boolean>)): AsyncIterator<T>
     {
         return AsyncIterator.where(this, condition);
     }

@@ -43,6 +43,8 @@ import * as setTests from "./setTests";
 import * as depthFirstSearchTests from "./depthFirstSearchTests";
 import * as byteListTests from "./byteListTests";
 import * as byteListStreamTests from "./byteListStreamTests";
+import * as characterListTests from "./characterListTests";
+import * as characterListStreamTests from "./characterListStreamTests";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -91,4 +93,6 @@ await ConsoleTestRunner.run([
     depthFirstSearchTests,
     byteListTests,
     byteListStreamTests,
+    characterListTests,
+    characterListStreamTests,
 ]);

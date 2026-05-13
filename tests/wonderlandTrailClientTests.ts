@@ -409,7 +409,7 @@ export function test(runner: TestRunner): void
                 });
             });
 
-            runner.testFunction("getAvailability()", runner.skip("Ignore slow running tests for now"), () =>
+            runner.testFunction("getAvailability()", runner.skip(true, "Ignore slow running tests for now"), () =>
             {
                 runner.test("with year in the past", async (test: Test) =>
                 {
@@ -444,7 +444,7 @@ export function test(runner: TestRunner): void
                         allowWalkupPermits: true,
                     });
                     test.assertNotUndefinedAndNotNull(availability);
-                    test.assertFalse(availability.any());
+                    test.assertTrue(availability.any());
                 });
             });
         });

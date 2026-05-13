@@ -258,6 +258,17 @@ export abstract class PostCondition
     }
 
     /**
+     * Assert that the value is a characer (single character string).
+     * @param value The value to check.
+     * @param expression The expression that produced the value.
+     * @param message An optional error message.
+     */
+    public static assertCharacter(value: string, expression?: string, message?: string): void
+    {
+        return PostCondition.getCondition().assertCharacter(value, expression, message);
+    }
+
+    /**
      * Assert that the provided value is an instance of the provided {@link Type}.
      * @param value The value to check.
      * @param type The {@link Type} to check.

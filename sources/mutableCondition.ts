@@ -396,6 +396,19 @@ export class MutableCondition implements Condition
         }
     }
 
+    public assertCharacter(value: string, expression?: string, message?: string): void
+    {
+        if (!value || value.length !== 1)
+        {
+            throw this.createError({
+                expected: `character`,
+                actual: this.toValueString(value),
+                expression: expression,
+                message: message,
+            });
+        }
+    }
+
     public assertInstanceOf<T>(value: unknown, type: Type<T>, typeCheck?: (value: unknown) => value is T, expression?: string, message?: string): asserts value is T;
     public assertInstanceOf<T>(parameters: { value: unknown, type: Type<T>, typeCheck?: (value: unknown) => value is T, expression?: string, message?: string }): void;
     public assertInstanceOf<T>(parametersOrValue: unknown | { value: unknown, type: Type<T>, typeCheck?: (value: unknown) => value is T, expression?: string, message?: string }, type?: Type<T>, typeCheck?: (value: unknown) => value is T, expression?: string, message?: string): void;
