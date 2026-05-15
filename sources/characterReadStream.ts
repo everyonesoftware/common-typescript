@@ -74,6 +74,8 @@ export abstract class CharacterReadStream
 
     public static readLine(readStream: CharacterReadStream): Result<string>
     {
+        PreCondition.assertNotUndefinedAndNotNull(readStream, "readStream");
+
         return readStream.readUntil("\n");
     }
 }

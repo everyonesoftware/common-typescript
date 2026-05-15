@@ -4,7 +4,6 @@ import { CharacterReadStream } from "./characterReadStream";
 import { JavascriptAsyncIterator } from "./javascript";
 import { NotFoundError } from "./notFoundError";
 import { PreCondition } from "./preCondition";
-import { Result } from "./result";
 import { Type } from "./types";
 
 export class CharacterReadStreamAsyncIterator implements AsyncIterator<string>
