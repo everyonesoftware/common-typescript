@@ -1,7 +1,7 @@
 import { PromiseAsyncResult } from "./promiseAsyncResult";
 import { PostCondition } from "./postCondition";
 import { PreCondition } from "./preCondition";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 
 export abstract class CharacterWriteStream
 {
@@ -10,7 +10,7 @@ export abstract class CharacterWriteStream
      * @param text The text to write.
      * @returns The number of characters that were written.
      */
-    public abstract writeString(text: string): Result<number>
+    public abstract writeString(text: string): AsyncResult<number>
 
     /**
      * Write the provided text (if provided) and then write a newline character sequence to this
@@ -18,12 +18,12 @@ export abstract class CharacterWriteStream
      * @param text The optional text to write before the newline character sequence.
      * @returns The number of characters that were written.
      */
-    public writeLine(text?: string): Result<number>
+    public writeLine(text?: string): AsyncResult<number>
     {
         return CharacterWriteStream.writeLine(this, text);
     }
 
-    public static writeLine(writeStream: CharacterWriteStream, text?: string): Result<number>
+    public static writeLine(writeStream: CharacterWriteStream, text?: string): AsyncResult<number>
     {
         PreCondition.assertNotUndefinedAndNotNull(writeStream, "writeStream");
 

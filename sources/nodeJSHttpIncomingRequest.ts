@@ -8,7 +8,7 @@ import { NotFoundError } from "./notFoundError";
 import { isArray } from "./types";
 import { escapeAndQuote } from "./strings";
 import { SyncResult } from "./syncResult";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 
 export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
 {
@@ -122,9 +122,9 @@ export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
         });
     }
 
-    public getBody(): Result<string>
+    public getBody(): AsyncResult<string>
     {
-        return Result.createSync(() =>
+        return AsyncResult.createSync(() =>
         {
             throw new NotFoundError("Could not read the body from the incoming HTTP request.");
         });

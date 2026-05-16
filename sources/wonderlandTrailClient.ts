@@ -5,7 +5,7 @@ import { HttpOutgoingRequest } from "./httpOutgoingRequest";
 import { Iterable } from "./iterable";
 import { PreCondition } from "./preCondition";
 import { RecreationDotGovClient, RecreationDotGovDivisionAvailability, RecreationDotGovDivisionDayAvailability } from "./recreationDotGovClient";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 import { Map } from "./map";
 import { List } from "./list";
 import { JavascriptIterable } from "./javascript";
@@ -1170,12 +1170,12 @@ export class WonderlandTrailClient implements HttpClient
         return new WonderlandTrailClient(httpClient);
     }
 
-    public sendRequest(request: HttpOutgoingRequest): Result<HttpIncomingResponse>
+    public sendRequest(request: HttpOutgoingRequest): AsyncResult<HttpIncomingResponse>
     {
         return this.httpClient.sendRequest(request);
     }
 
-    public sendGetRequest(url: string): Result<HttpIncomingResponse>
+    public sendGetRequest(url: string): AsyncResult<HttpIncomingResponse>
     {
         return HttpClient.sendGetRequest(this, url);
     }

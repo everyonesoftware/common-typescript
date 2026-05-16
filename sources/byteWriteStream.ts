@@ -1,4 +1,4 @@
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 
 /**
  * A stream that writes bytes.
@@ -12,5 +12,5 @@ export abstract class ByteWriteStream
      * @param length The number of bytes to write.
      * @returns The number of bytes that were written.
      */
-    public abstract writeBytes(bytes: Uint8Array | number[], startIndex?: number, length?: number): Result<number>
+    public abstract writeBytes(bytes: Uint8Array | number[], startIndex?: number, length?: number): AsyncResult<number>
 }

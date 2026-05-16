@@ -4,7 +4,7 @@ import { CharacterWriteStream } from "./characterWriteStream";
 import { EmptyError } from "./emptyError";
 import { JavascriptIterable } from "./javascript";
 import { PreCondition } from "./preCondition";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 import { join } from "./strings";
 import { SyncResult } from "./syncResult";
 import { isNumber, isString, isUndefinedOrNull } from "./types";
@@ -55,14 +55,14 @@ export class CharacterListStream implements CharacterReadStream, CharacterWriteS
     }
 
 
-    public writeString(text: string): Result<number>
+    public writeString(text: string): AsyncResult<number>
     {
         this.list.addAll(text);
 
         return SyncResult.value(text.length);
     }
 
-    public writeLine(text?: string): Result<number>
+    public writeLine(text?: string): AsyncResult<number>
     {
         return CharacterWriteStream.writeLine(this, text);
     }
@@ -75,7 +75,7 @@ export class CharacterListStream implements CharacterReadStream, CharacterWriteS
         return this.list.getCount().await();
     }
 
-    public readCharacter(): Result<string>
+    public readCharacter(): AsyncResult<string>
     {
         return !this.list.any().await()
             ? SyncResult.error(new EmptyError())
@@ -139,12 +139,12 @@ export class CharacterListStream implements CharacterReadStream, CharacterWriteS
         return result;
     }
 
-    public readUntil(searchString: string): Result<string>
+    public readUntil(searchString: string): AsyncResult<string>
     {
         return CharacterReadStream.readUntil(this, searchString);
     }
 
-    public readLine(): Result<string>
+    public readLine(): AsyncResult<string>
     {
         return CharacterReadStream.readLine(this);
     }

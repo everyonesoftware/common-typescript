@@ -1,9 +1,9 @@
 import { PreCondition } from "./preCondition";
 import { PromiseAsyncResult } from "./promiseAsyncResult";
 import { instanceOfType, isPromise, isPromiseLike, isUndefinedOrNull, Type } from "./types";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 
-export class SyncResult<T> implements Result<T>
+export class SyncResult<T> implements AsyncResult<T>
 {
     private value: T | undefined;
     private error: unknown | undefined;

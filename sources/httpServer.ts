@@ -1,11 +1,11 @@
 import { Disposable } from "./disposable";
 import { HttpIncomingRequest } from "./httpIncomingRequest";
 import { HttpOutgoingResponse } from "./httpOutgoingResponse";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 
 export abstract class HttpServer implements Disposable
 {
-    public abstract dispose(): Result<boolean>;
+    public abstract dispose(): AsyncResult<boolean>;
 
     public abstract isDisposed(): boolean;
 
@@ -15,7 +15,7 @@ export abstract class HttpServer implements Disposable
      * @param requestPath The path that will cause the provided handler to be invoked.
      * @param handler The function that will be invoked when the 
      */
-    public abstract addRequestHandler(requestPath: string, handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => Result<void>): void;
+    public abstract addRequestHandler(requestPath: string, handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>): void;
 
     /**
      * Set the default request handler that will be invoked when no other request handlers match an
@@ -23,12 +23,12 @@ export abstract class HttpServer implements Disposable
      * @param handler The handler that will be invoked when no other request handlers match an
      * {@link HttpIncomingRequest}.
      */
-    public abstract setDefaultRequestHandler(handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => Result<void>): void;
+    public abstract setDefaultRequestHandler(handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>): void;
 
     /**
      * Start listening for incoming connections on the provided port number. The returned
-     * {@link Result} will complete when the server is disposed.
+     * {@link AsyncResult} will complete when the server is disposed.
      * @param portNumber The port number to start listening on.
      */
-    public abstract start(portNumber: number): Result<void>;
+    public abstract start(portNumber: number): AsyncResult<void>;
 }

@@ -1,5 +1,5 @@
 import { PreCondition } from "./preCondition";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 import { SyncResult } from "./syncResult";
 
 export abstract class CharacterReadStream
@@ -7,17 +7,17 @@ export abstract class CharacterReadStream
     /**
      * Read a single character from this stream.
      */
-    public abstract readCharacter(): Result<string>;
+    public abstract readCharacter(): AsyncResult<string>;
 
-    public readCharacters(count: number): Result<string>
+    public readCharacters(count: number): AsyncResult<string>
     {
         return CharacterReadStream.readCharacters(this, count);
     }
 
-    public static readCharacters(readStream: CharacterReadStream, count: number): Result<string>
+    public static readCharacters(readStream: CharacterReadStream, count: number): AsyncResult<string>
     {
         let characters: string = "";
-        function readUntilCount(countRemaining: number): Result<string>
+        function readUntilCount(countRemaining: number): AsyncResult<string>
         {
             return readStream.readCharacter()
                 .then((character: string) =>
@@ -37,18 +37,18 @@ export abstract class CharacterReadStream
      * it is found..
      * @param searchString The string to search for.
      */
-    public readUntil(searchString: string): Result<string>
+    public readUntil(searchString: string): AsyncResult<string>
     {
         return CharacterReadStream.readUntil(this, searchString);
     }
 
-    public static readUntil(readStream: CharacterReadStream, searchString: string): Result<string>
+    public static readUntil(readStream: CharacterReadStream, searchString: string): AsyncResult<string>
     {
         PreCondition.assertNotUndefinedAndNotNull(readStream, "readStream");
         PreCondition.assertNotEmpty(searchString, "searchString");
 
         let characters: string = "";
-        function readUntilSearchString(): Result<string>
+        function readUntilSearchString(): AsyncResult<string>
         {
             return readStream.readCharacter()
                 .then((character: string) =>
@@ -67,12 +67,12 @@ export abstract class CharacterReadStream
      * the end of the stream is reached. Terminating newline characters will be included in the
      * returned string.
      */
-    public readLine(): Result<string>
+    public readLine(): AsyncResult<string>
     {
         return CharacterReadStream.readLine(this);
     }
 
-    public static readLine(readStream: CharacterReadStream): Result<string>
+    public static readLine(readStream: CharacterReadStream): AsyncResult<string>
     {
         PreCondition.assertNotUndefinedAndNotNull(readStream, "readStream");
 

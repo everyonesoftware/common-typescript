@@ -1,6 +1,6 @@
 import { HttpHeader } from "./httpHeader";
 import { HttpHeaders } from "./httpHeaders";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 
 /**
  * The response from a {@link HttpClient}'s sendRequest() method.
@@ -9,11 +9,11 @@ export abstract class HttpIncomingResponse
 {
     public abstract getStatusCode(): number;
 
-    public abstract getHeaders(): Result<HttpHeaders>;
+    public abstract getHeaders(): AsyncResult<HttpHeaders>;
 
-    public abstract getHeader(headerName: string): Result<HttpHeader>;
+    public abstract getHeader(headerName: string): AsyncResult<HttpHeader>;
 
-    public abstract getHeaderValue(headerName: string): Result<string>;
+    public abstract getHeaderValue(headerName: string): AsyncResult<string>;
 
-    public abstract getBody(): Result<string>;
+    public abstract getBody(): AsyncResult<string>;
 }

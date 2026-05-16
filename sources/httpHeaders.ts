@@ -5,7 +5,7 @@ import { Iterator } from "./iterator";
 import { JavascriptIterable, JavascriptIterator } from "./javascript";
 import { MutableHttpHeaders } from "./mutableHttpHeaders";
 import { NotFoundError } from "./notFoundError";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 import { SyncResult } from "./syncResult";
 import { ToStringFunctions } from "./toStringFunctions";
 import { Type } from "./types";
@@ -34,22 +34,22 @@ export abstract class HttpHeaders implements Iterable<HttpHeader>
      */
     public abstract getValue(headerName: string): SyncResult<string>;
 
-    public getContentType(): Result<HttpHeader>
+    public getContentType(): AsyncResult<HttpHeader>
     {
         return HttpHeaders.getContentType(this);
     }
 
-    public static getContentType(headers: HttpHeaders): Result<HttpHeader>
+    public static getContentType(headers: HttpHeaders): AsyncResult<HttpHeader>
     {
         return headers.get(HttpHeaders.contentTypeHeaderName);
     }
 
-    public getContentTypeValue(): Result<string>
+    public getContentTypeValue(): AsyncResult<string>
     {
         return HttpHeaders.getContentTypeValue(this);
     }
 
-    public static getContentTypeValue(headers: HttpHeaders): Result<string>
+    public static getContentTypeValue(headers: HttpHeaders): AsyncResult<string>
     {
         return headers.getValue(HttpHeaders.contentTypeHeaderName);
     }

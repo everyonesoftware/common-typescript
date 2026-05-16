@@ -6,7 +6,7 @@ import { HttpOutgoingResponse } from "./httpOutgoingResponse";
 import { PreCondition } from "./preCondition";
 import { HttpHeaders } from "./httpHeaders";
 import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 
 /**
  * A {@link HttpServer} implementation that uses the Node.js HTTP module.
@@ -70,12 +70,12 @@ export class NodeJSHttpServer extends HttpServer
         return !!this.httpServer;
     }
 
-    public addRequestHandler(requestPath: string, handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => Result<void>): void
+    public addRequestHandler(requestPath: string, handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>): void
     {
         throw new Error("Method not implemented.");
     }
 
-    public setDefaultRequestHandler(handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => Result<void>): void
+    public setDefaultRequestHandler(handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>): void
     {
         throw new Error("Method not implemented.");
     }

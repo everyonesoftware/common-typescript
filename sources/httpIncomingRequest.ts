@@ -1,7 +1,7 @@
 import { HttpHeader } from "./httpHeader";
 import { HttpHeaders } from "./httpHeaders";
 import { HttpMethod } from "./httpMethod";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 
 /**
  * A HTTP request that is received by a {@link HttpServer}.
@@ -13,18 +13,18 @@ export abstract class HttpIncomingRequest
      */
     public abstract getMethod(): HttpMethod;
 
-    public abstract getHost(): Result<string>;
+    public abstract getHost(): AsyncResult<string>;
 
     /**
      * Get the path component of the requested URL.
      */
     public abstract getURLPath(): string;
 
-    public abstract getHeaders(): Result<HttpHeaders>;
+    public abstract getHeaders(): AsyncResult<HttpHeaders>;
 
-    public abstract getHeader(headerName: string): Result<HttpHeader>;
+    public abstract getHeader(headerName: string): AsyncResult<HttpHeader>;
 
-    public abstract getHeaderValue(headerName: string): Result<string>;
+    public abstract getHeaderValue(headerName: string): AsyncResult<string>;
 
-    public abstract getBody(): Result<string>;
+    public abstract getBody(): AsyncResult<string>;
 }

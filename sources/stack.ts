@@ -1,7 +1,7 @@
 import { EqualFunctions } from "./equalFunctions";
 import { JavascriptIterable } from "./javascript";
 import { ListStack } from "./listStack";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 
 /**
  * A data structure that stores values in a first-in-last-out order.
@@ -20,29 +20,29 @@ export abstract class Stack<T>
     /**
      * Get whether there are any values in this {@link Stack}.
      */
-    public abstract any(): Result<boolean>;
+    public abstract any(): AsyncResult<boolean>;
 
     /**
      * Push the provided value onto the top of this {@link Stack}.
      * @param value The value to push on the top of this {@link Stack}.
      */
-    public abstract add(value: T): Result<void>;
+    public abstract add(value: T): AsyncResult<void>;
 
     /**
      * Push the provided values onto the top of this {@link Stack}.
      * @param values The values to push onto this {@link Stack}.
      */
-    public abstract addAll(values: JavascriptIterable<T>): Result<void>;
+    public abstract addAll(values: JavascriptIterable<T>): AsyncResult<void>;
 
     /**
      * Remove the top value off of this {@link Stack}.
      */
-    public abstract remove(): Result<T>;
+    public abstract remove(): AsyncResult<T>;
 
     /**
      * Get whether this {@link Stack} contains the provided value.
      * @param value The value to look for.
      * @param equalFunctions The functions to use to compare values.
      */
-    public abstract contains(value: T, equalFunctions?: EqualFunctions): Result<boolean>;
+    public abstract contains(value: T, equalFunctions?: EqualFunctions): AsyncResult<boolean>;
 }

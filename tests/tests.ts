@@ -1,11 +1,15 @@
 import { ConsoleTestRunner } from "./consoleTestRunner";
 import * as assertTestTests from "./assertTestTests";
-import * as asyncResultTests from "./asyncResultTests";
+import * as byteListStreamTests from "./byteListStreamTests";
+import * as byteListTests from "./byteListTests";
 import * as byteTests from "./bytesTests";
+import * as characterListStreamTests from "./characterListStreamTests";
+import * as characterListTests from "./characterListTests";
 import * as comparerTests from "./comparerTests";
 import * as conditionTests from "./conditionTests";
 import * as consoleTestRunner2Tests from "./consoleTestRunnerTests";
 import * as dateTimeTests from "./dateTimeTests";
+import * as depthFirstSearchTests from "./depthFirstSearchTests";
 import * as disposableTests from "./disposableTests";
 import * as englishTests from "./englishTests";
 import * as equalFunctionsTests from "./equalFunctionsTests";
@@ -24,10 +28,12 @@ import * as mutableMapTests from "./mutableMapTests";
 import * as notFoundErrorTests from "./notFoundErrorTests";
 import * as postConditionErrorTests from "./postConditionErrorTests";
 import * as preConditionErrorTests from "./preConditionErrorTests";
+import * as promiseAsyncResultTests from "./promiseAsyncResultTests";
 import * as propertyTests from "./propertyTests";
 import * as queueTests from "./queueTests";
 import * as realHttpServerTests from "./nodeJSHttpServerTests";
 import * as recreationDotGovClientTests from "./recreationDotGovClientTests";
+import * as setTests from "./setTests";
 import * as stackTests from "./stackTests";
 import * as stringComparerTests from "./stringComparerTests";
 import * as stringIteratorTests from "./stringIteratorTests";
@@ -39,18 +45,12 @@ import * as toStringFunctionsTests from "./toStringFunctionsTests";
 import * as typesTests from "./typesTests";
 import * as whereIteratorTests from "./whereIteratorTests";
 import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests";
-import * as setTests from "./setTests";
-import * as depthFirstSearchTests from "./depthFirstSearchTests";
-import * as byteListTests from "./byteListTests";
-import * as byteListStreamTests from "./byteListStreamTests";
-import * as characterListTests from "./characterListTests";
-import * as characterListStreamTests from "./characterListStreamTests";
 
 export const hasNetworkAccess: boolean = true;
 
 await ConsoleTestRunner.run([
     assertTestTests,
-    asyncResultTests.test,
+    promiseAsyncResultTests.test,
     byteTests.test,
     comparerTests,
     conditionTests,

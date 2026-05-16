@@ -1,8 +1,8 @@
 import { PreCondition } from "./preCondition";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 import { instanceOfType, isPromise, isUndefinedOrNull, Type } from "./types";
 
-export class PromiseAsyncResult<T> implements Result<T>
+export class PromiseAsyncResult<T> implements AsyncResult<T>
 {
     private readonly promise: Promise<T>;
 

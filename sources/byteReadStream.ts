@@ -1,4 +1,4 @@
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 
 /**
  * A stream that reads bytes.
@@ -10,7 +10,7 @@ export abstract class ByteReadStream
      * The number of bytes returned may be less than the number requested.
      * @param count The number of bytes to attempt to read.
      */
-    public abstract readBytes(count: number): Result<Uint8Array>;
+    public abstract readBytes(count: number): AsyncResult<Uint8Array>;
     /**
      * Attempt to read bytes into the provided output array. Returns the number of bytes that were
      * read.
@@ -20,5 +20,5 @@ export abstract class ByteReadStream
      * @param count The maximum number of bytes to read. Defaults to the length of the output array
      * minus the startIndex.
      */
-    public abstract readBytes(output: Uint8Array, startIndex?: number, count?: number): Result<number>;
+    public abstract readBytes(output: Uint8Array, startIndex?: number, count?: number): AsyncResult<number>;
 }

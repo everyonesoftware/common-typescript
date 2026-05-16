@@ -6,7 +6,7 @@ import { HttpOutgoingRequest } from "./httpOutgoingRequest";
 import { Iterable } from "./iterable";
 import { List } from "./list";
 import { PreCondition } from "./preCondition";
-import { Result } from "./result";
+import { AsyncResult } from "./asyncResult";
 
 export interface RecreationDotGovDivisionDayAvailability
 {
@@ -170,12 +170,12 @@ export class RecreationDotGovClient implements HttpClient
         return new RecreationDotGovClient(httpClient);
     }
 
-    public sendRequest(request: HttpOutgoingRequest): Result<HttpIncomingResponse>
+    public sendRequest(request: HttpOutgoingRequest): AsyncResult<HttpIncomingResponse>
     {
         return this.httpClient.sendRequest(request);
     }
 
-    public sendGetRequest(url: string): Result<HttpIncomingResponse>
+    public sendGetRequest(url: string): AsyncResult<HttpIncomingResponse>
     {
         return HttpClient.sendGetRequest(this, url);
     }
