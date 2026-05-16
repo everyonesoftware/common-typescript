@@ -1,4 +1,4 @@
-import { AsyncResult } from "./asyncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult";
 import { HttpHeader } from "./httpHeader";
 import { HttpHeaders } from "./httpHeaders";
 import { HttpIncomingResponse } from "./httpIncomingResponse";
@@ -99,8 +99,8 @@ export class FetchHttpIncomingResponse extends HttpIncomingResponse
         });
     }
 
-    public getBody(): AsyncResult<string>
+    public getBody(): PromiseAsyncResult<string>
     {
-        return AsyncResult.create(this.response.text());
+        return PromiseAsyncResult.create(this.response.text());
     }
 }

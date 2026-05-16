@@ -5,7 +5,7 @@ import { HttpHeader } from "./httpHeader";
 import { HttpMethod } from "./httpMethod";
 import { PostCondition } from "./postCondition";
 import { PreCondition } from "./preCondition";
-import { AsyncResult } from "./asyncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult";
 
 /**
  * A {@link HttpClient} that uses {@link fetch}() to make network requests.
@@ -22,11 +22,11 @@ export class FetchHttpClient extends HttpClient
         return new FetchHttpClient();
     }
 
-    public sendRequest(request: HttpOutgoingRequest): AsyncResult<FetchHttpIncomingResponse>
+    public sendRequest(request: HttpOutgoingRequest): PromiseAsyncResult<FetchHttpIncomingResponse>
     {
         PreCondition.assertNotUndefinedAndNotNull(request, "request");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             const requestInit: RequestInit = {
                 method: FetchHttpClient.convertMethod(request.getMethod()),
@@ -42,7 +42,7 @@ export class FetchHttpClient extends HttpClient
         });
     }
 
-    public override sendGetRequest(url: string): AsyncResult<FetchHttpIncomingResponse>
+    public override sendGetRequest(url: string): PromiseAsyncResult<FetchHttpIncomingResponse>
     {
         return this.sendRequest(HttpOutgoingRequest.create(HttpMethod.GET, url));
     }

@@ -5,7 +5,7 @@ import { HttpIncomingRequest } from "./httpIncomingRequest";
 import { HttpOutgoingResponse } from "./httpOutgoingResponse";
 import { PreCondition } from "./preCondition";
 import { HttpHeaders } from "./httpHeaders";
-import { AsyncResult } from "./asyncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult";
 import { Result } from "./result";
 
 /**
@@ -28,9 +28,9 @@ export class NodeJSHttpServer extends HttpServer
         return new NodeJSHttpServer();
     }
 
-    public dispose(): AsyncResult<boolean>
+    public dispose(): PromiseAsyncResult<boolean>
     {
-        return AsyncResult.create(new Promise<boolean>((resolve, reject) =>
+        return PromiseAsyncResult.create(new Promise<boolean>((resolve, reject) =>
         {
             if (this.disposed)
             {
@@ -80,13 +80,13 @@ export class NodeJSHttpServer extends HttpServer
         throw new Error("Method not implemented.");
     }
 
-    public start(portNumber: number): AsyncResult<void>
+    public start(portNumber: number): PromiseAsyncResult<void>
     {
         PreCondition.assertGreaterThanOrEqualTo(portNumber, 1, "portNumber");
         PreCondition.assertFalse(this.isDisposed(), "this.isDisposed()");
         PreCondition.assertUndefined(this.httpServer, "this.httpServer");
 
-        return AsyncResult.create(new Promise<void>((resolve, reject) =>
+        return PromiseAsyncResult.create(new Promise<void>((resolve, reject) =>
         {
             if (this.httpServer)
             {

@@ -1,4 +1,4 @@
-import { AsyncResult } from "./asyncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult";
 import { DateTime } from "./dateTime";
 import { HttpClient } from "./httpClient";
 import { HttpIncomingResponse } from "./httpIncomingResponse";
@@ -180,11 +180,11 @@ export class RecreationDotGovClient implements HttpClient
         return HttpClient.sendGetRequest(this, url);
     }
 
-    public getPermitItinerary(permitItineraryId: string): AsyncResult<RecreationDotGovPermitItineraryJson>
+    public getPermitItinerary(permitItineraryId: string): PromiseAsyncResult<RecreationDotGovPermitItineraryJson>
     {
         PreCondition.assertNotEmpty(permitItineraryId, "permitItineraryId");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             const response: HttpIncomingResponse = await this.sendGetRequest(`https://www.recreation.gov/api/permitcontent/${permitItineraryId}`);
 
@@ -210,13 +210,13 @@ export class RecreationDotGovClient implements HttpClient
         });
     }
 
-    public getDivisionAvailability(permitItineraryId: string, divisionId: string, month: number, year: number, earlyAccessPermitLotteryId?: string): AsyncResult<RecreationDotGovDivisionAvailability>
+    public getDivisionAvailability(permitItineraryId: string, divisionId: string, month: number, year: number, earlyAccessPermitLotteryId?: string): PromiseAsyncResult<RecreationDotGovDivisionAvailability>
     {
         PreCondition.assertNotEmpty(permitItineraryId, "permitItineraryId");
         PreCondition.assertNotEmpty(divisionId, "divisionId");
         PreCondition.assertBetween(1, month, 12, "month");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             const url: string = earlyAccessPermitLotteryId
                 ? `https://www.recreation.gov/api/permititinerary/${permitItineraryId}/division/${divisionId}/eapavailability/month/${earlyAccessPermitLotteryId}?month=${month}&year=${year}`

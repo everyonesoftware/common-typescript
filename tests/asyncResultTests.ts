@@ -1,4 +1,4 @@
-import { AsyncResult } from "../sources/asyncResult";
+import { PromiseAsyncResult } from "../sources/promiseAsyncResult";
 import { NotFoundError } from "../sources/notFoundError";
 import { PreConditionError } from "../sources/preConditionError";
 import { Test } from "./test";
@@ -16,7 +16,7 @@ export function test(runner: TestRunner): void
                 {
                     runner.test(testName, (test: Test) =>
                     {
-                        test.assertThrows(() => AsyncResult.create(promise), expected);
+                        test.assertThrows(() => PromiseAsyncResult.create(promise), expected);
                     });
                 }
 
@@ -33,7 +33,7 @@ export function test(runner: TestRunner): void
 
                 runner.test("with Promise", async (test: Test) =>
                 {
-                    const result: AsyncResult<number> = AsyncResult.create(Promise.resolve(5));
+                    const result: PromiseAsyncResult<number> = PromiseAsyncResult.create(Promise.resolve(5));
                     test.assertNotUndefinedAndNotNull(result);
 
                     const value: number = await result;
@@ -47,7 +47,7 @@ export function test(runner: TestRunner): void
                 {
                     runner.test(`with ${runner.toString(value)}`, async (test: Test) =>
                     {
-                        const result: AsyncResult<T> = AsyncResult.value(value);
+                        const result: PromiseAsyncResult<T> = PromiseAsyncResult.value(value);
                         test.assertNotUndefinedAndNotNull(result);
 
                         const awaitResult: T = await result;
@@ -67,7 +67,7 @@ export function test(runner: TestRunner): void
                 {
                     runner.test(`with ${runner.toString(error)}`, async (test: Test) =>
                     {
-                        const result: AsyncResult<T> = AsyncResult.error(error);
+                        const result: PromiseAsyncResult<T> = PromiseAsyncResult.error(error);
                         test.assertNotUndefinedAndNotNull(result);
 
                         await test.assertThrowsAsync(result, error);
@@ -82,16 +82,16 @@ export function test(runner: TestRunner): void
             {
                 runner.test("with error parent", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
-                    const thenResult: AsyncResult<string> = parentResult.then(() => "hello");
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
+                    const thenResult: PromiseAsyncResult<string> = parentResult.then(() => "hello");
                     await test.assertThrowsAsync(thenResult, new Error("abc"));
                 });
 
                 runner.test("with error parent and thenFunction with side-effects", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const thenResult: AsyncResult<string> = parentResult.then(() => { counter++; return "hello"; });
+                    const thenResult: PromiseAsyncResult<string> = parentResult.then(() => { counter++; return "hello"; });
                     test.assertEqual(0, counter);
                     await test.assertThrowsAsync(thenResult, new Error("abc"));
                     test.assertEqual(0, counter, "counter should still be 0 because the thenFunction shouldn't be invoked.");
@@ -99,26 +99,26 @@ export function test(runner: TestRunner): void
 
                 runner.test("with successful parent and successful thenFunction that ignores parentResult value", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(1);
-                    const thenResult: AsyncResult<string> = parentResult.then(() => "hello");
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(1);
+                    const thenResult: PromiseAsyncResult<string> = parentResult.then(() => "hello");
                     test.assertEqual("hello", await thenResult);
                 });
 
                 runner.test("with successful parent and successful thenFunction that uses parentResult value", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(1);
-                    const thenResult: AsyncResult<string> = parentResult.then((argument: number) => (argument + 1).toString());
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(1);
+                    const thenResult: PromiseAsyncResult<string> = parentResult.then((argument: number) => (argument + 1).toString());
                     test.assertEqual("2", await thenResult);
                 });
 
                 runner.test("with successful parent and successful thenFunction that uses parentResult value with side-effects", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(1);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(1);
                     let counter: number = 0;
-                    const thenResult: AsyncResult<string> = parentResult.then((argument: number) => { counter++; return (argument + 1).toString(); });
+                    const thenResult: PromiseAsyncResult<string> = parentResult.then((argument: number) => { counter++; return (argument + 1).toString(); });
                     test.assertEqual(0, counter);
 
-                    await AsyncResult.yield();
+                    await PromiseAsyncResult.yield();
                     test.assertEqual(1, counter);
 
                     test.assertEqual("2", await thenResult);
@@ -127,16 +127,16 @@ export function test(runner: TestRunner): void
 
                 runner.test("with successful parent and thenFunction that throws", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(10);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(10);
                     let counter: number = 0;
-                    const thenResult: AsyncResult<string> = parentResult.then((argument: number) =>
+                    const thenResult: PromiseAsyncResult<string> = parentResult.then((argument: number) =>
                     {
                         counter++;
                         throw new Error(`arg: ${argument}, ${counter}`);
                     });
                     test.assertEqual(counter, 0);
 
-                    await AsyncResult.yield();
+                    await PromiseAsyncResult.yield();
                     test.assertEqual(counter, 1);
 
                     for (let i = 0; i < 3; i++)
@@ -151,9 +151,9 @@ export function test(runner: TestRunner): void
             {
                 runner.test("with error parent", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const onValueResult: AsyncResult<number> = parentResult.onValue(() => { counter++; });
+                    const onValueResult: PromiseAsyncResult<number> = parentResult.onValue(() => { counter++; });
                     test.assertSame(counter, 0);
                     for (let i = 0; i < 3; i++)
                     {
@@ -164,9 +164,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with successful parent and successful thenFunction that ignores parentResult value", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(10);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(10);
                     let counter: number = 0;
-                    const onValueResult: AsyncResult<number> = parentResult.onValue(() => { counter++; });
+                    const onValueResult: PromiseAsyncResult<number> = parentResult.onValue(() => { counter++; });
                     test.assertSame(counter, 0);
                     for (let i = 0; i < 3; i++)
                     {
@@ -177,9 +177,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with successful parent and successful thenFunction that uses parentResult value", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(2);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(2);
                     let counter: number = 0;
-                    const onValueResult: AsyncResult<number> = parentResult.onValue((argument: number) => { counter += argument; });
+                    const onValueResult: PromiseAsyncResult<number> = parentResult.onValue((argument: number) => { counter += argument; });
                     test.assertSame(counter, 0);
                     for (let i = 0; i < 3; i++)
                     {
@@ -190,9 +190,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with successful parent and onValueFunction that throws", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(2);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(2);
                     let counter: number = 0;
-                    const onValueResult: AsyncResult<number> = parentResult.onValue((argument: number) =>
+                    const onValueResult: PromiseAsyncResult<number> = parentResult.onValue((argument: number) =>
                     {
                         counter += argument;
                         throw new Error(`argument: ${argument}`);
@@ -210,7 +210,7 @@ export function test(runner: TestRunner): void
             {
                 runner.test("with undefined errorType", (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(5);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(5);
                     test.assertThrows(() => parentResult.catch(undefined!, () => 6),
                         new PreConditionError(
                             "Expression: errorType",
@@ -220,7 +220,7 @@ export function test(runner: TestRunner): void
 
                 runner.test("with null errorType", (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(5);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(5);
                     test.assertThrows(() => parentResult.catch(null!, () => 6),
                         new PreConditionError(
                             "Expression: errorType",
@@ -230,16 +230,16 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
-                    const catchResult: AsyncResult<number> = parentResult.catch(Error, () => 20);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
+                    const catchResult: PromiseAsyncResult<number> = parentResult.catch(Error, () => 20);
                     test.assertSame(await catchResult, 20);
                 });
 
                 runner.test("with error parent, no errorType, and no error parameter", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const catchResult: AsyncResult<number> = parentResult.catch(() => { counter++; return 21; });
+                    const catchResult: PromiseAsyncResult<number> = parentResult.catch(() => { counter++; return 21; });
                     test.assertSame(0, counter);
                     for (let i = 0; i < 3; i++)
                     {
@@ -250,9 +250,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent, no errorType, and unknown error parameter", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const catchResult: AsyncResult<number> = parentResult.catch((error: unknown) =>
+                    const catchResult: PromiseAsyncResult<number> = parentResult.catch((error: unknown) =>
                     {
                         if (error instanceof Error)
                         {
@@ -274,9 +274,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent and catchFunction with side-effects", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const catchResult: AsyncResult<number> = parentResult.catch(Error, () => { counter++; return 21; });
+                    const catchResult: PromiseAsyncResult<number> = parentResult.catch(Error, () => { counter++; return 21; });
                     test.assertSame(0, counter);
                     for (let i = 0; i < 3; i++)
                     {
@@ -287,43 +287,43 @@ export function test(runner: TestRunner): void
 
                 runner.test("with errorType that is a super-type of the actual error without error parameter", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new PreConditionError("abc"));
-                    const catchResult: AsyncResult<number> = parentResult.catch(Error, () => 5);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new PreConditionError("abc"));
+                    const catchResult: PromiseAsyncResult<number> = parentResult.catch(Error, () => 5);
                     test.assertSame(await catchResult, 5);
                 });
 
                 runner.test("with errorType that is a super-type of the actual error with error parameter", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new PreConditionError("abc"));
-                    const catchResult: AsyncResult<number> = parentResult.catch(Error, (error: Error) => error.message.length);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new PreConditionError("abc"));
+                    const catchResult: PromiseAsyncResult<number> = parentResult.catch(Error, (error: Error) => error.message.length);
                     test.assertSame(await catchResult, 3);
                 });
 
                 runner.test("with errorType that is a sub-type of the actual error", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
-                    const catchResult: AsyncResult<number> = parentResult.catch(PreConditionError, () => 20);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
+                    const catchResult: PromiseAsyncResult<number> = parentResult.catch(PreConditionError, () => 20);
                     await test.assertThrowsAsync(catchResult, new Error("abc"));
                 });
 
                 runner.test("with errorType that is unrelated to the actual error", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new PreConditionError("def"));
-                    const catchResult: AsyncResult<number> = parentResult.catch(RangeError, () => 20);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new PreConditionError("def"));
+                    const catchResult: PromiseAsyncResult<number> = parentResult.catch(RangeError, () => 20);
                     await test.assertThrowsAsync(catchResult, new PreConditionError("def"));
                 });
 
                 runner.test("with catchFunction that throws", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new PreConditionError("def"));
-                    const catchResult: AsyncResult<number> = parentResult.catch(Error, () => { throw new TypeError("abc"); });
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new PreConditionError("def"));
+                    const catchResult: PromiseAsyncResult<number> = parentResult.catch(Error, () => { throw new TypeError("abc"); });
                     await test.assertThrowsAsync(catchResult, new TypeError("abc"));
                 });
 
                 runner.test("with successful parent", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(1);
-                    const catchResult: AsyncResult<number> = parentResult.catch(Error, () => 2);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(1);
+                    const catchResult: PromiseAsyncResult<number> = parentResult.catch(Error, () => 2);
                     test.assertSame(await catchResult, 1);
                 });
             });
@@ -332,7 +332,7 @@ export function test(runner: TestRunner): void
             {
                 runner.test("with undefined errorType", (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(5);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(5);
                     test.assertThrows(() => parentResult.onError(undefined!, () => { }),
                         new PreConditionError(
                             "Expression: errorType",
@@ -342,7 +342,7 @@ export function test(runner: TestRunner): void
 
                 runner.test("with null errorType", (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(5);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(5);
                     test.assertThrows(() => parentResult.onError(null!, () => { }),
                         new PreConditionError(
                             "Expression: errorType",
@@ -352,9 +352,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent, no errorType, and no error parameter", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const catchResult: AsyncResult<number> = parentResult.onError(() => { counter++; });
+                    const catchResult: PromiseAsyncResult<number> = parentResult.onError(() => { counter++; });
                     test.assertSame(0, counter);
                     for (let i = 0; i < 3; i++)
                     {
@@ -365,9 +365,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent, no errorType, and unknown error parameter", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const catchResult: AsyncResult<number> = parentResult.onError((error: unknown) =>
+                    const catchResult: PromiseAsyncResult<number> = parentResult.onError((error: unknown) =>
                     {
                         if (error instanceof Error)
                         {
@@ -388,9 +388,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with errorType that is a super-type of the actual error without error parameter", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new PreConditionError("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new PreConditionError("abc"));
                     let counter: number = 0;
-                    const catchResult: AsyncResult<number> = parentResult.onError(Error, () => { counter++; });
+                    const catchResult: PromiseAsyncResult<number> = parentResult.onError(Error, () => { counter++; });
                     test.assertSame(counter, 0);
                     for (let i = 0; i < 3; i++)
                     {
@@ -401,9 +401,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with errorType that is a super-type of the actual error with error parameter", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new PreConditionError("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new PreConditionError("abc"));
                     let counter: number = 0;
-                    const catchResult: AsyncResult<number> = parentResult.onError(Error, (error: Error) => { counter += error.message.length; });
+                    const catchResult: PromiseAsyncResult<number> = parentResult.onError(Error, (error: Error) => { counter += error.message.length; });
                     test.assertSame(counter, 0);
                     for (let i = 0; i < 3; i++)
                     {
@@ -414,9 +414,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with errorType that is a sub-type of the actual error", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const catchResult: AsyncResult<number> = parentResult.onError(PreConditionError, () => { counter++; });
+                    const catchResult: PromiseAsyncResult<number> = parentResult.onError(PreConditionError, () => { counter++; });
                     test.assertSame(counter, 0);
                     for (let i = 0; i < 3; i++)
                     {
@@ -427,9 +427,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with errorType that is unrelated to the actual error", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new PreConditionError("def"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new PreConditionError("def"));
                     let counter: number = 0;
-                    const catchResult: AsyncResult<number> = parentResult.onError(RangeError, () => { counter++; });
+                    const catchResult: PromiseAsyncResult<number> = parentResult.onError(RangeError, () => { counter++; });
                     test.assertSame(counter, 0);
                     for (let i = 0; i < 3; i++)
                     {
@@ -440,9 +440,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with onErrorFunction that throws", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new PreConditionError("def"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new PreConditionError("def"));
                     let counter: number = 0;
-                    const catchResult: AsyncResult<number> = parentResult.onError(Error, () => { counter++; throw new Error("abc"); });
+                    const catchResult: PromiseAsyncResult<number> = parentResult.onError(Error, () => { counter++; throw new Error("abc"); });
                     test.assertSame(counter, 0);
                     for (let i = 0; i < 3; i++)
                     {
@@ -453,9 +453,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with successful parent", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(1);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(1);
                     let counter: number = 0;
-                    const catchResult: AsyncResult<number> = parentResult.onError(Error, () => { counter++; });
+                    const catchResult: PromiseAsyncResult<number> = parentResult.onError(Error, () => { counter++; });
                     test.assertSame(counter, 0);
                     for (let i = 0; i < 3; i++)
                     {
@@ -469,7 +469,7 @@ export function test(runner: TestRunner): void
             {
                 runner.test("with undefined convertErrorFunction", (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(5);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(5);
                     test.assertThrows(() => parentResult.convertError(undefined!),
                         new PreConditionError(
                             "Expression: convertErrorFunction",
@@ -479,7 +479,7 @@ export function test(runner: TestRunner): void
 
                 runner.test("with null convertErrorFunction", (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(5);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(5);
                     test.assertThrows(() => parentResult.convertError(null!),
                         new PreConditionError(
                             "Expression: convertErrorFunction",
@@ -489,9 +489,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with successful parent", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(5);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(5);
                     let counter: number = 0;
-                    const convertErrorResult: AsyncResult<number> = parentResult.convertError((error: unknown) =>
+                    const convertErrorResult: PromiseAsyncResult<number> = parentResult.convertError((error: unknown) =>
                     {
                         counter++;
                         return new Error(`${error} - def`);
@@ -506,9 +506,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent and non-throwing convertErrorFunction", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const convertErrorResult: AsyncResult<number> = parentResult.convertError((error: unknown) =>
+                    const convertErrorResult: PromiseAsyncResult<number> = parentResult.convertError((error: unknown) =>
                     {
                         counter++;
                         return new Error(`${(error as Error).message} - def`);
@@ -523,9 +523,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent and throwing convertErrorFunction", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const convertErrorResult: AsyncResult<number> = parentResult.convertError((error: unknown) =>
+                    const convertErrorResult: PromiseAsyncResult<number> = parentResult.convertError((error: unknown) =>
                     {
                         counter++;
                         throw new Error(`${(error as Error).message} - def`);
@@ -540,9 +540,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with successful parent", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(5);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(5);
                     let counter: number = 0;
-                    const convertErrorResult: AsyncResult<number> = parentResult.convertError(Error, (error: Error) =>
+                    const convertErrorResult: PromiseAsyncResult<number> = parentResult.convertError(Error, (error: Error) =>
                     {
                         counter++;
                         return new Error(`${error.message} - def`);
@@ -557,9 +557,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent, exact error match, and non-throwing convertErrorFunction", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const convertErrorResult: AsyncResult<number> = parentResult.convertError(Error, (error: Error) =>
+                    const convertErrorResult: PromiseAsyncResult<number> = parentResult.convertError(Error, (error: Error) =>
                     {
                         counter++;
                         return new Error(`${error.message} - def`);
@@ -574,9 +574,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent, super error match, and non-throwing convertErrorFunction", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new PreConditionError("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new PreConditionError("abc"));
                     let counter: number = 0;
-                    const convertErrorResult: AsyncResult<number> = parentResult.convertError(Error, (error: Error) =>
+                    const convertErrorResult: PromiseAsyncResult<number> = parentResult.convertError(Error, (error: Error) =>
                     {
                         counter++;
                         return new Error(`${error.message} - def`);
@@ -591,9 +591,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent, no error match, and non-throwing convertErrorFunction", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new PreConditionError("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new PreConditionError("abc"));
                     let counter: number = 0;
-                    const convertErrorResult: AsyncResult<number> = parentResult.convertError(TypeError, (error: TypeError) =>
+                    const convertErrorResult: PromiseAsyncResult<number> = parentResult.convertError(TypeError, (error: TypeError) =>
                     {
                         counter++;
                         return new Error(`${error} - def`);
@@ -608,9 +608,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent, exact error match, and throwing convertErrorFunction", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const convertErrorResult: AsyncResult<number> = parentResult.convertError(Error, (error: Error) =>
+                    const convertErrorResult: PromiseAsyncResult<number> = parentResult.convertError(Error, (error: Error) =>
                     {
                         counter++;
                         throw new Error(`${error.message} - def`);
@@ -625,9 +625,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent, super error match, and throwing convertErrorFunction", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new TypeError("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new TypeError("abc"));
                     let counter: number = 0;
-                    const convertErrorResult: AsyncResult<number> = parentResult.convertError(Error, (error: Error) =>
+                    const convertErrorResult: PromiseAsyncResult<number> = parentResult.convertError(Error, (error: Error) =>
                     {
                         counter++;
                         throw new Error(`${error.message} - def`);
@@ -642,9 +642,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent, no error match, and throwing convertErrorFunction", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new TypeError("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new TypeError("abc"));
                     let counter: number = 0;
-                    const convertErrorResult: AsyncResult<number> = parentResult.convertError(PreConditionError, () =>
+                    const convertErrorResult: PromiseAsyncResult<number> = parentResult.convertError(PreConditionError, () =>
                     {
                         counter++;
                         throw new Error("def");
@@ -662,9 +662,9 @@ export function test(runner: TestRunner): void
             {
                 runner.test("with successful parent and non-throwing onfinally function", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(5);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(5);
                     let counter: number = 0;
-                    const finallyResult: AsyncResult<number> = parentResult.finally(() => { counter++; });
+                    const finallyResult: PromiseAsyncResult<number> = parentResult.finally(() => { counter++; });
                     test.assertSame(counter, 0);
                     for (let i = 0; i < 3; i++)
                     {
@@ -675,9 +675,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with successful parent and throwing onfinally function", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.value(5);
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.value(5);
                     let counter: number = 0;
-                    const finallyResult: AsyncResult<number> = parentResult.finally(() =>
+                    const finallyResult: PromiseAsyncResult<number> = parentResult.finally(() =>
                     {
                         counter++;
                         throw new RangeError("oops!");
@@ -692,9 +692,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent and non-throwing onfinally function", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const finallyResult: AsyncResult<number> = parentResult.finally(() => { counter++; });
+                    const finallyResult: PromiseAsyncResult<number> = parentResult.finally(() => { counter++; });
                     test.assertSame(counter, 0);
                     for (let i = 0; i < 3; i++)
                     {
@@ -705,9 +705,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with error parent and throwing onfinally function", async (test: Test) =>
                 {
-                    const parentResult: AsyncResult<number> = AsyncResult.error(new Error("abc"));
+                    const parentResult: PromiseAsyncResult<number> = PromiseAsyncResult.error(new Error("abc"));
                     let counter: number = 0;
-                    const convertErrorResult: AsyncResult<number> = parentResult.finally(() =>
+                    const convertErrorResult: PromiseAsyncResult<number> = parentResult.finally(() =>
                     {
                         counter++;
                         throw new RangeError("def");

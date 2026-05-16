@@ -1,4 +1,4 @@
-import { AsyncResult } from "./asyncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult";
 import { CharacterWriteStream } from "./characterWriteStream";
 import { PreCondition } from "./preCondition";
 
@@ -20,11 +20,11 @@ export class NodeJSCharacterWriteStream extends CharacterWriteStream
         return new NodeJSCharacterWriteStream(nodeJSWriteStream);
     }
 
-    public writeString(text: string): AsyncResult<number>
+    public writeString(text: string): PromiseAsyncResult<number>
     {
         PreCondition.assertNotUndefinedAndNotNull(text, "text");
 
-        return AsyncResult.create(new Promise<number>((resolve, reject) =>
+        return PromiseAsyncResult.create(new Promise<number>((resolve, reject) =>
         {
             this.nodeJSWriteStream.write(text, (error?: Error | null) =>
             {

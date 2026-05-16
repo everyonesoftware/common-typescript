@@ -1,4 +1,4 @@
-import { AsyncResult } from "./asyncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult";
 import { SyncResult } from "./syncResult";
 import { isPromise, Type } from "./types";
 
@@ -16,11 +16,11 @@ export abstract class Result<T> implements Promise<T>
         return SyncResult.create<T>(action);
     }
 
-    public static createAsync<T>(action: () => (T | Promise<T>)): AsyncResult<T>;
-    public static createAsync<T>(promise: Promise<T>): AsyncResult<T>;
-    static createAsync<T>(actionOrPromise: (() => (T | Promise<T>)) | Promise<T>): AsyncResult<T>
+    public static createAsync<T>(action: () => (T | Promise<T>)): PromiseAsyncResult<T>;
+    public static createAsync<T>(promise: Promise<T>): PromiseAsyncResult<T>;
+    static createAsync<T>(actionOrPromise: (() => (T | Promise<T>)) | Promise<T>): PromiseAsyncResult<T>
     {
-        return AsyncResult.create<T>(isPromise<T>(actionOrPromise) ? actionOrPromise : new Promise<T>(actionOrPromise));
+        return PromiseAsyncResult.create<T>(isPromise<T>(actionOrPromise) ? actionOrPromise : new Promise<T>(actionOrPromise));
     }
 
     /**
@@ -41,9 +41,9 @@ export abstract class Result<T> implements Promise<T>
         return SyncResult.error<T>(error);
     }
 
-    public static yield(): AsyncResult<void>
+    public static yield(): PromiseAsyncResult<void>
     {
-        return AsyncResult.yield();
+        return PromiseAsyncResult.yield();
     }
 
     /**

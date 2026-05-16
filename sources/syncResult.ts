@@ -1,5 +1,5 @@
 import { PreCondition } from "./preCondition";
-import { AsyncResult } from "./asyncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult";
 import { instanceOfType, isPromise, isPromiseLike, isUndefinedOrNull, Type } from "./types";
 import { Result } from "./result";
 
@@ -54,9 +54,9 @@ export class SyncResult<T> implements Result<T>
 
     public then<TResult1 = T, TResult2 = never>(onfullfilled?: ((value: T) => TResult1) | null, onrejected?: ((reason: unknown) => TResult2) | null): SyncResult<TResult1 | TResult2>;
     public then<TResult1 = T, TResult2 = never>(onfullfilled?: ((value: T) => (TResult1 | PromiseLike<TResult1>)) | null, onrejected?: ((reason: unknown) => (TResult2 | PromiseLike<TResult2>)) | null): SyncResult<TResult1 | TResult2>;
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => (TResult1 | PromiseLike<TResult1>)) | null, onrejected?: ((reason: unknown) => (TResult2 | PromiseLike<TResult2>)) | null): SyncResult<TResult1 | TResult2> | AsyncResult<TResult1 | TResult2>
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => (TResult1 | PromiseLike<TResult1>)) | null, onrejected?: ((reason: unknown) => (TResult2 | PromiseLike<TResult2>)) | null): SyncResult<TResult1 | TResult2> | PromiseAsyncResult<TResult1 | TResult2>
     {
-        let result: SyncResult<TResult1 | TResult2> | AsyncResult<TResult1 | TResult2>;
+        let result: SyncResult<TResult1 | TResult2> | PromiseAsyncResult<TResult1 | TResult2>;
         if (this.error)
         {
             if (onrejected)
@@ -64,13 +64,13 @@ export class SyncResult<T> implements Result<T>
                 try
                 {
                     const onRejectedResult: TResult2 | PromiseLike<TResult2> = onrejected(this.error);
-                    if (onRejectedResult instanceof SyncResult || onRejectedResult instanceof AsyncResult)
+                    if (onRejectedResult instanceof SyncResult || onRejectedResult instanceof PromiseAsyncResult)
                     {
                         result = onRejectedResult;
                     }
                     else if (isPromise<TResult2>(onRejectedResult))
                     {
-                        result = AsyncResult.create(onRejectedResult);
+                        result = PromiseAsyncResult.create(onRejectedResult);
                     }
                     else
                     {
@@ -94,13 +94,13 @@ export class SyncResult<T> implements Result<T>
                 try
                 {
                     const onFullfilledResult: TResult1 | PromiseLike<TResult1> = onfulfilled(this.value!);
-                    if (onFullfilledResult instanceof SyncResult || onFullfilledResult instanceof AsyncResult)
+                    if (onFullfilledResult instanceof SyncResult || onFullfilledResult instanceof PromiseAsyncResult)
                     {
                         result = onFullfilledResult;
                     }
                     else if (isPromise<TResult1>(onFullfilledResult))
                     {
-                        result = AsyncResult.create(onFullfilledResult);
+                        result = PromiseAsyncResult.create(onFullfilledResult);
                     }
                     else
                     {
@@ -121,18 +121,18 @@ export class SyncResult<T> implements Result<T>
     }
 
     public onValue(onValueFunction: (value: T) => void): SyncResult<T>;
-    public onValue(onValueFunction: (value: T) => Promise<void>): AsyncResult<T>;
-    onValue(onValueFunction: (value: T) => (void | Promise<void>)): SyncResult<T> | AsyncResult<T>
+    public onValue(onValueFunction: (value: T) => Promise<void>): PromiseAsyncResult<T>;
+    onValue(onValueFunction: (value: T) => (void | Promise<void>)): SyncResult<T> | PromiseAsyncResult<T>
     {
         return this.then<T>((value: T) =>
         {
-            let result: SyncResult<T> | AsyncResult<T>;
+            let result: SyncResult<T> | PromiseAsyncResult<T>;
             try
             {
                 const onValueFunctionResult: (void | Promise<void>) = onValueFunction(value);
                 if (isPromise(onValueFunctionResult))
                 {
-                    result = AsyncResult.create(onValueFunctionResult.then(() => value));
+                    result = PromiseAsyncResult.create(onValueFunctionResult.then(() => value));
                 }
                 else
                 {
@@ -148,10 +148,10 @@ export class SyncResult<T> implements Result<T>
     }
 
     public catch<TResult = never>(onrejected: (reason: unknown) => TResult): SyncResult<T | TResult>;
-    public catch<TResult = never>(onrejected?: ((reason: unknown) => TResult | PromiseLike<TResult>) | null): SyncResult<T | TResult> | AsyncResult<T | TResult>
+    public catch<TResult = never>(onrejected?: ((reason: unknown) => TResult | PromiseLike<TResult>) | null): SyncResult<T | TResult> | PromiseAsyncResult<T | TResult>
     public catch<TError, TResult = never>(errorType: Type<TError>, onrejected: (reason: TError) => TResult): SyncResult<T | TResult>;
-    public catch<TError, TResult = never>(errorType: Type<TError>, onrejected: (reason: TError) => PromiseLike<TResult>): AsyncResult<T | TResult>;
-    catch<TResult = never>(errorTypeOrOnRejected?: Type<unknown> | ((reason: unknown) => TResult | PromiseLike<TResult>) | null, onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | null): SyncResult<T | TResult> | AsyncResult<T | TResult>
+    public catch<TError, TResult = never>(errorType: Type<TError>, onrejected: (reason: TError) => PromiseLike<TResult>): PromiseAsyncResult<T | TResult>;
+    catch<TResult = never>(errorTypeOrOnRejected?: Type<unknown> | ((reason: unknown) => TResult | PromiseLike<TResult>) | null, onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | null): SyncResult<T | TResult> | PromiseAsyncResult<T | TResult>
     {
         let errorType: Type<TypeError> | undefined;
         if (!isUndefinedOrNull(onrejected))
@@ -166,19 +166,19 @@ export class SyncResult<T> implements Result<T>
         }
         PreCondition.assertNotUndefinedAndNotNull(onrejected, "onrejected");
 
-        let result: SyncResult<T | TResult> | AsyncResult<T | TResult> = this;
+        let result: SyncResult<T | TResult> | PromiseAsyncResult<T | TResult> = this;
         if (this.error && (!errorType || instanceOfType(this.error, errorType)))
         {
             try
             {
                 const onRejectedResult: TResult | PromiseLike<TResult> = onrejected(this.error);
-                if (onRejectedResult instanceof SyncResult || onRejectedResult instanceof AsyncResult)
+                if (onRejectedResult instanceof SyncResult || onRejectedResult instanceof PromiseAsyncResult)
                 {
                     result = onRejectedResult;
                 }
                 else if (isPromise<TResult>(onRejectedResult))
                 {
-                    result = AsyncResult.create(onRejectedResult);
+                    result = PromiseAsyncResult.create(onRejectedResult);
                 }
                 else
                 {
@@ -194,10 +194,10 @@ export class SyncResult<T> implements Result<T>
     }
 
     public onError(onErrorFunction: (reason: unknown) => void): SyncResult<T>;
-    public onError(onErrorFunction: (reason: unknown) => PromiseLike<void>): AsyncResult<T>;
+    public onError(onErrorFunction: (reason: unknown) => PromiseLike<void>): PromiseAsyncResult<T>;
     public onError<TError>(errorType: Type<TError>, onErrorFunction: (reason: TError) => void): SyncResult<T>;
-    public onError<TError>(errorType: Type<TError>, onErrorFunction: (reason: TError) => PromiseLike<void>): AsyncResult<T>;
-    onError(errorTypeOrOnErrorFunction: Type<unknown> | ((reason: unknown) => (void | PromiseLike<void>)), onErrorFunction?: (reason: unknown) => (void | PromiseLike<void>)): SyncResult<T> | AsyncResult<T>
+    public onError<TError>(errorType: Type<TError>, onErrorFunction: (reason: TError) => PromiseLike<void>): PromiseAsyncResult<T>;
+    onError(errorTypeOrOnErrorFunction: Type<unknown> | ((reason: unknown) => (void | PromiseLike<void>)), onErrorFunction?: (reason: unknown) => (void | PromiseLike<void>)): SyncResult<T> | PromiseAsyncResult<T>
     {
         let errorType: Type<TypeError> | undefined;
         if (!isUndefinedOrNull(onErrorFunction))
@@ -212,7 +212,7 @@ export class SyncResult<T> implements Result<T>
         }
         PreCondition.assertNotUndefinedAndNotNull(onErrorFunction, "onErrorFunction");
 
-        let result: SyncResult<T> | AsyncResult<T> = this;
+        let result: SyncResult<T> | PromiseAsyncResult<T> = this;
         if (this.error && (!errorType || instanceOfType(this.error, errorType)))
         {
             try
@@ -220,7 +220,7 @@ export class SyncResult<T> implements Result<T>
                 const onErrorResult: void | PromiseLike<void> = onErrorFunction(this.error);
                 if (isPromise(onErrorResult))
                 {
-                    result = AsyncResult.create(onErrorResult).then(() => this);
+                    result = PromiseAsyncResult.create(onErrorResult).then(() => this);
                 }
             }
             catch (error)
@@ -232,10 +232,10 @@ export class SyncResult<T> implements Result<T>
     }
 
     public convertError(convertErrorFunction: (reason: unknown) => unknown): SyncResult<T>;
-    public convertError(onErrorFunction: (reason: unknown) => PromiseLike<unknown>): AsyncResult<T>;
+    public convertError(onErrorFunction: (reason: unknown) => PromiseLike<unknown>): PromiseAsyncResult<T>;
     public convertError<TError>(errorType: Type<TError>, convertErrorFunction: (reason: TError) => unknown): SyncResult<T>;
-    public convertError<TError>(errorType: Type<TError>, convertErrorFunction: (reason: TError) => PromiseLike<unknown>): AsyncResult<T>;
-    convertError(errorTypeOrConvertErrorFunction: Type<unknown> | ((reason: unknown) => (unknown | PromiseLike<unknown>)), convertErrorFunction?: (reason: unknown) => (unknown | PromiseLike<unknown>)): SyncResult<T> | AsyncResult<T>
+    public convertError<TError>(errorType: Type<TError>, convertErrorFunction: (reason: TError) => PromiseLike<unknown>): PromiseAsyncResult<T>;
+    convertError(errorTypeOrConvertErrorFunction: Type<unknown> | ((reason: unknown) => (unknown | PromiseLike<unknown>)), convertErrorFunction?: (reason: unknown) => (unknown | PromiseLike<unknown>)): SyncResult<T> | PromiseAsyncResult<T>
     {
         let errorType: Type<TypeError> | undefined;
         if (!isUndefinedOrNull(convertErrorFunction))
@@ -250,7 +250,7 @@ export class SyncResult<T> implements Result<T>
         }
         PreCondition.assertNotUndefinedAndNotNull(convertErrorFunction, "convertErrorFunction");
 
-        let result: SyncResult<T> | AsyncResult<T> = this;
+        let result: SyncResult<T> | PromiseAsyncResult<T> = this;
         if (this.error && (!errorType || instanceOfType(this.error, errorType)))
         {
             try
@@ -258,7 +258,7 @@ export class SyncResult<T> implements Result<T>
                 const convertErrorResult: unknown | PromiseLike<unknown> = convertErrorFunction(this.error);
                 if (isPromise(convertErrorResult))
                 {
-                    result = AsyncResult.error(convertErrorResult);
+                    result = PromiseAsyncResult.error(convertErrorResult);
                 }
                 else
                 {
@@ -274,10 +274,10 @@ export class SyncResult<T> implements Result<T>
     }
 
     public finally(onfinally?: (() => void) | null): SyncResult<T>
-    public finally(onfinally?: (() => Promise<void>) | null): AsyncResult<T>
-    finally(onfinally?: (() => (void | Promise<void>)) | null | undefined): AsyncResult<T> | SyncResult<T>
+    public finally(onfinally?: (() => Promise<void>) | null): PromiseAsyncResult<T>
+    finally(onfinally?: (() => (void | Promise<void>)) | null | undefined): PromiseAsyncResult<T> | SyncResult<T>
     {
-        let result: AsyncResult<T> | SyncResult<T> = this;
+        let result: PromiseAsyncResult<T> | SyncResult<T> = this;
         if (onfinally)
         {
             try
@@ -285,7 +285,7 @@ export class SyncResult<T> implements Result<T>
                 const onfinallyResult: void | Promise<void> = onfinally();
                 if (isPromiseLike(onfinallyResult))
                 {
-                    result = AsyncResult.create(onfinallyResult).then(() => this);
+                    result = PromiseAsyncResult.create(onfinallyResult).then(() => this);
                 }
             }
             catch (error)

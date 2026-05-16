@@ -1,5 +1,5 @@
 import { AsyncIteratorToJavascriptAsyncIteratorAdapter } from "./asyncIteratorToJavascriptAsyncIteratorAdapter";
-import { AsyncResult } from "./asyncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult";
 import { Comparable } from "./comparable";
 import { EmptyError } from "./emptyError";
 import { JavascriptAsyncIterator } from "./javascript";
@@ -26,7 +26,7 @@ export abstract class AsyncIterator<T>
      * Move to the next value in the collection. Return whether this {@link AsyncIterator} points to
      * a value after the move.
      */
-    public abstract next(): AsyncResult<boolean>;
+    public abstract next(): PromiseAsyncResult<boolean>;
 
     /**
      * Get whether this {@link AsyncIterator} has started iterating over the values in the collection.
@@ -47,7 +47,7 @@ export abstract class AsyncIterator<T>
      * Move to the first value if this {@link AsyncIterator} hasn't started yet.
      * @returns This object for method chaining.
      */
-    public start(): AsyncResult<this>
+    public start(): PromiseAsyncResult<this>
     {
         return AsyncIterator.start(this);
     }
@@ -55,11 +55,11 @@ export abstract class AsyncIterator<T>
     /**
      * Move the provided {@link AsyncIterator} to its first value if it hasn't started yet.
      */
-    public static start<T, TIterator extends AsyncIterator<T>>(iterator: TIterator): AsyncResult<TIterator>
+    public static start<T, TIterator extends AsyncIterator<T>>(iterator: TIterator): PromiseAsyncResult<TIterator>
     {
         PreCondition.assertNotUndefinedAndNotNull(iterator, "iterator");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             if (!iterator.hasStarted())
             {
@@ -73,17 +73,17 @@ export abstract class AsyncIterator<T>
      * Get the current value from this {@link AsyncIterator} and advance this {@link AsyncIterator} to the
      * next value.
      */
-    public takeCurrent(): AsyncResult<T>
+    public takeCurrent(): PromiseAsyncResult<T>
     {
         return AsyncIterator.takeCurrent(this);
     }
 
-    public static takeCurrent<T>(iterator: AsyncIterator<T>): AsyncResult<T>
+    public static takeCurrent<T>(iterator: AsyncIterator<T>): PromiseAsyncResult<T>
     {
         PreCondition.assertNotUndefinedAndNotNull(iterator, "iterator");
         PreCondition.assertTrue(iterator.hasCurrent(), "iterator.hasCurrent()");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             const result: T = iterator.getCurrent();
             await iterator.next();
@@ -112,7 +112,7 @@ export abstract class AsyncIterator<T>
      * Note: This may advance the {@link AsyncIterator} to the first value if it hasn't been
      * started yet.
      */
-    public any(): AsyncResult<boolean>
+    public any(): PromiseAsyncResult<boolean>
     {
         return AsyncIterator.any(this);
     }
@@ -122,11 +122,11 @@ export abstract class AsyncIterator<T>
      * Note: This may advance the {@link AsyncIterator} to the first value if it hasn't been
      * started yet.
      */
-    public static any<T>(iterator: AsyncIterator<T>): AsyncResult<boolean>
+    public static any<T>(iterator: AsyncIterator<T>): PromiseAsyncResult<boolean>
     {
         PreCondition.assertNotUndefinedAndNotNull(iterator, "iterator");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             await iterator.start();
             return iterator.hasCurrent();
@@ -138,7 +138,7 @@ export abstract class AsyncIterator<T>
      * Get the number of values in this {@link AsyncIterator}.
      * Note: This will consume all of the values in this {@link AsyncIterator}.
      */
-    public getCount(): AsyncResult<number>
+    public getCount(): PromiseAsyncResult<number>
     {
         return AsyncIterator.getCount(this);
     }
@@ -147,11 +147,11 @@ export abstract class AsyncIterator<T>
      * Get the number of values in the provided {@link AsyncIterator}.
      * Note: This will consume all of the values in the provided {@link AsyncIterator}.
      */
-    public static getCount<T>(iterator: AsyncIterator<T>): AsyncResult<number>
+    public static getCount<T>(iterator: AsyncIterator<T>): PromiseAsyncResult<number>
     {
         PreCondition.assertNotUndefinedAndNotNull(iterator, "iterator");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             let result: number = 0;
             if (iterator.hasCurrent())
@@ -169,7 +169,7 @@ export abstract class AsyncIterator<T>
     /**
      * Get all of the remaining values in this {@link AsyncIterator} in a {@link T} {@link Array}.
      */
-    public toArray(): AsyncResult<T[]>
+    public toArray(): PromiseAsyncResult<T[]>
     {
         return AsyncIterator.toArray(this);
     }
@@ -178,11 +178,11 @@ export abstract class AsyncIterator<T>
      * Get all of the remaining values in the provided {@link AsyncIterator} in a {@link T}
      * {@link Array}.
      */
-    public static toArray<T>(iterator: AsyncIterator<T>): AsyncResult<T[]>
+    public static toArray<T>(iterator: AsyncIterator<T>): PromiseAsyncResult<T[]>
     {
         PreCondition.assertNotUndefinedAndNotNull(iterator, "iterator");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             const result: T[] = [];
 
@@ -276,7 +276,7 @@ export abstract class AsyncIterator<T>
      * the first value that matches the provided condition.
      * @param condition The condition that the returned value must satisfy.
      */
-    public first(condition?: (value: T) => boolean): AsyncResult<T>
+    public first(condition?: (value: T) => boolean): PromiseAsyncResult<T>
     {
         return AsyncIterator.first(this, condition);
     }
@@ -287,11 +287,11 @@ export abstract class AsyncIterator<T>
      * the first value that matches the provided condition.
      * @param iterator The {@link AsyncIterator} to get the first value from.
      */
-    public static first<T>(iterator: AsyncIterator<T>, condition?: (value: T) => (boolean | PromiseLike<boolean>)): AsyncResult<T>
+    public static first<T>(iterator: AsyncIterator<T>, condition?: (value: T) => (boolean | PromiseLike<boolean>)): PromiseAsyncResult<T>
     {
         PreCondition.assertNotUndefinedAndNotNull(iterator, "iterator");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             await iterator.start();
             if (isUndefinedOrNull(condition))
@@ -323,7 +323,7 @@ export abstract class AsyncIterator<T>
      * last value that matches the provided condition.
      * @param condition The condition that the returned value must satisfy.
      */
-    public last(condition?: (value: T) => (boolean | PromiseLike<boolean>)): AsyncResult<T>
+    public last(condition?: (value: T) => (boolean | PromiseLike<boolean>)): PromiseAsyncResult<T>
     {
         return AsyncIterator.last(this, condition);
     }
@@ -334,11 +334,11 @@ export abstract class AsyncIterator<T>
      * last value that matches the provided condition.
      * @param iterator The {@link AsyncIterator} to get the last value from.
      */
-    public static last<T>(iterator: AsyncIterator<T>, condition?: (value: T) => (boolean | PromiseLike<boolean>)): AsyncResult<T>
+    public static last<T>(iterator: AsyncIterator<T>, condition?: (value: T) => (boolean | PromiseLike<boolean>)): PromiseAsyncResult<T>
     {
         PreCondition.assertNotUndefinedAndNotNull(iterator, "iterator");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             await iterator.start();
 
@@ -379,11 +379,11 @@ export abstract class AsyncIterator<T>
      * Find the maximum value in the provided {@link AsyncIterator}.
      * @param iterator The values to find the maximum of.
      */
-    public static findMaximum<T extends Comparable<T>>(iterator: JavascriptAsyncIterator<T> | AsyncIterator<T>): AsyncResult<T>
+    public static findMaximum<T extends Comparable<T>>(iterator: JavascriptAsyncIterator<T> | AsyncIterator<T>): PromiseAsyncResult<T>
     {
         PreCondition.assertNotUndefinedAndNotNull(iterator, "iterable");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             if (isJavascriptAsyncIterator(iterator))
             {

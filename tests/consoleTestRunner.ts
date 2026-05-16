@@ -1,4 +1,4 @@
-import { AsyncResult } from "../sources/asyncResult";
+import { PromiseAsyncResult } from "../sources/promiseAsyncResult";
 import { CharacterWriteStream } from "../sources/characterWriteStream";
 import { CurrentProcess } from "../sources/currentProcess";
 import { Iterable } from "../sources/iterable";
@@ -175,41 +175,41 @@ export class ConsoleTestRunner extends TestRunner
         }
     }
 
-    public beforeTest(fullTestNameParts: JavascriptIterable<string>): AsyncResult<void>
+    public beforeTest(fullTestNameParts: JavascriptIterable<string>): PromiseAsyncResult<void>
     {
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             await this.writeStream.writeString(join(" ", fullTestNameParts));
         });
     }
 
-    public afterPassedTest(): AsyncResult<void>
+    public afterPassedTest(): PromiseAsyncResult<void>
     {
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             await this.writeStream.writeLine(" - Passed");
             this.passedTestCount++;
         });
     }
 
-    public afterSkippedTest(fullTestNameParts: JavascriptIterable<string>, skip: TestSkip | undefined): AsyncResult<void>
+    public afterSkippedTest(fullTestNameParts: JavascriptIterable<string>, skip: TestSkip | undefined): PromiseAsyncResult<void>
     {
         PreCondition.assertNotEmpty(fullTestNameParts, "fullTestNameParts");
         PreCondition.assertNotUndefinedAndNotNull(skip, "skip");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             this.skippedTests.add(SkippedTest.create(skip, fullTestNameParts));
             await this.writeStream.writeLine(" - Skipped");
         });
     }
 
-    public afterFailedTest(fullTestNameParts: JavascriptIterable<string>, error: unknown): AsyncResult<void>
+    public afterFailedTest(fullTestNameParts: JavascriptIterable<string>, error: unknown): PromiseAsyncResult<void>
     {
         PreCondition.assertNotEmpty(fullTestNameParts, "fullTestNameParts");
         PreCondition.assertNotUndefinedAndNotNull(error, "error");
 
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             this.testFailures.add(FailedTest.create(fullTestNameParts, error));
             await this.writeStream.writeLine(" - Failed");
@@ -347,9 +347,9 @@ export class ConsoleTestRunner extends TestRunner
         }
     }
 
-    public printSummary(): AsyncResult<void>
+    public printSummary(): PromiseAsyncResult<void>
     {
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             await this.writeStream.writeLine();
 

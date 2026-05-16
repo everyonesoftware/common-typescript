@@ -1,4 +1,4 @@
-import { AsyncResult } from "./asyncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult";
 import { AsyncIterator } from "./asyncIterator";
 import { JavascriptAsyncIterable, JavascriptAsyncIterator, JavascriptIteratorResult } from "./javascript";
 import { PreCondition } from "./preCondition";
@@ -26,9 +26,9 @@ export class JavascriptAsyncIteratorToAsyncIteratorAdapter<T> implements AsyncIt
         return new JavascriptAsyncIteratorToAsyncIteratorAdapter(javascriptIterator);
     }
 
-    public next(): AsyncResult<boolean>
+    public next(): PromiseAsyncResult<boolean>
     {
-        return AsyncResult.create(async () =>
+        return PromiseAsyncResult.create(async () =>
         {
             this.javascriptIteratorResult = await this.javascriptIterator.next();
             return this.hasCurrent();
@@ -52,27 +52,27 @@ export class JavascriptAsyncIteratorToAsyncIteratorAdapter<T> implements AsyncIt
         return this.javascriptIteratorResult!.value;
     }
 
-    public start(): AsyncResult<this>
+    public start(): PromiseAsyncResult<this>
     {
         return AsyncIterator.start<T, this>(this);
     }
 
-    public takeCurrent(): AsyncResult<T>
+    public takeCurrent(): PromiseAsyncResult<T>
     {
         return AsyncIterator.takeCurrent(this);
     }
 
-    public any(): AsyncResult<boolean>
+    public any(): PromiseAsyncResult<boolean>
     {
         return AsyncIterator.any(this);
     }
 
-    public getCount(): AsyncResult<number>
+    public getCount(): PromiseAsyncResult<number>
     {
         return AsyncIterator.getCount(this);
     }
 
-    public toArray(): AsyncResult<T[]>
+    public toArray(): PromiseAsyncResult<T[]>
     {
         return AsyncIterator.toArray(this);
     }
@@ -87,12 +87,12 @@ export class JavascriptAsyncIteratorToAsyncIteratorAdapter<T> implements AsyncIt
         return AsyncIterator[Symbol.asyncIterator](this);
     }
 
-    public first(condition?: (value: T) => (boolean | PromiseLike<boolean>)): AsyncResult<T>
+    public first(condition?: (value: T) => (boolean | PromiseLike<boolean>)): PromiseAsyncResult<T>
     {
         return AsyncIterator.first(this, condition);
     }
 
-    public last(condition?: (value: T) => (boolean | PromiseLike<boolean>)): AsyncResult<T>
+    public last(condition?: (value: T) => (boolean | PromiseLike<boolean>)): PromiseAsyncResult<T>
     {
         return AsyncIterator.last(this, condition);
     }
