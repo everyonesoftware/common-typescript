@@ -5,8 +5,13 @@
     "outDir": "outputs",
     "strict": true,
     "skipLibCheck": true,
-    "noEmit": true,
-    "sourceMap": true
+    "sourceMap": true,
+
+    "moduleResolution": "Bundler",
+
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": true,
   },
   "include": ["sources", "tests"]
 }

@@ -1,0 +1,13 @@
+import { defineConfig } from "tsup";
+
+export default defineConfig({
+  entry: {
+    sources: "sources/index.ts",
+    tests: "tests/tests.ts",
+  },
+  format: ["esm", "cjs"],
+  outDir: "outputs",
+  dts: true,
+  clean: true,
+  sourcemap: true,
+});

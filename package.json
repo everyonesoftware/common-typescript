@@ -3,11 +3,22 @@
   "version": "1.0.0",
   "description": "A CLI for building software.",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./outputs/sources.d.ts",
+      "import": "./outputs/sources.js",
+      "require": "./outputs/sources.cjs"
+    },
+    "./tests": {
+      "types": "./outputs/tests.d.ts",
+      "import": "./outputs/tests.js",
+      "require": "./outputs/tests.cjs"
+    }
+  },
   "scripts": {
-    "build": "tsc && node build.cjs",
+    "build": "barrelsby --directory sources --delete && tsup",
     "clean": "rimraf coverage outputs",
-    "test": "npm run build && c8 node -r source-map-support/register outputs/tests/tests.js",
-    "server": "npm run build && node outputs/everythingServer/everythingServer.js"
+    "test": "npm run build && c8 node -r source-map-support/register outputs/tests.js"
   },
   "dependencies": {
     "luxon": "3.7.2"
@@ -15,10 +26,11 @@
   "devDependencies": {
     "@types/node": "24.8.1",
     "@types/luxon": "3.7.1",
+    "barrelsby": "2.8.1",
     "c8": "^11.0.0",
-    "esbuild": "0.25.11",
     "rimraf": "6.0.1",
     "source-map-support": "0.5.21",
-    "typescript": "5.9.3"
+    "tsup": "8.5.1",
+    "typescript": "6.0.3"
   }
 }

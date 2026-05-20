@@ -7,8 +7,7 @@ import { Stack } from "./stack";
 import { Set } from "./set";
 import { Iterator } from "./iterator";
 import { SyncResult } from "./syncResult";
-import { hasProperty, isJavascriptIterable, Type } from "./types";
-import { EmptyError } from "./emptyError";
+import { isJavascriptIterable, Type } from "./types";
 
 class SearchBreakError extends Error
 {
