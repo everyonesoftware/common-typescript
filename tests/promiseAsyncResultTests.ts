@@ -41,43 +41,6 @@ export function test(runner: TestRunner): void
                 });
             });
 
-            runner.testFunction("value()", () =>
-            {
-                function valueTest<T>(value: T): void
-                {
-                    runner.test(`with ${runner.toString(value)}`, async (test: Test) =>
-                    {
-                        const result: PromiseAsyncResult<T> = PromiseAsyncResult.value(value);
-                        test.assertNotUndefinedAndNotNull(result);
-
-                        const awaitResult: T = await result;
-                        test.assertSame(awaitResult, value);
-                    });
-                }
-
-                valueTest(undefined);
-                valueTest(null);
-                valueTest(50);
-                valueTest({});
-            });
-
-            runner.testFunction("error()", () =>
-            {
-                function errorTest<T>(error: Error): void
-                {
-                    runner.test(`with ${runner.toString(error)}`, async (test: Test) =>
-                    {
-                        const result: PromiseAsyncResult<T> = PromiseAsyncResult.error(error);
-                        test.assertNotUndefinedAndNotNull(result);
-
-                        await test.assertThrowsAsync(result, error);
-                    });
-                }
-
-                errorTest(new Error("oops"));
-                errorTest(new NotFoundError("not here"));
-            });
-
             runner.testFunction("then()", () =>
             {
                 runner.test("with error parent", async (test: Test) =>

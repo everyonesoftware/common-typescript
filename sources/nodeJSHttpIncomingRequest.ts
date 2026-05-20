@@ -122,9 +122,9 @@ export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
         });
     }
 
-    public getBody(): AsyncResult<string>
+    public getBody(): SyncResult<string>
     {
-        return AsyncResult.createSync(() =>
+        return SyncResult.create(() =>
         {
             throw new NotFoundError("Could not read the body from the incoming HTTP request.");
         });

@@ -22,6 +22,4 @@ function buildProject(projectName, entryPointFile)
   });
 }
 
-buildProject("everythingCLI", "sources/everythingCLI.ts");
 buildProject("tests", "tests/tests.ts");
-buildProject("everythingServer", "sources/everythingServer.ts");

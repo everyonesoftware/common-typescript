@@ -1,5 +1,4 @@
 import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { SyncResult } from "./syncResult";
 import { isPromise, Type } from "./types";
 
 /**
@@ -7,18 +6,9 @@ import { isPromise, Type } from "./types";
  */
 export abstract class AsyncResult<T> implements Promise<T>
 {
-    /**
-     * Create a new {@link SyncResult} that contains the result of the provided function.
-     * @param action The function to run.
-     */
-    public static createSync<T>(action: () => T): SyncResult<T>
-    {
-        return SyncResult.create<T>(action);
-    }
-
-    public static createAsync<T>(action: () => (T | Promise<T>)): PromiseAsyncResult<T>;
-    public static createAsync<T>(promise: Promise<T>): PromiseAsyncResult<T>;
-    static createAsync<T>(actionOrPromise: (() => (T | Promise<T>)) | Promise<T>): PromiseAsyncResult<T>
+    public static create<T>(action: () => (T | Promise<T>)): AsyncResult<T>;
+    public static create<T>(promise: Promise<T>): AsyncResult<T>;
+    static create<T>(actionOrPromise: (() => (T | Promise<T>)) | Promise<T>): AsyncResult<T>
     {
         return PromiseAsyncResult.create<T>(isPromise<T>(actionOrPromise) ? actionOrPromise : new Promise<T>(actionOrPromise));
     }
@@ -27,21 +17,21 @@ export abstract class AsyncResult<T> implements Promise<T>
      * Create a new {@link AsyncResult} that contains the provided value.
      * @param value The value to wrap in a {@link AsyncResult}.
      */
-    public static value<T>(value: T): SyncResult<T>
+    public static value<T>(value: T): AsyncResult<T>
     {
-        return SyncResult.value(value);
+        return PromiseAsyncResult.value(value);
     }
 
     /**
      * Create a new {@link AsyncResult} that contains the provided error.
      * @param error The error to wrap in a {@link AsyncResult}.
      */
-    public static error<T>(error: Error): SyncResult<T>
+    public static error<T>(error: Error): AsyncResult<T>
     {
-        return SyncResult.error<T>(error);
+        return PromiseAsyncResult.error<T>(error);
     }
 
-    public static yield(): PromiseAsyncResult<void>
+    public static yield(): AsyncResult<void>
     {
         return PromiseAsyncResult.yield();
     }
