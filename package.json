@@ -1,7 +1,7 @@
 {
-  "name": "everything-cli",
+  "name": "@everythingsoftware/common",
   "version": "1.0.0",
-  "description": "A CLI for building software.",
+  "description": "A package containing common code for everyonesoftware projects.",
   "type": "module",
   "exports": {
     ".": {

@@ -25,6 +25,9 @@ export interface WonderlandTrailLocation
     readonly foodCacheStorage: boolean;
     readonly divisionId: string;
     readonly groupSiteDivisionId: string;
+    readonly latitude: number;
+    readonly longitude: number;
+    readonly elevationFeet: number;
 }
 
 export function isWonderlandTrailLocation(value: unknown): value is WonderlandTrailLocation
@@ -45,6 +48,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170009",
         groupSiteDivisionId: "46753170010",
+        latitude: 46.92058,
+        longitude: -121.70800,
+        elevationFeet: 5851,
     };
 
     public static readonly sunriseCamp: WonderlandTrailLocation = {
@@ -53,6 +59,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170058",
         groupSiteDivisionId: "46753170059",
+        latitude: 46.91129,
+        longitude: -121.66002,
+        elevationFeet: 6258,
     };
 
     public static readonly sunriseVisitorCenter: WonderlandTrailLocation = {
@@ -61,6 +70,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: true,
         divisionId: "",
         groupSiteDivisionId: "",
+        latitude: 46.91448,
+        longitude: -121.64337,
+        elevationFeet: 6410,
     };
 
     public static readonly whiteRiver: WonderlandTrailLocation = {
@@ -69,6 +81,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: true,
         divisionId: "46753170066",
         groupSiteDivisionId: "46753170067",
+        latitude: 46.90255,
+        longitude: -121.63869,
+        elevationFeet: 4229,
     };
 
     public static readonly fryingPanCreek: WonderlandTrailLocation = {
@@ -76,7 +91,10 @@ export abstract class WonderlandTrailLocations
         trailhead: true,
         foodCacheStorage: false,
         divisionId: "",
-        groupSiteDivisionId: ""
+        groupSiteDivisionId: "",
+        latitude: 46.88809,
+        longitude: -121.61019,
+        elevationFeet: 3835,
     };
 
     public static readonly summerland: WonderlandTrailLocation = {
@@ -85,6 +103,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170056",
         groupSiteDivisionId: "46753170057",
+        latitude: 46.86616,
+        longitude: -121.65843,
+        elevationFeet: 5988,
     };
 
     public static readonly indianBar: WonderlandTrailLocation = {
@@ -93,6 +114,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170046",
         groupSiteDivisionId: "46753170047",
+        latitude: 46.82593,
+        longitude: -121.63942,
+        elevationFeet: 5101,
     };
 
     public static readonly nickelCreek: WonderlandTrailLocation = {
@@ -101,6 +125,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170051",
         groupSiteDivisionId: "46753170052",
+        latitude: 46.77204,
+        longitude: -121.62402,
+        elevationFeet: 3383,
     };
 
     public static readonly boxCanyon: WonderlandTrailLocation = {
@@ -109,6 +136,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "",
         groupSiteDivisionId: "",
+        latitude: 46.76570,
+        longitude: -121.63517,
+        elevationFeet: 3025,
     };
 
     public static readonly mapleCreek: WonderlandTrailLocation = {
@@ -117,6 +147,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170027",
         groupSiteDivisionId: "46753170028",
+        latitude: 46.75745,
+        longitude: -121.65764,
+        elevationFeet: 2806,
     };
 
     public static readonly reflectionLakes: WonderlandTrailLocation = {
@@ -125,6 +158,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "",
         groupSiteDivisionId: "",
+        latitude: 46.76824,
+        longitude: -121.72890,
+        elevationFeet: 4862,
     };
 
     public static readonly paradiseRiver: WonderlandTrailLocation = {
@@ -133,6 +169,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170031",
         groupSiteDivisionId: "46753170032",
+        latitude: 46.77076,
+        longitude: -121.75909,
+        elevationFeet: 3960,
     };
 
     public static readonly longmire: WonderlandTrailLocation = {
@@ -141,6 +180,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: true,
         divisionId: "",
         groupSiteDivisionId: "",
+        latitude: 46.75011,
+        longitude: -121.81253,
+        elevationFeet: 2750,
     };
 
     public static readonly pyramidCreek: WonderlandTrailLocation = {
@@ -149,6 +191,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170033",
         groupSiteDivisionId: "",
+        latitude: 46.77832,
+        longitude: -121.80963,
+        elevationFeet: 3721,
     };
 
     public static readonly devilsDream: WonderlandTrailLocation = {
@@ -157,6 +202,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170040",
         groupSiteDivisionId: "46753170041",
+        latitude: 46.78196,
+        longitude: -121.83297,
+        elevationFeet: 4929,
     };
 
     public static readonly southPuyallupRiver: WonderlandTrailLocation = {
@@ -165,6 +213,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170035",
         groupSiteDivisionId: "46753170036",
+        latitude: 46.81331,
+        longitude: -121.86445,
+        elevationFeet: 4183,
     };
 
     public static readonly klapatchePark: WonderlandTrailLocation = {
@@ -173,6 +224,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170024",
         groupSiteDivisionId: "",
+        latitude: 46.83571,
+        longitude: -121.87752,
+        elevationFeet: 5496,
     };
 
     public static readonly northPuyallupRiver: WonderlandTrailLocation = {
@@ -181,6 +235,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170029",
         groupSiteDivisionId: "46753170030",
+        latitude: 46.84751,
+        longitude: -121.87005,
+        elevationFeet: 3733,
     };
 
     public static readonly goldenLakes: WonderlandTrailLocation = {
@@ -189,6 +246,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170022",
         groupSiteDivisionId: "46753170023",
+        latitude: 46.88327,
+        longitude: -121.89919,
+        elevationFeet: 4927,
     };
 
     public static readonly southMowichRiver: WonderlandTrailLocation = {
@@ -197,6 +257,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170019",
         groupSiteDivisionId: "46753170020",
+        latitude: 46.91146,
+        longitude: -121.89314,
+        elevationFeet: 2686,
     };
 
     public static readonly mowichLake: WonderlandTrailLocation = {
@@ -205,6 +268,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170015",
         groupSiteDivisionId: "46753170016",
+        latitude: 46.93204,
+        longitude: -121.86351,
+        elevationFeet: 4868,
     };
 
     public static readonly eaglesRoost: WonderlandTrailLocation = {
@@ -213,6 +279,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170006",
         groupSiteDivisionId: "",
+        latitude: 46.91529,
+        longitude: -121.84816,
+        elevationFeet: 4834,
     };
 
     public static readonly cataractValley: WonderlandTrailLocation = {
@@ -221,6 +290,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170003",
         groupSiteDivisionId: "46753170004",
+        latitude: 46.94049,
+        longitude: -121.80486,
+        elevationFeet: 4488,
     };
 
     public static readonly ipsutCreek: WonderlandTrailLocation = {
@@ -229,6 +301,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170011",
         groupSiteDivisionId: "46753170012",
+        latitude: 46.97615,
+        longitude: -121.83022,
+        elevationFeet: 2359,
     };
 
     public static readonly carbonRiver: WonderlandTrailLocation = {
@@ -237,6 +312,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170001",
         groupSiteDivisionId: "46753170002",
+        latitude: 46.95063,
+        longitude: -121.79991,
+        elevationFeet: 3255,
     };
 
     public static readonly dickCreek: WonderlandTrailLocation = {
@@ -245,6 +323,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170005",
         groupSiteDivisionId: "",
+        latitude: 46.94071,
+        longitude: -121.78431,
+        elevationFeet: 4114,
     };
 
     public static readonly mysticLake: WonderlandTrailLocation = {
@@ -253,6 +334,9 @@ export abstract class WonderlandTrailLocations
         foodCacheStorage: false,
         divisionId: "46753170017",
         groupSiteDivisionId: "46753170018",
+        latitude: 46.91570,
+        longitude: -121.75045,
+        elevationFeet: 5538,
     };
 
     public static getLocations(): Iterable<WonderlandTrailLocation>
