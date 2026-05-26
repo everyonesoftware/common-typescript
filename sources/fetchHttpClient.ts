@@ -10,11 +10,10 @@ import { PromiseAsyncResult } from "./promiseAsyncResult";
 /**
  * A {@link HttpClient} that uses {@link fetch}() to make network requests.
  */
-export class FetchHttpClient extends HttpClient
+export class FetchHttpClient implements HttpClient
 {
     protected constructor()
     {
-        super();
     }
 
     public static create(): FetchHttpClient
@@ -42,7 +41,7 @@ export class FetchHttpClient extends HttpClient
         });
     }
 
-    public override sendGetRequest(url: string): PromiseAsyncResult<FetchHttpIncomingResponse>
+    public sendGetRequest(url: string): PromiseAsyncResult<FetchHttpIncomingResponse>
     {
         return this.sendRequest(HttpOutgoingRequest.create(HttpMethod.GET, url));
     }
