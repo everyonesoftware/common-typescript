@@ -14,24 +14,24 @@ jobs:
       contents: write   # Required to create and push tags
 
     steps:
-    - name: Debug auth source
-      run: |
-        echo "NPM_TOKEN length: ${#NPM_TOKEN}"
-        echo "NODE_AUTH_TOKEN length: ${#NODE_AUTH_TOKEN}"
-        env | sort | grep -i npm || true
-        env | sort | grep -i token || true
+      - name: Debug auth source
+        run: |
+          echo "NPM_TOKEN length: ${#NPM_TOKEN}"
+          echo "NODE_AUTH_TOKEN length: ${#NODE_AUTH_TOKEN}"
+          env | sort | grep -i npm || true
+          env | sort | grep -i token || true
 
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-    - name: Debug auth source
-      run: |
-        echo "NPM_TOKEN length: ${#NPM_TOKEN}"
-        echo "NODE_AUTH_TOKEN length: ${#NODE_AUTH_TOKEN}"
-        env | sort | grep -i npm || true
-        env | sort | grep -i token || true
+      - name: Debug auth source
+        run: |
+          echo "NPM_TOKEN length: ${#NPM_TOKEN}"
+          echo "NODE_AUTH_TOKEN length: ${#NODE_AUTH_TOKEN}"
+          env | sort | grep -i npm || true
+          env | sort | grep -i token || true
 
       - name: Setup Node.js
         uses: actions/setup-node@v5
