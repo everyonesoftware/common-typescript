@@ -2,6 +2,9 @@
   "name": "@everyonesoftware/common",
   "version": "3.0.0",
   "description": "A package containing common code for everyonesoftware projects.",
+  "repository": {
+    "url": "https://github.com/everyonesoftware/common-typescript"
+  },
   "type": "module",
   "publishConfig": {
     "access": "public"
