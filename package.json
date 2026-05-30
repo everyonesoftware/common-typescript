@@ -1,5 +1,5 @@
 {
-  "name": "@everythingsoftware/common",
+  "name": "@everyonesoftware/common",
   "version": "1.0.0",
   "description": "A package containing common code for everyonesoftware projects.",
   "type": "module",
