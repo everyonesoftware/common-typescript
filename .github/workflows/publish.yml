@@ -35,6 +35,12 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Debug npm identity
+        run: |
+          npm whoami || true
+          npm config get registry
+          node -p "require('./package.json').name"
+
       - name: Publish to npm
         run: npm publish
 
