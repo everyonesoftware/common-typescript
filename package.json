@@ -21,7 +21,8 @@
   "scripts": {
     "build": "barrelsby --directory sources --delete && tsup",
     "clean": "rimraf coverage outputs",
-    "test": "npm run build && c8 node -r source-map-support/register outputs/tests.js"
+    "test-only": "c8 node -r source-map-support/register outputs/tests.js",
+    "test": "npm run build && npm run test-only"
   },
   "dependencies": {
     "luxon": "3.7.2"

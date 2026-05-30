@@ -14,10 +14,24 @@ jobs:
       contents: write   # Required to create and push tags
 
     steps:
+    - name: Debug auth source
+      run: |
+        echo "NPM_TOKEN length: ${#NPM_TOKEN}"
+        echo "NODE_AUTH_TOKEN length: ${#NODE_AUTH_TOKEN}"
+        env | sort | grep -i npm || true
+        env | sort | grep -i token || true
+
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+
+    - name: Debug auth source
+      run: |
+        echo "NPM_TOKEN length: ${#NPM_TOKEN}"
+        echo "NODE_AUTH_TOKEN length: ${#NODE_AUTH_TOKEN}"
+        env | sort | grep -i npm || true
+        env | sort | grep -i token || true
 
       - name: Setup Node.js
         uses: actions/setup-node@v5
@@ -25,6 +39,13 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org
           cache: npm
+        
+      - name: Debug auth source
+        run: |
+          echo "NPM_TOKEN length: ${#NPM_TOKEN}"
+          echo "NODE_AUTH_TOKEN length: ${#NODE_AUTH_TOKEN}"
+          env | sort | grep -i npm || true
+          env | sort | grep -i token || true
 
       - name: Install dependencies
         run: npm ci
@@ -33,13 +54,14 @@ jobs:
         run: npm run build
 
       - name: Run tests
-        run: npm test
+        run: npm run test-only
 
-      - name: Debug npm identity
+      - name: Debug auth source
         run: |
-          npm whoami || true
-          npm config get registry
-          node -p "require('./package.json').name"
+          echo "NPM_TOKEN length: ${#NPM_TOKEN}"
+          echo "NODE_AUTH_TOKEN length: ${#NODE_AUTH_TOKEN}"
+          env | sort | grep -i npm || true
+          env | sort | grep -i token || true
 
       - name: Publish to npm
         run: npm publish
