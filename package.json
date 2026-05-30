@@ -9,6 +9,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "outputs/",
+    "README.md",
+    "package.json"
+  ],
   "exports": {
     ".": {
       "types": "./outputs/sources.d.ts",
