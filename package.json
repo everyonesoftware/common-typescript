@@ -1,8 +1,11 @@
 {
   "name": "@everyonesoftware/common",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "A package containing common code for everyonesoftware projects.",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./outputs/sources.d.ts",
