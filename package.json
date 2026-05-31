@@ -1,6 +1,6 @@
 {
   "name": "@everyonesoftware/common",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "A package containing common code for everyonesoftware projects.",
   "repository": {
     "url": "https://github.com/everyonesoftware/common-typescript"
@@ -16,14 +16,14 @@
   ],
   "exports": {
     ".": {
-      "types": "./outputs/sources.d.ts",
-      "import": "./outputs/sources.js",
-      "require": "./outputs/sources.cjs"
+      "types": "./outputs/sourceIndex.d.ts",
+      "import": "./outputs/sourceIndex.js",
+      "require": "./outputs/sourceIndex.cjs"
     },
     "./tests": {
-      "types": "./outputs/tests.d.ts",
-      "import": "./outputs/tests.js",
-      "require": "./outputs/tests.cjs"
+      "types": "./outputs/testIndex.d.ts",
+      "import": "./outputs/testIndex.js",
+      "require": "./outputs/testIndex.cjs"
     }
   },
   "scripts": {

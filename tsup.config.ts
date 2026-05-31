@@ -2,7 +2,8 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: {
-    sources: "sources/index.ts",
+    sourceIndex: "sources/index.ts",
+    testIndex: "tests/index.ts",
     tests: "tests/tests.ts",
   },
   format: ["esm", "cjs"],
