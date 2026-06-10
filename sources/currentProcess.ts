@@ -1,19 +1,20 @@
 import { CharacterWriteStream } from "./characterWriteStream";
 import { CommandLineParameters } from "./commandLineParameters";
+import { Iterable } from "./iterable";
 import { JavascriptIterable } from "./javascript";
 import { Network } from "./network";
 import { NodeJSCharacterWriteStream } from "./nodeJSCharacterWriteStream";
 import { PreCondition } from "./preCondition";
 import { Property } from "./property";
 import { RealNetwork } from "./realNetwork";
-import { isNumber } from "./types";
+import { isIterable, isNumber } from "./types";
 
 /**
  * An object that provides all of the resources that are available to the current process.
  */
 export class CurrentProcess
 {
-    private args: JavascriptIterable<string> | undefined
+    private args: Iterable<string> | undefined
     private parameters: CommandLineParameters | undefined;
     private outputWriteStream: CharacterWriteStream | undefined;
     private exitCodeProperty: Property<number> | undefined;
@@ -56,11 +57,11 @@ export class CurrentProcess
         }
     }
 
-    public getArguments(): JavascriptIterable<string>
+    public getArguments(): Iterable<string>
     {
         if (!this.args)
         {
-            this.args = process.argv;
+            this.args = Iterable.create(process.argv);
         }
         return this.args;
     }
@@ -70,7 +71,7 @@ export class CurrentProcess
         PreCondition.assertNotUndefinedAndNotNull(args, "args");
         PreCondition.assertUndefined(this.parameters, "this.parameters");
 
-        this.args = args;
+        this.args = isIterable<string>(args) ? args : Iterable.create(args);
         return this;
     }
 

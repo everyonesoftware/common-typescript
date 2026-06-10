@@ -260,7 +260,7 @@ export abstract class Iterator<T> implements JavascriptIterable<T>
         return Iterator.flatMap(this, mapping);
     }
 
-    public static flatMap<T,TOutput>(iterator: Iterator<T>, mapping: (value: T) => JavascriptIterable<TOutput>): Iterator<TOutput>
+    public static flatMap<T, TOutput>(iterator: Iterator<T>, mapping: (value: T) => JavascriptIterable<TOutput>): Iterator<TOutput>
     {
         PreCondition.assertNotUndefinedAndNotNull(iterator, "iterator");
         PreCondition.assertNotUndefinedAndNotNull(mapping, "mapping");

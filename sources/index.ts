@@ -46,6 +46,7 @@ export * from "./httpMethod";
 export * from "./httpOutgoingRequest";
 export * from "./httpOutgoingResponse";
 export * from "./httpServer";
+export * from "./IndentedCharacterWriteStream";
 export * from "./inMemoryCharacterWriteStream";
 export * from "./iterable";
 export * from "./iterator";

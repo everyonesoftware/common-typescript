@@ -45,6 +45,8 @@ import * as toStringFunctionsTests from "./toStringFunctionsTests";
 import * as typesTests from "./typesTests";
 import * as whereIteratorTests from "./whereIteratorTests";
 import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests";
+import * as commandLineParametersTests from "./CommandLineParametersTests";
+import * as indentedCharacterWriteStreamTests from "./IndentedCharacterWriteStreamTests";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -97,6 +99,8 @@ async function tests(): Promise<void>
         byteListStreamTests,
         characterListTests,
         characterListStreamTests,
+        commandLineParametersTests,
+        indentedCharacterWriteStreamTests,
     ]);
 }
 

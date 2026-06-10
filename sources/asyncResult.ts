@@ -1,16 +1,14 @@
 import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { isPromise, Type } from "./types";
+import { Type } from "./types";
 
 /**
  * A result object that adds extra behavior beyond the standard {@link Promise}.
  */
 export abstract class AsyncResult<T> implements Promise<T>
 {
-    public static create<T>(action: () => (T | Promise<T>)): AsyncResult<T>;
-    public static create<T>(promise: Promise<T>): AsyncResult<T>;
-    static create<T>(actionOrPromise: (() => (T | Promise<T>)) | Promise<T>): AsyncResult<T>
+    public static create<T>(actionOrPromise: (() => (T | Promise<T>)) | Promise<T>): AsyncResult<T>
     {
-        return PromiseAsyncResult.create<T>(isPromise<T>(actionOrPromise) ? actionOrPromise : new Promise<T>(actionOrPromise));
+        return PromiseAsyncResult.create<T>(actionOrPromise);
     }
 
     /**

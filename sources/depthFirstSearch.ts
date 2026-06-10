@@ -24,7 +24,7 @@ class DepthFirstSearch<TVisit,TResult> implements SearchControl<TVisit,TResult>,
 
     private constructor(initialToVisit: JavascriptIterable<TVisit>, searchAction: (searchControl: SearchControl<TVisit,TResult>, visiting: TVisit) => void)
     {
-        PreCondition.assertNotEmpty(initialToVisit, "initialToVisit");
+        PreCondition.assertNotUndefinedAndNotNull(initialToVisit, "initialToVisit");
         PreCondition.assertNotUndefinedAndNotNull(searchAction, "searchAction");
 
         this.searchAction = searchAction;

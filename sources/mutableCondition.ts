@@ -259,7 +259,7 @@ export class MutableCondition implements Condition
     {
         this.assertNotUndefinedAndNotNull(value, expression, message);
         if ((isString(value) && value.length === 0) ||
-            (isJavascriptIterable(value) && !Iterable.create(value).any()))
+            (isJavascriptIterable(value) && !Iterable.create(value).any().await()))
         {
             throw this.createError({
                 expected: "not empty",

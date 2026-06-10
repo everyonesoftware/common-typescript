@@ -13,13 +13,32 @@ export class PromiseAsyncResult<T> implements AsyncResult<T>
         this.promise = promise;
     }
 
-    public static create<T>(action: () => (T | Promise<T>)): PromiseAsyncResult<T>;
-    public static create<T>(promise: Promise<T>): PromiseAsyncResult<T>;
-    static create<T>(actionOrPromise: (() => (T | Promise<T>)) | Promise<T>): PromiseAsyncResult<T>
+    public static create<T>(actionOrPromise: (() => (T | Promise<T>)) | Promise<T>): PromiseAsyncResult<T>
     {
         PreCondition.assertNotUndefinedAndNotNull(actionOrPromise, "action or promise");
 
-        return new PromiseAsyncResult(Promise.resolve(isPromise<T>(actionOrPromise) ? actionOrPromise : actionOrPromise()));
+        let promise: Promise<T>;
+        if (isPromise(actionOrPromise))
+        {
+            promise = actionOrPromise;
+        }
+        else
+        {
+            const action: () => (T | Promise<T>) = actionOrPromise;
+            function actionExecutor(resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void): void
+            {
+                try
+                {
+                    resolve(action());
+                }
+                catch (error)
+                {
+                    reject(error);
+                }
+            };
+            promise = new Promise<T>(actionExecutor);
+        }
+        return new PromiseAsyncResult(promise);
     }
 
     public static value<T>(value: T): PromiseAsyncResult<T>
