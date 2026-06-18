@@ -2,6 +2,7 @@ import { JavascriptIterable } from "../sources/javascript";
 import { List } from "../sources/list";
 import { PreConditionError } from "../sources/preConditionError";
 import { isIterable } from "../sources/types";
+import { indexableTests } from "./IndexableTests";
 import { Test } from "./test";
 import { TestRunner } from "./testRunner";
 
@@ -11,6 +12,8 @@ export function test(runner: TestRunner): void
     {
         runner.testType("List<T>", () =>
         {
+            indexableTests(runner, List.create);
+
             runner.testFunction("create(T[]|Iterable<T>|undefined)", () =>
             {
                 runner.test("with no arguments", (test: Test) =>

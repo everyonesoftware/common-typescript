@@ -2,6 +2,7 @@ import { PromiseAsyncResult } from "../sources/promiseAsyncResult";
 import { PreCondition } from "../sources/preCondition";
 import { SyncResult } from "../sources/syncResult";
 import { isUndefinedOrNull, Type } from "../sources/types";
+import { Iterable, JavascriptIterable } from "../sources";
 
 /**
  * A type that can be used to make assertions during a test.
@@ -108,6 +109,21 @@ export abstract class Test
     }
 
     /**
+     * Assert that the provided collection is not undefined, not null, and not empty.
+     * @param value The value to check.
+     */
+    public assertNotEmpty(value: JavascriptIterable<unknown>): void
+    {
+        Test.assertNotEmpty(this, value);
+    }
+
+    public static assertNotEmpty(test: Test, value: JavascriptIterable<unknown>): void
+    {
+        test.assertNotUndefinedAndNotNull(value);
+        test.assertTrue(Iterable.any(value).await());
+    }
+
+    /**
      * Assert that the provided values point to the same object.
      * @param left The first value.
      * @param right The second value.
@@ -145,10 +161,6 @@ export abstract class Test
         Test.assertFalse(this, value);
     }
 
-    /**
-     * Assert that the provided value is false.
-     * @param value The value to check.
-     */
     public static assertFalse(test: Test, value: boolean): asserts value is false
     {
         PreCondition.assertNotUndefinedAndNotNull(test, "test");

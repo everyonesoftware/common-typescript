@@ -1,4 +1,3 @@
-import { PromiseAsyncResult } from "../sources/promiseAsyncResult";
 import { CharacterWriteStream } from "../sources/characterWriteStream";
 import { CurrentProcess } from "../sources/currentProcess";
 import { Iterable } from "../sources/iterable";
@@ -6,7 +5,6 @@ import { JavascriptIterable } from "../sources/javascript";
 import { List } from "../sources/list";
 import { NodeJSCharacterWriteStream } from "../sources/nodeJSCharacterWriteStream";
 import { PreCondition } from "../sources/preCondition";
-import { join } from "../sources/strings";
 import { isFunction, isJavascriptIterable, isPromise } from "../sources/types";
 import { AssertTest } from "./assertTest";
 import { FailedTest } from "./failedTest";
@@ -15,13 +13,15 @@ import { Test } from "./test";
 import { TestAction } from "./testAction";
 import { TestRunner } from "./testRunner";
 import { TestSkip } from "./testSkip";
+import { AsyncResult, IndentedCharacterWriteStream } from "../sources";
+import { ConsoleTestRunnerUI } from "./ConsoleTestRunnerUI";
 
 export type ConsoleTestFunction = (runner: ConsoleTestRunner) => (void | Promise<void>);
 export type ConsoleTestFunctionContainer = { test: ConsoleTestFunction };
 
 export class ConsoleTestRunner extends TestRunner
 {
-    private writeStream: CharacterWriteStream;
+    private writeStream: IndentedCharacterWriteStream;
 
     private readonly pendingActions: List<TestAction>;
     private pendingActionsInsertIndex: number;
@@ -32,11 +32,13 @@ export class ConsoleTestRunner extends TestRunner
     private readonly skippedTests: List<SkippedTest>;
     private readonly testFailures: List<FailedTest>;
 
-    public constructor()
+    private readonly ui: ConsoleTestRunnerUI;
+
+    public constructor(ui?: ConsoleTestRunnerUI)
     {
         super();
 
-        this.writeStream = NodeJSCharacterWriteStream.create(process.stdout);
+        this.writeStream = IndentedCharacterWriteStream.create(NodeJSCharacterWriteStream.create(process.stdout));
 
         this.pendingActions = List.create();
         this.pendingActionsInsertIndex = 0;
@@ -44,11 +46,14 @@ export class ConsoleTestRunner extends TestRunner
         this.passedTestCount = 0;
         this.skippedTests = List.create();
         this.testFailures = List.create();
+
+        this.ui = ui || ConsoleTestRunnerUI.flat();
+        this.ui.setWriteStream(this.writeStream);
     }
 
-    public static create(): ConsoleTestRunner
+    public static create(ui?: ConsoleTestRunnerUI): ConsoleTestRunner
     {
-        return new ConsoleTestRunner();
+        return new ConsoleTestRunner(ui);
     }
 
     public static run(testFunction: ConsoleTestFunction | ConsoleTestFunctionContainer): Promise<void>;
@@ -100,7 +105,8 @@ export class ConsoleTestRunner extends TestRunner
     {
         PreCondition.assertNotUndefinedAndNotNull(writeStream, "writeStream");
 
-        this.writeStream = writeStream;
+        this.writeStream = IndentedCharacterWriteStream.create(writeStream);
+        this.ui.setWriteStream(this.writeStream);
 
         return this;
     }
@@ -175,44 +181,52 @@ export class ConsoleTestRunner extends TestRunner
         }
     }
 
-    public beforeTest(fullTestNameParts: JavascriptIterable<string>): PromiseAsyncResult<void>
+    public beforeTestGroup(testAction: TestAction): AsyncResult<void>
     {
-        return PromiseAsyncResult.create(async () =>
-        {
-            await this.writeStream.writeString(join(" ", fullTestNameParts));
-        });
+        return this.ui.beforeTestGroup(testAction);
     }
 
-    public afterPassedTest(): PromiseAsyncResult<void>
+    public afterTestGroup(testAction: TestAction): AsyncResult<void>
     {
-        return PromiseAsyncResult.create(async () =>
+        return this.ui.afterTestGroup(testAction);
+    }
+
+    public beforeTest(testAction: TestAction): AsyncResult<void>
+    {
+        return this.ui.beforeTest(testAction);
+    }
+
+    public afterPassedTest(testAction: TestAction): AsyncResult<void>
+    {
+        return AsyncResult.create(async () =>
         {
-            await this.writeStream.writeLine(" - Passed");
+            await this.ui.afterPassedTest(testAction);
             this.passedTestCount++;
         });
     }
 
-    public afterSkippedTest(fullTestNameParts: JavascriptIterable<string>, skip: TestSkip | undefined): PromiseAsyncResult<void>
+    public afterSkippedTest(testAction: TestAction, skip: TestSkip): AsyncResult<void>
     {
-        PreCondition.assertNotEmpty(fullTestNameParts, "fullTestNameParts");
-        PreCondition.assertNotUndefinedAndNotNull(skip, "skip");
+        PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
 
-        return PromiseAsyncResult.create(async () =>
+        return AsyncResult.create(async () =>
         {
+            await this.ui.afterSkippedTest(testAction, skip);
+            const fullTestNameParts: JavascriptIterable<string> = testAction.getFullNameParts();
             this.skippedTests.add(SkippedTest.create(skip, fullTestNameParts));
-            await this.writeStream.writeLine(" - Skipped");
         });
     }
 
-    public afterFailedTest(fullTestNameParts: JavascriptIterable<string>, error: unknown): PromiseAsyncResult<void>
+    public afterFailedTest(currentTestAction: TestAction, error: unknown): AsyncResult<void>
     {
-        PreCondition.assertNotEmpty(fullTestNameParts, "fullTestNameParts");
+        PreCondition.assertNotUndefinedAndNotNull(currentTestAction, "currentTestAction");
         PreCondition.assertNotUndefinedAndNotNull(error, "error");
 
-        return PromiseAsyncResult.create(async () =>
+        return AsyncResult.create(async () =>
         {
+            await this.ui.afterFailedTest(currentTestAction, error);
+            const fullTestNameParts: JavascriptIterable<string> = currentTestAction.getFullNameParts();
             this.testFailures.add(FailedTest.create(fullTestNameParts, error));
-            await this.writeStream.writeLine(" - Failed");
         });
     }
 
@@ -239,7 +253,7 @@ export class ConsoleTestRunner extends TestRunner
         this.assertNoCurrentTest();
 
         this.pendingActions.insert(
-            this.pendingActionsInsertIndex,
+            this.getPendingTestActionsInsertIndex(),
             TestAction.create(
                 this.getCurrentTestAction(),
                 testGroupName,
@@ -251,14 +265,18 @@ export class ConsoleTestRunner extends TestRunner
                     const currentTestAction: TestAction = this.getCurrentTestAction()!;
                     try
                     {
+                        await this.beforeTestGroup(currentTestAction);
+
                         await testAction();
                     }
                     catch (error)
                     {
-                        await this.afterFailedTest(currentTestAction.getFullNameParts(), error);
+                        await this.afterFailedTest(currentTestAction, error);
                     }
                     finally
                     {
+                        await this.afterTestGroup(currentTestAction);
+
                         this.pendingActionsInsertIndex = previousTestActionInsertIndex;
                     }
                 },
@@ -299,10 +317,12 @@ export class ConsoleTestRunner extends TestRunner
                     const currentTestAction: TestAction = this.getCurrentTestAction()!;
                     try
                     {
-                        await this.beforeTest(currentTestAction.getFullNameParts());
-                        if (currentTestAction.shouldSkip())
+                        await this.beforeTest(currentTestAction);
+
+                        const skip: TestSkip | undefined = currentTestAction.getSkip();
+                        if (skip?.getShouldSkip())
                         {
-                            await this.afterSkippedTest(currentTestAction.getFullNameParts(), currentTestAction.getSkip());
+                            await this.afterSkippedTest(currentTestAction, skip);
                         }
                         else
                         {
@@ -310,7 +330,7 @@ export class ConsoleTestRunner extends TestRunner
                             try
                             {
                                 await testAction(this.currentTest);
-                                await this.afterPassedTest();
+                                await this.afterPassedTest(currentTestAction);
                             }
                             finally
                             {
@@ -320,7 +340,7 @@ export class ConsoleTestRunner extends TestRunner
                     }
                     catch (error)
                     {
-                        await this.afterFailedTest(currentTestAction.getFullNameParts(), error);
+                        await this.afterFailedTest(currentTestAction, error);
                     }
                 },
             ),
@@ -347,9 +367,9 @@ export class ConsoleTestRunner extends TestRunner
         }
     }
 
-    public printSummary(): PromiseAsyncResult<void>
+    public printSummary(): AsyncResult<void>
     {
-        return PromiseAsyncResult.create(async () =>
+        return AsyncResult.create(async () =>
         {
             await this.writeStream.writeLine();
 

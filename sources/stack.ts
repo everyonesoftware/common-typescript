@@ -23,6 +23,11 @@ export abstract class Stack<T>
     public abstract any(): AsyncResult<boolean>;
 
     /**
+     * Get the number of values that are currently in this {@link Stack}.
+     */
+    public abstract getCount(): AsyncResult<number>;
+
+    /**
      * Push the provided value onto the top of this {@link Stack}.
      * @param value The value to push on the top of this {@link Stack}.
      */

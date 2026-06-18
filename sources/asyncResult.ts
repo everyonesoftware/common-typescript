@@ -12,6 +12,14 @@ export abstract class AsyncResult<T> implements Promise<T>
     }
 
     /**
+     * Get an {@link AsyncResult} that is already completed and doesn't do anything.
+     */
+    public static empty(): AsyncResult<void>
+    {
+        return PromiseAsyncResult.empty();
+    }
+
+    /**
      * Create a new {@link AsyncResult} that contains the provided value.
      * @param value The value to wrap in a {@link AsyncResult}.
      */

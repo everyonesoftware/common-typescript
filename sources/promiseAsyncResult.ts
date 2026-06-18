@@ -41,6 +41,11 @@ export class PromiseAsyncResult<T> implements AsyncResult<T>
         return new PromiseAsyncResult(promise);
     }
 
+    public static empty(): PromiseAsyncResult<void>
+    {
+        return PromiseAsyncResult.create(Promise.resolve());
+    }
+
     public static value<T>(value: T): PromiseAsyncResult<T>
     {
         return PromiseAsyncResult.create(Promise.resolve(value));

@@ -3,9 +3,9 @@ import { Comparer } from "./comparer";
 import { ConcatenateIterable } from "./concatenateIterable";
 import { EqualFunctions } from "./equalFunctions";
 import { FlatMapIterable } from "./flatMapIterable";
+import { Indexable } from "./Indexable";
 import { Iterator } from "./iterator";
 import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { List } from "./list";
 import { MapIterable } from "./mapIterable";
 import { PreCondition } from "./preCondition";
 import { SyncResult } from "./syncResult";
@@ -20,7 +20,7 @@ export abstract class Iterable<T> implements JavascriptIterable<T>
 {
     public static create<T>(values?: JavascriptIterable<T>): Iterable<T>
     {
-        return List.create(values);
+        return Indexable.create(values);
     }
 
     /**

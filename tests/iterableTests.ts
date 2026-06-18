@@ -1,6 +1,86 @@
 import { Iterable } from "../sources/iterable";
 import { Test } from "./test";
+import { Iterator} from "../sources/iterator";
 import { TestRunner } from "./testRunner";
+import { EmptyError, JavascriptIterable } from "../sources";
+
+export function iterableTests<T>(runner: TestRunner, creator: () => Iterable<T>): void
+{
+    runner.testType("Iterable<T>", () =>
+    {
+        runner.testFunction("iterate()", (test: Test) =>
+        {
+            const iterable: Iterable<T> = creator();
+            
+            const iterator: Iterator<T> = iterable.iterate();
+            test.assertNotUndefinedAndNotNull(iterator);
+            test.assertFalse(iterator.hasStarted());
+            test.assertFalse(iterator.hasCurrent());
+        });
+
+        runner.testFunction("toArray()", (test: Test) =>
+        {
+            const iterable: Iterable<T> = creator();
+
+            const array: Array<T> = iterable.toArray().await();
+            test.assertNotUndefinedAndNotNull(array);
+            test.assertEqual(array.length, iterable.getCount().await());
+        });
+
+        runner.testFunction("any()", (test: Test) =>
+        {
+            const iterable: Iterable<T> = creator();
+            test.assertEqual(iterable.any().await(), iterable.getCount().await() > 0);
+        });
+
+        runner.testFunction("getCount()", (test: Test) =>
+        {
+            const iterable: Iterable<T> = creator();
+            test.assertEqual(0, iterable.getCount().await());
+        });
+
+        runner.testFunction("equals()", () =>
+        {
+            function equalsTest(left: Iterable<T>, right: JavascriptIterable<T>, expected: boolean): void
+            {
+                runner.test(`with ${runner.andList([left, right])}`, (test: Test) =>
+                {
+                    test.assertEqual(left.equals(right).await(), expected);
+                });
+            }
+
+            equalsTest(creator(), undefined!, false);
+            equalsTest(creator(), null!, false);
+            equalsTest(creator(), [], true);
+            equalsTest(creator(), creator(), true);
+        });
+
+        runner.testFunction("toString()", (test: Test) =>
+        {
+            const iterable: Iterable<T> = creator();
+            const stringValue: string = iterable.toString();
+            test.assertNotEmpty(stringValue);
+        });
+
+        runner.testFunction("first()", () =>
+        {
+            runner.test("when empty", (test: Test) =>
+            {
+                const iterable: Iterable<T> = creator();
+                test.assertThrows(() => iterable.first().await(), new EmptyError());
+            });
+        });
+
+        runner.testFunction("last()", () =>
+        {
+            runner.test("when empty", (test: Test) =>
+            {
+                const iterable: Iterable<T> = creator();
+                test.assertThrows(() => iterable.last().await(), new EmptyError());
+            });
+        });
+    });
+}
 
 export function test(runner: TestRunner): void
 {

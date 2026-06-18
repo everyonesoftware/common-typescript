@@ -1,4 +1,5 @@
 import { EqualFunctions } from "./equalFunctions";
+import { Indexable } from "./Indexable";
 import { Iterable } from "./iterable";
 import { Iterator } from "./iterator";
 import { JavascriptIterable, JavascriptIterator } from "./javascript";
@@ -9,7 +10,7 @@ import { SyncResult } from "./syncResult";
 import { ToStringFunctions } from "./toStringFunctions";
 import { isUndefinedOrNull, Type } from "./types";
 
-export abstract class List<T> implements Iterable<T>
+export abstract class List<T> implements Indexable<T>
 {
     // List cannot extend Iterable because List is the default implementation of List.
 
@@ -195,7 +196,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static toArray<T>(list: List<T>): SyncResult<T[]>
     {
-        return Iterable.toArray(list);
+        return Indexable.toArray(list);
     }
 
     public any(): SyncResult<boolean>
@@ -205,7 +206,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static any<T>(list: List<T>): SyncResult<boolean>
     {
-        return Iterable.any(list);
+        return Indexable.any(list);
     }
 
     public getCount(): SyncResult<number>
@@ -215,7 +216,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static getCount<T>(list: List<T>): SyncResult<number>
     {
-        return Iterable.getCount(list);
+        return Indexable.getCount(list);
     }
 
     public equals(right: JavascriptIterable<T>, equalFunctions?: EqualFunctions): SyncResult<boolean>
@@ -225,7 +226,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static equals<T>(left: List<T>, right: JavascriptIterable<T>, equalFunctions?: EqualFunctions): SyncResult<boolean>
     {
-        return Iterable.equals(left, right, equalFunctions);
+        return Indexable.equals(left, right, equalFunctions);
     }
 
     public toString(toStringFunctions?: ToStringFunctions): string
@@ -235,7 +236,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static toString<T>(list: List<T>, toStringFunctions?: ToStringFunctions): string
     {
-        return Iterable.toString(list, toStringFunctions);
+        return Indexable.toString(list, toStringFunctions);
     }
 
     public concatenate(...toConcatenate: JavascriptIterable<T>[]): Iterable<T>
@@ -245,7 +246,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static concatenate<T>(list: List<T>, ...toConcatenate: JavascriptIterable<T>[]): Iterable<T>
     {
-        return Iterable.concatenate(list, ...toConcatenate);
+        return Indexable.concatenate(list, ...toConcatenate);
     }
 
     public map<TOutput>(mapping: (value: T) => (TOutput | SyncResult<TOutput>)): Iterable<TOutput>
@@ -255,7 +256,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static map<TInput, TOutput>(list: List<TInput>, mapping: (value: TInput) => (TOutput | SyncResult<TOutput>)): Iterable<TOutput>
     {
-        return Iterable.map<TInput, TOutput>(list, mapping);
+        return Indexable.map<TInput, TOutput>(list, mapping);
     }
 
     public flatMap<TOutput>(mapping: (value: T) => JavascriptIterable<TOutput>): Iterable<TOutput>
@@ -265,7 +266,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static flatMap<TInput, TOutput>(list: List<TInput>, mapping: (value: TInput) => JavascriptIterable<TOutput>): Iterable<TOutput>
     {
-        return Iterable.flatMap<TInput, TOutput>(list, mapping);
+        return Indexable.flatMap<TInput, TOutput>(list, mapping);
     }
 
     public where(condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>
@@ -275,7 +276,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static where<T>(list: List<T>, condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>
     {
-        return Iterable.where(list, condition);
+        return Indexable.where(list, condition);
     }
 
     public instanceOf<TOutput extends T>(typeOrTypeCheck: Type<TOutput> | ((value: T) => value is TOutput)): Iterable<TOutput>
@@ -285,7 +286,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static instanceOf<TInput, TOutput extends TInput>(list: List<TInput>, typeOrTypeCheck: Type<TOutput> | ((value: TInput) => value is TOutput)): Iterable<TOutput>
     {
-        return Iterable.instanceOf(list, typeOrTypeCheck);
+        return Indexable.instanceOf(list, typeOrTypeCheck);
     }
 
     public first(condition?: ((value: T) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<T>
@@ -295,7 +296,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static first<T>(list: List<T>, condition?: (value: T) => (boolean | SyncResult<boolean>)): SyncResult<T>
     {
-        return condition ? Iterable.first(list, condition) : list.get(0);
+        return Indexable.first(list, condition);
     }
 
     public last(condition?: ((value: T) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<T>
@@ -305,7 +306,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static last<T>(list: List<T>, condition?: (value: T) => (boolean | SyncResult<boolean>)): SyncResult<T>
     {
-        return condition ? Iterable.last(list, condition) : list.get(list.getCount().await() - 1);
+        return Indexable.last(list, condition);
     }
 
     public [Symbol.iterator](): JavascriptIterator<T>
@@ -315,7 +316,7 @@ export abstract class List<T> implements Iterable<T>
 
     public static [Symbol.iterator]<T>(list: List<T>): JavascriptIterator<T>
     {
-        return Iterable[Symbol.iterator](list);
+        return Indexable[Symbol.iterator](list);
     }
 
     public contains(value: T, equalFunctions?: EqualFunctions): SyncResult<boolean>
@@ -325,6 +326,6 @@ export abstract class List<T> implements Iterable<T>
 
     public static contains<T>(list: List<T>, value: T, equalFunctions?: EqualFunctions): SyncResult<boolean>
     {
-        return Iterable.contains(list, value, equalFunctions);
+        return Indexable.contains(list, value, equalFunctions);
     }
 }

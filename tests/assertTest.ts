@@ -5,6 +5,7 @@ import { isFunction, Type } from "../sources/types";
 import { Test } from "./test";
 import { SyncResult } from "../sources/syncResult";
 import { PromiseAsyncResult } from "../sources/promiseAsyncResult";
+import { JavascriptIterable } from "../sources";
 
 /**
  * A {@link Test} type that uses the standard "assert" module to make assertions.
@@ -56,6 +57,11 @@ export class AssertTest implements Test
     public assertNotUndefinedAndNotNull<T>(value: T): asserts value is NonNullable<T>
     {
         Test.assertNotUndefinedAndNotNull(this, value);
+    }
+
+    public assertNotEmpty(value: JavascriptIterable<unknown>): void
+    {
+        Test.assertNotEmpty(this, value);
     }
 
     public assertSame<T>(left: T, right: T): void

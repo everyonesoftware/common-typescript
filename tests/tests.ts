@@ -5,6 +5,7 @@ import * as byteListTests from "./byteListTests";
 import * as byteTests from "./bytesTests";
 import * as characterListStreamTests from "./characterListStreamTests";
 import * as characterListTests from "./characterListTests";
+import * as commandLineParametersTests from "./CommandLineParametersTests";
 import * as comparerTests from "./comparerTests";
 import * as conditionTests from "./conditionTests";
 import * as consoleTestRunner2Tests from "./consoleTestRunnerTests";
@@ -16,6 +17,7 @@ import * as equalFunctionsTests from "./equalFunctionsTests";
 import * as fetchHttpClientTests from "./fetchHttpClientTests";
 import * as generatorTests from "./generatorTests";
 import * as httpClientTests from "./httpClientTests";
+import * as indentedCharacterWriteStreamTests from "./IndentedCharacterWriteStreamTests";
 import * as inMemoryCharacterWriteStreamTests from "./inMemoryCharacterWriteStreamTests";
 import * as iterableTests from "./iterableTests";
 import * as iteratorTests from "./iteratorTests";
@@ -45,8 +47,8 @@ import * as toStringFunctionsTests from "./toStringFunctionsTests";
 import * as typesTests from "./typesTests";
 import * as whereIteratorTests from "./whereIteratorTests";
 import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests";
-import * as commandLineParametersTests from "./CommandLineParametersTests";
-import * as indentedCharacterWriteStreamTests from "./IndentedCharacterWriteStreamTests";
+import * as characterTableTests from "./CharacterTableTests";
+import * as indexableTests from "./IndexableTests";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -54,18 +56,24 @@ async function tests(): Promise<void>
 {
     await ConsoleTestRunner.run([
         assertTestTests,
-        promiseAsyncResultTests.test,
+        byteListStreamTests,
+        byteListTests,
         byteTests.test,
+        characterListStreamTests,
+        characterListTests,
+        commandLineParametersTests,
         comparerTests,
         conditionTests,
         consoleTestRunner2Tests,
         dateTimeTests,
+        depthFirstSearchTests,
         disposableTests,
         englishTests,
         equalFunctionsTests.test,
         fetchHttpClientTests,
         generatorTests,
         httpClientTests,
+        indentedCharacterWriteStreamTests,
         inMemoryCharacterWriteStreamTests,
         iterableTests,
         iteratorTests,
@@ -78,10 +86,12 @@ async function tests(): Promise<void>
         notFoundErrorTests,
         postConditionErrorTests,
         preConditionErrorTests,
+        promiseAsyncResultTests.test,
         propertyTests,
         queueTests,
         realHttpServerTests,
         recreationDotGovClientTests,
+        setTests,
         stackTests,
         stringComparerTests,
         stringIteratorTests,
@@ -93,14 +103,8 @@ async function tests(): Promise<void>
         typesTests,
         whereIteratorTests,
         wonderlandTrailClientTests,
-        setTests,
-        depthFirstSearchTests,
-        byteListTests,
-        byteListStreamTests,
-        characterListTests,
-        characterListStreamTests,
-        commandLineParametersTests,
-        indentedCharacterWriteStreamTests,
+        characterTableTests,
+        indexableTests,
     ]);
 }
 

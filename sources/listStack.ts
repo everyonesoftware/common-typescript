@@ -25,6 +25,11 @@ export class ListStack<T> implements Stack<T>
         return this.list.any();
     }
 
+    public getCount(): SyncResult<number>
+    {
+        return this.list.getCount();
+    }
+
     public add(value: T): SyncResult<void>
     {
         return SyncResult.create(() =>
