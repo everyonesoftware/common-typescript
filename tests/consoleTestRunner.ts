@@ -5,7 +5,7 @@ import { JavascriptIterable } from "../sources/javascript";
 import { List } from "../sources/list";
 import { NodeJSCharacterWriteStream } from "../sources/nodeJSCharacterWriteStream";
 import { PreCondition } from "../sources/preCondition";
-import { isFunction, isJavascriptIterable, isPromise } from "../sources/types";
+import { isFunction, isJavascriptIterable } from "../sources/types";
 import { AssertTest } from "./assertTest";
 import { FailedTest } from "./failedTest";
 import { SkippedTest } from "./skippedTest";
@@ -21,10 +21,10 @@ export type ConsoleTestFunctionContainer = { test: ConsoleTestFunction };
 
 export class ConsoleTestRunner extends TestRunner
 {
-    private writeStream: IndentedCharacterWriteStream;
+    private writeStream: CharacterWriteStream;
 
-    private readonly pendingActions: List<TestAction>;
-    private pendingActionsInsertIndex: number;
+    private readonly testActions: List<TestAction>;
+    private testActionInsertIndex: number;
     private currentTestAction: TestAction | undefined;
     private currentTest: Test | undefined;
 
@@ -40,14 +40,14 @@ export class ConsoleTestRunner extends TestRunner
 
         this.writeStream = IndentedCharacterWriteStream.create(NodeJSCharacterWriteStream.create(process.stdout));
 
-        this.pendingActions = List.create();
-        this.pendingActionsInsertIndex = 0;
+        this.testActions = List.create();
+        this.testActionInsertIndex = 0;
 
         this.passedTestCount = 0;
         this.skippedTests = List.create();
         this.testFailures = List.create();
 
-        this.ui = ui || ConsoleTestRunnerUI.flat();
+        this.ui = ui || ConsoleTestRunnerUI.tree();
         this.ui.setWriteStream(this.writeStream);
     }
 
@@ -114,18 +114,31 @@ export class ConsoleTestRunner extends TestRunner
     /**
      * Get the number of {@link TestAction}s that have yet to be executed.
      */
-    public getPendingTestActionsCount(): number
+    public getTestActionCount(): number
     {
-        return this.pendingActions.getCount().await();
+        return this.testActions.getCount().await();
     }
 
     /**
-     * Get the index in the pending-{@link TestAction} stack that new {@link TestAction}s will be
+     * Get the index in the {@link TestAction} list that new {@link TestAction}s will be
      * inserted at.
      */
-    public getPendingTestActionsInsertIndex(): number
+    public getTestActionInsertIndex(): number
     {
-        return this.pendingActionsInsertIndex;
+        return this.testActionInsertIndex;
+    }
+
+    private resetTestActionInsertIndex(): void
+    {
+        this.testActionInsertIndex = 0;
+    }
+
+    private insertTestAction(testActionName: string, skip: TestSkip | undefined, action: () => (void | Promise<void>))
+    {
+        const parentTestAction: TestAction | undefined = this.getCurrentTestAction();
+        const testAction: TestAction = TestAction.create(parentTestAction, testActionName, skip, action);
+        this.testActions.insert(this.testActionInsertIndex, testAction);
+        this.testActionInsertIndex++;
     }
 
     /**
@@ -175,7 +188,7 @@ export class ConsoleTestRunner extends TestRunner
 
     private assertNoCurrentTest(): void
     {
-        if (this.currentTest !== undefined)
+        if (this.currentTest)
         {
             this.currentTest.fail("Can't start a new test group or a new test while running a test.");
         }
@@ -252,36 +265,33 @@ export class ConsoleTestRunner extends TestRunner
 
         this.assertNoCurrentTest();
 
-        this.pendingActions.insert(
-            this.getPendingTestActionsInsertIndex(),
-            TestAction.create(
-                this.getCurrentTestAction(),
-                testGroupName,
-                skip,
-                async () =>
+        this.insertTestAction(
+            testGroupName,
+            skip,
+            () => this.beforeTestGroup(this.getCurrentTestAction()!),
+        )
+        this.insertTestAction(
+            testGroupName,
+            skip,
+            async () =>
+            {
+                this.resetTestActionInsertIndex();
+                try
                 {
-                    const previousTestActionInsertIndex: number = this.pendingActionsInsertIndex;
-                    this.pendingActionsInsertIndex = this.pendingActions.getCount().await();
-                    const currentTestAction: TestAction = this.getCurrentTestAction()!;
-                    try
-                    {
-                        await this.beforeTestGroup(currentTestAction);
-
-                        await testAction();
-                    }
-                    catch (error)
-                    {
-                        await this.afterFailedTest(currentTestAction, error);
-                    }
-                    finally
-                    {
-                        await this.afterTestGroup(currentTestAction);
-
-                        this.pendingActionsInsertIndex = previousTestActionInsertIndex;
-                    }
-                },
-            ),
+                    await testAction();
+                }
+                catch (error)
+                {
+                    const currentTestGroupAction: TestAction = this.getCurrentTestAction()!;
+                    await this.afterFailedTest(currentTestGroupAction, error);
+                }
+            },
         );
+        this.insertTestAction(
+            testGroupName,
+            skip,
+            () => this.afterTestGroup(this.getCurrentTestAction()!),
+        )
     }
 
     public test(testName: string, testAction: (test: Test) => (void | Promise<void>)): void;
@@ -306,65 +316,60 @@ export class ConsoleTestRunner extends TestRunner
 
         this.assertNoCurrentTest();
 
-        this.pendingActions.insert(
-            this.pendingActionsInsertIndex,
-            TestAction.create(
-                this.getCurrentTestAction(),
-                testName,
-                skip,
-                async () =>
+        this.insertTestAction(
+            testName,
+            skip,
+            async () =>
+            {
+                const currentTestAction: TestAction = this.getCurrentTestAction()!;
+                try
                 {
-                    const currentTestAction: TestAction = this.getCurrentTestAction()!;
-                    try
-                    {
-                        await this.beforeTest(currentTestAction);
+                    await this.beforeTest(currentTestAction);
 
-                        const skip: TestSkip | undefined = currentTestAction.getSkip();
-                        if (skip?.getShouldSkip())
-                        {
-                            await this.afterSkippedTest(currentTestAction, skip);
-                        }
-                        else
-                        {
-                            this.currentTest = AssertTest.create(testName);
-                            try
-                            {
-                                await testAction(this.currentTest);
-                                await this.afterPassedTest(currentTestAction);
-                            }
-                            finally
-                            {
-                                this.currentTest = undefined;
-                            }
-                        }
-                    }
-                    catch (error)
+                    const skip: TestSkip | undefined = currentTestAction.getSkip();
+                    if (skip?.getShouldSkip())
                     {
-                        await this.afterFailedTest(currentTestAction, error);
+                        await this.afterSkippedTest(currentTestAction, skip);
                     }
-                },
-            ),
+                    else
+                    {
+                        this.currentTest = AssertTest.create(testName);
+                        try
+                        {
+                            await testAction(this.currentTest);
+                        }
+                        finally
+                        {
+                            this.currentTest = undefined;
+                        }
+                        await this.afterPassedTest(currentTestAction);
+                    }
+                }
+                catch (error)
+                {
+                    await this.afterFailedTest(currentTestAction, error);
+                }
+            },
         );
     }
 
     public async runAsync(): Promise<void>
     {
-        while (this.pendingActions.any().await())
+        while (this.testActions.any().await())
         {
-            this.currentTestAction = this.pendingActions.removeLast().await();
+            this.resetTestActionInsertIndex();
+
+            this.currentTestAction = this.testActions.removeFirst().await();
             try
             {
-                const result: void | Promise<void> = this.currentTestAction.runAsync();
-                if (isPromise(result))
-                {
-                    await result;
-                }
+                await this.currentTestAction.runAsync();
             }
             finally
             {
                 this.currentTestAction = undefined;
             }
         }
+        this.resetTestActionInsertIndex();
     }
 
     public printSummary(): AsyncResult<void>

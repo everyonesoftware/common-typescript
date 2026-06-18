@@ -15,8 +15,8 @@ import * as testRunnerTests from "./testRunnerTests";
 
 interface RunnerStats
 {
-    pendingTestActionsCount: number;
-    pendingTestActionInsertIndex: number;
+    testActionCount: number;
+    testActionInsertIndex: number;
     passed: number;
     skipped: number;
     failed: number;
@@ -24,8 +24,8 @@ interface RunnerStats
 
 function assertRunnerStats(test: Test, runner: ConsoleTestRunner, stats: RunnerStats): void
 {
-    test.assertEqual(stats.pendingTestActionsCount, runner.getPendingTestActionsCount(), "Wrong pending TestActions count");
-    test.assertEqual(stats.pendingTestActionInsertIndex, runner.getPendingTestActionsInsertIndex(), "Wrong pending TestActions insert index");
+    test.assertEqual(stats.testActionCount, runner.getTestActionCount(), "Wrong pending TestActions count");
+    test.assertEqual(stats.testActionInsertIndex, runner.getTestActionInsertIndex(), "Wrong pending TestActions insert index");
     test.assertEqual(stats.passed, runner.getPassedTestCount(), "Wrong passed test count");
     test.assertEqual(stats.skipped, runner.getSkippedTestCount(), "Wrong skipped test count");
     test.assertEqual(stats.failed, runner.getFailedTestCount(), "Wrong failed test count");
@@ -43,8 +43,8 @@ export function test(runner: TestRunner): void
             {
                 const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
                 test.assertNotUndefinedAndNotNull(runner2);
-                test.assertEqual(0, runner2.getPendingTestActionsCount());
-                test.assertEqual(0, runner2.getPendingTestActionsInsertIndex());
+                test.assertEqual(0, runner2.getTestActionCount());
+                test.assertEqual(0, runner2.getTestActionInsertIndex());
                 test.assertUndefined(runner2.getCurrentTestAction());
             });
 
@@ -65,8 +65,8 @@ export function test(runner: TestRunner): void
                     });
                     test.assertEqual(0, counter);
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 3,
+                        testActionInsertIndex: 3,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -80,8 +80,8 @@ export function test(runner: TestRunner): void
                         test.assertEqual(1, counter);
                         test.assertUndefined(runner2.getCurrentTestAction());
                         assertRunnerStats(test, runner2, {
-                            pendingTestActionsCount: 0,
-                            pendingTestActionInsertIndex: 0,
+                            testActionCount: 0,
+                            testActionInsertIndex: 0,
                             skipped: 0,
                             passed: 0,
                             failed: 0,
@@ -102,8 +102,8 @@ export function test(runner: TestRunner): void
                     test.assertEqual(0, counter);
                     test.assertUndefined(runner2.getCurrentTestAction());
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 3,
+                        testActionInsertIndex: 3,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -117,8 +117,8 @@ export function test(runner: TestRunner): void
                         test.assertEqual(1, counter);
                         test.assertUndefined(runner2.getCurrentTestAction());
                         assertRunnerStats(test, runner2, {
-                            pendingTestActionsCount: 0,
-                            pendingTestActionInsertIndex: 0,
+                            testActionCount: 0,
+                            testActionInsertIndex: 0,
                             skipped: 0,
                             passed: 0,
                             failed: 0,
@@ -147,8 +147,8 @@ export function test(runner: TestRunner): void
                     test.assertEqual(0, counter);
                     test.assertUndefined(runner2.getCurrentTestAction());
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 1,
+                        testActionInsertIndex: 1,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -161,8 +161,8 @@ export function test(runner: TestRunner): void
                         test.assertEqual(1, counter);
                         test.assertUndefined(runner2.getCurrentTestAction());
                         assertRunnerStats(test, runner2, {
-                            pendingTestActionsCount: 0,
-                            pendingTestActionInsertIndex: 0,
+                            testActionCount: 0,
+                            testActionInsertIndex: 0,
                             skipped: 0,
                             passed: 1,
                             failed: 0,
@@ -183,8 +183,8 @@ export function test(runner: TestRunner): void
                         test.assertEqual("_WhereIterable", currentTestAction.getName());
                     });
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 3,
+                        testActionInsertIndex: 3,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -192,8 +192,8 @@ export function test(runner: TestRunner): void
 
                     await runner2.runAsync();
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -211,8 +211,8 @@ export function test(runner: TestRunner): void
                     test.assertEqual("fakeFunction()", currentTestAction.getName());
                 });
                 assertRunnerStats(test, runner2, {
-                    pendingTestActionsCount: 1,
-                    pendingTestActionInsertIndex: 0,
+                    testActionCount: 3,
+                    testActionInsertIndex: 3,
                     skipped: 0,
                     passed: 0,
                     failed: 0,
@@ -220,8 +220,8 @@ export function test(runner: TestRunner): void
 
                 await runner2.runAsync();
                 assertRunnerStats(test, runner2, {
-                    pendingTestActionsCount: 0,
-                    pendingTestActionInsertIndex: 0,
+                    testActionCount: 0,
+                    testActionInsertIndex: 0,
                     skipped: 0,
                     passed: 0,
                     failed: 0,
@@ -240,8 +240,8 @@ export function test(runner: TestRunner): void
                         test.assertEqual("fake group", currentTestAction.getName());
                     });
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 3,
+                        testActionInsertIndex: 3,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -249,8 +249,8 @@ export function test(runner: TestRunner): void
 
                     await runner2.runAsync();
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -266,8 +266,8 @@ export function test(runner: TestRunner): void
                         counter++;
                     });
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 3,
+                        testActionInsertIndex: 3,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -276,8 +276,8 @@ export function test(runner: TestRunner): void
 
                     await runner2.runAsync();
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -296,8 +296,8 @@ export function test(runner: TestRunner): void
                         });
                     });
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 3,
+                        testActionInsertIndex: 3,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -305,8 +305,8 @@ export function test(runner: TestRunner): void
 
                     await runner2.runAsync();
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 1,
                         passed: 0,
                         failed: 0,
@@ -331,8 +331,8 @@ export function test(runner: TestRunner): void
                         throw Error("oops!");
                     });
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 3,
+                        testActionInsertIndex: 3,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -340,8 +340,8 @@ export function test(runner: TestRunner): void
 
                     await runner2.runAsync();
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 0,
                         passed: 0,
                         failed: 1,
@@ -363,8 +363,8 @@ export function test(runner: TestRunner): void
                         test.assertSame(test2, runner2.getCurrentTest());
                     });
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 1,
+                        testActionInsertIndex: 1,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -372,8 +372,8 @@ export function test(runner: TestRunner): void
 
                     await runner2.runAsync();
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 0,
                         passed: 1,
                         failed: 0,
@@ -411,8 +411,8 @@ export function test(runner: TestRunner): void
                     });
                     test.assertEqual(0, counter);
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 3,
+                        testActionInsertIndex: 3,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -421,8 +421,8 @@ export function test(runner: TestRunner): void
                     await runner2.runAsync();
                     test.assertEqual(2, counter);
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 0,
                         passed: 1,
                         failed: 0,
@@ -473,10 +473,9 @@ export function test(runner: TestRunner): void
                         test.assertEqual(1, counter);
                     });
                     test.assertEqual(0, counter);
-                    test.assertEqual(1, runner2.getPendingTestActionsCount());
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 3,
+                        testActionInsertIndex: 3,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -485,8 +484,8 @@ export function test(runner: TestRunner): void
                     await runner2.runAsync();
                     test.assertEqual(3, counter);
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 0,
                         passed: 1,
                         failed: 0,
@@ -499,8 +498,8 @@ export function test(runner: TestRunner): void
                     runner2.test("fake-test-1", () =>
                     {
                         assertRunnerStats(test, runner2, {
-                            pendingTestActionsCount: 0,
-                            pendingTestActionInsertIndex: 0,
+                            testActionCount: 0,
+                            testActionInsertIndex: 0,
                             skipped: 0,
                             passed: 0,
                             failed: 0,
@@ -518,16 +517,16 @@ export function test(runner: TestRunner): void
                         );
 
                         assertRunnerStats(test, runner2, {
-                            pendingTestActionsCount: 0,
-                            pendingTestActionInsertIndex: 0,
+                            testActionCount: 0,
+                            testActionInsertIndex: 0,
                             skipped: 0,
                             passed: 0,
                             failed: 0,
                         });
                     });
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 1,
+                        testActionInsertIndex: 1,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -535,8 +534,8 @@ export function test(runner: TestRunner): void
 
                     await runner2.runAsync();
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 0,
                         passed: 1,
                         failed: 0,
@@ -551,8 +550,8 @@ export function test(runner: TestRunner): void
                         test.fail("Should not run test action")
                     });
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 1,
+                        testActionInsertIndex: 1,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -560,8 +559,8 @@ export function test(runner: TestRunner): void
 
                     await runner2.runAsync();
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 1,
                         passed: 0,
                         failed: 0,
@@ -584,8 +583,8 @@ export function test(runner: TestRunner): void
                         test.assertEqual(1, 2);
                     });
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 1,
+                        testActionInsertIndex: 1,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -593,8 +592,8 @@ export function test(runner: TestRunner): void
 
                     await runner2.runAsync();
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 0,
                         passed: 0,
                         failed: 1,
@@ -619,8 +618,8 @@ export function test(runner: TestRunner): void
                         throw new PreConditionError("oops!");
                     });
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 1,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 1,
+                        testActionInsertIndex: 1,
                         skipped: 0,
                         passed: 0,
                         failed: 0,
@@ -628,8 +627,8 @@ export function test(runner: TestRunner): void
 
                     await runner2.runAsync();
                     assertRunnerStats(test, runner2, {
-                        pendingTestActionsCount: 0,
-                        pendingTestActionInsertIndex: 0,
+                        testActionCount: 0,
+                        testActionInsertIndex: 0,
                         skipped: 0,
                         passed: 0,
                         failed: 1,
