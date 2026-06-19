@@ -1,34 +1,30 @@
 import { JavascriptIterable } from "../sources/javascript";
 import { PreCondition } from "../sources/preCondition";
 import { join } from "../sources/strings";
+import { TestAction } from "./testAction";
 
 export class FailedTest
 {
-    private readonly fullTestNameParts: JavascriptIterable<string>;
+    private readonly testAction: TestAction;
     private readonly error: unknown;
 
-    private constructor(fullTestNameParts: JavascriptIterable<string>, error: unknown)
+    private constructor(testAction: TestAction, error: unknown)
     {
-        PreCondition.assertNotEmpty(fullTestNameParts, "fullTestName");
+        PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
         PreCondition.assertNotUndefinedAndNotNull(error, "error");
 
-        this.fullTestNameParts = fullTestNameParts;
+        this.testAction = testAction;
         this.error = error;
     }
 
-    public static create(fullTestNameParts: JavascriptIterable<string>, error: unknown): FailedTest
+    public static create(testAction: TestAction, error: unknown): FailedTest
     {
-        return new FailedTest(fullTestNameParts, error);
+        return new FailedTest(testAction, error);
     }
 
-    public getFullTestNameParts(): JavascriptIterable<string>
+    public getTestAction(): TestAction
     {
-        return this.fullTestNameParts;
-    }
-
-    public getFullTestName(): string
-    {
-        return join(" ", this.fullTestNameParts);
+        return this.testAction;
     }
 
     public getError(): unknown

@@ -41,7 +41,9 @@ export function test(runner: TestRunner): void
 
             runner.testFunction("create()", (test: Test) =>
             {
-                const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+
                 test.assertNotUndefinedAndNotNull(runner2);
                 test.assertEqual(0, runner2.getTestActionCount());
                 test.assertEqual(0, runner2.getTestActionInsertIndex());
@@ -130,7 +132,9 @@ export function test(runner: TestRunner): void
                 runner.test("with Test argument in testAction", async (test: Test) =>
                 {
                     let counter: number = 0;
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+
                     runner2.testFile("fakeFile.ts", (test2: Test) =>
                     {
                         counter++;
@@ -175,7 +179,9 @@ export function test(runner: TestRunner): void
             {
                 runner.test("with Type instead of type name", async (test: Test) =>
                 {
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+
                     runner2.testType(WhereIterable, () =>
                     {
                         const currentTestAction: TestAction | undefined = runner2.getCurrentTestAction();
@@ -203,7 +209,9 @@ export function test(runner: TestRunner): void
 
             runner.testFunction("testFunction()", async (test: Test) =>
             {
-                const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+
                 runner2.testFunction("fakeFunction()", () =>
                 {
                     const currentTestAction: TestAction | undefined = runner2.getCurrentTestAction();
@@ -232,7 +240,9 @@ export function test(runner: TestRunner): void
             {
                 runner.test("normal behavior", async (test: Test) =>
                 {
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+                    
                     runner2.testGroup("fake group", () =>
                     {
                         const currentTestAction: TestAction | undefined = runner2.getCurrentTestAction();
@@ -259,7 +269,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with skip but no tests", async (test: Test) =>
                 {
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+                    
                     let counter: number = 0;
                     runner2.testGroup("fake group", runner2.skip(), () =>
                     {
@@ -287,7 +299,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with skip and one test", async (test: Test) =>
                 {
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+                    
                     runner2.testGroup("fake-group", runner2.skip("fake-group-skip-message"), () =>
                     {
                         runner2.test("fake-test", (test: Test) =>
@@ -318,14 +332,16 @@ export function test(runner: TestRunner): void
                     test.assertNotUndefinedAndNotNull(skippedTest);
                     test.assertEqual(
                         List.create(["fake-group", "fake-test"]),
-                        skippedTest.getFullTestNameParts(),
+                        skippedTest.getTestAction().getFullNameParts(),
                     );
                     test.assertEqual("fake-group-skip-message", skippedTest.getSkipMessage());
                 });
 
                 runner.test("with unhandled exception", async (test: Test) =>
                 {
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+                    
                     runner2.testGroup("fake group", () =>
                     {
                         throw Error("oops!");
@@ -353,7 +369,9 @@ export function test(runner: TestRunner): void
             {
                 runner.test("with no parent", async (test: Test) =>
                 {
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+                    
                     runner2.test("fake test", (test2: Test) =>
                     {
                         const currentTestAction: TestAction | undefined = runner2.getCurrentTestAction();
@@ -383,7 +401,9 @@ export function test(runner: TestRunner): void
                 runner.test("with TestGroup parent", async (test: Test) =>
                 {
                     let counter: number = 0;
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+                    
                     runner2.testGroup("fake-test-group", () =>
                     {
                         counter++;
@@ -432,7 +452,8 @@ export function test(runner: TestRunner): void
                 runner.test("with TestGroup grandparent", async (test: Test) =>
                 {
                     let counter: number = 0;
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
                     runner2.testGroup("fake-test-group-1", () =>
                     {
                         counter++;
@@ -452,7 +473,7 @@ export function test(runner: TestRunner): void
                             test.assertNotUndefinedAndNotNull(testGroupAction);
                             test.assertEqual("fake-test-group-1 fake-test-group-2", testGroupAction.getFullName());
                             test.assertEqual("fake-test-group-2", testGroupAction.getName());
-                            
+
                             runner2.test("fake-test", (test2: Test) =>
                             {
                                 counter++;
@@ -494,7 +515,8 @@ export function test(runner: TestRunner): void
 
                 runner.test("with Test parent", async (test: Test) =>
                 {
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
                     runner2.test("fake-test-1", () =>
                     {
                         assertRunnerStats(test, runner2, {
@@ -544,7 +566,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with skip", async (test: Test) =>
                 {
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+
                     runner2.test("fake-test-1", runner2.skip(true, "fake-skip-message"), () =>
                     {
                         test.fail("Should not run test action")
@@ -571,13 +595,15 @@ export function test(runner: TestRunner): void
                     test.assertEqual(1, await skippedTests.getCount());
                     const skippedTest: SkippedTest = await skippedTests.first();
                     test.assertNotUndefinedAndNotNull(skippedTest);
-                    test.assertEqual(Iterable.create(["fake-test-1"]), skippedTest.getFullTestNameParts());
+                    test.assertEqual(Iterable.create(["fake-test-1"]), skippedTest.getTestAction().getFullNameParts());
                     test.assertEqual("fake-skip-message", skippedTest.getSkipMessage());
                 });
 
                 runner.test("with assert failure", async (test: Test) =>
                 {
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+
                     runner2.test("fake-test-1", () =>
                     {
                         test.assertEqual(1, 2);
@@ -604,7 +630,7 @@ export function test(runner: TestRunner): void
                     test.assertEqual(1, await failedTests.getCount());
                     const failedTest: FailedTest = await failedTests.first();
                     test.assertNotUndefinedAndNotNull(failedTest);
-                    test.assertEqual(Iterable.create(["fake-test-1"]), failedTest.getFullTestNameParts());
+                    test.assertEqual(Iterable.create(["fake-test-1"]), failedTest.getTestAction().getFullNameParts());
                     const errorMessage: string = failedTest.getErrorMessage();
                     test.assertTrue(errorMessage.includes("AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:"));
                     test.assertTrue(errorMessage.includes("1 !== 2"));
@@ -612,7 +638,9 @@ export function test(runner: TestRunner): void
 
                 runner.test("with unexpected failure", async (test: Test) =>
                 {
-                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const runner2: ConsoleTestRunner = ConsoleTestRunner.create().setWriteStream(writeStream);
+
                     runner2.test("fake-test-1", () =>
                     {
                         throw new PreConditionError("oops!");
@@ -639,7 +667,7 @@ export function test(runner: TestRunner): void
                     test.assertEqual(1, await failedTests.getCount());
                     const failedTest: FailedTest = await failedTests.first();
                     test.assertNotUndefinedAndNotNull(failedTest);
-                    test.assertEqual(Iterable.create(["fake-test-1"]), failedTest.getFullTestNameParts());
+                    test.assertEqual(Iterable.create(["fake-test-1"]), failedTest.getTestAction().getFullNameParts());
                     const errorMessage: string = failedTest.getErrorMessage();
                     test.assertTrue(errorMessage.includes("Error: oops!"));
                     test.assertEqual(failedTest.getError(), new PreConditionError("oops!"));

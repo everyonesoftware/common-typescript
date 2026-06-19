@@ -1,25 +1,24 @@
-import { JavascriptIterable } from "../sources/javascript";
 import { PreCondition } from "../sources/preCondition";
-import { join } from "../sources/strings";
+import { TestAction } from "./testAction";
 import { TestSkip } from "./testSkip";
 
 export class SkippedTest
 {
     private readonly skip: TestSkip;
-    private readonly fullTestNameParts: JavascriptIterable<string>;
+    private readonly testAction: TestAction;
 
-    private constructor(skip: TestSkip, fullTestNameParts: JavascriptIterable<string>)
+    private constructor(skip: TestSkip, testAction: TestAction)
     {
         PreCondition.assertNotUndefinedAndNotNull(skip, "skip");
-        PreCondition.assertNotEmpty(fullTestNameParts, "fullTestNameParts");
+        PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
 
         this.skip = skip;
-        this.fullTestNameParts = fullTestNameParts;
+        this.testAction = testAction;
     }
 
-    public static create(skip: TestSkip, fullTestNameParts: JavascriptIterable<string>): SkippedTest
+    public static create(skip: TestSkip, testAction: TestAction): SkippedTest
     {
-        return new SkippedTest(skip, fullTestNameParts);
+        return new SkippedTest(skip, testAction);
     }
 
     public getSkipMessage(): string
@@ -27,13 +26,8 @@ export class SkippedTest
         return this.skip.getMessage();
     }
 
-    public getFullTestNameParts(): JavascriptIterable<string>
+    public getTestAction(): TestAction
     {
-        return this.fullTestNameParts;
-    }
-
-    public getFullTestName(): string
-    {
-        return join(" ", this.fullTestNameParts);
+        return this.testAction;
     }
 }

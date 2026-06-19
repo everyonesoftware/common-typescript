@@ -4,27 +4,32 @@ import { PreCondition } from "../sources/preCondition";
 import { join } from "../sources/strings";
 import { TestSkip } from "./testSkip";
 
+export type TestActionType = "file" | "type" | "function" | "group" | "test";
+
 export class TestAction
 {
     private readonly parent: TestAction | undefined;
     private readonly name: string;
+    private readonly type: TestActionType;
     private readonly skip: TestSkip | undefined;
     private readonly action: () => (void | Promise<void>);
 
-    private constructor(parent: TestAction | undefined, name: string, skip: TestSkip | undefined, action: () => (void | Promise<void>))
+    private constructor(parent: TestAction | undefined, name: string, type: TestActionType, skip: TestSkip | undefined, action: () => (void | Promise<void>))
     {
         PreCondition.assertNotUndefinedAndNotNull(name, "name");
+        PreCondition.assertNotEmpty(type, "type");
         PreCondition.assertNotUndefinedAndNotNull(action, "action");
 
         this.parent = parent;
         this.name = name;
+        this.type = type;
         this.skip = skip;
         this.action = action;
     }
 
-    public static create(parent: TestAction | undefined, name: string, skip: TestSkip | undefined, action: () => (void | Promise<void>)): TestAction
+    public static create(parent: TestAction | undefined, name: string, type: TestActionType, skip: TestSkip | undefined, action: () => (void | Promise<void>)): TestAction
     {
-        return new TestAction(parent, name, skip, action);
+        return new TestAction(parent, name, type, skip, action);
     }
 
     public getParent(): TestAction | undefined
@@ -51,6 +56,11 @@ export class TestAction
     public getFullName(): string
     {
         return join(" ", this.getFullNameParts());
+    }
+
+    public getType(): TestActionType
+    {
+        return this.type;
     }
 
     public getSkip(): TestSkip | undefined

@@ -16,7 +16,7 @@ export function test(runner: TestRunner): void
                 {
                     runner.test(`with ${!parent ? runner.toString(parent) : "defined parent"}, ${runner.toString(name)}, and ${!action ? runner.toString(action) : "defined action"}`, (test: Test) =>
                     {
-                        test.assertThrows(() => TestAction.create(parent, name, undefined, action), expected);
+                        test.assertThrows(() => TestAction.create(parent, name, "test", undefined, action), expected);
                     });
                 }
 
@@ -65,7 +65,7 @@ export function test(runner: TestRunner): void
                 {
                     runner.test(`with ${!parent ? runner.toString(parent) : "defined parent"}, ${runner.toString(name)}, and ${!action ? runner.toString(action) : "defined action"}`, (test: Test) =>
                     {
-                        const testAction: TestAction = TestAction.create(parent, name, undefined, action);
+                        const testAction: TestAction = TestAction.create(parent, name, "file", undefined, action);
                         test.assertNotUndefinedAndNotNull(testAction);
                         test.assertSame(parent, testAction.getParent());
                         test.assertSame(name, testAction.getName());
@@ -79,7 +79,7 @@ export function test(runner: TestRunner): void
             runner.testFunction("run()", (test: Test) =>
             {
                 let counter: number = 0;
-                const action: TestAction = TestAction.create(undefined, "c", undefined, () => { counter++; });
+                const action: TestAction = TestAction.create(undefined, "c", "test", undefined, () => { counter++; });
                 test.assertEqual(0, counter);
 
                 for (let i = 1; i <= 3; i++)

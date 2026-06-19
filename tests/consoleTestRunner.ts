@@ -5,21 +5,22 @@ import { JavascriptIterable } from "../sources/javascript";
 import { List } from "../sources/list";
 import { NodeJSCharacterWriteStream } from "../sources/nodeJSCharacterWriteStream";
 import { PreCondition } from "../sources/preCondition";
-import { isFunction, isJavascriptIterable } from "../sources/types";
+import { getName, getParameterCount, isBoolean, isFunction, isJavascriptIterable, isString, Type } from "../sources/types";
 import { AssertTest } from "./assertTest";
 import { FailedTest } from "./failedTest";
 import { SkippedTest } from "./skippedTest";
 import { Test } from "./test";
-import { TestAction } from "./testAction";
+import { TestAction, TestActionType } from "./testAction";
 import { TestRunner } from "./testRunner";
 import { TestSkip } from "./testSkip";
 import { AsyncResult, IndentedCharacterWriteStream } from "../sources";
-import { ConsoleTestRunnerUI } from "./ConsoleTestRunnerUI";
+import { ConsoleTestRunnerStyle, ConsoleTestRunnerUI } from "./ConsoleTestRunnerUI";
+import { ANSIStyles } from "../sources/ANSIStyles";
 
 export type ConsoleTestFunction = (runner: ConsoleTestRunner) => (void | Promise<void>);
 export type ConsoleTestFunctionContainer = { test: ConsoleTestFunction };
 
-export class ConsoleTestRunner extends TestRunner
+export class ConsoleTestRunner implements TestRunner
 {
     private writeStream: CharacterWriteStream;
 
@@ -36,8 +37,6 @@ export class ConsoleTestRunner extends TestRunner
 
     public constructor(ui?: ConsoleTestRunnerUI)
     {
-        super();
-
         this.writeStream = IndentedCharacterWriteStream.create(NodeJSCharacterWriteStream.create(process.stdout));
 
         this.testActions = List.create();
@@ -91,7 +90,16 @@ export class ConsoleTestRunner extends TestRunner
         return CurrentProcess.run(async (currentProcess: CurrentProcess) =>
         {
             const runner: ConsoleTestRunner = ConsoleTestRunner.create()
-                .setWriteStream(currentProcess.getOutputWriteStream());
+                .setWriteStream(currentProcess.getOutputWriteStream())
+                .setStyles({
+                    file: t => ANSIStyles.blue(t),
+                    function: t => ANSIStyles.blue(t),
+                    type: t => ANSIStyles.blue(t),
+                    group: t => ANSIStyles.blue(t),
+                    passed: t => ANSIStyles.green(`✓ ${t}`),
+                    skipped: t => ANSIStyles.yellow(`◌ ${t}`),
+                    failed: t => ANSIStyles.red(`✗ ${t}`),
+                });
 
             await testFunction(runner);
 
@@ -107,6 +115,20 @@ export class ConsoleTestRunner extends TestRunner
 
         this.writeStream = IndentedCharacterWriteStream.create(writeStream);
         this.ui.setWriteStream(this.writeStream);
+
+        return this;
+    }
+
+    public setStyle(style: ConsoleTestRunnerStyle, styleFunction: (text: string) => string): this
+    {
+        this.ui.setStyle(style, styleFunction);
+
+        return this;
+    }
+
+    public setStyles(styles: Partial<Record<ConsoleTestRunnerStyle, (text: string) => string>>): this
+    {
+        this.ui.setStyles(styles);
 
         return this;
     }
@@ -133,10 +155,10 @@ export class ConsoleTestRunner extends TestRunner
         this.testActionInsertIndex = 0;
     }
 
-    private insertTestAction(testActionName: string, skip: TestSkip | undefined, action: () => (void | Promise<void>))
+    private insertTestAction(testActionName: string, testActionType: TestActionType, skip: TestSkip | undefined, action: () => (void | Promise<void>))
     {
         const parentTestAction: TestAction | undefined = this.getCurrentTestAction();
-        const testAction: TestAction = TestAction.create(parentTestAction, testActionName, skip, action);
+        const testAction: TestAction = TestAction.create(parentTestAction, testActionName, testActionType, skip, action);
         this.testActions.insert(this.testActionInsertIndex, testAction);
         this.testActionInsertIndex++;
     }
@@ -225,22 +247,125 @@ export class ConsoleTestRunner extends TestRunner
         return AsyncResult.create(async () =>
         {
             await this.ui.afterSkippedTest(testAction, skip);
-            const fullTestNameParts: JavascriptIterable<string> = testAction.getFullNameParts();
-            this.skippedTests.add(SkippedTest.create(skip, fullTestNameParts));
+            this.skippedTests.add(SkippedTest.create(skip, testAction));
         });
     }
 
-    public afterFailedTest(currentTestAction: TestAction, error: unknown): AsyncResult<void>
+    public afterFailedTest(testAction: TestAction, error: unknown): AsyncResult<void>
     {
-        PreCondition.assertNotUndefinedAndNotNull(currentTestAction, "currentTestAction");
+        PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
         PreCondition.assertNotUndefinedAndNotNull(error, "error");
 
         return AsyncResult.create(async () =>
         {
-            await this.ui.afterFailedTest(currentTestAction, error);
-            const fullTestNameParts: JavascriptIterable<string> = currentTestAction.getFullNameParts();
-            this.testFailures.add(FailedTest.create(fullTestNameParts, error));
+            await this.ui.afterFailedTest(testAction, error);
+            this.testFailures.add(FailedTest.create(testAction, error));
         });
+    }
+
+    public andList(values: unknown[] | Iterable<unknown>): string
+    {
+        return TestRunner.andList(this, values);
+    }
+
+    public toString(value: unknown): string
+    {
+        return TestRunner.toString(this, value);
+    }
+
+    public skip(message?: string): TestSkip;
+    public skip(shouldSkip: boolean, message?: string): TestSkip;
+    skip(messageOrShouldSkip?: string | boolean | undefined, message?: string): TestSkip
+    {
+        let shouldSkip: boolean;
+        if (!isBoolean(messageOrShouldSkip))
+        {
+            shouldSkip = true;
+            message = messageOrShouldSkip;
+        }
+        else
+        {
+            shouldSkip = messageOrShouldSkip;
+        }
+        return TestRunner.skip(this, shouldSkip, message);
+    }
+
+    public testFile(fileName: string, testAction: (() => void) | ((test: Test) => void)): void;
+    public testFile(fileName: string, skip: TestSkip | undefined, testAction: (() => void) | ((test: Test) => void)): void;
+    testFile(fileName: string, skipOrTestAction: TestSkip | ((() => void) | ((test: Test) => void)) | undefined, testAction?: (() => void) | ((test: Test) => void)): void
+    {
+        PreCondition.assertNotUndefinedAndNotNull(fileName, "fileName");
+        PreCondition.assertNotEmpty(fileName, "fileName");
+        let skip: TestSkip | undefined;
+        if (isFunction(skipOrTestAction))
+        {
+            PreCondition.assertUndefined(testAction, "testAction");
+
+            skip = undefined;
+            testAction = skipOrTestAction;
+        }
+        else
+        {
+            skip = skipOrTestAction;
+        }
+        PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
+
+        this.testGroupOrTest(fileName, "file", skip, testAction);
+    }
+
+    public testType(typeNameOrType: string | Type<unknown>, testAction: (() => void) | ((test: Test) => void)): void;
+    public testType(typeNameOrType: string | Type<unknown>, skip: TestSkip | undefined, testAction: (() => void) | ((test: Test) => void)): void;
+    testType(typeNameOrType: string | Type<unknown>, skipOrTestAction: TestSkip | undefined | ((() => void) | ((test: Test) => void)), testAction?: (() => void) | ((test: Test) => void)): void
+    {
+        PreCondition.assertNotUndefinedAndNotNull(typeNameOrType, "typeNameOrType");
+        let typeName: string;
+        if (isString(typeNameOrType))
+        {
+            typeName = typeNameOrType;
+        }
+        else
+        {
+            typeName = getName(typeNameOrType);
+        }
+        PreCondition.assertNotEmpty(typeName, "typeName");
+
+        let skip: TestSkip | undefined;
+        if (isFunction(skipOrTestAction))
+        {
+            PreCondition.assertUndefined(testAction, "testAction");
+
+            skip = undefined;
+            testAction = skipOrTestAction;
+        }
+        else
+        {
+            skip = skipOrTestAction;
+        }
+        PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
+
+        this.testGroupOrTest(typeName, "type", skip, testAction);
+    }
+
+    public testFunction(functionSignature: string, testAction: (() => void) | ((test: Test) => void)): void;
+    public testFunction(functionSignature: string, skip: TestSkip | undefined, testAction: (() => void) | ((test: Test) => void)): void;
+    testFunction(functionSignature: string, skipOrTestAction: TestSkip | undefined | ((() => void) | ((test: Test) => void)), testAction?: (() => void) | ((test: Test) => void)): void
+    {
+        PreCondition.assertNotEmpty(functionSignature, "functionSignature");
+        let skip: TestSkip | undefined;
+        if (isFunction(skipOrTestAction))
+        {
+            PreCondition.assertUndefined(testAction, "testAction");
+
+            skip = undefined;
+            testAction = skipOrTestAction;
+        }
+        else
+        {
+            skip = skipOrTestAction;
+        }
+        PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
+
+        this.testGroupOrTest(functionSignature, "function", skip, testAction);
     }
 
     public testGroup(testGroupName: string, testAction: () => (void | Promise<void>)): void;
@@ -263,35 +388,7 @@ export class ConsoleTestRunner extends TestRunner
         }
         PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
 
-        this.assertNoCurrentTest();
-
-        this.insertTestAction(
-            testGroupName,
-            skip,
-            () => this.beforeTestGroup(this.getCurrentTestAction()!),
-        )
-        this.insertTestAction(
-            testGroupName,
-            skip,
-            async () =>
-            {
-                this.resetTestActionInsertIndex();
-                try
-                {
-                    await testAction();
-                }
-                catch (error)
-                {
-                    const currentTestGroupAction: TestAction = this.getCurrentTestAction()!;
-                    await this.afterFailedTest(currentTestGroupAction, error);
-                }
-            },
-        );
-        this.insertTestAction(
-            testGroupName,
-            skip,
-            () => this.afterTestGroup(this.getCurrentTestAction()!),
-        )
+        this.innerTestGroup(testGroupName, "group", skip, testAction);
     }
 
     public test(testName: string, testAction: (test: Test) => (void | Promise<void>)): void;
@@ -314,10 +411,58 @@ export class ConsoleTestRunner extends TestRunner
         }
         PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
 
+        this.innerTest(testName, "test", skip, testAction);
+    }
+
+    private innerTestGroup(testGroupName: string, type: TestActionType, skip: TestSkip | undefined, testGroupAction: () => void): void
+    {
+        PreCondition.assertNotEmpty(testGroupName, "testGroupName");
+        PreCondition.assertNotUndefinedAndNotNull(testGroupAction, "testGroupAction");
+
+        this.assertNoCurrentTest();
+
+        this.insertTestAction(
+            testGroupName,
+            type,
+            skip,
+            () => this.beforeTestGroup(this.getCurrentTestAction()!),
+        )
+        this.insertTestAction(
+            testGroupName,
+            type,
+            skip,
+            async () =>
+            {
+                this.resetTestActionInsertIndex();
+                try
+                {
+                    await testGroupAction();
+                }
+                catch (error)
+                {
+                    const currentTestGroupAction: TestAction = this.getCurrentTestAction()!;
+                    await this.afterFailedTest(currentTestGroupAction, error);
+                }
+            },
+        );
+        this.insertTestAction(
+            testGroupName,
+            type,
+            skip,
+            () => this.afterTestGroup(this.getCurrentTestAction()!),
+        )
+    }
+
+    private innerTest(testName: string, testType: TestActionType, skip: TestSkip | undefined, testAction: (test: Test) => void): void
+    {
+        PreCondition.assertNotEmpty(testName, "testName");
+        PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
+
         this.assertNoCurrentTest();
 
         this.insertTestAction(
             testName,
+            testType,
             skip,
             async () =>
             {
@@ -353,6 +498,18 @@ export class ConsoleTestRunner extends TestRunner
         );
     }
 
+    private testGroupOrTest(name: string, type: TestActionType, skip: TestSkip | undefined, testAction: (() => void) | ((test: Test) => void)): void
+    {
+        if (getParameterCount(testAction) === 0)
+        {
+            this.innerTestGroup(name, type, skip, <() => void>testAction);
+        }
+        else
+        {
+            this.innerTest(name, type, skip, <(test: Test) => void>testAction);
+        }
+    }
+
     public async runAsync(): Promise<void>
     {
         while (this.testActions.any().await())
@@ -374,56 +531,6 @@ export class ConsoleTestRunner extends TestRunner
 
     public printSummary(): AsyncResult<void>
     {
-        return AsyncResult.create(async () =>
-        {
-            await this.writeStream.writeLine();
-
-            const skippedTests: Iterable<SkippedTest> = this.getSkippedTests();
-            if (await skippedTests.any())
-            {
-                await this.writeStream.writeLine(`Skipped Tests:`);
-                let counter: number = 0;
-                for (const skippedTest of skippedTests)
-                {
-                    await this.writeStream.writeLine(`${++counter}) ${skippedTest.getFullTestName()}`);
-                    const skipMessage: string = skippedTest.getSkipMessage();
-                    if (skipMessage)
-                    {
-                        await this.writeStream.writeLine(`  ${skipMessage}`);
-                    }
-                }
-                await this.writeStream.writeLine();
-            }
-
-            const failedTests: Iterable<FailedTest> = this.getFailedTests();
-            if (await failedTests.any())
-            {
-                await this.writeStream.writeLine("Failed Tests:");
-
-                let counter: number = 0;
-                for (const failedTest of failedTests)
-                {
-                    await this.writeStream.writeLine(`${++counter}) ${failedTest.getFullTestName()}`);
-                    await this.writeStream.writeLine(`  ${failedTest.getErrorMessage()}`);
-                    await this.writeStream.writeLine();
-                }
-            }
-
-            const passedTestCount: number = this.getPassedTestCount();
-            if (passedTestCount > 0)
-            {
-                await this.writeStream.writeLine(`Passed:  ${passedTestCount}`);
-            }
-
-            if (await skippedTests.any())
-            {
-                await this.writeStream.writeLine(`Skipped: ${skippedTests.getCount().await()}`);
-            }
-
-            if (await failedTests.any())
-            {
-                await this.writeStream.writeLine(`Failed:  ${failedTests.getCount().await()}`);
-            }
-        });
+        return this.ui.writeSummary(this.passedTestCount, this.getSkippedTests(), this.getFailedTests());
     }
 }
