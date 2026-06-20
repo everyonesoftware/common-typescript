@@ -5,6 +5,7 @@ import * as byteListTests from "./byteListTests";
 import * as byteTests from "./bytesTests";
 import * as characterListStreamTests from "./characterListStreamTests";
 import * as characterListTests from "./characterListTests";
+import * as characterTableTests from "./CharacterTableTests";
 import * as commandLineParametersTests from "./CommandLineParametersTests";
 import * as comparerTests from "./comparerTests";
 import * as conditionTests from "./conditionTests";
@@ -18,6 +19,7 @@ import * as fetchHttpClientTests from "./fetchHttpClientTests";
 import * as generatorTests from "./generatorTests";
 import * as httpClientTests from "./httpClientTests";
 import * as indentedCharacterWriteStreamTests from "./IndentedCharacterWriteStreamTests";
+import * as indexableTests from "./IndexableTests";
 import * as inMemoryCharacterWriteStreamTests from "./inMemoryCharacterWriteStreamTests";
 import * as iterableTests from "./iterableTests";
 import * as iteratorTests from "./iteratorTests";
@@ -26,6 +28,7 @@ import * as listTests from "./listTests";
 import * as mapIteratorTests from "./mapIteratorTests";
 import * as mapTests from "./mapTests";
 import * as mutableConditionTests from "./mutableConditionTests";
+import * as mutableIndexableTests from "./MutableIndexableTests";
 import * as mutableMapTests from "./mutableMapTests";
 import * as notFoundErrorTests from "./notFoundErrorTests";
 import * as postConditionErrorTests from "./postConditionErrorTests";
@@ -47,8 +50,6 @@ import * as toStringFunctionsTests from "./toStringFunctionsTests";
 import * as typesTests from "./typesTests";
 import * as whereIteratorTests from "./whereIteratorTests";
 import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests";
-import * as characterTableTests from "./CharacterTableTests";
-import * as indexableTests from "./IndexableTests";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -61,6 +62,7 @@ async function tests(): Promise<void>
         byteTests.test,
         characterListStreamTests,
         characterListTests,
+        characterTableTests,
         commandLineParametersTests,
         comparerTests,
         conditionTests,
@@ -74,6 +76,7 @@ async function tests(): Promise<void>
         generatorTests,
         httpClientTests,
         indentedCharacterWriteStreamTests,
+        indexableTests,
         inMemoryCharacterWriteStreamTests,
         iterableTests,
         iteratorTests,
@@ -82,6 +85,7 @@ async function tests(): Promise<void>
         mapIteratorTests,
         mapTests,
         mutableConditionTests,
+        mutableIndexableTests,
         mutableMapTests,
         notFoundErrorTests,
         postConditionErrorTests,
@@ -103,8 +107,6 @@ async function tests(): Promise<void>
         typesTests,
         whereIteratorTests,
         wonderlandTrailClientTests,
-        characterTableTests,
-        indexableTests,
     ]);
 }
 

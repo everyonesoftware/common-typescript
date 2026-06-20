@@ -70,6 +70,7 @@ export * from "./mapIterable";
 export * from "./mapIterator";
 export * from "./mutableCondition";
 export * from "./mutableHttpHeaders";
+export * from "./MutableIndexable";
 export * from "./mutableMap";
 export * from "./network";
 export * from "./node";
