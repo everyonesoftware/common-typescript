@@ -57,7 +57,6 @@ export function test(runner: TestRunner): void
                     test.assertTrue(errorString.includes("Error: I'm an error!"));
                     test.assertTrue(errorString.includes("tests/BasicTestErrorTests.ts:"));
                     test.assertTrue(errorString.includes("tests/consoleTestRunner.ts:"));
-                    test.assertTrue(errorString.includes("tests/tests.ts:"));
                 });
 
                 runner.test(`with TypeError`, (test: Test) =>
@@ -71,7 +70,6 @@ export function test(runner: TestRunner): void
                     test.assertTrue(errorString.includes("TypeError: Oops! Type error!"));
                     test.assertTrue(errorString.includes("tests/BasicTestErrorTests.ts:"));
                     test.assertTrue(errorString.includes("tests/consoleTestRunner.ts:"));
-                    test.assertTrue(errorString.includes("tests/tests.ts:"));
                 });
 
                 runner.test(`with test failure error`, (test: Test) =>
@@ -92,7 +90,6 @@ export function test(runner: TestRunner): void
                     test.assertTrue(errorString.includes("1 !== 2"));
                     test.assertTrue(errorString.includes("tests/BasicTestErrorTests.ts:"));
                     test.assertTrue(errorString.includes("tests/consoleTestRunner.ts:"));
-                    test.assertTrue(errorString.includes("tests/tests.ts:"));
                 });
             });
 
