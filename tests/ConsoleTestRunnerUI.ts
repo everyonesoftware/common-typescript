@@ -1,7 +1,8 @@
-import { Iterable, ANSIStyles, AsyncResult, CharacterWriteStream, IndentedCharacterWriteStream, List, Map, MutableMap, NotFoundError, PreCondition, Stack } from "../sources";
+import { Iterable, AsyncResult, CharacterWriteStream, IndentedCharacterWriteStream, List, Map, MutableMap, NotFoundError, PreCondition, Stack } from "../sources";
 import { FailedTest } from "./failedTest";
 import { SkippedTest } from "./skippedTest";
 import { TestAction, TestActionType } from "./testAction";
+import { TestError } from "./TestError";
 import { TestSkip } from "./testSkip";
 
 export type ConsoleTestRunnerStyle = TestActionType | "passed" | "skipped" | "failed";
@@ -164,7 +165,7 @@ export abstract class ConsoleTestRunnerUI
         });
     }
 
-    public afterFailedTest(currentTestAction: TestAction, error: unknown): AsyncResult<void>
+    public afterFailedTest(currentTestAction: TestAction, error: TestError): AsyncResult<void>
     {
         PreCondition.assertNotUndefinedAndNotNull(currentTestAction, "currentTestAction");
         PreCondition.assertNotUndefinedAndNotNull(error, "error");
@@ -214,7 +215,9 @@ export abstract class ConsoleTestRunnerUI
                     await this.writeString(`${++counter}) `);
                     await this.writeFullTestActionName(failedTest.getTestAction());
                     await this.writeLine();
-                    await this.indent(() => this.writeLine(failedTest.getErrorMessage()));
+
+                    const testError: TestError = failedTest.getTestError();
+                    await this.indent(() => this.writeLine(testError.getErrorString()));
                     await this.writeLine();
                 }
             }

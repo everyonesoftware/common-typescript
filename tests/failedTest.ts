@@ -1,14 +1,13 @@
-import { JavascriptIterable } from "../sources/javascript";
 import { PreCondition } from "../sources/preCondition";
-import { join } from "../sources/strings";
 import { TestAction } from "./testAction";
+import { TestError } from "./TestError";
 
 export class FailedTest
 {
     private readonly testAction: TestAction;
-    private readonly error: unknown;
+    private readonly error: TestError;
 
-    private constructor(testAction: TestAction, error: unknown)
+    private constructor(testAction: TestAction, error: TestError)
     {
         PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
         PreCondition.assertNotUndefinedAndNotNull(error, "error");
@@ -17,7 +16,7 @@ export class FailedTest
         this.error = error;
     }
 
-    public static create(testAction: TestAction, error: unknown): FailedTest
+    public static create(testAction: TestAction, error: TestError): FailedTest
     {
         return new FailedTest(testAction, error);
     }
@@ -27,13 +26,8 @@ export class FailedTest
         return this.testAction;
     }
 
-    public getError(): unknown
+    public getTestError(): TestError
     {
         return this.error;
-    }
-
-    public getErrorMessage(): string
-    {
-        return this.error instanceof Error && this.error.stack ? this.error.stack : `${this.error}`;
     }
 }

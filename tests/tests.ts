@@ -9,7 +9,7 @@ import * as characterTableTests from "./CharacterTableTests";
 import * as commandLineParametersTests from "./CommandLineParametersTests";
 import * as comparerTests from "./comparerTests";
 import * as conditionTests from "./conditionTests";
-import * as consoleTestRunner2Tests from "./consoleTestRunnerTests";
+import * as consoleTestRunnerTests from "./consoleTestRunnerTests";
 import * as dateTimeTests from "./dateTimeTests";
 import * as depthFirstSearchTests from "./depthFirstSearchTests";
 import * as disposableTests from "./disposableTests";
@@ -50,6 +50,8 @@ import * as toStringFunctionsTests from "./toStringFunctionsTests";
 import * as typesTests from "./typesTests";
 import * as whereIteratorTests from "./whereIteratorTests";
 import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests";
+import * as consoleTestRunnerUITests from "./ConsoleTestRunnerUITests";
+import * as basicTestErrorTests from "./BasicTestErrorTests";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -66,7 +68,7 @@ async function tests(): Promise<void>
         commandLineParametersTests,
         comparerTests,
         conditionTests,
-        consoleTestRunner2Tests,
+        consoleTestRunnerTests,
         dateTimeTests,
         depthFirstSearchTests,
         disposableTests,
@@ -107,6 +109,8 @@ async function tests(): Promise<void>
         typesTests,
         whereIteratorTests,
         wonderlandTrailClientTests,
+        consoleTestRunnerUITests,
+        basicTestErrorTests,
     ]);
 }
 

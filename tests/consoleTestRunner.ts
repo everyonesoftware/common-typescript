@@ -6,7 +6,6 @@ import { List } from "../sources/list";
 import { NodeJSCharacterWriteStream } from "../sources/nodeJSCharacterWriteStream";
 import { PreCondition } from "../sources/preCondition";
 import { getName, getParameterCount, isBoolean, isFunction, isJavascriptIterable, isString, Type } from "../sources/types";
-import { AssertTest } from "./assertTest";
 import { FailedTest } from "./failedTest";
 import { SkippedTest } from "./skippedTest";
 import { Test } from "./test";
@@ -16,6 +15,9 @@ import { TestSkip } from "./testSkip";
 import { AsyncResult, IndentedCharacterWriteStream } from "../sources";
 import { ConsoleTestRunnerStyle, ConsoleTestRunnerUI } from "./ConsoleTestRunnerUI";
 import { ANSIStyles } from "../sources/ANSIStyles";
+import { TestCreator } from "./TestCreator";
+import { TestErrorCreator } from "./TestErrorCreator";
+import { TestError } from "./TestError";
 
 export type ConsoleTestFunction = (runner: ConsoleTestRunner) => (void | Promise<void>);
 export type ConsoleTestFunctionContainer = { test: ConsoleTestFunction };
@@ -33,9 +35,11 @@ export class ConsoleTestRunner implements TestRunner
     private readonly skippedTests: List<SkippedTest>;
     private readonly testFailures: List<FailedTest>;
 
+    private readonly testCreator: TestCreator;
+    private readonly testErrorCreator: TestErrorCreator;
     private readonly ui: ConsoleTestRunnerUI;
 
-    public constructor(ui?: ConsoleTestRunnerUI)
+    public constructor(testCreator?: TestCreator, testErrorCreator?: TestErrorCreator, ui?: ConsoleTestRunnerUI)
     {
         this.writeStream = IndentedCharacterWriteStream.create(NodeJSCharacterWriteStream.create(process.stdout));
 
@@ -46,13 +50,15 @@ export class ConsoleTestRunner implements TestRunner
         this.skippedTests = List.create();
         this.testFailures = List.create();
 
+        this.testCreator = testCreator || TestCreator.create();
+        this.testErrorCreator = testErrorCreator || TestErrorCreator.create();
         this.ui = ui || ConsoleTestRunnerUI.tree();
         this.ui.setWriteStream(this.writeStream);
     }
 
-    public static create(ui?: ConsoleTestRunnerUI): ConsoleTestRunner
+    public static create(testCreator?: TestCreator, testErrorCreator?: TestErrorCreator, ui?: ConsoleTestRunnerUI): ConsoleTestRunner
     {
-        return new ConsoleTestRunner(ui);
+        return new ConsoleTestRunner(testCreator, testErrorCreator, ui);
     }
 
     public static run(testFunction: ConsoleTestFunction | ConsoleTestFunctionContainer): Promise<void>;
@@ -158,7 +164,18 @@ export class ConsoleTestRunner implements TestRunner
     private insertTestAction(testActionName: string, testActionType: TestActionType, skip: TestSkip | undefined, action: () => (void | Promise<void>))
     {
         const parentTestAction: TestAction | undefined = this.getCurrentTestAction();
-        const testAction: TestAction = TestAction.create(parentTestAction, testActionName, testActionType, skip, action);
+        const testAction: TestAction = TestAction.create(parentTestAction, testActionName, testActionType, skip, async () =>
+        {
+            try
+            {
+                await action();
+            }
+            catch (error)
+            {
+                const testError: TestError = this.testErrorCreator.createTestError(error);
+                await this.afterFailedTest(testAction, testError);
+            }
+        });
         this.testActions.insert(this.testActionInsertIndex, testAction);
         this.testActionInsertIndex++;
     }
@@ -251,7 +268,7 @@ export class ConsoleTestRunner implements TestRunner
         });
     }
 
-    public afterFailedTest(testAction: TestAction, error: unknown): AsyncResult<void>
+    public afterFailedTest(testAction: TestAction, error: TestError): AsyncResult<void>
     {
         PreCondition.assertNotUndefinedAndNotNull(testAction, "testAction");
         PreCondition.assertNotUndefinedAndNotNull(error, "error");
@@ -434,15 +451,7 @@ export class ConsoleTestRunner implements TestRunner
             async () =>
             {
                 this.resetTestActionInsertIndex();
-                try
-                {
-                    await testGroupAction();
-                }
-                catch (error)
-                {
-                    const currentTestGroupAction: TestAction = this.getCurrentTestAction()!;
-                    await this.afterFailedTest(currentTestGroupAction, error);
-                }
+                await testGroupAction();
             },
         );
         this.insertTestAction(
@@ -467,32 +476,25 @@ export class ConsoleTestRunner implements TestRunner
             async () =>
             {
                 const currentTestAction: TestAction = this.getCurrentTestAction()!;
-                try
-                {
-                    await this.beforeTest(currentTestAction);
+                await this.beforeTest(currentTestAction);
 
-                    const skip: TestSkip | undefined = currentTestAction.getSkip();
-                    if (skip?.getShouldSkip())
-                    {
-                        await this.afterSkippedTest(currentTestAction, skip);
-                    }
-                    else
-                    {
-                        this.currentTest = AssertTest.create(testName);
-                        try
-                        {
-                            await testAction(this.currentTest);
-                        }
-                        finally
-                        {
-                            this.currentTest = undefined;
-                        }
-                        await this.afterPassedTest(currentTestAction);
-                    }
-                }
-                catch (error)
+                const skip: TestSkip | undefined = currentTestAction.getSkip();
+                if (skip?.getShouldSkip())
                 {
-                    await this.afterFailedTest(currentTestAction, error);
+                    await this.afterSkippedTest(currentTestAction, skip);
+                }
+                else
+                {
+                    this.currentTest = this.testCreator.createTest();
+                    try
+                    {
+                        await testAction(this.currentTest);
+                    }
+                    finally
+                    {
+                        this.currentTest = undefined;
+                    }
+                    await this.afterPassedTest(currentTestAction);
                 }
             },
         );

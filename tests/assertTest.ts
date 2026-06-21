@@ -12,19 +12,16 @@ import { JavascriptIterable } from "../sources";
  */
 export class AssertTest implements Test
 {
-    private readonly name: string;
-
-    protected constructor(name: string)
+    private constructor()
     {
-        this.name = name;
     }
 
     /**
      * Create a new {@link AssertTest} object.
      */
-    public static create(name: string): AssertTest
+    public static create(): AssertTest
     {
-        return new AssertTest(name);
+        return new AssertTest();
     }
 
     public fail(message: string): never
