@@ -17,7 +17,7 @@ import { ConsoleTestRunnerStyle, ConsoleTestRunnerUI } from "./ConsoleTestRunner
 import { ANSIStyles } from "../sources/ANSIStyles";
 import { TestCreator } from "./TestCreator";
 import { TestErrorCreator } from "./TestErrorCreator";
-import { TestError } from "./TestError";
+import { GetErrorStringOptions, TestError } from "./TestError";
 
 export type ConsoleTestFunction = (runner: ConsoleTestRunner) => (void | Promise<void>);
 export type ConsoleTestFunctionContainer = { test: ConsoleTestFunction };
@@ -135,6 +135,13 @@ export class ConsoleTestRunner implements TestRunner
     public setStyles(styles: Partial<Record<ConsoleTestRunnerStyle, (text: string) => string>>): this
     {
         this.ui.setStyles(styles);
+
+        return this;
+    }
+
+    public setGetErrorStringOptions(options: GetErrorStringOptions): this
+    {
+        this.ui.setGetErrorStringOptions(options);
 
         return this;
     }

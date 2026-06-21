@@ -1,4 +1,4 @@
-import { AssertTestCreator } from "./assertTestCreator";
+import { AssertTestCreator } from "./AssertTestCreator";
 import { Test } from "./test";
 
 /**

@@ -2,7 +2,7 @@ import { Iterable, AsyncResult, CharacterWriteStream, IndentedCharacterWriteStre
 import { FailedTest } from "./failedTest";
 import { SkippedTest } from "./skippedTest";
 import { TestAction, TestActionType } from "./testAction";
-import { TestError } from "./TestError";
+import { GetErrorStringOptions, TestError } from "./TestError";
 import { TestSkip } from "./testSkip";
 
 export type ConsoleTestRunnerStyle = TestActionType | "passed" | "skipped" | "failed";
@@ -11,6 +11,7 @@ export abstract class ConsoleTestRunnerUI
 {
     private writeStream?: IndentedCharacterWriteStream;
     private readonly styles: MutableMap<ConsoleTestRunnerStyle, (text: string) => string>;
+    private getErrorStringOptions?: GetErrorStringOptions;
 
     protected constructor()
     {
@@ -127,6 +128,13 @@ export abstract class ConsoleTestRunnerUI
         });
     }
 
+    public setGetErrorStringOptions(options: GetErrorStringOptions | undefined): this
+    {
+        this.getErrorStringOptions = options;
+
+        return this;
+    }
+
     public beforeTestGroup(testGroup: TestAction): AsyncResult<void>
     {
         PreCondition.assertNotUndefinedAndNotNull(testGroup, "testGroup");
@@ -217,7 +225,7 @@ export abstract class ConsoleTestRunnerUI
                     await this.writeLine();
 
                     const testError: TestError = failedTest.getTestError();
-                    await this.indent(() => this.writeLine(testError.getErrorString()));
+                    await this.indent(() => this.writeLine(testError.getErrorString(this.getErrorStringOptions)));
                     await this.writeLine();
                 }
             }

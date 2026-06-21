@@ -30,12 +30,12 @@ export class BasicTestError implements TestError
 
         const currentFolderPath: string = process.cwd();
 
-        if (options?.removeNonProjectPaths ?? true)
+        if (options?.removeNonProjectPaths ?? false)
         {
             result = BasicTestError.removeNonProjectPaths(result, currentFolderPath);
         }
 
-        if (options?.relativeFilePaths ?? true)
+        if (options?.relativeFilePaths ?? false)
         {
             result = BasicTestError.makeFilePathsRelative(result, currentFolderPath);
         }
@@ -45,6 +45,7 @@ export class BasicTestError implements TestError
 
     public static removeNonProjectPaths(errorString: string, currentFolderPath: string): string
     {
+        currentFolderPath = currentFolderPath.replaceAll("\\", "/");
         return errorString
             .split('\n')
             .filter((line: string) =>
@@ -53,38 +54,27 @@ export class BasicTestError implements TestError
 
                 const trimmedLine: string = line.trim();
 
-                if (!trimmedLine.startsWith('at '))
+                const match: RegExpMatchArray | null =
+                    trimmedLine.match(/^at .* \((.+)\)$/) ??
+                    trimmedLine.match(/^at (.+)$/);
+                if (!match)
                 {
-                    // Keep non-stack lines (error message, assertion diff, blanks)
+                    // If the line isn't a 'at (file-path)' or 'at FunctionSignature
+                    // (file-path)' line, then we should keep it.
                     keepLine = true;
                 }
                 else
                 {
-                    const match: RegExpMatchArray | null =
-                        trimmedLine.match(/^at .* \((.+)\)$/) ??
-                        trimmedLine.match(/^at (.+)$/);
-                    if (!match)
-                    {
-                        // If the line isn't a 'at (file-path)' or 'at FunctionSignature
-                        // (file-path)' line, then we should keep it.
-                        keepLine = true;
-                    }
-                    else
-                    {
-                        const location: string = match[1];
+                    const location: string = match[1];
 
-                        // Keep only file URLs inside cwd
-                        if (location.startsWith('file:///'))
-                        {
-                            try
-                            {
-                                const filePath: string = path.resolve(fileURLToPath(location));
-                                keepLine = filePath.startsWith(currentFolderPath);
-                            }
-                            catch
-                            {
-                            }
-                        }
+                    // Keep only file URLs inside cwd
+                    try
+                    {
+                        const filePath: string = path.resolve(fileURLToPath(location)).replaceAll("\\", "/");
+                        keepLine = filePath.startsWith(currentFolderPath);
+                    }
+                    catch
+                    {
                     }
                 }
 
@@ -95,22 +85,71 @@ export class BasicTestError implements TestError
 
     public static makeFilePathsRelative(errorString: string, currentFolderPath: string): string
     {
-        return errorString.replace(/file:\/\/\/[^\s)]+/g, (fileUrl: string) =>
-        {
-            try
+        return errorString
+            .split('\n')
+            .map((line: string) =>
             {
-                const absolutePath: string = fileURLToPath(fileUrl);
-                let relativePath = path.relative(currentFolderPath, absolutePath);
+                const match: RegExpMatchArray | null =
+                    line.match(/^(\s*)at (.+?) \((.+)\)$/) ??
+                    line.match(/^(\s*)at (.+)$/);
+                if (match)
+                {
+                    const hasFunctionName: boolean = (match.length === 4);
+                    const indentation: string = match[1];
+                    const functionName: string | undefined = hasFunctionName ? match[2] : undefined;
+                    const location: string = hasFunctionName ? match[3] : match[2];
 
-                // Normalize slashes so output looks cleaner in stack traces
-                relativePath = relativePath.replace(/\\/g, '/');
+                    let relativeLocation: string = location;
+                    try
+                    {
+                        const pathMatch: RegExpMatchArray | null = location.match(/^(.*?):(\d+):(\d+)$/);
+                        if (pathMatch)
+                        {
+                            const fullPath: string = pathMatch[1];
+                            const lineNumber: string = pathMatch[2];
+                            const columnNumber: string = pathMatch[3];
 
-                return relativePath;
-            }
-            catch
-            {
-                return fileUrl; // leave unchanged if parsing fails
-            }
-        });
+                            let absolutePath: string | undefined;
+                            if (fullPath.startsWith('file:///'))
+                            {
+                                absolutePath = fileURLToPath(fullPath);
+                            }
+                            else if (/^[A-Za-z]:[\\/]/.test(fullPath) || fullPath.startsWith("/"))
+                            {
+                                absolutePath = fullPath;
+                            }
+
+                            if (absolutePath)
+                            {
+                                let relativePath = path.relative(
+                                    currentFolderPath,
+                                    absolutePath
+                                );
+
+                                relativePath = relativePath.replace(/\\/g, '/');
+
+                                relativeLocation = `${relativePath}:${lineNumber}:${columnNumber}`;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                    }
+
+                    if (relativeLocation !== location)
+                    {
+                        if (functionName)
+                        {
+                            line = `${indentation}at ${functionName} (${relativeLocation})`;
+                        }
+                        else
+                        {
+                            line = `${indentation}at ${relativeLocation}`;
+                        }
+                    }
+                }
+                return line;
+            })
+            .join('\n');
     }
 }

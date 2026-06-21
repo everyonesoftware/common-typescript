@@ -95,6 +95,167 @@ export function test(runner: TestRunner): void
                     test.assertTrue(errorString.includes("tests/tests.ts:"));
                 });
             });
+
+            runner.testFunction("removeNonProjectPaths()", () =>
+            {
+                runner.test("with 'node:internal' file reference in stack trace", (test: Test) =>
+                {
+                    const errorStringLines: string[] = [
+                        "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:",
+                        "",
+                        "  5 !== 6",
+                        "",
+                        "      at _AssertTest.assertEqual (file:///C:/my/code/common-typescript/tests/assertTest.ts:76:16)",
+                        "      at file:///C:/my/code/common-typescript/tests/BasicTestErrorTests.ts:97:26",
+                        "      at file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:498:31",
+                        "      at processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                        "      at _TestAction.action (file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:178:17)",
+                        "      at _ConsoleTestRunner.runAsync (file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:531:17)",
+                        "      at file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:112:13",
+                        "      at _CurrentProcess.run (file:///C:/my/code/common-typescript/sources/currentProcess.ts:39:43)",
+                        "      at tests (file:///C:/my/code/common-typescript/tests/tests.ts:60:5)",
+                    ];
+                    const currentFolderPath: string = "C:/my/code/";
+
+                    const expectedLines: string[] = [
+                        "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:",
+                        "",
+                        "  5 !== 6",
+                        "",
+                        "      at _AssertTest.assertEqual (file:///C:/my/code/common-typescript/tests/assertTest.ts:76:16)",
+                        "      at file:///C:/my/code/common-typescript/tests/BasicTestErrorTests.ts:97:26",
+                        "      at file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:498:31",
+                        "      at _TestAction.action (file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:178:17)",
+                        "      at _ConsoleTestRunner.runAsync (file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:531:17)",
+                        "      at file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:112:13",
+                        "      at _CurrentProcess.run (file:///C:/my/code/common-typescript/sources/currentProcess.ts:39:43)",
+                        "      at tests (file:///C:/my/code/common-typescript/tests/tests.ts:60:5)",
+                    ];
+
+                    const result: string = BasicTestError.removeNonProjectPaths(errorStringLines.join("\n"), currentFolderPath);
+                    test.assertEqual(expectedLines, result.split("\n"));
+                });
+            });
+
+            runner.testFunction("makeFilePathsRelative()", () =>
+            {
+                runner.test("with 'file:///' URLs and a 'node:internal' path", (test: Test) =>
+                {
+                    const errorStringLines: string[] = [
+                        "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:",
+                        "",
+                        "  5 !== 6",
+                        "",
+                        "      at _AssertTest.assertEqual (file:///C:/my/code/common-typescript/tests/assertTest.ts:76:16)",
+                        "      at file:///C:/my/code/common-typescript/tests/BasicTestErrorTests.ts:97:26",
+                        "      at file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:498:31",
+                        "      at processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                        "      at _TestAction.action (file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:178:17)",
+                        "      at _ConsoleTestRunner.runAsync (file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:531:17)",
+                        "      at file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:112:13",
+                        "      at _CurrentProcess.run (file:///C:/my/code/common-typescript/sources/currentProcess.ts:39:43)",
+                        "      at tests (file:///C:/my/code/common-typescript/tests/tests.ts:60:5)",
+                    ];
+                    const currentFolderPath: string = "C:/my/code/common-typescript/";
+
+                    const expectedLines: string[] = [
+                        "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:",
+                        "",
+                        "  5 !== 6",
+                        "",
+                        "      at _AssertTest.assertEqual (tests/assertTest.ts:76:16)",
+                        "      at tests/BasicTestErrorTests.ts:97:26",
+                        "      at tests/consoleTestRunner.ts:498:31",
+                        "      at processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                        "      at _TestAction.action (tests/consoleTestRunner.ts:178:17)",
+                        "      at _ConsoleTestRunner.runAsync (tests/consoleTestRunner.ts:531:17)",
+                        "      at tests/consoleTestRunner.ts:112:13",
+                        "      at _CurrentProcess.run (sources/currentProcess.ts:39:43)",
+                        "      at tests (tests/tests.ts:60:5)",
+                    ];
+
+                    const result: string = BasicTestError.makeFilePathsRelative(errorStringLines.join("\n"), currentFolderPath);
+                    test.assertEqual(expectedLines, result.split("\n"));
+                });
+
+                runner.test("with Windows absolute file paths and a 'node:internal' path", (test: Test) =>
+                {
+                    const errorStringLines: string[] = [
+                        "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:",
+                        "",
+                        "  5 !== 6",
+                        "",
+                        "      at _AssertTest.assertEqual (C:/my/code/common-typescript/tests/assertTest.ts:76:16)",
+                        "      at C:/my/code/common-typescript/tests/BasicTestErrorTests.ts:97:26",
+                        "      at C:/my/code/common-typescript/tests/consoleTestRunner.ts:498:31",
+                        "      at processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                        "      at _TestAction.action (C:/my/code/common-typescript/tests/consoleTestRunner.ts:178:17)",
+                        "      at _ConsoleTestRunner.runAsync (C:/my/code/common-typescript/tests/consoleTestRunner.ts:531:17)",
+                        "      at C:/my/code/common-typescript/tests/consoleTestRunner.ts:112:13",
+                        "      at _CurrentProcess.run (C:/my/code/common-typescript/sources/currentProcess.ts:39:43)",
+                        "      at tests (C:/my/code/common-typescript/tests/tests.ts:60:5)",
+                    ];
+                    const currentFolderPath: string = "C:/my/code/common-typescript/";
+
+                    const expectedLines: string[] = [
+                        "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:",
+                        "",
+                        "  5 !== 6",
+                        "",
+                        "      at _AssertTest.assertEqual (tests/assertTest.ts:76:16)",
+                        "      at tests/BasicTestErrorTests.ts:97:26",
+                        "      at tests/consoleTestRunner.ts:498:31",
+                        "      at processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                        "      at _TestAction.action (tests/consoleTestRunner.ts:178:17)",
+                        "      at _ConsoleTestRunner.runAsync (tests/consoleTestRunner.ts:531:17)",
+                        "      at tests/consoleTestRunner.ts:112:13",
+                        "      at _CurrentProcess.run (sources/currentProcess.ts:39:43)",
+                        "      at tests (tests/tests.ts:60:5)",
+                    ];
+
+                    const result: string = BasicTestError.makeFilePathsRelative(errorStringLines.join("\n"), currentFolderPath);
+                    test.assertEqual(expectedLines, result.split("\n"));
+                });
+
+                runner.test("with Unix absolute file paths and a 'node:internal' path", (test: Test) =>
+                {
+                    const errorStringLines: string[] = [
+                        "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:",
+                        "",
+                        "  5 !== 6",
+                        "",
+                        "      at _AssertTest.assertEqual (/my/code/common-typescript/tests/assertTest.ts:76:16)",
+                        "      at /my/code/common-typescript/tests/BasicTestErrorTests.ts:97:26",
+                        "      at /my/code/common-typescript/tests/consoleTestRunner.ts:498:31",
+                        "      at processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                        "      at _TestAction.action (/my/code/common-typescript/tests/consoleTestRunner.ts:178:17)",
+                        "      at _ConsoleTestRunner.runAsync (/my/code/common-typescript/tests/consoleTestRunner.ts:531:17)",
+                        "      at /my/code/common-typescript/tests/consoleTestRunner.ts:112:13",
+                        "      at _CurrentProcess.run (/my/code/common-typescript/sources/currentProcess.ts:39:43)",
+                        "      at tests (/my/code/common-typescript/tests/tests.ts:60:5)",
+                    ];
+                    const currentFolderPath: string = "/my/code/common-typescript/";
+
+                    const expectedLines: string[] = [
+                        "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:",
+                        "",
+                        "  5 !== 6",
+                        "",
+                        "      at _AssertTest.assertEqual (tests/assertTest.ts:76:16)",
+                        "      at tests/BasicTestErrorTests.ts:97:26",
+                        "      at tests/consoleTestRunner.ts:498:31",
+                        "      at processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                        "      at _TestAction.action (tests/consoleTestRunner.ts:178:17)",
+                        "      at _ConsoleTestRunner.runAsync (tests/consoleTestRunner.ts:531:17)",
+                        "      at tests/consoleTestRunner.ts:112:13",
+                        "      at _CurrentProcess.run (sources/currentProcess.ts:39:43)",
+                        "      at tests (tests/tests.ts:60:5)",
+                    ];
+
+                    const result: string = BasicTestError.makeFilePathsRelative(errorStringLines.join("\n"), currentFolderPath);
+                    test.assertEqual(expectedLines, result.split("\n"));
+                });
+            });
         });
     });
 }
