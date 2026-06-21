@@ -43,41 +43,48 @@ export class BasicTestError implements TestError
         return result;
     }
 
+    private static getStackFrameLineMatch(line: string): RegExpMatchArray | null
+    {
+        return line.match(/^(\s*)at (.*) \((.+)\)$/) ??
+            line.match(/^(\s*)at (.+)$/);
+    }
+
+    private static normalizePath(path: string): string
+    {
+        return path.replace(/\\/g, "/");
+    }
+
+    private static getStackFrameAbsolutePath(stackFrameLocation: string): string | undefined
+    {
+        let result: string | undefined = BasicTestError.normalizePath(stackFrameLocation);
+        if (result.startsWith('file:///'))
+        {
+            result = BasicTestError.normalizePath(fileURLToPath(result));
+        }
+        else if (!/^[A-Za-z]:[\\/]/.test(result) && !result.startsWith("/"))
+        {
+            result = undefined;
+        }
+        return result;
+    }
+
     public static removeNonProjectPaths(errorString: string, currentFolderPath: string): string
     {
-        currentFolderPath = currentFolderPath.replaceAll("\\", "/");
+        currentFolderPath = BasicTestError.normalizePath(currentFolderPath);
         return errorString
             .split('\n')
             .filter((line: string) =>
             {
-                let keepLine: boolean = false;
-
-                const trimmedLine: string = line.trim();
-
-                const match: RegExpMatchArray | null =
-                    trimmedLine.match(/^at .* \((.+)\)$/) ??
-                    trimmedLine.match(/^at (.+)$/);
-                if (!match)
+                let keepLine: boolean = true;
+                const stackFrameLineMatch: RegExpMatchArray | null = BasicTestError.getStackFrameLineMatch(line);
+                if (stackFrameLineMatch)
                 {
-                    // If the line isn't a 'at (file-path)' or 'at FunctionSignature
-                    // (file-path)' line, then we should keep it.
-                    keepLine = true;
-                }
-                else
-                {
-                    const location: string = match[1];
+                    const hasFunctionName: boolean = (stackFrameLineMatch.length === 4);
+                    const location: string = hasFunctionName ? stackFrameLineMatch[3] : stackFrameLineMatch[2];
 
-                    // Keep only file URLs inside cwd
-                    try
-                    {
-                        const filePath: string = path.resolve(fileURLToPath(location)).replaceAll("\\", "/");
-                        keepLine = filePath.startsWith(currentFolderPath);
-                    }
-                    catch
-                    {
-                    }
+                    const filePath: string | undefined = BasicTestError.getStackFrameAbsolutePath(location);
+                    keepLine = !!filePath && filePath.startsWith(currentFolderPath) && !filePath.includes("/node_modules/");
                 }
-
                 return keepLine;
             })
             .join('\n');
@@ -89,51 +96,24 @@ export class BasicTestError implements TestError
             .split('\n')
             .map((line: string) =>
             {
-                const match: RegExpMatchArray | null =
-                    line.match(/^(\s*)at (.+?) \((.+)\)$/) ??
-                    line.match(/^(\s*)at (.+)$/);
-                if (match)
+                const stackFrameLineMatch: RegExpMatchArray | null = BasicTestError.getStackFrameLineMatch(line);
+                if (stackFrameLineMatch)
                 {
-                    const hasFunctionName: boolean = (match.length === 4);
-                    const indentation: string = match[1];
-                    const functionName: string | undefined = hasFunctionName ? match[2] : undefined;
-                    const location: string = hasFunctionName ? match[3] : match[2];
+                    const hasFunctionName: boolean = (stackFrameLineMatch.length === 4);
+                    const indentation: string = stackFrameLineMatch[1];
+                    const functionName: string | undefined = hasFunctionName ? stackFrameLineMatch[2] : undefined;
+                    const location: string = hasFunctionName ? stackFrameLineMatch[3] : stackFrameLineMatch[2];
 
                     let relativeLocation: string = location;
-                    try
+                    const pathMatch: RegExpMatchArray | null = location.match(/^(.*?):(\d+):(\d+)$/);
+                    if (pathMatch)
                     {
-                        const pathMatch: RegExpMatchArray | null = location.match(/^(.*?):(\d+):(\d+)$/);
-                        if (pathMatch)
+                        const absolutePath: string | undefined = BasicTestError.getStackFrameAbsolutePath(location);
+                        if (absolutePath)
                         {
-                            const fullPath: string = pathMatch[1];
-                            const lineNumber: string = pathMatch[2];
-                            const columnNumber: string = pathMatch[3];
-
-                            let absolutePath: string | undefined;
-                            if (fullPath.startsWith('file:///'))
-                            {
-                                absolutePath = fileURLToPath(fullPath);
-                            }
-                            else if (/^[A-Za-z]:[\\/]/.test(fullPath) || fullPath.startsWith("/"))
-                            {
-                                absolutePath = fullPath;
-                            }
-
-                            if (absolutePath)
-                            {
-                                let relativePath = path.relative(
-                                    currentFolderPath,
-                                    absolutePath
-                                );
-
-                                relativePath = relativePath.replace(/\\/g, '/');
-
-                                relativeLocation = `${relativePath}:${lineNumber}:${columnNumber}`;
-                            }
+                            const relativePath: string = path.relative(currentFolderPath, absolutePath);
+                            relativeLocation = BasicTestError.normalizePath(relativePath);
                         }
-                    }
-                    catch
-                    {
                     }
 
                     if (relativeLocation !== location)

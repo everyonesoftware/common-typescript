@@ -135,6 +135,38 @@ export function test(runner: TestRunner): void
                     const result: string = BasicTestError.removeNonProjectPaths(errorStringLines.join("\n"), currentFolderPath);
                     test.assertEqual(expectedLines, result.split("\n"));
                 });
+
+                runner.test("with Windows file paths and 'node_modules' references in stack trace", (test: Test) =>
+                {
+                    const errorStringLines: string[] = [
+                        "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:",
+                        "",
+                        "  1 !== 2",
+                        "",
+                        "      at _AssertTest.assertEqual (C:\\my\\code\\cli-typescript\\node_modules\\@everyonesoftware\\common\\tests\\assertTest.ts:76:16)",
+                        "      at C:\\my\\code\\cli-typescript\\tests\\mainTests.ts:9:18",
+                        "      at C:\\my\\code\\cli-typescript\\node_modules\\@everyonesoftware\\common\\tests\\consoleTestRunner.ts:498:31",
+                        "      at processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                        "      at _TestAction.action (C:\\my\\code\\cli-typescript\\node_modules\\@everyonesoftware\\common\\tests\\consoleTestRunner.ts:178:17)",
+                        "      at _ConsoleTestRunner.runAsync (C:\\my\\code\\cli-typescript\\node_modules\\@everyonesoftware\\common\\tests\\consoleTestRunner.ts:531:17)",
+                        "      at C:\\my\\code\\cli-typescript\\node_modules\\@everyonesoftware\\common\\tests\\consoleTestRunner.ts:112:13",
+                        "      at _CurrentProcess.run (C:\\my\\code\\cli-typescript\\node_modules\\@everyonesoftware\\common\\sources\\currentProcess.ts:39:43)",
+                        "      at test2 (C:\\my\\code\\cli-typescript\\tests\\tests.ts:6:5)",
+                    ];
+                    const currentFolderPath: string = "C:/my/code/cli-typescript/";
+
+                    const expectedLines: string[] = [
+                        "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:",
+                        "",
+                        "  1 !== 2",
+                        "",
+                        "      at C:\\my\\code\\cli-typescript\\tests\\mainTests.ts:9:18",
+                        "      at test2 (C:\\my\\code\\cli-typescript\\tests\\tests.ts:6:5)",
+                    ];
+
+                    const result: string = BasicTestError.removeNonProjectPaths(errorStringLines.join("\n"), currentFolderPath);
+                    test.assertEqual(expectedLines, result.split("\n"));
+                });
             });
 
             runner.testFunction("makeFilePathsRelative()", () =>
