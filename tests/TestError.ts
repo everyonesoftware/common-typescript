@@ -13,6 +13,12 @@ export interface GetErrorStringOptions
      * Remove any stack frames from code that is not part of the current project.
      */
     readonly removeNonProjectPaths?: boolean;
+
+    /**
+     * A style function to apply to the file path/location of a stack frame.
+     * @param stackFrameLocation The file path/location of the stack frame.
+     */
+    readonly stackFrameLocationStyle?: (stackFrameLocation: string) => string;
 }
 
 export abstract class TestError

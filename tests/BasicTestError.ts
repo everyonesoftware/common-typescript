@@ -1,5 +1,5 @@
 import { fileURLToPath } from "url";
-import { PreCondition } from "../sources";
+import { ANSIStyles, PreCondition } from "../sources";
 import { GetErrorStringOptions, TestError } from "./TestError";
 import path from "path";
 

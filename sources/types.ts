@@ -319,6 +319,13 @@ export function isJavascriptIterable<T>(value: unknown): value is JavascriptIter
     return hasFunction(value, Symbol.iterator);
 }
 
+export function isIterator<T>(value: unknown): value is Iterator<T>
+{
+    return isJavascriptIterable(value) &&
+        hasFunction(value, "next", 0) &&
+        hasFunction(value, "hasCurrent", 0);
+}
+
 export function isIterable<T>(value: unknown): value is Iterable<T>
 {
     return isJavascriptIterable(value) &&

@@ -1,3 +1,4 @@
+import { AsyncResult } from "../sources";
 import { FetchHttpClient } from "../sources/fetchHttpClient";
 import { FetchHttpIncomingResponse } from "../sources/fetchHttpResponse";
 import { NodeJSHttpServer as NodeJSHttpServer } from "../sources/nodeJSHttpServer";
@@ -42,7 +43,7 @@ export function test(runner: TestRunner): void
                     const httpServer: NodeJSHttpServer = NodeJSHttpServer.create();
                     test.assertTrue(await httpServer.dispose());
 
-                    test.assertThrows(() => httpServer.start(3000), new PreConditionError(
+                    test.assertThrowsAsync(() => httpServer.start(3000), new PreConditionError(
                         "Expression: this.isDisposed()",
                         "Expected: false",
                         "Actual: true",
@@ -55,7 +56,7 @@ export function test(runner: TestRunner): void
                 {
                     const httpServer: NodeJSHttpServer = NodeJSHttpServer.create();
 
-                    httpServer.start(3000);
+                    const startResult: AsyncResult<void> = httpServer.start(3000);
                     try
                     {
                         const httpClient: FetchHttpClient = FetchHttpClient.create();
@@ -67,6 +68,7 @@ export function test(runner: TestRunner): void
                     finally
                     {
                         await httpServer.dispose();
+                        await startResult;
                     }
                 });
             });

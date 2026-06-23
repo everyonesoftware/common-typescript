@@ -52,21 +52,23 @@ import * as whereIteratorTests from "./whereIteratorTests";
 import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests";
 import * as consoleTestRunnerUITests from "./ConsoleTestRunnerUITests";
 import * as basicTestErrorTests from "./BasicTestErrorTests";
+import * as tokenizerTests from "./TokenizerTests";
 
 export const hasNetworkAccess: boolean = true;
 
 ConsoleTestRunner.run([
     assertTestTests,
+    basicTestErrorTests,
     byteListStreamTests,
     byteListTests,
-    byteTests.test,
+    byteTests,
     characterListStreamTests,
     characterListTests,
-    characterTableTests,
     commandLineParametersTests,
     comparerTests,
     conditionTests,
     consoleTestRunnerTests,
+    consoleTestRunnerUITests,
     dateTimeTests,
     depthFirstSearchTests,
     disposableTests,
@@ -107,6 +109,6 @@ ConsoleTestRunner.run([
     typesTests,
     whereIteratorTests,
     wonderlandTrailClientTests,
-    consoleTestRunnerUITests,
-    basicTestErrorTests,
+    characterTableTests,
+    tokenizerTests,
 ]);

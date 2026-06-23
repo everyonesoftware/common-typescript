@@ -194,13 +194,10 @@ export abstract class Iterator<T> implements JavascriptIterable<T>
         {
             const result: T[] = [];
 
-            if (iterator.hasCurrent())
+            iterator.start().await();
+            while (iterator.hasCurrent())
             {
-                result.push(iterator.getCurrent());
-            }
-            while (iterator.next().await())
-            {
-                result.push(iterator.getCurrent());
+                result.push(iterator.takeCurrent().await())
             }
 
             return result;
