@@ -208,7 +208,7 @@ export function asFunctionWithParameterCount(value: unknown, parameterCount: num
  * Get whether the provided value is an {@link Array}.
  * @param value The value to check.
  */
-export function isArray(value: unknown): value is unknown[]
+export function isArray<T>(value: T[] | unknown): value is T[]
 {
     return Array.isArray(value);
 }
