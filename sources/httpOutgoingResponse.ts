@@ -1,113 +1,60 @@
+import { AsyncResult } from "./asyncResult";
 import { HttpHeader } from "./httpHeader";
 import { HttpHeaders } from "./httpHeaders";
-import { MutableHttpHeaders } from "./mutableHttpHeaders";
-import { PreCondition } from "./preCondition";
 import { SyncResult } from "./syncResult";
 
 /**
- * A HTTP response that is sent out by an {@link HttpServer}.
+ * A HTTP response sent by a HTTP server.
  */
-export class HttpOutgoingResponse
+export abstract class HttpOutgoingResponse
 {
-    private statusCode: number;
-    private readonly headers: MutableHttpHeaders;
-    private body: string;
-
-    private constructor()
-    {
-        this.statusCode = 200;
-        this.headers = MutableHttpHeaders.create();
-        this.body = "";
-    }
-
-    public static create(): HttpOutgoingResponse
-    {
-        return new HttpOutgoingResponse();
-    }
-
-    /**
-     * Get the status code of this {@link HttpOutgoingResponse}.
-     */
-    public getStatusCode(): number
-    {
-        return this.statusCode;
-    }
-
     /**
      * Set the status code of this {@link HttpOutgoingResponse}.
-     * @param statusCode The status code of this {@link HttpOutgoingResponse}.
+     * @param statusCode The status code to set.
      */
-    public setStatusCode(statusCode: number): this
-    {
-        PreCondition.assertBetween(100, statusCode, 599, "statusCode");
-
-        this.statusCode = statusCode;
-
-        return this;
-    }
-
-    public getHeaders(): HttpHeaders
-    {
-        return this.headers;
-    }
+    public abstract setStatusCode(statusCode: number): this;
 
     /**
-     * Get the HTTP header with the provided name or return a {@link NotFoundError} if the header
-     * doesn't exist.
+     * Get whether this {@link HttpOutgoingResponse} has a status code yet.
+     */
+    public abstract hasStatusCode(): boolean;
+
+    /**
+     * Get the status code.
+     */
+    public abstract getStatusCode(): number;
+
+    /**
+     * Get the {@link HttpHeaders} of this {@link HttpOutgoingResponse}.
+     */
+    public abstract getHeaders(): HttpHeaders;
+
+    /**
+     * Get the {@link HttpHeader} with the provided name in this {@link HttpOutgoingResponse}. If no
+     * header exists with the provided name, then a {@link NotFoundError} will be returned.
      * @param headerName The name of the header to get.
      */
-    public getHeader(headerName: string): SyncResult<HttpHeader>
-    {
-        return this.headers.get(headerName);
-    }
+    public abstract getHeader(headerName: string): SyncResult<HttpHeader>;
 
     /**
-     * Get the value of the header with the provided name or return a {@link NotFoundError} if the
-     * header doesn't exist.
+     * Get the value of the {@link HttpHeader} with the provided name in this
+     * {@link HttpOutgoingResponse}. If no header exists with the provided name, then a
+     * {@link NotFoundError} will be returned.
      * @param headerName The name of the header value to get.
      */
-    public getHeaderValue(headerName: string): SyncResult<string>
-    {
-        return this.headers.getValue(headerName);
-    }
+    public abstract getHeaderValue(headerName: string): SyncResult<string>;
+
+    public abstract setHeader(headerName: string, headerValue: string): this;
 
     /**
-     * Set the HTTP header in this {@link HttpOutgoingResponse}.
-     * @param headerName The name of the HTTP header.
-     * @param headerValue The value of the HTTP header.
+     * Set the body of this {@link HttpOutgoingResponse} to be the provided string value.
+     * @param body The string body to set.
      */
-    public setHeader(headerName: string, headerValue: string): this
-    {
-        this.headers.set(headerName, headerValue);
-
-        return this;
-    }
-
-    public setContentTypeHeader(contentType: string): this
-    {
-        this.headers.setContentType(contentType);
-
-        return this;
-    }
+    public abstract setBodyString(body: string): this;
 
     /**
-     * Get the body of this {@link HttpOutgoingResponse}.
+     * Set the body of this {@link HttpOutgoingResponse} to be the provided JSON value.
+     * @param body The JSON body to set.
      */
-    public getBody(): string
-    {
-        return this.body;
-    }
-
-    /**
-     * Set the body of this {@link HttpOutgoingResponse}.
-     * @param body The body for this {@link HttpOutgoingResponse}.
-     */
-    public setBody(body: string): this
-    {
-        PreCondition.assertNotUndefinedAndNotNull(body, "body");
-
-        this.body = body;
-
-        return this;
-    }
+    public abstract setBodyJSON(body: unknown): this;
 }
