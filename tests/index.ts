@@ -3,6 +3,7 @@ export * from "./assertTestTests";
 export * from "./basicTestSkip";
 export * from "./consoleTestRunner";
 export * from "./failedTest";
+export * from "./FakeClock";
 export * from "./skippedTest";
 export * from "./test";
 export * from "./testAction";

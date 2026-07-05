@@ -4,9 +4,9 @@ import { HttpServer } from "./httpServer";
 import { HttpIncomingRequest } from "./httpIncomingRequest";
 import { HttpOutgoingResponse } from "./httpOutgoingResponse";
 import { PreCondition } from "./preCondition";
-import { HttpHeaders } from "./httpHeaders";
 import { PromiseAsyncResult } from "./promiseAsyncResult";
 import { AsyncResult } from "./asyncResult";
+import { NodeJSHttpOutgoingResponse } from "./NodeJSHttpOutgoingResponse";
 
 /**
  * A {@link HttpServer} implementation that uses the Node.js HTTP module.
@@ -96,25 +96,14 @@ export class NodeJSHttpServer extends HttpServer
             {
                 this.httpServer = http.createServer();
 
-                this.httpServer.on("request", (request: http.IncomingMessage, response: http.ServerResponse<http.IncomingMessage> & { req: http.IncomingMessage }) =>
+                this.httpServer.on("request", async (rawRequest: http.IncomingMessage, rawResponse: http.ServerResponse<http.IncomingMessage> & { req: http.IncomingMessage }) =>
                 {
                     // const httpRequest: HttpIncomingRequest = NodeJSHttpIncomingRequest.create(request);
-                    const httpResponse: HttpOutgoingResponse = HttpOutgoingResponse.create()
+                    const response = NodeJSHttpOutgoingResponse.create(rawResponse)
                         .setStatusCode(200)
                         .setHeader("Content-Type", "text/plain")
-                        .setBody("Hello world!");
-
-                    const statusCode: number = httpResponse.getStatusCode();
-                    const headers: HttpHeaders = httpResponse.getHeaders();
-
-                    const responseHeaders: http.OutgoingHttpHeaders = {};
-                    for (const header of headers)
-                    {
-                        responseHeaders[header.getName()] = header.getValue();
-                    }
-
-                    response.writeHead(statusCode, responseHeaders);
-                    response.end(httpResponse.getBody());
+                        .setBodyString("Hello world!");
+                    await response.end();
                 });
 
                 this.httpServer.on("close", () =>

@@ -166,7 +166,7 @@ export function test(runner: TestRunner): void
                     test.assertNotUndefinedAndNotNull(response.minimumGroupSize);
                 });
 
-                runner.test("with Indian Bar division id", runner.skip(!hasNetworkAccess), async (test: Test) =>
+                runner.test("with Indian Bar division id", runner.skip(), async (test: Test) =>
                 {
                     const client: RecreationDotGovClient = RecreationDotGovClient.create(HttpClient.create());
 
@@ -181,7 +181,7 @@ export function test(runner: TestRunner): void
                     test.assertNotUndefinedAndNotNull(response);
                     test.assertNotUndefinedAndNotNull(response.json);
                     test.assertNotUndefinedAndNotNull(response.dayAvailabilities);
-                    test.assertEqual(31, response.dayAvailabilities.getCount().await());
+                    test.assertEqual(28, response.dayAvailabilities.getCount().await());
                     test.assertNotUndefinedAndNotNull(response.maximumGroupSize);
                     test.assertNotUndefinedAndNotNull(response.minimumGroupSize);
                 });

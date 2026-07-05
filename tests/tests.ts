@@ -53,6 +53,7 @@ import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests";
 import * as consoleTestRunnerUITests from "./ConsoleTestRunnerUITests";
 import * as basicTestErrorTests from "./BasicTestErrorTests";
 import * as tokenizerTests from "./TokenizerTests";
+import * as clockTests from "./ClockTests";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -111,4 +112,5 @@ ConsoleTestRunner.run([
     wonderlandTrailClientTests,
     characterTableTests,
     tokenizerTests,
+    clockTests,
 ]);

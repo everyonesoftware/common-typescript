@@ -5,7 +5,8 @@ import { HttpHeader } from "./httpHeader";
 import { HttpMethod } from "./httpMethod";
 import { PostCondition } from "./postCondition";
 import { PreCondition } from "./preCondition";
-import { PromiseAsyncResult } from "./promiseAsyncResult";
+import { AsyncResult } from "./asyncResult";
+import { FetchError } from "./FetchError";
 
 /**
  * A {@link HttpClient} that uses {@link fetch}() to make network requests.
@@ -21,27 +22,46 @@ export class FetchHttpClient implements HttpClient
         return new FetchHttpClient();
     }
 
-    public sendRequest(request: HttpOutgoingRequest): PromiseAsyncResult<FetchHttpIncomingResponse>
+    public sendRequest(request: HttpOutgoingRequest): AsyncResult<FetchHttpIncomingResponse>
     {
         PreCondition.assertNotUndefinedAndNotNull(request, "request");
 
-        return PromiseAsyncResult.create(async () =>
+        return AsyncResult.create(async () =>
         {
+            const fetchURL: string = request.getURL();
+            const fetchMethod: string = FetchHttpClient.convertMethod(request.getMethod());
+            const fetchHeaders: [string, string][] = request.getHeaders()
+                .map<[string, string]>((header: HttpHeader) => [header.getName(), header.getValue()])
+                .toArray()
+                .await()
+            const fetchBody: string | undefined = request.getBody() || undefined;
             const requestInit: RequestInit = {
-                method: FetchHttpClient.convertMethod(request.getMethod()),
-                headers: request.getHeaders()
-                    .map<[string, string]>((header: HttpHeader) => [header.getName(), header.getValue()])
-                    .toArray()
-                    .await(),
-                body: request.getBody() || undefined,
+                method: fetchMethod,
+                headers: fetchHeaders,
+                body: fetchBody,
             };
 
-            const fetchResponse: Response = await fetch(request.getURL(), requestInit);
-            return FetchHttpIncomingResponse.create(fetchResponse);
+            let result: FetchHttpIncomingResponse;
+            try
+            {
+                const fetchResponse: Response = await fetch(fetchURL, requestInit);
+                result = FetchHttpIncomingResponse.create(fetchResponse);
+            }
+            catch (error)
+            {
+                if (error instanceof Error &&
+                    error.cause instanceof Error)
+                {
+                    throw new FetchError(error.cause);
+                }
+                throw error;
+            }
+
+            return result;
         });
     }
 
-    public sendGetRequest(url: string): PromiseAsyncResult<FetchHttpIncomingResponse>
+    public sendGetRequest(url: string): AsyncResult<FetchHttpIncomingResponse>
     {
         return this.sendRequest(HttpOutgoingRequest.create(HttpMethod.GET, url));
     }

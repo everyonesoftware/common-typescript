@@ -23,7 +23,7 @@ export function test(runner: TestRunner): void
                 {
                     const client: FetchHttpClient = FetchHttpClient.create();
 
-                    const response: FetchHttpIncomingResponse = await client.sendRequest(HttpOutgoingRequest.get("https://www.example.com"));
+                    const response: FetchHttpIncomingResponse = await client.sendGetRequest("https://www.example.com");
                     test.assertNotUndefinedAndNotNull(response);
                     test.assertEqual(200, response.getStatusCode());
                 });

@@ -1,7 +1,6 @@
 import { AsyncResult } from "./asyncResult";
 import { HttpHeader } from "./httpHeader";
 import { HttpHeaders } from "./httpHeaders";
-import { SyncResult } from "./syncResult";
 
 /**
  * A HTTP response sent by a HTTP server.
@@ -15,14 +14,9 @@ export abstract class HttpOutgoingResponse
     public abstract setStatusCode(statusCode: number): this;
 
     /**
-     * Get whether this {@link HttpOutgoingResponse} has a status code yet.
-     */
-    public abstract hasStatusCode(): boolean;
-
-    /**
      * Get the status code.
      */
-    public abstract getStatusCode(): number;
+    public abstract getStatusCode(): AsyncResult<number>;
 
     /**
      * Get the {@link HttpHeaders} of this {@link HttpOutgoingResponse}.
@@ -34,7 +28,7 @@ export abstract class HttpOutgoingResponse
      * header exists with the provided name, then a {@link NotFoundError} will be returned.
      * @param headerName The name of the header to get.
      */
-    public abstract getHeader(headerName: string): SyncResult<HttpHeader>;
+    public abstract getHeader(headerName: string): AsyncResult<HttpHeader>;
 
     /**
      * Get the value of the {@link HttpHeader} with the provided name in this
@@ -42,7 +36,7 @@ export abstract class HttpOutgoingResponse
      * {@link NotFoundError} will be returned.
      * @param headerName The name of the header value to get.
      */
-    public abstract getHeaderValue(headerName: string): SyncResult<string>;
+    public abstract getHeaderValue(headerName: string): AsyncResult<string>;
 
     public abstract setHeader(headerName: string, headerValue: string): this;
 
