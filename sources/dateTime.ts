@@ -126,5 +126,15 @@ export abstract class DateTime
 
     public abstract toString(): string;
 
+    /**
+     * Get the string representation of this {@link DateTime}'s date in the format "yyyy-mm-dd", such
+     * as "2020-05-13".
+     */
     public abstract toDateString(): string;
+    
+    /**
+     * Get the string representation of this {@link DateTime}'s date in the format "MMM d", such as
+     * "Mar 3".
+     */
+    public abstract toShortDateString(): string;
 }

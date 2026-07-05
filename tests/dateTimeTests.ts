@@ -21,6 +21,7 @@ export function test(runner: TestRunner): void
                     test.assertEqual(18, dateTime.getMinute());
                     test.assertEqual(30, dateTime.getSecond());
                     test.assertEqual("2025-03-14", dateTime.toDateString());
+                    test.assertEqual("Mar 14", dateTime.toShortDateString());
                     test.assertEqual("2025-03-14T20:18:30.000-07:00", dateTime.toString());
                     test.assertEqual("2025-03-14T20:18:30.000-07:00", dateTime.debug);
                 });

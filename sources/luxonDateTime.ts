@@ -72,6 +72,11 @@ export class LuxonDateTime implements DateTime
         return this.dateTime.toISODate()!;
     }
 
+    public toShortDateString(): string
+    {
+        return `${this.dateTime.monthShort} ${this.dateTime.day}`;
+    }
+
     public compareTo(dateTime: DateTime, compareTimes: boolean): number
     {
         return DateTime.compareTo(this, dateTime, compareTimes);
