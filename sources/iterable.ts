@@ -1,17 +1,17 @@
-import { Comparable } from "./comparable";
-import { Comparer } from "./comparer";
-import { ConcatenateIterable } from "./concatenateIterable";
-import { EqualFunctions } from "./equalFunctions";
-import { FlatMapIterable } from "./flatMapIterable";
-import { Indexable } from "./Indexable";
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { MapIterable } from "./mapIterable";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
-import { ToStringFunctions } from "./toStringFunctions";
-import { instanceOf, isIterable, isUndefinedOrNull, Type } from "./types";
-import { WhereIterable } from "./whereIterable";
+import { Comparable } from "./comparable.js";
+import { Comparer } from "./comparer.js";
+import { ConcatenateIterable } from "./concatenateIterable.js";
+import { EqualFunctions } from "./equalFunctions.js";
+import { FlatMapIterable } from "./flatMapIterable.js";
+import { Indexable } from "./Indexable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { MapIterable } from "./mapIterable.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
+import { instanceOf, isIterable, isUndefinedOrNull, Type } from "./types.js";
+import { WhereIterable } from "./whereIterable.js";
 
 /**
  * An object that can be iterated over.

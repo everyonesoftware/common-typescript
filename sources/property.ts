@@ -1,5 +1,5 @@
-import { PreCondition } from "./preCondition";
-import { hasProperty, isFunction, isObject } from "./types";
+import { PreCondition } from "./preCondition.js";
+import { hasProperty, isFunction, isObject } from "./types.js";
 
 export class Property<T>
 {

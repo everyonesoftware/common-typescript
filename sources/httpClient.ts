@@ -1,8 +1,8 @@
-import { FetchHttpClient } from "./fetchHttpClient";
-import { HttpOutgoingRequest } from "./httpOutgoingRequest";
-import { HttpIncomingResponse } from "./httpIncomingResponse";
-import { HttpMethod } from "./httpMethod";
-import { AsyncResult } from "./asyncResult";
+import { FetchHttpClient } from "./fetchHttpClient.js";
+import { HttpOutgoingRequest } from "./httpOutgoingRequest.js";
+import { HttpIncomingResponse } from "./httpIncomingResponse.js";
+import { HttpMethod } from "./httpMethod.js";
+import { AsyncResult } from "./asyncResult.js";
 
 /**
  * An object that can make HTTP network requests.

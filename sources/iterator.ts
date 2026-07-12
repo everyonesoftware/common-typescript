@@ -1,18 +1,18 @@
-import { Comparable } from "./comparable";
-import { ConcatenateIterator } from "./concatenateIterator";
-import { EmptyError } from "./emptyError";
-import { FlatMapIterator } from "./flatMapIterator";
-import { IteratorToJavascriptIteratorAdapter } from "./iteratorToJavascriptIteratorAdapter";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { JavascriptIteratorToIteratorAdapter } from "./javascriptIteratorToIteratorAdapter";
-import { MapIterator } from "./mapIterator";
-import { NotFoundError } from "./notFoundError";
-import { PreCondition } from "./preCondition";
-import { SkipIterator } from "./skipIterator";
-import { SyncResult } from "./syncResult";
-import { TakeIterator } from "./takeIterator";
-import { instanceOfType, isJavascriptIterator, isUndefinedOrNull, Type } from "./types";
-import { WhereIterator } from "./whereIterator";
+import { Comparable } from "./comparable.js";
+import { ConcatenateIterator } from "./concatenateIterator.js";
+import { EmptyError } from "./emptyError.js";
+import { FlatMapIterator } from "./flatMapIterator.js";
+import { IteratorToJavascriptIteratorAdapter } from "./iteratorToJavascriptIteratorAdapter.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { JavascriptIteratorToIteratorAdapter } from "./javascriptIteratorToIteratorAdapter.js";
+import { MapIterator } from "./mapIterator.js";
+import { NotFoundError } from "./notFoundError.js";
+import { PreCondition } from "./preCondition.js";
+import { SkipIterator } from "./skipIterator.js";
+import { SyncResult } from "./syncResult.js";
+import { TakeIterator } from "./takeIterator.js";
+import { instanceOfType, isJavascriptIterator, isUndefinedOrNull, Type } from "./types.js";
+import { WhereIterator } from "./whereIterator.js";
 
 /**
  * A type that can be used to iterate over a collection.

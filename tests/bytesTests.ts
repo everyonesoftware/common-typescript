@@ -1,6 +1,6 @@
-import { Bytes } from "../sources/bytes";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { Bytes } from "../sources/bytes.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

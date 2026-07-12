@@ -1,8 +1,8 @@
-import { NotFoundError } from "../sources/notFoundError";
-import { PreConditionError } from "../sources/preConditionError";
-import { SyncResult } from "../sources/syncResult";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { NotFoundError } from "../sources/notFoundError.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { SyncResult } from "../sources/syncResult.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

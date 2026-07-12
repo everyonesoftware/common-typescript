@@ -1,6 +1,6 @@
-import { PreCondition } from "../sources/preCondition";
-import { TestAction } from "./testAction";
-import { TestError } from "./TestError";
+import { PreCondition } from "../sources/preCondition.js";
+import { TestAction } from "./testAction.js";
+import { TestError } from "./TestError.js";
 
 export class FailedTest
 {

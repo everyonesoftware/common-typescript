@@ -1,5 +1,5 @@
-import { BasicTestError } from "./BasicTestError";
-import { TestErrorCreator } from "./TestErrorCreator";
+import { BasicTestError } from "./BasicTestError.js";
+import { TestErrorCreator } from "./TestErrorCreator.js";
 
 /**
  * A {@link TestErrorCreator} that creates {@link BasicTestError}s.

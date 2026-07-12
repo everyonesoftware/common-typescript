@@ -1,5 +1,5 @@
-import { BasicTestErrorCreator } from "./BasicTestErrorCreator";
-import { TestError } from "./TestError";
+import { BasicTestErrorCreator } from "./BasicTestErrorCreator.js";
+import { TestError } from "./TestError.js";
 
 export abstract class TestErrorCreator
 {

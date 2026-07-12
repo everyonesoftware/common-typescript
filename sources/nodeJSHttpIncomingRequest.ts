@@ -1,14 +1,14 @@
-import { HttpIncomingRequest } from "./httpIncomingRequest";
+import { HttpIncomingRequest } from "./httpIncomingRequest.js";
 import * as http from "http";
-import { PreCondition } from "./preCondition";
-import { HttpHeader } from "./httpHeader";
-import { HttpHeaders } from "./httpHeaders";
-import { HttpMethod, parseHttpMethod } from "./httpMethod";
-import { NotFoundError } from "./notFoundError";
-import { isArray } from "./types";
-import { escapeAndQuote } from "./strings";
-import { SyncResult } from "./syncResult";
-import { AsyncResult } from "./asyncResult";
+import { PreCondition } from "./preCondition.js";
+import { HttpHeader } from "./httpHeader.js";
+import { HttpHeaders } from "./httpHeaders.js";
+import { HttpMethod, parseHttpMethod } from "./httpMethod.js";
+import { NotFoundError } from "./notFoundError.js";
+import { isArray } from "./types.js";
+import { escapeAndQuote } from "./strings.js";
+import { SyncResult } from "./syncResult.js";
+import { AsyncResult } from "./asyncResult.js";
 
 export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
 {

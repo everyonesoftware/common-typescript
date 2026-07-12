@@ -1,9 +1,9 @@
-import { Comparer } from "./comparer";
-import { Iterable } from "./iterable";
-import { isMap, Map } from "./map";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
-import { getPropertyNames, hasProperty, isBoolean, isJavascriptIterable, isObject, isString } from "./types";
+import { Comparer } from "./comparer.js";
+import { Iterable } from "./iterable.js";
+import { isMap, Map } from "./map.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
+import { getPropertyNames, hasProperty, isBoolean, isJavascriptIterable, isObject, isString } from "./types.js";
 
 /**
  * A collection of {@link Function}s that can be used to determine if two values are equal.

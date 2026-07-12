@@ -1,14 +1,14 @@
-import { EqualFunctions } from "./equalFunctions";
-import { HttpHeader } from "./httpHeader";
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { MutableHttpHeaders } from "./mutableHttpHeaders";
-import { NotFoundError } from "./notFoundError";
-import { AsyncResult } from "./asyncResult";
-import { SyncResult } from "./syncResult";
-import { ToStringFunctions } from "./toStringFunctions";
-import { Type } from "./types";
+import { EqualFunctions } from "./equalFunctions.js";
+import { HttpHeader } from "./httpHeader.js";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { MutableHttpHeaders } from "./mutableHttpHeaders.js";
+import { NotFoundError } from "./notFoundError.js";
+import { AsyncResult } from "./asyncResult.js";
+import { SyncResult } from "./syncResult.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
+import { Type } from "./types.js";
 
 /**
  * A collection of {@link HttpHeader}s.

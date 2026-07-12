@@ -1,7 +1,7 @@
 import { Test, TestRunner } from ".";
-import { Iterable } from "../sources/iterable";
-import { MutableIndexable } from "../sources/MutableIndexable";
-import { indexableTests } from "./IndexableTests";
+import { Iterable } from "../sources/iterable.js";
+import { MutableIndexable } from "../sources/MutableIndexable.js";
+import { indexableTests } from "./IndexableTests.js";
 
 export function mutableIndexableTests<T>(runner: TestRunner, creator: () => MutableIndexable<T>): void
 {

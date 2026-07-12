@@ -1,6 +1,6 @@
 import { fileURLToPath } from "url";
-import { ANSIStyles, PreCondition } from "../sources";
-import { GetErrorStringOptions, TestError } from "./TestError";
+import { ANSIStyles, PreCondition } from "../sources/index.js";
+import { GetErrorStringOptions, TestError } from "./TestError.js";
 import path from "path";
 
 export class BasicTestError implements TestError

@@ -1,8 +1,8 @@
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
-import { isBoolean, Type } from "./types";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
+import { isBoolean, Type } from "./types.js";
 
 /**
  * An {@link Iterator} that only returns values that match a condition.

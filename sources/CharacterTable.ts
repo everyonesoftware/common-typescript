@@ -1,7 +1,7 @@
-import { Indexable } from "./Indexable";
-import { JavascriptIterable } from "./javascript";
-import { List } from "./list";
-import { PreCondition } from "./preCondition";
+import { Indexable } from "./Indexable.js";
+import { JavascriptIterable } from "./javascript.js";
+import { List } from "./list.js";
+import { PreCondition } from "./preCondition.js";
 
 export class CharacterTable
 {

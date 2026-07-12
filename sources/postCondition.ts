@@ -1,7 +1,7 @@
-import { JavascriptIterable } from "./javascript";
-import { MutableCondition } from "./mutableCondition";
-import { PostConditionError } from "./postConditionError";
-import { Type } from "./types";
+import { JavascriptIterable } from "./javascript.js";
+import { MutableCondition } from "./mutableCondition.js";
+import { PostConditionError } from "./postConditionError.js";
+import { Type } from "./types.js";
 
 /**
  * A type that encapsulates conditions that should exist before an operation takes place.

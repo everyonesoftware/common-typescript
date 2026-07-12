@@ -1,6 +1,6 @@
-import { NotFoundError } from "../sources/notFoundError";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { NotFoundError } from "../sources/notFoundError.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

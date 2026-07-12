@@ -1,4 +1,4 @@
-import { join } from "./strings";
+import { join } from "./strings.js";
 
 /**
  * An {@link Error} that is thrown when a value is not found.

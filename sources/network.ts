@@ -1,5 +1,5 @@
-import { HttpClient } from "./httpClient";
-import { HttpServer } from "./httpServer";
+import { HttpClient } from "./httpClient.js";
+import { HttpServer } from "./httpServer.js";
 
 /**
  * An object that provides access to the network.

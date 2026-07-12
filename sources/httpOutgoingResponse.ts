@@ -1,6 +1,6 @@
-import { AsyncResult } from "./asyncResult";
-import { HttpHeader } from "./httpHeader";
-import { HttpHeaders } from "./httpHeaders";
+import { AsyncResult } from "./asyncResult.js";
+import { HttpHeader } from "./httpHeader.js";
+import { HttpHeaders } from "./httpHeaders.js";
 
 /**
  * A HTTP response sent by a HTTP server.

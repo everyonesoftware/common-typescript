@@ -1,8 +1,8 @@
-import { AsyncResult } from "./asyncResult";
-import { CharacterWriteStream } from "./characterWriteStream";
-import { List } from "./list";
-import { PreCondition } from "./preCondition";
-import { isNumber, isString, isUndefinedOrNull } from "./types";
+import { AsyncResult } from "./asyncResult.js";
+import { CharacterWriteStream } from "./characterWriteStream.js";
+import { List } from "./list.js";
+import { PreCondition } from "./preCondition.js";
+import { isNumber, isString, isUndefinedOrNull } from "./types.js";
 
 export class IndentedCharacterWriteStream extends CharacterWriteStream
 {

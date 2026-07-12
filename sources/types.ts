@@ -1,6 +1,6 @@
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { JavascriptAsyncIterable, JavascriptAsyncIterator, JavascriptIterable, JavascriptIterator } from "./javascript";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptAsyncIterable, JavascriptAsyncIterator, JavascriptIterable, JavascriptIterator } from "./javascript.js";
 
 /**
  * A {@link Type} that can be used to pass types as parameters.

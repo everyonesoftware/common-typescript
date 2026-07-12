@@ -1,12 +1,12 @@
-import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { HttpHeader } from "./httpHeader";
-import { HttpHeaders } from "./httpHeaders";
-import { HttpIncomingResponse } from "./httpIncomingResponse";
-import { MutableHttpHeaders } from "./mutableHttpHeaders";
-import { NotFoundError } from "./notFoundError";
-import { PreCondition } from "./preCondition";
-import { escapeAndQuote } from "./strings";
-import { SyncResult } from "./syncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { HttpHeader } from "./httpHeader.js";
+import { HttpHeaders } from "./httpHeaders.js";
+import { HttpIncomingResponse } from "./httpIncomingResponse.js";
+import { MutableHttpHeaders } from "./mutableHttpHeaders.js";
+import { NotFoundError } from "./notFoundError.js";
+import { PreCondition } from "./preCondition.js";
+import { escapeAndQuote } from "./strings.js";
+import { SyncResult } from "./syncResult.js";
 
 /**
  * An {@link HttpIncomingResponse} that comes from a {@link FetchHttpClient}.

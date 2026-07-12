@@ -1,5 +1,5 @@
-import { SyncDisposable } from "./basicDisposable";
-import { AsyncResult } from "./asyncResult";
+import { SyncDisposable } from "./basicDisposable.js";
+import { AsyncResult } from "./asyncResult.js";
 
 /**
  * An object that can be disposed.

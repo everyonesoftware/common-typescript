@@ -1,11 +1,11 @@
-import { depthFirstSearch } from "../sources/depthFirstSearch";
-import { Node } from "../sources/node";
-import { Iterator } from "../sources/iterator";
-import { PreConditionError } from "../sources/preConditionError";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
-import { List } from "../sources/list";
-import { SearchControl } from "../sources/searchControl";
+import { depthFirstSearch } from "../sources/depthFirstSearch.js";
+import { Node } from "../sources/node.js";
+import { Iterator } from "../sources/iterator.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
+import { List } from "../sources/list.js";
+import { SearchControl } from "../sources/searchControl.js";
 
 export function test(runner: TestRunner): void
 {

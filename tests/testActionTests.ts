@@ -1,8 +1,8 @@
-import { PreConditionError } from "../sources/preConditionError";
-import { join } from "../sources/strings";
-import { Test } from "./test";
-import { TestAction } from "./testAction";
-import { TestRunner } from "./testRunner";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { join } from "../sources/strings.js";
+import { Test } from "./test.js";
+import { TestAction } from "./testAction.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

@@ -1,12 +1,12 @@
-import { EqualFunctions } from "./equalFunctions";
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { JavascriptSetSet } from "./javascriptSetSet";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
-import { ToStringFunctions } from "./toStringFunctions";
-import { hasFunction, Type } from "./types";
+import { EqualFunctions } from "./equalFunctions.js";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { JavascriptSetSet } from "./javascriptSetSet.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
+import { hasFunction, Type } from "./types.js";
 
 /**
  * Get whether the provided value is a {@link Set}.

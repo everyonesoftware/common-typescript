@@ -1,8 +1,8 @@
-import { JavascriptIterable } from "../sources/javascript";
-import { List } from "../sources/list";
-import { PreCondition } from "../sources/preCondition";
-import { join } from "../sources/strings";
-import { TestSkip } from "./testSkip";
+import { JavascriptIterable } from "../sources/javascript.js";
+import { List } from "../sources/list.js";
+import { PreCondition } from "../sources/preCondition.js";
+import { join } from "../sources/strings.js";
+import { TestSkip } from "./testSkip.js";
 
 export type TestActionType = "file" | "type" | "function" | "group" | "test";
 

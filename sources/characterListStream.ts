@@ -1,13 +1,13 @@
-import { CharacterList } from "./characterList";
-import { CharacterReadStream } from "./characterReadStream";
-import { CharacterWriteStream } from "./characterWriteStream";
-import { EmptyError } from "./emptyError";
-import { JavascriptIterable } from "./javascript";
-import { PreCondition } from "./preCondition";
-import { AsyncResult } from "./asyncResult";
-import { join } from "./strings";
-import { SyncResult } from "./syncResult";
-import { isNumber, isString, isUndefinedOrNull } from "./types";
+import { CharacterList } from "./characterList.js";
+import { CharacterReadStream } from "./characterReadStream.js";
+import { CharacterWriteStream } from "./characterWriteStream.js";
+import { EmptyError } from "./emptyError.js";
+import { JavascriptIterable } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
+import { AsyncResult } from "./asyncResult.js";
+import { join } from "./strings.js";
+import { SyncResult } from "./syncResult.js";
+import { isNumber, isString, isUndefinedOrNull } from "./types.js";
 
 /**
  * A {@link CharacterReadStream} and {@link CharacterWriteStream} implementation that is implemented using a

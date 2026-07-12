@@ -1,5 +1,5 @@
-import { PreCondition } from "./preCondition";
-import { escapeAndQuote } from "./strings";
+import { PreCondition } from "./preCondition.js";
+import { escapeAndQuote } from "./strings.js";
 
 export class HttpHeader
 {

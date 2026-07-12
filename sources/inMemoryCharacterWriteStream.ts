@@ -1,7 +1,7 @@
-import { CharacterWriteStream } from "./characterWriteStream";
-import { PreCondition } from "./preCondition";
-import { getLength } from "./strings";
-import { SyncResult } from "./syncResult";
+import { CharacterWriteStream } from "./characterWriteStream.js";
+import { PreCondition } from "./preCondition.js";
+import { getLength } from "./strings.js";
+import { SyncResult } from "./syncResult.js";
 
 export class InMemoryCharacterWriteStream extends CharacterWriteStream
 {

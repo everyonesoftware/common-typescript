@@ -1,16 +1,16 @@
-import { EqualFunctions } from "./equalFunctions";
-import { HttpHeader } from "./httpHeader";
-import { HttpHeaders } from "./httpHeaders";
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { List } from "./list";
-import { NotFoundError } from "./notFoundError";
-import { PreCondition } from "./preCondition";
-import { escapeAndQuote } from "./strings";
-import { SyncResult } from "./syncResult";
-import { ToStringFunctions } from "./toStringFunctions";
-import { isString, Type } from "./types";
+import { EqualFunctions } from "./equalFunctions.js";
+import { HttpHeader } from "./httpHeader.js";
+import { HttpHeaders } from "./httpHeaders.js";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { List } from "./list.js";
+import { NotFoundError } from "./notFoundError.js";
+import { PreCondition } from "./preCondition.js";
+import { escapeAndQuote } from "./strings.js";
+import { SyncResult } from "./syncResult.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
+import { isString, Type } from "./types.js";
 
 export class MutableHttpHeaders implements HttpHeaders
 {

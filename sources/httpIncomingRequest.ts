@@ -1,8 +1,8 @@
-import { HttpHeader } from "./httpHeader";
-import { HttpHeaders } from "./httpHeaders";
-import { HttpMethod } from "./httpMethod";
-import { AsyncResult } from "./asyncResult";
-import { NotFoundError } from "./notFoundError";
+import { HttpHeader } from "./httpHeader.js";
+import { HttpHeaders } from "./httpHeaders.js";
+import { HttpMethod } from "./httpMethod.js";
+import { AsyncResult } from "./asyncResult.js";
+import { NotFoundError } from "./notFoundError.js";
 
 /**
  * A HTTP request that is received by a {@link HttpServer}.

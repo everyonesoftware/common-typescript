@@ -1,15 +1,15 @@
-import { Comparer } from "./comparer";
-import { EqualFunctions } from "./equalFunctions";
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { MutableMap } from "./mutableMap";
-import { NotFoundError } from "./notFoundError";
-import { PreCondition } from "./preCondition";
-import { join } from "./strings";
-import { SyncResult } from "./syncResult";
-import { ToStringFunctions } from "./toStringFunctions";
-import { hasFunction, isUndefinedOrNull, Type } from "./types";
+import { Comparer } from "./comparer.js";
+import { EqualFunctions } from "./equalFunctions.js";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { MutableMap } from "./mutableMap.js";
+import { NotFoundError } from "./notFoundError.js";
+import { PreCondition } from "./preCondition.js";
+import { join } from "./strings.js";
+import { SyncResult } from "./syncResult.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
+import { hasFunction, isUndefinedOrNull, Type } from "./types.js";
 
 /**
  * Get whether the provided value is {@link Map}.

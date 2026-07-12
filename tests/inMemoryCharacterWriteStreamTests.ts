@@ -1,9 +1,9 @@
-import { InMemoryCharacterWriteStream } from "../sources/inMemoryCharacterWriteStream";
-import { SyncResult } from "../sources/syncResult";
-import { isUndefined } from "../sources/types";
-import * as characterWriteStreamTests from "./characterWriteStreamTests";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { InMemoryCharacterWriteStream } from "../sources/inMemoryCharacterWriteStream.js";
+import { SyncResult } from "../sources/syncResult.js";
+import { isUndefined } from "../sources/types.js";
+import * as characterWriteStreamTests from "./characterWriteStreamTests.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

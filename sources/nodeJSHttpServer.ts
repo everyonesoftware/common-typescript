@@ -1,12 +1,12 @@
 import * as http from "http";
 
-import { HttpServer } from "./httpServer";
-import { HttpIncomingRequest } from "./httpIncomingRequest";
-import { HttpOutgoingResponse } from "./httpOutgoingResponse";
-import { PreCondition } from "./preCondition";
-import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { AsyncResult } from "./asyncResult";
-import { NodeJSHttpOutgoingResponse } from "./NodeJSHttpOutgoingResponse";
+import { HttpServer } from "./httpServer.js";
+import { HttpIncomingRequest } from "./httpIncomingRequest.js";
+import { HttpOutgoingResponse } from "./httpOutgoingResponse.js";
+import { PreCondition } from "./preCondition.js";
+import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { AsyncResult } from "./asyncResult.js";
+import { NodeJSHttpOutgoingResponse } from "./NodeJSHttpOutgoingResponse.js";
 
 /**
  * A {@link HttpServer} implementation that uses the Node.js HTTP module.

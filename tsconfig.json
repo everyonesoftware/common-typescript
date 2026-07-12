@@ -6,14 +6,12 @@
     "strict": true,
     "skipLibCheck": true,
     "sourceMap": true,
-
-    "moduleResolution": "Bundler",
+    "rewriteRelativeImportExtensions": true,
+    "allowImportingTsExtensions": true,
 
     "declaration": true,
-    "emitDeclarationOnly": true,
     "declarationMap": true,
 
-    "ignoreDeprecations": "6.0",
     "types": ["node"]
   },
   "include": ["sources", "tests"]

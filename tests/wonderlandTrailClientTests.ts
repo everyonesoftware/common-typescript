@@ -1,13 +1,13 @@
-import { PreConditionError } from "../sources/preConditionError";
-import { isWonderlandTrailLocation, WonderlandTrailAvailability, WonderlandTrailAvailabilityType, WonderlandTrailClient, WonderlandTrailConnection, WonderlandTrailDirection, WonderlandTrailLocation, WonderlandTrailLocations, WonderlandTrailReservationType } from "../sources/wonderlandTrailClient";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
-import { Iterable } from "../sources/iterable";
-import { DateTime } from "../sources/dateTime";
-import { Map } from "../sources/map";
-import { MutableMap } from "../sources/mutableMap";
-import { NotFoundError } from "../sources/notFoundError";
-import { HttpClient } from "../sources/httpClient";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { isWonderlandTrailLocation, WonderlandTrailAvailability, WonderlandTrailAvailabilityType, WonderlandTrailClient, WonderlandTrailConnection, WonderlandTrailDirection, WonderlandTrailLocation, WonderlandTrailLocations, WonderlandTrailReservationType } from "../sources/wonderlandTrailClient.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
+import { Iterable } from "../sources/iterable.js";
+import { DateTime } from "../sources/dateTime.js";
+import { Map } from "../sources/map.js";
+import { MutableMap } from "../sources/mutableMap.js";
+import { NotFoundError } from "../sources/notFoundError.js";
+import { HttpClient } from "../sources/httpClient.js";
 
 export function test(runner: TestRunner): void
 {

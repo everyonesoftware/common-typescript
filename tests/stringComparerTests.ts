@@ -1,7 +1,7 @@
-import { Comparison } from "../sources/comparison";
-import { StringComparer } from "../sources/stringComparer";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { Comparison } from "../sources/comparison.js";
+import { StringComparer } from "../sources/stringComparer.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

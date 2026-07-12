@@ -1,6 +1,6 @@
-import { PreCondition } from "./preCondition";
-import { AsyncResult } from "./asyncResult";
-import { instanceOfType, isPromise, isUndefinedOrNull, Type } from "./types";
+import { PreCondition } from "./preCondition.js";
+import { AsyncResult } from "./asyncResult.js";
+import { instanceOfType, isPromise, isUndefinedOrNull, Type } from "./types.js";
 
 export class PromiseAsyncResult<T> implements AsyncResult<T>
 {

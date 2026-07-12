@@ -1,12 +1,12 @@
-import { EqualFunctions } from "./equalFunctions";
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator, JavascriptSet } from "./javascript";
-import { NotFoundError } from "./notFoundError";
-import { Set } from "./set";
-import { SyncResult } from "./syncResult";
-import { ToStringFunctions } from "./toStringFunctions";
-import { Type } from "./types";
+import { EqualFunctions } from "./equalFunctions.js";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator, JavascriptSet } from "./javascript.js";
+import { NotFoundError } from "./notFoundError.js";
+import { Set } from "./set.js";
+import { SyncResult } from "./syncResult.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
+import { Type } from "./types.js";
 
 export class JavascriptSetSet<T> implements Set<T>
 {

@@ -1,6 +1,6 @@
-import { Iterator } from "./iterator";
-import { JavascriptIterable } from "./javascript";
-import { PreCondition } from "./preCondition";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
 
 export function andList(values: JavascriptIterable<string>): string
 {

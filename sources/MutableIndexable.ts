@@ -1,12 +1,12 @@
-import { EqualFunctions } from "./equalFunctions";
-import { Indexable } from "./Indexable";
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { List } from "./list";
-import { SyncResult } from "./syncResult";
-import { ToStringFunctions } from "./toStringFunctions";
-import { Type } from "./types";
+import { EqualFunctions } from "./equalFunctions.js";
+import { Indexable } from "./Indexable.js";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { List } from "./list.js";
+import { SyncResult } from "./syncResult.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
+import { Type } from "./types.js";
 
 /**
  * An {@link Indexable} that can change it's values.

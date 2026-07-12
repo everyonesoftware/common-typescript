@@ -1,6 +1,6 @@
-import { HttpClient } from "../sources/httpClient";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { HttpClient } from "../sources/httpClient.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

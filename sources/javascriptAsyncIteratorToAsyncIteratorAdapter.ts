@@ -1,9 +1,9 @@
-import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { AsyncIterator } from "./asyncIterator";
-import { JavascriptAsyncIterable, JavascriptAsyncIterator, JavascriptIteratorResult } from "./javascript";
-import { PreCondition } from "./preCondition";
-import { isJavascriptAsyncIterable, Type } from "./types";
-import { AsyncIteratorToJavascriptAsyncIteratorAdapter } from "./asyncIteratorToJavascriptAsyncIteratorAdapter";
+import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { AsyncIterator } from "./asyncIterator.js";
+import { JavascriptAsyncIterable, JavascriptAsyncIterator, JavascriptIteratorResult } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
+import { isJavascriptAsyncIterable, Type } from "./types.js";
+import { AsyncIteratorToJavascriptAsyncIteratorAdapter } from "./asyncIteratorToJavascriptAsyncIteratorAdapter.js";
 
 export class JavascriptAsyncIteratorToAsyncIteratorAdapter<T> implements AsyncIterator<T>
 {

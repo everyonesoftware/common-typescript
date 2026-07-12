@@ -1,8 +1,8 @@
-import { PromiseAsyncResult } from "../sources/promiseAsyncResult";
-import { NotFoundError } from "../sources/notFoundError";
-import { PreConditionError } from "../sources/preConditionError";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { PromiseAsyncResult } from "../sources/promiseAsyncResult.js";
+import { NotFoundError } from "../sources/notFoundError.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

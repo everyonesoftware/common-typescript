@@ -1,6 +1,6 @@
-import { PreCondition } from "../sources/preCondition";
-import { TestAction } from "./testAction";
-import { TestSkip } from "./testSkip";
+import { PreCondition } from "../sources/preCondition.js";
+import { TestAction } from "./testAction.js";
+import { TestSkip } from "./testSkip.js";
 
 export class SkippedTest
 {

@@ -1,7 +1,7 @@
-import { PreConditionError } from "../sources";
-import { BasicTestError } from "./BasicTestError";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { PreConditionError } from "../sources/index.js";
+import { BasicTestError } from "./BasicTestError.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

@@ -1,4 +1,4 @@
-import { Comparison } from "./comparison";
+import { Comparison } from "./comparison.js";
 
 /**
  * A type that can be used to compare values.

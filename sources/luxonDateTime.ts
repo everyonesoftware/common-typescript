@@ -1,5 +1,5 @@
 import * as luxon from "luxon";
-import { DateTime } from "./dateTime";
+import { DateTime } from "./dateTime.js";
 
 const pctTimeZone: string = "America/Los_Angeles";
 

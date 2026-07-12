@@ -1,4 +1,4 @@
-import { Clock, DateTime, PreCondition } from "../sources";
+import { Clock, DateTime, PreCondition } from "../sources/index.js";
 
 /**
  * A {@link Clock} implementation that returns a configured {@link DateTime}.

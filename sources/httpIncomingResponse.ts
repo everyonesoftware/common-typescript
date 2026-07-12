@@ -1,6 +1,6 @@
-import { HttpHeader } from "./httpHeader";
-import { HttpHeaders } from "./httpHeaders";
-import { AsyncResult } from "./asyncResult";
+import { HttpHeader } from "./httpHeader.js";
+import { HttpHeaders } from "./httpHeaders.js";
+import { AsyncResult } from "./asyncResult.js";
 
 /**
  * The response from a {@link HttpClient}'s sendRequest() method.

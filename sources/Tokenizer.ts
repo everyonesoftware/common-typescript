@@ -1,10 +1,10 @@
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { PreCondition } from "./preCondition";
-import { isDigit, isLetter } from "./strings";
-import { SyncResult } from "./syncResult";
-import { Token } from "./Token";
-import { isIterator, Type } from "./types";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
+import { isDigit, isLetter } from "./strings.js";
+import { SyncResult } from "./syncResult.js";
+import { Token } from "./Token.js";
+import { isIterator, Type } from "./types.js";
 
 /**
  * A type that converts a stream of characters into a stream of tokens.

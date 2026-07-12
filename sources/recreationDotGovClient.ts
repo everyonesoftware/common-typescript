@@ -1,12 +1,12 @@
-import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { DateTime } from "./dateTime";
-import { HttpClient } from "./httpClient";
-import { HttpIncomingResponse } from "./httpIncomingResponse";
-import { HttpOutgoingRequest } from "./httpOutgoingRequest";
-import { Iterable } from "./iterable";
-import { List } from "./list";
-import { PreCondition } from "./preCondition";
-import { AsyncResult } from "./asyncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { DateTime } from "./dateTime.js";
+import { HttpClient } from "./httpClient.js";
+import { HttpIncomingResponse } from "./httpIncomingResponse.js";
+import { HttpOutgoingRequest } from "./httpOutgoingRequest.js";
+import { Iterable } from "./iterable.js";
+import { List } from "./list.js";
+import { PreCondition } from "./preCondition.js";
+import { AsyncResult } from "./asyncResult.js";
 
 export interface RecreationDotGovDivisionDayAvailability
 {

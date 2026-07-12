@@ -1,7 +1,7 @@
-import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { PostCondition } from "./postCondition";
-import { PreCondition } from "./preCondition";
-import { AsyncResult } from "./asyncResult";
+import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { PostCondition } from "./postCondition.js";
+import { PreCondition } from "./preCondition.js";
+import { AsyncResult } from "./asyncResult.js";
 
 export abstract class CharacterWriteStream
 {

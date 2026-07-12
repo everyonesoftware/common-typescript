@@ -1,7 +1,7 @@
-import { Bytes } from "./bytes";
-import { JavascriptIterable } from "./javascript";
-import { MutableCondition } from "./mutableCondition";
-import { Type } from "./types";
+import { Bytes } from "./bytes.js";
+import { JavascriptIterable } from "./javascript.js";
+import { MutableCondition } from "./mutableCondition.js";
+import { Type } from "./types.js";
 
 /**
  * A collection of condition methods that can be used to assert the state of an application.

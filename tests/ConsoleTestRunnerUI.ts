@@ -1,9 +1,9 @@
-import { Iterable, AsyncResult, CharacterWriteStream, IndentedCharacterWriteStream, List, Map, MutableMap, NotFoundError, PreCondition, Stack } from "../sources";
-import { FailedTest } from "./failedTest";
-import { SkippedTest } from "./skippedTest";
-import { TestAction, TestActionType } from "./testAction";
-import { GetErrorStringOptions, TestError } from "./TestError";
-import { TestSkip } from "./testSkip";
+import { Iterable, AsyncResult, CharacterWriteStream, IndentedCharacterWriteStream, List, Map, MutableMap, NotFoundError, PreCondition, Stack } from "../sources/index.js";
+import { FailedTest } from "./failedTest.js";
+import { SkippedTest } from "./skippedTest.js";
+import { TestAction, TestActionType } from "./testAction.js";
+import { GetErrorStringOptions, TestError } from "./TestError.js";
+import { TestSkip } from "./testSkip.js";
 
 export type ConsoleTestRunnerStyle = TestActionType | "passed" | "skipped" | "failed";
 

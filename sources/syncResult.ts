@@ -1,7 +1,7 @@
-import { PreCondition } from "./preCondition";
-import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { instanceOfType, isPromise, isPromiseLike, isUndefinedOrNull, Type } from "./types";
-import { AsyncResult } from "./asyncResult";
+import { PreCondition } from "./preCondition.js";
+import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { instanceOfType, isPromise, isPromiseLike, isUndefinedOrNull, Type } from "./types.js";
+import { AsyncResult } from "./asyncResult.js";
 
 export class SyncResult<T> implements AsyncResult<T>
 {

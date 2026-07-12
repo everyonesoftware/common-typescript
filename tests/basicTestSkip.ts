@@ -1,5 +1,5 @@
-import { PreCondition } from "../sources/preCondition";
-import { TestSkip } from "./testSkip";
+import { PreCondition } from "../sources/preCondition.js";
+import { TestSkip } from "./testSkip.js";
 
 /**
  * A type that is used to mark that a test group or a test should be skipped.

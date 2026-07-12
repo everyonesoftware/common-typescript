@@ -1,4 +1,4 @@
-import { BasicTestSkip } from "./basicTestSkip";
+import { BasicTestSkip } from "./basicTestSkip.js";
 
 /**
  * A type that is used to mark that a test group or a test should be skipped.

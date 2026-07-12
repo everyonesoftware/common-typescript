@@ -1,9 +1,9 @@
-import { FetchHttpClient } from "../sources/fetchHttpClient";
-import { FetchHttpIncomingResponse } from "../sources/fetchHttpResponse";
-import { HttpOutgoingRequest } from "../sources/httpOutgoingRequest";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
-import { hasNetworkAccess } from "./tests";
+import { FetchHttpClient } from "../sources/fetchHttpClient.js";
+import { FetchHttpIncomingResponse } from "../sources/fetchHttpResponse.js";
+import { HttpOutgoingRequest } from "../sources/httpOutgoingRequest.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
+import { hasNetworkAccess } from "./tests.js";
 
 export function test(runner: TestRunner): void
 {

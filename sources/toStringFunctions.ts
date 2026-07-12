@@ -1,9 +1,9 @@
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { isMap, Map, MapEntry } from "./map";
-import { isSet, Set } from "./set";
-import { escapeAndQuote, join } from "./strings";
-import { isArray, isIterable, isNumber, isObject, isString } from "./types";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { isMap, Map, MapEntry } from "./map.js";
+import { isSet, Set } from "./set.js";
+import { escapeAndQuote, join } from "./strings.js";
+import { isArray, isIterable, isNumber, isObject, isString } from "./types.js";
 
 /**
  * A collection of {@link ToStringFunction}s.

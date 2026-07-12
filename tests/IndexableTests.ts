@@ -1,8 +1,8 @@
-import { PreConditionError } from "../sources";
-import { Indexable } from "../sources/Indexable";
-import { iterableTests } from "./iterableTests";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { PreConditionError } from "../sources/index.js";
+import { Indexable } from "../sources/Indexable.js";
+import { iterableTests } from "./iterableTests.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function indexableTests<T>(runner: TestRunner, creator: () => Indexable<T>): void
 {

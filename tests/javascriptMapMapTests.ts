@@ -1,7 +1,7 @@
-import { JavascriptMapMap } from "../sources/javascriptMapMap";
-import { mapTests } from "./mapTests";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { JavascriptMapMap } from "../sources/javascriptMapMap.js";
+import { mapTests } from "./mapTests.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

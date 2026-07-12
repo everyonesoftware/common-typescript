@@ -1,11 +1,11 @@
-import { CharacterList } from "../sources/characterList";
-import { EqualFunctions } from "../sources/equalFunctions";
-import { JavascriptIterable } from "../sources/javascript";
-import { NotFoundError } from "../sources/notFoundError";
-import { PreConditionError } from "../sources/preConditionError";
-import { isNumber, isString } from "../sources/types";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { CharacterList } from "../sources/characterList.js";
+import { EqualFunctions } from "../sources/equalFunctions.js";
+import { JavascriptIterable } from "../sources/javascript.js";
+import { NotFoundError } from "../sources/notFoundError.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { isNumber, isString } from "../sources/types.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

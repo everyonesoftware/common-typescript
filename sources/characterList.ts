@@ -1,14 +1,14 @@
-import { EqualFunctions } from "./equalFunctions";
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { List } from "./list";
-import { PreCondition } from "./preCondition";
-import { StringIterator } from "./stringIterator";
-import { join } from "./strings";
-import { SyncResult } from "./syncResult";
-import { ToStringFunctions } from "./toStringFunctions";
-import { isString, Type } from "./types";
+import { EqualFunctions } from "./equalFunctions.js";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { List } from "./list.js";
+import { PreCondition } from "./preCondition.js";
+import { StringIterator } from "./stringIterator.js";
+import { join } from "./strings.js";
+import { SyncResult } from "./syncResult.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
+import { isString, Type } from "./types.js";
 
 export class CharacterList implements List<string>
 {

@@ -1,5 +1,5 @@
-import { CharacterWriteStream } from "../sources/characterWriteStream";
-import { TestRunner } from "./testRunner";
+import { CharacterWriteStream } from "../sources/characterWriteStream.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner, creator: () => CharacterWriteStream): void
 {

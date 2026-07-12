@@ -1,6 +1,6 @@
-import { PostConditionError } from "../sources/postConditionError";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { PostConditionError } from "../sources/postConditionError.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

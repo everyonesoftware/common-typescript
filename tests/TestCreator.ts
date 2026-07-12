@@ -1,5 +1,5 @@
-import { AssertTestCreator } from "./AssertTestCreator";
-import { Test } from "./test";
+import { AssertTestCreator } from "./AssertTestCreator.js";
+import { Test } from "./test.js";
 
 /**
  * A type that can create new {@link Test} objects.

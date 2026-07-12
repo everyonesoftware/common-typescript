@@ -1,7 +1,7 @@
-import { Indexable, JavascriptIterable, PreConditionError } from "../sources";
-import { CharacterTable } from "../sources/CharacterTable";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { Indexable, JavascriptIterable, PreConditionError } from "../sources/index.js";
+import { CharacterTable } from "../sources/CharacterTable.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

@@ -1,8 +1,8 @@
-import { AsyncIterator } from "./asyncIterator";
-import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { JavascriptAsyncIterator } from "./javascript";
-import { PreCondition } from "./preCondition";
-import { Type } from "./types";
+import { AsyncIterator } from "./asyncIterator.js";
+import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { JavascriptAsyncIterator } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
+import { Type } from "./types.js";
 
 /**
  * An {@link AsyncIterator} that iterates over a maximum number of values.

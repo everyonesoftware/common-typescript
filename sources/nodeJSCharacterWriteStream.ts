@@ -1,6 +1,6 @@
-import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { CharacterWriteStream } from "./characterWriteStream";
-import { PreCondition } from "./preCondition";
+import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { CharacterWriteStream } from "./characterWriteStream.js";
+import { PreCondition } from "./preCondition.js";
 
 export class NodeJSCharacterWriteStream extends CharacterWriteStream
 {

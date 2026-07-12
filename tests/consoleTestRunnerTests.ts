@@ -1,17 +1,18 @@
 import { AssertionError } from "assert";
 
-import { InMemoryCharacterWriteStream } from "../sources/inMemoryCharacterWriteStream";
-import { Iterable } from "../sources/iterable";
-import { List } from "../sources/list";
-import { PreConditionError } from "../sources/preConditionError";
-import { WhereIterable } from "../sources/whereIterable";
-import { ConsoleTestRunner } from "./consoleTestRunner";
-import { FailedTest } from "./failedTest";
-import { SkippedTest } from "./skippedTest";
-import { Test, TestError } from "./test";
-import { TestAction } from "./testAction";
-import { TestRunner } from "./testRunner";
-import * as testRunnerTests from "./testRunnerTests";
+import { InMemoryCharacterWriteStream } from "../sources/inMemoryCharacterWriteStream.js";
+import { Iterable } from "../sources/iterable.js";
+import { List } from "../sources/list.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { WhereIterable } from "../sources/whereIterable.js";
+import { ConsoleTestRunner } from "./consoleTestRunner.js";
+import { FailedTest } from "./failedTest.js";
+import { SkippedTest } from "./skippedTest.js";
+import { Test } from "./test.js";
+import { TestAction } from "./testAction.js";
+import { TestRunner } from "./testRunner.js";
+import * as testRunnerTests from "./testRunnerTests.js";
+import { TestError } from "./TestError.js";
 
 interface RunnerStats
 {
@@ -186,7 +187,7 @@ export function test(runner: TestRunner): void
                     {
                         const currentTestAction: TestAction | undefined = runner2.getCurrentTestAction();
                         test.assertNotUndefinedAndNotNull(currentTestAction);
-                        test.assertEqual("_WhereIterable", currentTestAction.getName());
+                        test.assertEqual("WhereIterable", currentTestAction.getName());
                     });
                     assertRunnerStats(test, runner2, {
                         testActionCount: 3,

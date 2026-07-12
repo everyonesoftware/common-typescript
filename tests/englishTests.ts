@@ -1,8 +1,8 @@
-import { andList, orList } from "../sources/english";
-import { PreConditionError } from "../sources/preConditionError";
-import { join } from "../sources/strings";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { andList, orList } from "../sources/english.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { join } from "../sources/strings.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

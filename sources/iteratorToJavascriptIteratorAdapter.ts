@@ -1,6 +1,6 @@
-import { Iterator } from "./iterator";
-import { JavascriptIterator, JavascriptIteratorResult } from "./javascript";
-import { PreCondition } from "./preCondition";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterator, JavascriptIteratorResult } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
 
 /**
  * A JavaScript/TypeScript object that is used to iterate over a collection of values.

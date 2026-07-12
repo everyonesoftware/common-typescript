@@ -1,14 +1,14 @@
 import * as http from "http";
-import { HttpOutgoingResponse } from "./httpOutgoingResponse";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
-import { HttpHeaders } from "./httpHeaders";
-import { MutableHttpHeaders } from "./mutableHttpHeaders";
-import { HttpHeader } from "./httpHeader";
-import { isArray } from "./types";
-import { escapeAndQuote, join } from "./strings";
-import { NotFoundError } from "./notFoundError";
-import { AsyncResult } from "./asyncResult";
+import { HttpOutgoingResponse } from "./httpOutgoingResponse.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
+import { HttpHeaders } from "./httpHeaders.js";
+import { MutableHttpHeaders } from "./mutableHttpHeaders.js";
+import { HttpHeader } from "./httpHeader.js";
+import { isArray } from "./types.js";
+import { escapeAndQuote, join } from "./strings.js";
+import { NotFoundError } from "./notFoundError.js";
+import { AsyncResult } from "./asyncResult.js";
 
 export class NodeJSHttpOutgoingResponse implements HttpOutgoingResponse
 {

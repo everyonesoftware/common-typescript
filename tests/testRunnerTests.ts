@@ -1,10 +1,10 @@
-import { Iterable } from "../sources/iterable";
-import { PreConditionError } from "../sources/preConditionError";
-import { join } from "../sources/strings";
-import { Type } from "../sources/types";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
-import { TestSkip } from "./testSkip";
+import { Iterable } from "../sources/iterable.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { join } from "../sources/strings.js";
+import { Type } from "../sources/types.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
+import { TestSkip } from "./testSkip.js";
 
 export function test(runner: TestRunner): void
 {

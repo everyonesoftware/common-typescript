@@ -1,4 +1,4 @@
-import { PreCondition } from "./preCondition";
+import { PreCondition } from "./preCondition.js";
 
 export class TokenType
 {

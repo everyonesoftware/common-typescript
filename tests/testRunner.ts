@@ -1,10 +1,10 @@
-import { andList } from "../sources/english";
-import { Iterable } from "../sources/iterable";
-import { PreCondition } from "../sources/preCondition";
-import { ToStringFunctions } from "../sources/toStringFunctions";
-import { isBoolean, Type } from "../sources/types";
-import { Test } from "./test";
-import { TestSkip } from "./testSkip";
+import { andList } from "../sources/english.js";
+import { Iterable } from "../sources/iterable.js";
+import { PreCondition } from "../sources/preCondition.js";
+import { ToStringFunctions } from "../sources/toStringFunctions.js";
+import { isBoolean, Type } from "../sources/types.js";
+import { Test } from "./test.js";
+import { TestSkip } from "./testSkip.js";
 
 /**
  * A type that can be used to run tests.

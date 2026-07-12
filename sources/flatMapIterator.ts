@@ -1,8 +1,8 @@
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { PreCondition } from "./preCondition";
-import { Iterator } from "./iterator";
-import { SyncResult } from "./syncResult";
-import { Type } from "./types";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
+import { Iterator } from "./iterator.js";
+import { SyncResult } from "./syncResult.js";
+import { Type } from "./types.js";
 
 export class FlatMapIterator<TInput,TOutput> implements Iterator<TOutput>
 {

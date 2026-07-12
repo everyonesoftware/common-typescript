@@ -1,6 +1,6 @@
-import { PreCondition } from "./preCondition";
-import { AsyncResult } from "./asyncResult";
-import { SyncResult } from "./syncResult";
+import { PreCondition } from "./preCondition.js";
+import { AsyncResult } from "./asyncResult.js";
+import { SyncResult } from "./syncResult.js";
 
 export abstract class CharacterReadStream
 {

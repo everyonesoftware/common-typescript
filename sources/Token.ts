@@ -1,5 +1,5 @@
-import { PreCondition } from "./preCondition";
-import { TokenType } from "./TokenType";
+import { PreCondition } from "./preCondition.js";
+import { TokenType } from "./TokenType.js";
 
 export class Token
 {

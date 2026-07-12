@@ -1,9 +1,9 @@
-import { HttpHeader } from "./httpHeader";
-import { HttpHeaders } from "./httpHeaders";
-import { HttpMethod } from "./httpMethod";
-import { MutableHttpHeaders } from "./mutableHttpHeaders";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
+import { HttpHeader } from "./httpHeader.js";
+import { HttpHeaders } from "./httpHeaders.js";
+import { HttpMethod } from "./httpMethod.js";
+import { MutableHttpHeaders } from "./mutableHttpHeaders.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
 
 /**
  * A HTTP request that is sent out by a {@link HttpClient}.

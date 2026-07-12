@@ -1,13 +1,13 @@
-import { EqualFunctions } from "./equalFunctions";
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator, JavascriptMap } from "./javascript";
-import { MapEntry } from "./map";
-import { MutableMap } from "./mutableMap";
-import { NotFoundError } from "./notFoundError";
-import { SyncResult } from "./syncResult";
-import { ToStringFunctions } from "./toStringFunctions";
-import { Type } from "./types";
+import { EqualFunctions } from "./equalFunctions.js";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator, JavascriptMap } from "./javascript.js";
+import { MapEntry } from "./map.js";
+import { MutableMap } from "./mutableMap.js";
+import { NotFoundError } from "./notFoundError.js";
+import { SyncResult } from "./syncResult.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
+import { Type } from "./types.js";
 
 export class JavascriptMapMap<TKey,TValue> implements MutableMap<TKey,TValue>
 {

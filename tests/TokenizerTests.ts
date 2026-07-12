@@ -1,7 +1,7 @@
-import { Iterator, JavascriptIterable, PreConditionError, Tokenizer } from "../sources";
-import { Token } from "../sources/Token";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { Iterator, JavascriptIterable, PreConditionError, Tokenizer } from "../sources/index.js";
+import { Token } from "../sources/Token.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

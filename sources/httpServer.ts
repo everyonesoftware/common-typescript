@@ -1,7 +1,7 @@
-import { Disposable } from "./disposable";
-import { HttpIncomingRequest } from "./httpIncomingRequest";
-import { HttpOutgoingResponse } from "./httpOutgoingResponse";
-import { AsyncResult } from "./asyncResult";
+import { Disposable } from "./disposable.js";
+import { HttpIncomingRequest } from "./httpIncomingRequest.js";
+import { HttpOutgoingResponse } from "./httpOutgoingResponse.js";
+import { AsyncResult } from "./asyncResult.js";
 
 export abstract class HttpServer implements Disposable
 {

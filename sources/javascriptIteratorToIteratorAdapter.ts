@@ -1,8 +1,8 @@
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator, JavascriptIteratorResult } from "./javascript";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
-import { isJavascriptIterable, Type } from "./types";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator, JavascriptIteratorResult } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
+import { isJavascriptIterable, Type } from "./types.js";
 
 export class JavascriptIteratorToIteratorAdapter<T> implements Iterator<T>
 {

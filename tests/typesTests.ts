@@ -1,11 +1,11 @@
-import { Iterable } from "../sources/iterable";
-import { List } from "../sources/list";
+import { Iterable } from "../sources/iterable.js";
+import { List } from "../sources/list.js";
 import {
     asBoolean, hasFunction, hasProperty, isArray, isBoolean, isFunction, isNumber, isObject,
     isObjectOrArrayOrNull, isString
-} from "../sources/types";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+} from "../sources/types.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

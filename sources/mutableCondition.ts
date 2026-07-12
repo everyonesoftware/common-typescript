@@ -1,15 +1,15 @@
-import { AssertMessageParameters } from "./assertMessageParameters";
-import { Bytes } from "./bytes";
-import { Comparer } from "./comparer";
-import { Comparison } from "./comparison";
-import { Condition } from "./condition";
-import { EqualFunctions } from "./equalFunctions";
-import { Iterable } from "./iterable";
-import { JavascriptIterable } from "./javascript";
-import { ToStringFunctions } from "./toStringFunctions";
+import { AssertMessageParameters } from "./assertMessageParameters.js";
+import { Bytes } from "./bytes.js";
+import { Comparer } from "./comparer.js";
+import { Comparison } from "./comparison.js";
+import { Condition } from "./condition.js";
+import { EqualFunctions } from "./equalFunctions.js";
+import { Iterable } from "./iterable.js";
+import { JavascriptIterable } from "./javascript.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
 import {
     hasFunction, hasProperty, instanceOf, isJavascriptIterable, isString, isUndefinedOrNull, Type
-} from "./types";
+} from "./types.js";
 
 /**
  * A collection of condition methods that can be used to assert the state of an application.

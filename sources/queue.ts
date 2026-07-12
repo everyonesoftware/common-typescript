@@ -1,8 +1,8 @@
-import { EqualFunctions } from "./equalFunctions";
-import { JavascriptIterable } from "./javascript";
-import { ListQueue } from "./listQueue";
-import { ListStack } from "./listStack";
-import { AsyncResult } from "./asyncResult";
+import { EqualFunctions } from "./equalFunctions.js";
+import { JavascriptIterable } from "./javascript.js";
+import { ListQueue } from "./listQueue.js";
+import { ListStack } from "./listStack.js";
+import { AsyncResult } from "./asyncResult.js";
 
 /**
  * A data structure that stores values in a first-in-first-out order.

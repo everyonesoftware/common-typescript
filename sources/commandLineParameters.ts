@@ -1,18 +1,18 @@
-import { CommandLineParameter } from "./commandLineParameter";
-import { orList } from "./english";
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { JavascriptIterable } from "./javascript";
-import { List } from "./list";
-import { Map } from "./map";
-import { MutableMap } from "./mutableMap";
-import { NotFoundError } from "./notFoundError";
-import { PreCondition } from "./preCondition";
-import { StringIterator } from "./stringIterator";
-import { join } from "./strings";
-import { SyncResult } from "./syncResult";
-import { ToStringFunctions } from "./toStringFunctions";
-import { isIterable, isString } from "./types";
+import { CommandLineParameter } from "./commandLineParameter.js";
+import { orList } from "./english.js";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable } from "./javascript.js";
+import { List } from "./list.js";
+import { Map } from "./map.js";
+import { MutableMap } from "./mutableMap.js";
+import { NotFoundError } from "./notFoundError.js";
+import { PreCondition } from "./preCondition.js";
+import { StringIterator } from "./stringIterator.js";
+import { join } from "./strings.js";
+import { SyncResult } from "./syncResult.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
+import { isIterable, isString } from "./types.js";
 
 /**
  * A class that can be used to define and interact with an application's command line interface.

@@ -1,4 +1,4 @@
-import { AsyncResult } from "./asyncResult";
+import { AsyncResult } from "./asyncResult.js";
 
 /**
  * A stream that reads bytes.

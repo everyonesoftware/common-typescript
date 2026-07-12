@@ -1,6 +1,6 @@
-import { Clock, DateTime } from "../sources";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { Clock, DateTime } from "../sources/index.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

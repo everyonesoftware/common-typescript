@@ -1,8 +1,8 @@
-import { PreConditionError } from "../sources/preConditionError";
-import { StringIterator } from "../sources/stringIterator";
-import { iteratorTests } from "./iteratorTests";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { StringIterator } from "../sources/stringIterator.js";
+import { iteratorTests } from "./iteratorTests.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

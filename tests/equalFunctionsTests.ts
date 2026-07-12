@@ -1,11 +1,11 @@
-import { andList } from "../sources/english";
-import { EqualFunctions } from "../sources/equalFunctions";
-import { List } from "../sources/list";
-import { Map } from "../sources/map";
-import { PreConditionError } from "../sources/preConditionError";
-import { isNumber } from "../sources/types";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { andList } from "../sources/english.js";
+import { EqualFunctions } from "../sources/equalFunctions.js";
+import { List } from "../sources/list.js";
+import { Map } from "../sources/map.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { isNumber } from "../sources/types.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

@@ -1,8 +1,8 @@
-import { Iterable } from "../sources/iterable";
-import { Test } from "./test";
-import { Iterator} from "../sources/iterator";
-import { TestRunner } from "./testRunner";
-import { EmptyError, JavascriptIterable } from "../sources";
+import { Iterable } from "../sources/iterable.js";
+import { Test } from "./test.js";
+import { Iterator} from "../sources/iterator.js";
+import { TestRunner } from "./testRunner.js";
+import { EmptyError, JavascriptIterable } from "../sources/index.js";
 
 export function iterableTests<T>(runner: TestRunner, creator: () => Iterable<T>): void
 {

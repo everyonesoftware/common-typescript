@@ -1,5 +1,5 @@
-import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { Type } from "./types";
+import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { Type } from "./types.js";
 
 /**
  * A result object that adds extra behavior beyond the standard {@link Promise}.

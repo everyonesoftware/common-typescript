@@ -1,6 +1,6 @@
-import { JavascriptIterable } from "./javascript";
-import { PreCondition } from "./preCondition";
-import { isString } from "./types";
+import { JavascriptIterable } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
+import { isString } from "./types.js";
 
 export function getLength(value: string | undefined | null): number
 {

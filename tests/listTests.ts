@@ -1,10 +1,10 @@
-import { JavascriptIterable } from "../sources/javascript";
-import { List } from "../sources/list";
-import { PreConditionError } from "../sources/preConditionError";
-import { isIterable } from "../sources/types";
-import { mutableIndexableTests } from "./MutableIndexableTests";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { JavascriptIterable } from "../sources/javascript.js";
+import { List } from "../sources/list.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { isIterable } from "../sources/types.js";
+import { mutableIndexableTests } from "./MutableIndexableTests.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

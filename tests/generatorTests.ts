@@ -1,8 +1,8 @@
-import { Generator } from "../sources/generator";
-import { PreConditionError } from "../sources/preConditionError";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
-import { iteratorTests } from "./iteratorTests";
+import { Generator } from "../sources/generator.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
+import { iteratorTests } from "./iteratorTests.js";
 
 export function test(runner: TestRunner): void
 {

@@ -1,10 +1,10 @@
-import { Comparison } from "../sources/comparison";
-import { Iterable } from "../sources/iterable";
-import { List } from "../sources/list";
-import { Map } from "../sources/map";
-import { ToStringFunctions } from "../sources/toStringFunctions";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { Comparison } from "../sources/comparison.js";
+import { Iterable } from "../sources/iterable.js";
+import { List } from "../sources/list.js";
+import { Map } from "../sources/map.js";
+import { ToStringFunctions } from "../sources/toStringFunctions.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

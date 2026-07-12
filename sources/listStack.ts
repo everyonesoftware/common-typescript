@@ -1,10 +1,10 @@
-import { EmptyError } from "./emptyError";
-import { EqualFunctions } from "./equalFunctions";
-import { JavascriptIterable } from "./javascript";
-import { List } from "./list";
-import { PreCondition } from "./preCondition";
-import { Stack } from "./stack";
-import { SyncResult } from "./syncResult";
+import { EmptyError } from "./emptyError.js";
+import { EqualFunctions } from "./equalFunctions.js";
+import { JavascriptIterable } from "./javascript.js";
+import { List } from "./list.js";
+import { PreCondition } from "./preCondition.js";
+import { Stack } from "./stack.js";
+import { SyncResult } from "./syncResult.js";
 
 export class ListStack<T> implements Stack<T>
 {

@@ -1,10 +1,10 @@
-import { PreConditionError } from "../sources/preConditionError";
+import { PreConditionError } from "../sources/preConditionError.js";
 import {
     escape, escapeAndQuote, getLength, isDigit, isLetter, isLetterOrDigit, isLowercasedLetter,
     isUppercasedLetter, isWhitespace, join, quote
-} from "../sources/strings";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+} from "../sources/strings.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

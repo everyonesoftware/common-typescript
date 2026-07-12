@@ -1,12 +1,12 @@
-import { TestRunner } from "./testRunner";
-import { Set } from "../sources/set";
-import { Test } from "./test";
-import { JavascriptSetSet } from "../sources/javascriptSetSet";
-import { NotFoundError } from "../sources/notFoundError";
-import { SyncResult } from "../sources/syncResult";
-import { JavascriptIterable } from "../sources/javascript";
-import { PreCondition } from "../sources/preCondition";
-import { PreConditionError } from "../sources/preConditionError";
+import { TestRunner } from "./testRunner.js";
+import { Set } from "../sources/set.js";
+import { Test } from "./test.js";
+import { JavascriptSetSet } from "../sources/javascriptSetSet.js";
+import { NotFoundError } from "../sources/notFoundError.js";
+import { SyncResult } from "../sources/syncResult.js";
+import { JavascriptIterable } from "../sources/javascript.js";
+import { PreCondition } from "../sources/preCondition.js";
+import { PreConditionError } from "../sources/preConditionError.js";
 
 export function test(runner: TestRunner): void
 {

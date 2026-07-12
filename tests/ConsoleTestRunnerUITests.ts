@@ -1,6 +1,6 @@
-import { ConsoleTestRunnerUI, FlatConsoleTestRunnerUI, TreeConsoleTestRunnerUI } from "./ConsoleTestRunnerUI";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { ConsoleTestRunnerUI, FlatConsoleTestRunnerUI, TreeConsoleTestRunnerUI } from "./ConsoleTestRunnerUI.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function consoleTestRunnerUITests(runner: TestRunner, creator: () => ConsoleTestRunnerUI): void
 {

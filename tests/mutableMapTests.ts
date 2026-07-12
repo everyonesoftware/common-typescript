@@ -1,11 +1,11 @@
-import { Iterator } from "../sources/iterator";
-import { JavascriptIterable } from "../sources/javascript";
-import { isMap } from "../sources/map";
-import { MutableMap } from "../sources/mutableMap";
-import { NotFoundError } from "../sources/notFoundError";
-import { mapTests } from "./mapTests";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { Iterator } from "../sources/iterator.js";
+import { JavascriptIterable } from "../sources/javascript.js";
+import { isMap } from "../sources/map.js";
+import { MutableMap } from "../sources/mutableMap.js";
+import { NotFoundError } from "../sources/notFoundError.js";
+import { mapTests } from "./mapTests.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

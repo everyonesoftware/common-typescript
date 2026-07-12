@@ -1,11 +1,11 @@
 import * as assert from "assert";
 
-import { PreCondition } from "../sources/preCondition";
-import { isFunction, Type } from "../sources/types";
-import { Test } from "./test";
-import { SyncResult } from "../sources/syncResult";
-import { PromiseAsyncResult } from "../sources/promiseAsyncResult";
-import { JavascriptIterable } from "../sources";
+import { PreCondition } from "../sources/preCondition.js";
+import { isFunction, Type } from "../sources/types.js";
+import { Test } from "./test.js";
+import { SyncResult } from "../sources/syncResult.js";
+import { PromiseAsyncResult } from "../sources/promiseAsyncResult.js";
+import { JavascriptIterable } from "../sources/index.js";
 
 /**
  * A {@link Test} type that uses the standard "assert" module to make assertions.

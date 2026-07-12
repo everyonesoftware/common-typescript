@@ -1,6 +1,6 @@
-import { Disposable } from "./disposable";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
+import { Disposable } from "./disposable.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
 
 /**
  * A {@link Disposable} type that can be configured with a function that will be invoked when the

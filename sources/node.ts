@@ -1,6 +1,6 @@
-import { Iterator } from "./iterator";
-import { PreCondition } from "./preCondition";
-import { Set } from "./set";
+import { Iterator } from "./iterator.js";
+import { PreCondition } from "./preCondition.js";
+import { Set } from "./set.js";
 
 export class Node<T>
 {

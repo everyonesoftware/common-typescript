@@ -1,4 +1,4 @@
-import { JavascriptIterable } from "./javascript";
+import { JavascriptIterable } from "./javascript.js";
 
 /**
  * An object that can be used to implement a search algorithm.

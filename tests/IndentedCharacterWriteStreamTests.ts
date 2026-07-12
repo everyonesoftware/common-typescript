@@ -1,7 +1,7 @@
-import { CharacterWriteStream, InMemoryCharacterWriteStream, PreConditionError } from "../sources";
-import { IndentedCharacterWriteStream } from "../sources/IndentedCharacterWriteStream";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { CharacterWriteStream, InMemoryCharacterWriteStream, PreConditionError } from "../sources/index.js";
+import { IndentedCharacterWriteStream } from "../sources/IndentedCharacterWriteStream.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

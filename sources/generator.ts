@@ -1,9 +1,9 @@
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { List } from "./list";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
-import { Type } from "./types";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { List } from "./list.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
+import { Type } from "./types.js";
 
 /**
  * A control that can be used to interact with a {@link Generator} while it is generating values.

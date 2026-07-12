@@ -1,10 +1,10 @@
-import { EmptyError } from "./emptyError";
-import { EqualFunctions } from "./equalFunctions";
-import { JavascriptIterable } from "./javascript";
-import { List } from "./list";
-import { PreCondition } from "./preCondition";
-import { Queue } from "./queue";
-import { SyncResult } from "./syncResult";
+import { EmptyError } from "./emptyError.js";
+import { EqualFunctions } from "./equalFunctions.js";
+import { JavascriptIterable } from "./javascript.js";
+import { List } from "./list.js";
+import { PreCondition } from "./preCondition.js";
+import { Queue } from "./queue.js";
+import { SyncResult } from "./syncResult.js";
 
 export class ListQueue<T> implements Queue<T>
 {

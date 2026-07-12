@@ -1,5 +1,5 @@
-import { DateTime } from "./dateTime";
-import { RealClock } from "./RealClock";
+import { DateTime } from "./dateTime.js";
+import { RealClock } from "./RealClock.js";
 
 /**
  * A type that can be used to get the current {@link DateTime}.

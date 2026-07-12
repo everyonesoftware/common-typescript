@@ -1,10 +1,10 @@
-import { ByteList } from "./byteList";
-import { ByteReadStream } from "./byteReadStream";
-import { ByteWriteStream } from "./byteWriteStream";
-import { EmptyError } from "./emptyError";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
-import { isArray, isNumber, isUndefinedOrNull } from "./types";
+import { ByteList } from "./byteList.js";
+import { ByteReadStream } from "./byteReadStream.js";
+import { ByteWriteStream } from "./byteWriteStream.js";
+import { EmptyError } from "./emptyError.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
+import { isArray, isNumber, isUndefinedOrNull } from "./types.js";
 
 /**
  * A {@link ByteReadStream} and {@link ByteWriteStream} implementation that is implemented using a

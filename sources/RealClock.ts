@@ -1,5 +1,5 @@
-import { Clock } from "./Clock";
-import { DateTime } from "./dateTime";
+import { Clock } from "./Clock.js";
+import { DateTime } from "./dateTime.js";
 
 /**
  * A {@link Clock} implementation that returns the actual current {@link DateTime}.

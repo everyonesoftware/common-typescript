@@ -1,12 +1,12 @@
-import { FetchHttpIncomingResponse } from "./fetchHttpResponse";
-import { HttpClient } from "./httpClient";
-import { HttpOutgoingRequest } from "./httpOutgoingRequest";
-import { HttpHeader } from "./httpHeader";
-import { HttpMethod } from "./httpMethod";
-import { PostCondition } from "./postCondition";
-import { PreCondition } from "./preCondition";
-import { AsyncResult } from "./asyncResult";
-import { FetchError } from "./FetchError";
+import { FetchHttpIncomingResponse } from "./fetchHttpResponse.js";
+import { HttpClient } from "./httpClient.js";
+import { HttpOutgoingRequest } from "./httpOutgoingRequest.js";
+import { HttpHeader } from "./httpHeader.js";
+import { HttpMethod } from "./httpMethod.js";
+import { PostCondition } from "./postCondition.js";
+import { PreCondition } from "./preCondition.js";
+import { AsyncResult } from "./asyncResult.js";
+import { FetchError } from "./FetchError.js";
 
 /**
  * A {@link HttpClient} that uses {@link fetch}() to make network requests.

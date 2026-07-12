@@ -1,7 +1,7 @@
 import { AssertionError } from "assert";
-import { AssertTest } from "./assertTest";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { AssertTest } from "./assertTest.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

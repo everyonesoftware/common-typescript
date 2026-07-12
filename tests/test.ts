@@ -1,8 +1,8 @@
-import { PromiseAsyncResult } from "../sources/promiseAsyncResult";
-import { PreCondition } from "../sources/preCondition";
-import { SyncResult } from "../sources/syncResult";
-import { isUndefinedOrNull, Type } from "../sources/types";
-import { Iterable, JavascriptIterable } from "../sources";
+import { PromiseAsyncResult } from "../sources/promiseAsyncResult.js";
+import { PreCondition } from "../sources/preCondition.js";
+import { SyncResult } from "../sources/syncResult.js";
+import { isUndefinedOrNull, Type } from "../sources/types.js";
+import { Iterable, JavascriptIterable } from "../sources/index.js";
 
 /**
  * A type that can be used to make assertions during a test.

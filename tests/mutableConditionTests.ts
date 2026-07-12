@@ -1,13 +1,13 @@
 
 
-import { EqualFunctions } from "../sources/equalFunctions";
-import { MutableCondition } from "../sources/mutableCondition";
-import { PreConditionError } from "../sources/preConditionError";
-import { join } from "../sources/strings";
-import { ToStringFunctions } from "../sources/toStringFunctions";
-import { isNumber, isString } from "../sources/types";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { EqualFunctions } from "../sources/equalFunctions.js";
+import { MutableCondition } from "../sources/mutableCondition.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { join } from "../sources/strings.js";
+import { ToStringFunctions } from "../sources/toStringFunctions.js";
+import { isNumber, isString } from "../sources/types.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

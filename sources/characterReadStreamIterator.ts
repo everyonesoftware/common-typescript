@@ -1,10 +1,10 @@
-import { AsyncIterator } from "./asyncIterator";
-import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { CharacterReadStream } from "./characterReadStream";
-import { JavascriptAsyncIterator } from "./javascript";
-import { NotFoundError } from "./notFoundError";
-import { PreCondition } from "./preCondition";
-import { Type } from "./types";
+import { AsyncIterator } from "./asyncIterator.js";
+import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { CharacterReadStream } from "./characterReadStream.js";
+import { JavascriptAsyncIterator } from "./javascript.js";
+import { NotFoundError } from "./notFoundError.js";
+import { PreCondition } from "./preCondition.js";
+import { Type } from "./types.js";
 
 export class CharacterReadStreamAsyncIterator implements AsyncIterator<string>
 {

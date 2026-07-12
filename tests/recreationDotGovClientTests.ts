@@ -1,10 +1,10 @@
-import { HttpClient } from "../sources/httpClient";
-import { PreConditionError } from "../sources/preConditionError";
-import { RecreationDotGovClient, RecreationDotGovDivisionAvailability, RecreationDotGovDivisionAvailabilityJson, RecreationDotGovError, RecreationDotGovPermitItineraryJson } from "../sources/recreationDotGovClient";
-import { WonderlandTrailClient, WonderlandTrailLocations } from "../sources/wonderlandTrailClient";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
-import { hasNetworkAccess } from "./tests";
+import { HttpClient } from "../sources/httpClient.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { RecreationDotGovClient, RecreationDotGovDivisionAvailability, RecreationDotGovDivisionAvailabilityJson, RecreationDotGovError, RecreationDotGovPermitItineraryJson } from "../sources/recreationDotGovClient.js";
+import { WonderlandTrailClient, WonderlandTrailLocations } from "../sources/wonderlandTrailClient.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
+import { hasNetworkAccess } from "./tests.js";
 
 export function test(runner: TestRunner): void
 {

@@ -1,15 +1,15 @@
-import { EqualFunctions } from "./equalFunctions";
-import { Indexable } from "./Indexable";
-import { Iterable } from "./iterable";
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { JavascriptArrayList } from "./javascriptArrayList";
-import { MutableIndexable } from "./MutableIndexable";
-import { NotFoundError } from "./notFoundError";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
-import { ToStringFunctions } from "./toStringFunctions";
-import { isUndefinedOrNull, Type } from "./types";
+import { EqualFunctions } from "./equalFunctions.js";
+import { Indexable } from "./Indexable.js";
+import { Iterable } from "./iterable.js";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { JavascriptArrayList } from "./javascriptArrayList.js";
+import { MutableIndexable } from "./MutableIndexable.js";
+import { NotFoundError } from "./notFoundError.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
+import { isUndefinedOrNull, Type } from "./types.js";
 
 export abstract class List<T> implements MutableIndexable<T>
 {

@@ -1,9 +1,9 @@
-import { SyncDisposable } from "../sources/basicDisposable";
-import { Disposable } from "../sources/disposable";
-import { PreConditionError } from "../sources/preConditionError";
-import { SyncResult } from "../sources/syncResult";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { SyncDisposable } from "../sources/basicDisposable.js";
+import { Disposable } from "../sources/disposable.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { SyncResult } from "../sources/syncResult.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

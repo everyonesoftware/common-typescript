@@ -1,8 +1,8 @@
-import { Iterator } from "./iterator";
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
-import { Type } from "./types";
+import { Iterator } from "./iterator.js";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
+import { Type } from "./types.js";
 
 /**
  * An {@link Iterator} that skips the first maximum number of values from an inner {@link Iterator}

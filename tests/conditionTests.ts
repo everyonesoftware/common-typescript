@@ -1,10 +1,10 @@
-import { Condition } from "../sources/condition";
-import { JavascriptIterable } from "../sources/javascript";
-import { MutableCondition } from "../sources/mutableCondition";
-import { PreConditionError } from "../sources/preConditionError";
-import { join } from "../sources/strings";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { Condition } from "../sources/condition.js";
+import { JavascriptIterable } from "../sources/javascript.js";
+import { MutableCondition } from "../sources/mutableCondition.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { join } from "../sources/strings.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

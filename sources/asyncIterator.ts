@@ -1,16 +1,16 @@
-import { AsyncIteratorToJavascriptAsyncIteratorAdapter } from "./asyncIteratorToJavascriptAsyncIteratorAdapter";
-import { PromiseAsyncResult } from "./promiseAsyncResult";
-import { Comparable } from "./comparable";
-import { EmptyError } from "./emptyError";
-import { JavascriptAsyncIterator } from "./javascript";
-import { JavascriptAsyncIteratorToAsyncIteratorAdapter } from "./javascriptAsyncIteratorToAsyncIteratorAdapter";
-import { MapAsyncIterator } from "./mapAsyncIterator";
-import { NotFoundError } from "./notFoundError";
-import { PreCondition } from "./preCondition";
-import { SkipAsyncIterator } from "./skipAsyncIterator";
-import { TakeAsyncIterator } from "./takeAsyncIterator";
-import { instanceOfType, isJavascriptAsyncIterator, isUndefinedOrNull, Type } from "./types";
-import { WhereAsyncIterator } from "./whereAsyncIterator";
+import { AsyncIteratorToJavascriptAsyncIteratorAdapter } from "./asyncIteratorToJavascriptAsyncIteratorAdapter.js";
+import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { Comparable } from "./comparable.js";
+import { EmptyError } from "./emptyError.js";
+import { JavascriptAsyncIterator } from "./javascript.js";
+import { JavascriptAsyncIteratorToAsyncIteratorAdapter } from "./javascriptAsyncIteratorToAsyncIteratorAdapter.js";
+import { MapAsyncIterator } from "./mapAsyncIterator.js";
+import { NotFoundError } from "./notFoundError.js";
+import { PreCondition } from "./preCondition.js";
+import { SkipAsyncIterator } from "./skipAsyncIterator.js";
+import { TakeAsyncIterator } from "./takeAsyncIterator.js";
+import { instanceOfType, isJavascriptAsyncIterator, isUndefinedOrNull, Type } from "./types.js";
+import { WhereAsyncIterator } from "./whereAsyncIterator.js";
 
 /**
  * A type that can be used to asynchronously iterate over a collection.

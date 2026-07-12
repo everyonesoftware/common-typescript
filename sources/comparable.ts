@@ -1,5 +1,5 @@
-import { Comparison } from "./comparison";
-import { PreCondition } from "./preCondition";
+import { Comparison } from "./comparison.js";
+import { PreCondition } from "./preCondition.js";
 
 /**
  * An type that can be compared against another type.

@@ -1,8 +1,8 @@
-import { Iterator } from "../sources/iterator";
-import { MapIterator } from "../sources/mapIterator";
-import { PreConditionError } from "../sources/preConditionError";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { Iterator } from "../sources/iterator.js";
+import { MapIterator } from "../sources/mapIterator.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

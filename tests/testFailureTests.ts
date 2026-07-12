@@ -1,4 +1,4 @@
-import { TestRunner } from "./testRunner";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

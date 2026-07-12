@@ -1,13 +1,13 @@
-import { JavascriptIterable, JavascriptIterator } from "./javascript";
-import { List } from "./list";
-import { ListStack } from "./listStack";
-import { PreCondition } from "./preCondition";
-import { SearchControl } from "./searchControl";
-import { Stack } from "./stack";
-import { Set } from "./set";
-import { Iterator } from "./iterator";
-import { SyncResult } from "./syncResult";
-import { isJavascriptIterable, Type } from "./types";
+import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { List } from "./list.js";
+import { ListStack } from "./listStack.js";
+import { PreCondition } from "./preCondition.js";
+import { SearchControl } from "./searchControl.js";
+import { Stack } from "./stack.js";
+import { Set } from "./set.js";
+import { Iterator } from "./iterator.js";
+import { SyncResult } from "./syncResult.js";
+import { isJavascriptIterable, Type } from "./types.js";
 
 class SearchBreakError extends Error
 {

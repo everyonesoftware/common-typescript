@@ -1,6 +1,6 @@
-import { AsyncIterator } from "./asyncIterator";
-import { JavascriptAsyncIterator, JavascriptIteratorResult } from "./javascript";
-import { PreCondition } from "./preCondition";
+import { AsyncIterator } from "./asyncIterator.js";
+import { JavascriptAsyncIterator, JavascriptIteratorResult } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
 
 /**
  * A type that adapts an {@link AsyncIterator} to match a {@link JavascriptAsyncIterator}.

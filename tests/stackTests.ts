@@ -1,8 +1,8 @@
-import { EmptyError } from "../sources/emptyError";
-import { ListStack } from "../sources/listStack";
-import { Stack } from "../sources/stack";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { EmptyError } from "../sources/emptyError.js";
+import { ListStack } from "../sources/listStack.js";
+import { Stack } from "../sources/stack.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

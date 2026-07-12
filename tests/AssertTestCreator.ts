@@ -1,5 +1,5 @@
-import { AssertTest } from "./assertTest";
-import { TestCreator } from "./TestCreator";
+import { AssertTest } from "./assertTest.js";
+import { TestCreator } from "./TestCreator.js";
 
 /**
  * An implementation of {@link TestCreator} that creates {@link AssertTest}s.

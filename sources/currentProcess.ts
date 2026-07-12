@@ -1,13 +1,13 @@
-import { CharacterWriteStream } from "./characterWriteStream";
-import { CommandLineParameters } from "./commandLineParameters";
-import { Iterable } from "./iterable";
-import { JavascriptIterable } from "./javascript";
-import { Network } from "./network";
-import { NodeJSCharacterWriteStream } from "./nodeJSCharacterWriteStream";
-import { PreCondition } from "./preCondition";
-import { Property } from "./property";
-import { RealNetwork } from "./realNetwork";
-import { isIterable, isNumber } from "./types";
+import { CharacterWriteStream } from "./characterWriteStream.js";
+import { CommandLineParameters } from "./commandLineParameters.js";
+import { Iterable } from "./iterable.js";
+import { JavascriptIterable } from "./javascript.js";
+import { Network } from "./network.js";
+import { NodeJSCharacterWriteStream } from "./nodeJSCharacterWriteStream.js";
+import { PreCondition } from "./preCondition.js";
+import { Property } from "./property.js";
+import { RealNetwork } from "./realNetwork.js";
+import { isIterable, isNumber } from "./types.js";
 
 /**
  * An object that provides all of the resources that are available to the current process.

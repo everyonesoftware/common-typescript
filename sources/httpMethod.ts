@@ -1,6 +1,6 @@
-import { NotFoundError } from "./notFoundError";
-import { PreCondition } from "./preCondition";
-import { SyncResult } from "./syncResult";
+import { NotFoundError } from "./notFoundError.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
 
 export enum HttpMethod
 {

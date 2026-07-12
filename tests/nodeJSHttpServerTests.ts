@@ -1,10 +1,10 @@
-import { AsyncResult } from "../sources";
-import { FetchHttpClient } from "../sources/fetchHttpClient";
-import { FetchHttpIncomingResponse } from "../sources/fetchHttpResponse";
-import { NodeJSHttpServer as NodeJSHttpServer } from "../sources/nodeJSHttpServer";
-import { PreConditionError } from "../sources/preConditionError";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { AsyncResult } from "../sources/index.js";
+import { FetchHttpClient } from "../sources/fetchHttpClient.js";
+import { FetchHttpIncomingResponse } from "../sources/fetchHttpResponse.js";
+import { NodeJSHttpServer as NodeJSHttpServer } from "../sources/nodeJSHttpServer.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

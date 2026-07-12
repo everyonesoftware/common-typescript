@@ -1,6 +1,6 @@
-import { CommandLineParameters, Iterable, JavascriptIterable, PreConditionError } from "../sources";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { CommandLineParameters, Iterable, JavascriptIterable, PreConditionError } from "../sources/index.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

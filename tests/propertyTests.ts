@@ -1,6 +1,6 @@
-import { Property } from "../sources/property";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { Property } from "../sources/property.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

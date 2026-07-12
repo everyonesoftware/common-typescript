@@ -1,5 +1,5 @@
-import { Comparer } from "./comparer";
-import { Comparison } from "./comparison";
+import { Comparer } from "./comparer.js";
+import { Comparison } from "./comparison.js";
 
 /**
  * A {@link Comparer} that performs {@link string} comparisons.

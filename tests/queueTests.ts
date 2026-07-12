@@ -1,8 +1,8 @@
-import { EmptyError } from "../sources/emptyError";
-import { ListQueue } from "../sources/listQueue";
-import { Queue } from "../sources/queue";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { EmptyError } from "../sources/emptyError.js";
+import { ListQueue } from "../sources/listQueue.js";
+import { Queue } from "../sources/queue.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

@@ -1,8 +1,8 @@
-import { FetchHttpClient } from "./fetchHttpClient";
-import { HttpClient } from "./httpClient";
-import { HttpServer } from "./httpServer";
-import { Network } from "./network";
-import { NodeJSHttpServer } from "./nodeJSHttpServer";
+import { FetchHttpClient } from "./fetchHttpClient.js";
+import { HttpClient } from "./httpClient.js";
+import { HttpServer } from "./httpServer.js";
+import { Network } from "./network.js";
+import { NodeJSHttpServer } from "./nodeJSHttpServer.js";
 
 export class RealNetwork extends Network
 {

@@ -1,9 +1,9 @@
-import { Iterator } from "../sources/iterator";
-import { PreConditionError } from "../sources/preConditionError";
-import { WhereIterator } from "../sources/whereIterator";
-import { iteratorTests } from "./iteratorTests";
-import { Test } from "./test";
-import { TestRunner } from "./testRunner";
+import { Iterator } from "../sources/iterator.js";
+import { PreConditionError } from "../sources/preConditionError.js";
+import { WhereIterator } from "../sources/whereIterator.js";
+import { iteratorTests } from "./iteratorTests.js";
+import { Test } from "./test.js";
+import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {

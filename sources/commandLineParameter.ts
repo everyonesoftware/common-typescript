@@ -1,8 +1,8 @@
-import { CommandLineParameters } from "./commandLineParameters";
-import { Iterable } from "./iterable";
-import { JavascriptIterable } from "./javascript";
-import { List } from "./list";
-import { PreCondition } from "./preCondition";
+import { CommandLineParameters } from "./commandLineParameters.js";
+import { Iterable } from "./iterable.js";
+import { JavascriptIterable } from "./javascript.js";
+import { List } from "./list.js";
+import { PreCondition } from "./preCondition.js";
 
 /**
  * An individual parameter from a {@link CommandLineParameters} object.

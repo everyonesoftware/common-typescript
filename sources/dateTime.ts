@@ -1,4 +1,4 @@
-import { LuxonDateTime } from "./luxonDateTime";
+import { LuxonDateTime } from "./luxonDateTime.js";
 
 export abstract class DateTime
 {
