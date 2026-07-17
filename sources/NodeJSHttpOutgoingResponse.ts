@@ -12,17 +12,17 @@ import { AsyncResult } from "./asyncResult.js";
 
 export class NodeJSHttpOutgoingResponse implements HttpOutgoingResponse
 {
-    private readonly innerResponse: http.ServerResponse<http.IncomingMessage> & { req: http.IncomingMessage };
+    private readonly innerResponse: http.ServerResponse<http.IncomingMessage>;
     private bodyString: string | undefined;
 
-    private constructor(innerResponse: http.ServerResponse<http.IncomingMessage> & { req: http.IncomingMessage })
+    private constructor(innerResponse: http.ServerResponse<http.IncomingMessage>)
     {
         PreCondition.assertNotUndefinedAndNotNull(innerResponse, "innerResponse");
 
         this.innerResponse = innerResponse;
     }
 
-    public static create(innerResponse: http.ServerResponse<http.IncomingMessage> & { req: http.IncomingMessage }): NodeJSHttpOutgoingResponse
+    public static create(innerResponse : http.ServerResponse<http.IncomingMessage>): NodeJSHttpOutgoingResponse
     {
         return new NodeJSHttpOutgoingResponse(innerResponse);
     }

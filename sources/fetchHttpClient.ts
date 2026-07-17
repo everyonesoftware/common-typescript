@@ -1,4 +1,4 @@
-import { FetchHttpIncomingResponse } from "./fetchHttpResponse.js";
+import { FetchHttpResponse } from "./FetchHttpResponse.js";
 import { HttpClient } from "./httpClient.js";
 import { HttpOutgoingRequest } from "./httpOutgoingRequest.js";
 import { HttpHeader } from "./httpHeader.js";
@@ -22,7 +22,7 @@ export class FetchHttpClient implements HttpClient
         return new FetchHttpClient();
     }
 
-    public sendRequest(request: HttpOutgoingRequest): AsyncResult<FetchHttpIncomingResponse>
+    public sendRequest(request: HttpOutgoingRequest): AsyncResult<FetchHttpResponse>
     {
         PreCondition.assertNotUndefinedAndNotNull(request, "request");
 
@@ -41,11 +41,11 @@ export class FetchHttpClient implements HttpClient
                 body: fetchBody,
             };
 
-            let result: FetchHttpIncomingResponse;
+            let result: FetchHttpResponse;
             try
             {
                 const fetchResponse: Response = await fetch(fetchURL, requestInit);
-                result = FetchHttpIncomingResponse.create(fetchResponse);
+                result = FetchHttpResponse.create(fetchResponse);
             }
             catch (error)
             {
@@ -61,7 +61,7 @@ export class FetchHttpClient implements HttpClient
         });
     }
 
-    public sendGetRequest(url: string): AsyncResult<FetchHttpIncomingResponse>
+    public sendGetRequest(url: string): AsyncResult<FetchHttpResponse>
     {
         return this.sendRequest(HttpOutgoingRequest.create(HttpMethod.GET, url));
     }

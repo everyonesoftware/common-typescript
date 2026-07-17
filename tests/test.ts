@@ -1,8 +1,4 @@
-import { PromiseAsyncResult } from "../sources/promiseAsyncResult.js";
-import { PreCondition } from "../sources/preCondition.js";
-import { SyncResult } from "../sources/syncResult.js";
-import { isUndefinedOrNull, Type } from "../sources/types.js";
-import { Iterable, JavascriptIterable } from "../sources/index.js";
+import { Iterable, JavascriptIterable, isUndefinedOrNull, Type, SyncResult, PreCondition, AsyncResult } from "../sources//index.js";
 
 /**
  * A type that can be used to make assertions during a test.
@@ -202,7 +198,7 @@ export abstract class Test
      * @param action The action to run.
      * @param expectedError The expected {@link Error}.
      */
-    public abstract assertThrowsAsync(action: PromiseLike<unknown> | (() => PromiseLike<unknown>), expectedError: Error): PromiseAsyncResult<void>;
+    public abstract assertThrowsAsync(action: PromiseLike<unknown> | (() => PromiseLike<unknown>), expectedError: Error): AsyncResult<void>;
 
     /**
      * Assert that the provided value is an instance of the provided {@link Type}.

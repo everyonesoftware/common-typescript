@@ -1,7 +1,7 @@
 import { PreCondition } from "./preCondition.js";
 import { Type } from "./types.js";
 import { AsyncIterator } from "./asyncIterator.js";
-import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { AsyncResult } from "./asyncResult.js";
 import { JavascriptAsyncIterator } from "./javascript.js";
 
 /**
@@ -29,9 +29,9 @@ export class MapAsyncIterator<TInput, TOutput> implements AsyncIterator<TOutput>
         return new MapAsyncIterator(inputIterator, mapping);
     }
 
-    public next(): PromiseAsyncResult<boolean>
+    public next(): AsyncResult<boolean>
     {
-        return PromiseAsyncResult.create(async () =>
+        return AsyncResult.create(async () =>
         {
             if (!this.hasStarted())
             {
@@ -69,27 +69,27 @@ export class MapAsyncIterator<TInput, TOutput> implements AsyncIterator<TOutput>
         return this.current!;
     }
 
-    public start(): PromiseAsyncResult<this>
+    public start(): AsyncResult<this>
     {
         return AsyncIterator.start<TOutput, this>(this);
     }
 
-    public takeCurrent(): PromiseAsyncResult<TOutput>
+    public takeCurrent(): AsyncResult<TOutput>
     {
         return AsyncIterator.takeCurrent(this);
     }
 
-    public any(): PromiseAsyncResult<boolean>
+    public any(): AsyncResult<boolean>
     {
         return AsyncIterator.any(this);
     }
 
-    public getCount(): PromiseAsyncResult<number>
+    public getCount(): AsyncResult<number>
     {
         return AsyncIterator.getCount(this);
     }
 
-    public toArray(): PromiseAsyncResult<TOutput[]>
+    public toArray(): AsyncResult<TOutput[]>
     {
         return AsyncIterator.toArray(this);
     }
@@ -104,12 +104,12 @@ export class MapAsyncIterator<TInput, TOutput> implements AsyncIterator<TOutput>
         return AsyncIterator[Symbol.asyncIterator](this);
     }
 
-    public first(condition?: (value: TOutput) => boolean): PromiseAsyncResult<TOutput>
+    public first(condition?: (value: TOutput) => boolean): AsyncResult<TOutput>
     {
         return AsyncIterator.first(this, condition);
     }
 
-    public last(): PromiseAsyncResult<TOutput>
+    public last(): AsyncResult<TOutput>
     {
         return AsyncIterator.last(this);
     }

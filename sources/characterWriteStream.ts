@@ -1,4 +1,3 @@
-import { PromiseAsyncResult } from "./promiseAsyncResult.js";
 import { PostCondition } from "./postCondition.js";
 import { PreCondition } from "./preCondition.js";
 import { AsyncResult } from "./asyncResult.js";
@@ -27,7 +26,7 @@ export abstract class CharacterWriteStream
     {
         PreCondition.assertNotUndefinedAndNotNull(writeStream, "writeStream");
 
-        return PromiseAsyncResult.create(async () =>
+        return AsyncResult.create(async () =>
         {
             let result: number = 0;
 

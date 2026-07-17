@@ -4,7 +4,6 @@ import { HttpServer } from "./httpServer.js";
 import { HttpIncomingRequest } from "./httpIncomingRequest.js";
 import { HttpOutgoingResponse } from "./httpOutgoingResponse.js";
 import { PreCondition } from "./preCondition.js";
-import { PromiseAsyncResult } from "./promiseAsyncResult.js";
 import { AsyncResult } from "./asyncResult.js";
 import { NodeJSHttpOutgoingResponse } from "./NodeJSHttpOutgoingResponse.js";
 
@@ -28,9 +27,9 @@ export class NodeJSHttpServer extends HttpServer
         return new NodeJSHttpServer();
     }
 
-    public dispose(): PromiseAsyncResult<boolean>
+    public dispose(): AsyncResult<boolean>
     {
-        return PromiseAsyncResult.create(new Promise<boolean>((resolve, reject) =>
+        return AsyncResult.create(new Promise<boolean>((resolve, reject) =>
         {
             if (this.disposed)
             {
@@ -80,13 +79,18 @@ export class NodeJSHttpServer extends HttpServer
         throw new Error("Method not implemented.");
     }
 
-    public start(portNumber: number): PromiseAsyncResult<void>
+    /**
+     * Start listening for incoming connections on the provided port number. The returned
+     * {@link AsyncResult} will complete when the server is disposed.
+     * @param portNumber The port number to start listening on.
+     */
+    public start(portNumber: number): AsyncResult<void>
     {
         PreCondition.assertGreaterThanOrEqualTo(portNumber, 1, "portNumber");
         PreCondition.assertFalse(this.isDisposed(), "this.isDisposed()");
         PreCondition.assertUndefined(this.httpServer, "this.httpServer");
 
-        return PromiseAsyncResult.create(new Promise<void>((resolve, reject) =>
+        return AsyncResult.create(new Promise<void>((resolve, reject) =>
         {
             if (this.httpServer)
             {

@@ -32,7 +32,7 @@ export abstract class AsyncResult<T> implements Promise<T>
      * Create a new {@link AsyncResult} that contains the provided error.
      * @param error The error to wrap in a {@link AsyncResult}.
      */
-    public static error<T>(error: Error): AsyncResult<T>
+    public static error<T>(error: unknown): AsyncResult<T>
     {
         return PromiseAsyncResult.error<T>(error);
     }

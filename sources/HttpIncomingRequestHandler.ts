@@ -5,4 +5,4 @@ import { HttpOutgoingResponse } from "./httpOutgoingResponse.js";
 /**
  * A function that can handle {@link HttpIncomingRequest}s.
  */
-export type HttpRequestHandler = (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>;
+export type HttpIncomingRequestHandler = (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>;

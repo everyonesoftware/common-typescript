@@ -1,4 +1,4 @@
-import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { AsyncResult } from "./asyncResult.js";
 import { HttpHeader } from "./httpHeader.js";
 import { HttpHeaders } from "./httpHeaders.js";
 import { HttpIncomingResponse } from "./httpIncomingResponse.js";
@@ -11,7 +11,7 @@ import { SyncResult } from "./syncResult.js";
 /**
  * An {@link HttpIncomingResponse} that comes from a {@link FetchHttpClient}.
  */
-export class FetchHttpIncomingResponse extends HttpIncomingResponse
+export class FetchHttpResponse extends HttpIncomingResponse
 {
     private readonly response: Response;
 
@@ -24,9 +24,9 @@ export class FetchHttpIncomingResponse extends HttpIncomingResponse
         this.response = response;
     }
 
-    public static create(response: Response): FetchHttpIncomingResponse
+    public static create(response: Response): FetchHttpResponse
     {
-        return new FetchHttpIncomingResponse(response);
+        return new FetchHttpResponse(response);
     }
 
     public getStatusCode(): number
@@ -99,8 +99,8 @@ export class FetchHttpIncomingResponse extends HttpIncomingResponse
         });
     }
 
-    public getBody(): PromiseAsyncResult<string>
+    public getBody(): AsyncResult<string>
     {
-        return PromiseAsyncResult.create(this.response.text());
+        return AsyncResult.create(this.response.text());
     }
 }

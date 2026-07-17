@@ -1,9 +1,8 @@
-import { PromiseAsyncResult } from "./promiseAsyncResult.js";
+import { AsyncResult } from "./asyncResult.js";
 import { AsyncIterator } from "./asyncIterator.js";
 import { JavascriptAsyncIterable, JavascriptAsyncIterator, JavascriptIteratorResult } from "./javascript.js";
 import { PreCondition } from "./preCondition.js";
 import { isJavascriptAsyncIterable, Type } from "./types.js";
-import { AsyncIteratorToJavascriptAsyncIteratorAdapter } from "./asyncIteratorToJavascriptAsyncIteratorAdapter.js";
 
 export class JavascriptAsyncIteratorToAsyncIteratorAdapter<T> implements AsyncIterator<T>
 {
@@ -26,9 +25,9 @@ export class JavascriptAsyncIteratorToAsyncIteratorAdapter<T> implements AsyncIt
         return new JavascriptAsyncIteratorToAsyncIteratorAdapter(javascriptIterator);
     }
 
-    public next(): PromiseAsyncResult<boolean>
+    public next(): AsyncResult<boolean>
     {
-        return PromiseAsyncResult.create(async () =>
+        return AsyncResult.create(async () =>
         {
             this.javascriptIteratorResult = await this.javascriptIterator.next();
             return this.hasCurrent();
@@ -52,27 +51,27 @@ export class JavascriptAsyncIteratorToAsyncIteratorAdapter<T> implements AsyncIt
         return this.javascriptIteratorResult!.value;
     }
 
-    public start(): PromiseAsyncResult<this>
+    public start(): AsyncResult<this>
     {
         return AsyncIterator.start<T, this>(this);
     }
 
-    public takeCurrent(): PromiseAsyncResult<T>
+    public takeCurrent(): AsyncResult<T>
     {
         return AsyncIterator.takeCurrent(this);
     }
 
-    public any(): PromiseAsyncResult<boolean>
+    public any(): AsyncResult<boolean>
     {
         return AsyncIterator.any(this);
     }
 
-    public getCount(): PromiseAsyncResult<number>
+    public getCount(): AsyncResult<number>
     {
         return AsyncIterator.getCount(this);
     }
 
-    public toArray(): PromiseAsyncResult<T[]>
+    public toArray(): AsyncResult<T[]>
     {
         return AsyncIterator.toArray(this);
     }
@@ -87,12 +86,12 @@ export class JavascriptAsyncIteratorToAsyncIteratorAdapter<T> implements AsyncIt
         return AsyncIterator[Symbol.asyncIterator](this);
     }
 
-    public first(condition?: (value: T) => (boolean | PromiseLike<boolean>)): PromiseAsyncResult<T>
+    public first(condition?: (value: T) => (boolean | PromiseLike<boolean>)): AsyncResult<T>
     {
         return AsyncIterator.first(this, condition);
     }
 
-    public last(condition?: (value: T) => (boolean | PromiseLike<boolean>)): PromiseAsyncResult<T>
+    public last(condition?: (value: T) => (boolean | PromiseLike<boolean>)): AsyncResult<T>
     {
         return AsyncIterator.last(this, condition);
     }

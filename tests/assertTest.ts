@@ -1,11 +1,7 @@
 import * as assert from "assert";
 
-import { PreCondition } from "../sources/preCondition.js";
-import { isFunction, Type } from "../sources/types.js";
 import { Test } from "./test.js";
-import { SyncResult } from "../sources/syncResult.js";
-import { PromiseAsyncResult } from "../sources/promiseAsyncResult.js";
-import { JavascriptIterable } from "../sources/index.js";
+import { AsyncResult, JavascriptIterable, SyncResult, isFunction, Type, PreCondition } from "../sources//index.js";
 
 /**
  * A {@link Test} type that uses the standard "assert" module to make assertions.
@@ -101,12 +97,12 @@ export class AssertTest implements Test
         assert.throws(action, expectedError);
     }
 
-    public assertThrowsAsync(action: Promise<unknown> | (() => Promise<unknown>), expectedError: Error): PromiseAsyncResult<void>
+    public assertThrowsAsync(action: Promise<unknown> | (() => Promise<unknown>), expectedError: Error): AsyncResult<void>
     {
         const promiseOrAsyncAction = isFunction(action)
             ? async () => await action()
             : action;
-        return PromiseAsyncResult.create(assert.rejects(promiseOrAsyncAction, expectedError));
+        return AsyncResult.create(assert.rejects(promiseOrAsyncAction, expectedError));
     }
 
     public assertInstanceOf<T>(value: unknown, type: Type<T>, typeCheck?: (value: unknown) => value is T): asserts value is T
