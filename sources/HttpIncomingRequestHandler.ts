@@ -1,8 +1,7 @@
-import { AsyncResult } from "./asyncResult.js";
 import { HttpIncomingRequest } from "./httpIncomingRequest.js";
 import { HttpOutgoingResponse } from "./httpOutgoingResponse.js";
 
 /**
  * A function that can handle {@link HttpIncomingRequest}s.
  */
-export type HttpIncomingRequestHandler = (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>;
+export type HttpIncomingRequestHandler = (request: HttpIncomingRequest, response: HttpOutgoingResponse) => PromiseLike<void>;
