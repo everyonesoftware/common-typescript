@@ -19,6 +19,11 @@ export class FetchHttpOutgoingResponse extends HttpOutgoingResponse
         this.headers = MutableHttpHeaders.create();
     }
 
+    public static create(): FetchHttpOutgoingResponse
+    {
+        return new FetchHttpOutgoingResponse();
+    }
+
     public getResponse(): Response
     {
         let bodyInit: BodyInit | undefined = this.body;
