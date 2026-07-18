@@ -34,9 +34,9 @@ export class NodeJSHttpOutgoingResponse implements HttpOutgoingResponse
         return this;
     }
 
-    public getStatusCode(): SyncResult<number>
+    public getStatusCode(): number
     {
-        return SyncResult.value(this.innerResponse.statusCode);
+        return this.innerResponse.statusCode;
     }
 
     private static headerValueToString(headerValue: http.OutgoingHttpHeader): string

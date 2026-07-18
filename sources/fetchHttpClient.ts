@@ -1,4 +1,4 @@
-import { FetchHttpResponse } from "./FetchHttpResponse.js";
+import { FetchHttpIncomingResponse } from "./FetchHttpIncomingResponse.js";
 import { HttpClient } from "./httpClient.js";
 import { HttpOutgoingRequest } from "./httpOutgoingRequest.js";
 import { HttpHeader } from "./httpHeader.js";
@@ -7,6 +7,7 @@ import { PostCondition } from "./postCondition.js";
 import { PreCondition } from "./preCondition.js";
 import { AsyncResult } from "./asyncResult.js";
 import { FetchError } from "./FetchError.js";
+import { HttpHeaders } from "./httpHeaders.js";
 
 /**
  * A {@link HttpClient} that uses {@link fetch}() to make network requests.
@@ -22,7 +23,7 @@ export class FetchHttpClient implements HttpClient
         return new FetchHttpClient();
     }
 
-    public sendRequest(request: HttpOutgoingRequest): AsyncResult<FetchHttpResponse>
+    public sendRequest(request: HttpOutgoingRequest): AsyncResult<FetchHttpIncomingResponse>
     {
         PreCondition.assertNotUndefinedAndNotNull(request, "request");
 
@@ -30,10 +31,7 @@ export class FetchHttpClient implements HttpClient
         {
             const fetchURL: string = request.getURL();
             const fetchMethod: string = FetchHttpClient.convertMethod(request.getMethod());
-            const fetchHeaders: [string, string][] = request.getHeaders()
-                .map<[string, string]>((header: HttpHeader) => [header.getName(), header.getValue()])
-                .toArray()
-                .await()
+            const fetchHeaders: [string, string][] = FetchHttpClient.convertHeaders(request.getHeaders());
             const fetchBody: string | undefined = request.getBody() || undefined;
             const requestInit: RequestInit = {
                 method: fetchMethod,
@@ -41,11 +39,11 @@ export class FetchHttpClient implements HttpClient
                 body: fetchBody,
             };
 
-            let result: FetchHttpResponse;
+            let result: FetchHttpIncomingResponse;
             try
             {
                 const fetchResponse: Response = await fetch(fetchURL, requestInit);
-                result = FetchHttpResponse.create(fetchResponse);
+                result = FetchHttpIncomingResponse.create(fetchResponse);
             }
             catch (error)
             {
@@ -61,7 +59,7 @@ export class FetchHttpClient implements HttpClient
         });
     }
 
-    public sendGetRequest(url: string): AsyncResult<FetchHttpResponse>
+    public sendGetRequest(url: string): AsyncResult<FetchHttpIncomingResponse>
     {
         return this.sendRequest(HttpOutgoingRequest.create(HttpMethod.GET, url));
     }
@@ -105,5 +103,15 @@ export class FetchHttpClient implements HttpClient
         PostCondition.assertNotEmpty(result, "result");
 
         return result;
+    }
+
+    public static convertHeaders(headers: HttpHeaders): [string, string][]
+    {
+        PreCondition.assertNotUndefinedAndNotNull(headers, "headers");
+
+        return headers
+            .map<[string, string]>((header: HttpHeader) => [header.getName(), header.getValue()])
+            .toArray()
+            .await();
     }
 }

@@ -1,6 +1,6 @@
 import { AsyncResult } from "../sources/index.js";
 import { FetchHttpClient } from "../sources/fetchHttpClient.js";
-import { FetchHttpResponse } from "../sources/FetchHttpResponse.js";
+import { FetchHttpIncomingResponse } from "../sources/FetchHttpIncomingResponse.js";
 import { NodeJSHttpServer as NodeJSHttpServer } from "../sources/nodeJSHttpServer.js";
 import { PreConditionError } from "../sources/preConditionError.js";
 import { Test } from "./test.js";
@@ -60,7 +60,7 @@ export function test(runner: TestRunner): void
                     try
                     {
                         const httpClient: FetchHttpClient = FetchHttpClient.create();
-                        const response: FetchHttpResponse = await httpClient.sendGetRequest("http://localhost:3000");
+                        const response: FetchHttpIncomingResponse = await httpClient.sendGetRequest("http://localhost:3000");
 
                         test.assertNotUndefinedAndNotNull(response);
                         test.assertEqual(200, response.getStatusCode());

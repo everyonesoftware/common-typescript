@@ -9,7 +9,10 @@ import { escapeAndQuote } from "./strings.js";
 import { SyncResult } from "./syncResult.js";
 import { isArray } from "./types.js";
 
-export class FetchHttpRequest implements HttpIncomingRequest
+/**
+ * An {@link HttpIncomingRequest} that can be used with servers that support the Fetch API.
+ */
+export class FetchHttpIncomingRequest implements HttpIncomingRequest
 {
     private readonly request: Request;
 
@@ -20,9 +23,9 @@ export class FetchHttpRequest implements HttpIncomingRequest
         this.request = request;
     }
 
-    public static create(request: Request): FetchHttpRequest
+    public static create(request: Request): FetchHttpIncomingRequest
     {
-        return new FetchHttpRequest(request);
+        return new FetchHttpIncomingRequest(request);
     }
 
     public getMethod(): HttpMethod
@@ -65,7 +68,7 @@ export class FetchHttpRequest implements HttpIncomingRequest
 
     public getHeaders(): SyncResult<HttpHeaders>
     {
-        return SyncResult.value(HttpHeaders.create(Object.entries(this.request.headers).map(FetchHttpRequest.toHttpHeader)));
+        return SyncResult.value(HttpHeaders.create(Object.entries(this.request.headers).map(FetchHttpIncomingRequest.toHttpHeader)));
     }
 
     public getHeader(headerName: string): SyncResult<HttpHeader>
@@ -81,7 +84,7 @@ export class FetchHttpRequest implements HttpIncomingRequest
             {
                 if (header[0].toLowerCase() === lowerHeaderName)
                 {
-                    result = HttpHeader.create(header[0], FetchHttpRequest.toHttpHeaderValue(header[1]));
+                    result = HttpHeader.create(header[0], FetchHttpIncomingRequest.toHttpHeaderValue(header[1]));
                     break;
                 }
             }
@@ -106,7 +109,7 @@ export class FetchHttpRequest implements HttpIncomingRequest
             {
                 if (header[0].toLowerCase() === lowerHeaderName)
                 {
-                    result = FetchHttpRequest.toHttpHeaderValue(header[1]);
+                    result = FetchHttpIncomingRequest.toHttpHeaderValue(header[1]);
                     break;
                 }
             }

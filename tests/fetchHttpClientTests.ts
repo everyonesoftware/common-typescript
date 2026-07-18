@@ -1,5 +1,5 @@
 import { FetchHttpClient } from "../sources/fetchHttpClient.js";
-import { FetchHttpResponse } from "../sources/FetchHttpResponse.js";
+import { FetchHttpIncomingResponse } from "../sources/FetchHttpIncomingResponse.js";
 import { HttpOutgoingRequest } from "../sources/httpOutgoingRequest.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
@@ -23,7 +23,7 @@ export function test(runner: TestRunner): void
                 {
                     const client: FetchHttpClient = FetchHttpClient.create();
 
-                    const response: FetchHttpResponse = await client.sendGetRequest("https://www.example.com");
+                    const response: FetchHttpIncomingResponse = await client.sendGetRequest("https://www.example.com");
                     test.assertNotUndefinedAndNotNull(response);
                     test.assertEqual(200, response.getStatusCode());
                 });
