@@ -3,6 +3,8 @@ import { HttpHeader } from "./httpHeader.js";
 import { HttpHeaders } from "./httpHeaders.js";
 import { HttpIncomingRequest } from "./httpIncomingRequest.js";
 import { HttpMethod, parseHttpMethod } from "./httpMethod.js";
+import { Map } from "./map.js";
+import { MutableMap } from "./mutableMap.js";
 import { NotFoundError } from "./notFoundError.js";
 import { PreCondition } from "./preCondition.js";
 import { escapeAndQuote } from "./strings.js";
@@ -39,10 +41,23 @@ export class FetchHttpIncomingRequest implements HttpIncomingRequest
         return SyncResult.value(requestUrl.hostname);
     }
 
-    public getURLPath(): string
+    public getPath(): string
     {
         const requestUrl: URL = new URL(this.request.url);
         return requestUrl.pathname;
+    }
+
+    public getQueryParameters(): Map<string, string>
+    {
+        const requestUrl: URL = new URL(this.request.url);
+        const queryParameters: URLSearchParams = requestUrl.searchParams;
+
+        const result: MutableMap<string, string> = MutableMap.create();
+        for (const queryParameter of queryParameters)
+        {
+            result.set(queryParameter[0], queryParameter[1]);
+        }
+        return result;
     }
 
     private static toHttpHeader(header: [string, string | string[] | undefined]): HttpHeader

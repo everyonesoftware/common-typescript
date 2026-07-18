@@ -3,6 +3,7 @@ import { HttpHeaders } from "./httpHeaders.js";
 import { HttpMethod } from "./httpMethod.js";
 import { AsyncResult } from "./asyncResult.js";
 import { NotFoundError } from "./notFoundError.js";
+import { Map } from "./map.js";
 
 /**
  * A HTTP request that is received by a {@link HttpServer}.
@@ -14,12 +15,20 @@ export abstract class HttpIncomingRequest
      */
     public abstract getMethod(): HttpMethod;
 
+    /**
+     * Get the requested URL's host.
+     */
     public abstract getHost(): AsyncResult<string>;
 
     /**
-     * Get the path component of the requested URL.
+     * Get the requested URL's path.
      */
-    public abstract getURLPath(): string;
+    public abstract getPath(): string;
+
+    /**
+     * Get the requested URL's query parameters.
+     */
+    public abstract getQueryParameters(): Map<string,string>;
 
     /**
      * Get the {@link HttpHeaders} of this {@link HttpIncomingRequest}.
