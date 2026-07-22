@@ -2,7 +2,6 @@ import { AsyncResult } from "./asyncResult.js";
 import { HttpHeader } from "./httpHeader.js";
 import { HttpHeaders } from "./httpHeaders.js";
 import { HttpIncomingResponse } from "./httpIncomingResponse.js";
-import { HttpOutgoingResponse } from "./httpOutgoingResponse.js";
 import { MutableHttpHeaders } from "./mutableHttpHeaders.js";
 import { NotFoundError } from "./notFoundError.js";
 import { PreCondition } from "./preCondition.js";
@@ -102,8 +101,13 @@ export class FetchHttpIncomingResponse extends HttpIncomingResponse
         });
     }
 
-    public getBody(): AsyncResult<string>
+    public getBodyString(): AsyncResult<string>
     {
         return AsyncResult.create(this.response.text());
+    }
+
+    public getBodyJSON(): AsyncResult<unknown>
+    {
+        return AsyncResult.create(this.response.json());
     }
 }

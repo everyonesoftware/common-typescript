@@ -64,6 +64,7 @@ export * from "./javascriptSetSet.js";
 export * from "./list.js";
 export * from "./listQueue.js";
 export * from "./listStack.js";
+export * from "./Logger.js";
 export * from "./luxonDateTime.js";
 export * from "./map.js";
 export * from "./mapAsyncIterator.js";

@@ -187,12 +187,12 @@ export class RecreationDotGovClient implements HttpClient
         {
             const response: HttpIncomingResponse = await this.sendGetRequest(`https://www.recreation.gov/api/permitcontent/${permitItineraryId}`);
 
-            const responseBody: string = await response.getBody();
+            const responseBody: unknown = await response.getBodyJSON();
 
             const statusCode: number = response.getStatusCode();
             if (statusCode < 200 || 300 <= statusCode)
             {
-                const responseBodyJson: RecreationDotGovErrorResponse = JSON.parse(responseBody);
+                const responseBodyJson: RecreationDotGovErrorResponse = responseBody as RecreationDotGovErrorResponse;
                 const errorMessage: string = responseBodyJson.error;
                 switch (errorMessage.toLowerCase())
                 {
@@ -204,7 +204,7 @@ export class RecreationDotGovClient implements HttpClient
                 }
             }
 
-            const responseBodyJson: RecreationDotGovPayloadResponse<RecreationDotGovPermitItineraryJson> = JSON.parse(responseBody);
+            const responseBodyJson = responseBody as RecreationDotGovPayloadResponse<RecreationDotGovPermitItineraryJson>;
             return responseBodyJson.payload;
         });
     }
@@ -222,12 +222,12 @@ export class RecreationDotGovClient implements HttpClient
                 : `https://www.recreation.gov/api/permititinerary/${permitItineraryId}/division/${divisionId}/availability/month?month=${month}&year=${year}`
             const response: HttpIncomingResponse = await this.sendGetRequest(url);
 
-            let responseBody: string = await response.getBody();
+            let responseBody: unknown = await response.getBodyJSON();
 
             const statusCode: number = response.getStatusCode();
             if (statusCode < 200 || 300 <= statusCode)
             {
-                const responseBodyJson: RecreationDotGovErrorResponse = JSON.parse(responseBody) as RecreationDotGovErrorResponse;
+                const responseBodyJson = responseBody as RecreationDotGovErrorResponse;
                 const errorMessage: string = responseBodyJson.error;
                 switch (errorMessage.toLowerCase())
                 {
@@ -243,7 +243,7 @@ export class RecreationDotGovClient implements HttpClient
                                 quota_type_maps: {},
                             },
                         };
-                        responseBody = JSON.stringify(emptyResponseBody);
+                        responseBody = emptyResponseBody;
                         break;
                         
                     default:
@@ -251,7 +251,7 @@ export class RecreationDotGovClient implements HttpClient
                 }
             }
 
-            const responseBodyJson: RecreationDotGovPayloadResponse<RecreationDotGovDivisionAvailabilityJson> = JSON.parse(responseBody);
+            const responseBodyJson = responseBody as RecreationDotGovPayloadResponse<RecreationDotGovDivisionAvailabilityJson>;
             return RecreationDotGovDivisionAvailability.create(responseBodyJson.payload);
         });
     }

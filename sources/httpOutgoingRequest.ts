@@ -100,6 +100,13 @@ export class HttpOutgoingRequest
         return this.headers.getValue(headerName);
     }
 
+    public setHeader(headerName: string, headerValue: string): this
+    {
+        this.headers.set(headerName, headerValue);
+
+        return this;
+    }
+
     /**
      * Get the body that will be sent.
      */

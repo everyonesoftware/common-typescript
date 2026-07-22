@@ -30,5 +30,13 @@ export abstract class HttpIncomingResponse
      */
     public abstract getHeaderValue(headerName: string): SyncResult<string>;
 
-    public abstract getBody(): AsyncResult<string>;
+    /**
+     * Get the raw string of the body.
+     */
+    public abstract getBodyString(): AsyncResult<string>;
+
+    /**
+     * Get the body parsed as a JSON object.
+     */
+    public abstract getBodyJSON(): AsyncResult<unknown>;
 }

@@ -409,7 +409,7 @@ export function test(runner: TestRunner): void
                 });
             });
 
-            runner.testFunction("getAvailability()", runner.skip(true, "Ignore slow running tests for now"), () =>
+            runner.testFunction("getAvailability()", runner.skip(false, "Ignore slow running tests for now"), () =>
             {
                 runner.test("with year in the past", async (test: Test) =>
                 {
