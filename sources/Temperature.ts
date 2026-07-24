@@ -61,12 +61,17 @@ export class Temperature
         return Temperature.create(value, TemperatureUnits.Rankine);
     }
 
-    public convertTo(units: TemperatureUnits): SyncResult<Temperature>
+    public convertTo(units: TemperatureUnits | string): SyncResult<Temperature>
     {
         PreCondition.assertNotUndefinedAndNotNull(units, "units");
 
         return SyncResult.create(() =>
         {
+            if (isString(units))
+            {
+                units = TemperatureUnits.parse(units).await();
+            }
+
             let result: Temperature;
             switch (this.units)
             {
@@ -172,6 +177,26 @@ export class Temperature
 
             return result;
         });
+    }
+
+    public toFahrenheit(): Temperature
+    {
+        return this.convertTo(TemperatureUnits.Fahrenheit).await();
+    }
+
+    public toCelsius(): Temperature
+    {
+        return this.convertTo(TemperatureUnits.Celsius).await();
+    }
+
+    public toKelvin(): Temperature
+    {
+        return this.convertTo(TemperatureUnits.Kelvin).await();
+    }
+
+    public toRankine(): Temperature
+    {
+        return this.convertTo(TemperatureUnits.Rankine).await();
     }
 
     public getValue(): number
