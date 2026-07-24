@@ -3,7 +3,7 @@ import { Iterator } from "./iterator.js";
 import { isMap, Map, MapEntry } from "./map.js";
 import { isSet, Set } from "./set.js";
 import { escapeAndQuote, join } from "./strings.js";
-import { isArray, isIterable, isNumber, isObject, isString } from "./types.js";
+import { hasFunction, isArray, isIterable, isNumber, isObject, isString } from "./types.js";
 
 /**
  * A collection of {@link ToStringFunction}s.
@@ -59,7 +59,14 @@ export class ToStringFunctions
         }
         else if (isObject(value))
         {
-            result = `{${join(",", Object.entries(value).map(p => join(":", p.map(x => this.toString(x)))))}}`;
+            if (hasFunction(value, "toString", { parameterCount: 0, allowObjectImplementation: false }))
+            {
+                result = value.toString();
+            }
+            else
+            {
+                result = `{${join(",", Object.entries(value).map(p => join(":", p.map(x => this.toString(x)))))}}`;
+            }
         }
         else
         {

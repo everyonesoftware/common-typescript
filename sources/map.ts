@@ -19,11 +19,11 @@ export function isMap(value: unknown): value is Map<unknown, unknown>
 {
     return value instanceof Map ||
         (
-            hasFunction(value, "containsKey", 1) &&
-            hasFunction(value, "get", 1) &&
-            hasFunction(value, "set", 2) &&
-            hasFunction(value, "iterateKeys", 0) &&
-            hasFunction(value, "iterateValues", 0)
+            hasFunction(value, "containsKey", { parameterCount: 1 }) &&
+            hasFunction(value, "get", { parameterCount: 1 }) &&
+            hasFunction(value, "set", { parameterCount: 2 }) &&
+            hasFunction(value, "iterateKeys", { parameterCount: 0 }) &&
+            hasFunction(value, "iterateValues", { parameterCount: 0 })
         );
 }
 

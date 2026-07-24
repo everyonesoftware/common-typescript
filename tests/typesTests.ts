@@ -1,7 +1,7 @@
 import { Iterable } from "../sources/iterable.js";
 import { List } from "../sources/list.js";
 import {
-    asBoolean, hasFunction, hasProperty, isArray, isBoolean, isFunction, isNumber, isObject,
+    asBoolean, hasFunction, HasFunctionOptions, hasProperty, isArray, isBoolean, isFunction, isNumber, isObject,
     isObjectOrArrayOrNull, isString
 } from "../sources/types.js";
 import { Test } from "./test.js";
@@ -252,6 +252,40 @@ export function test(runner: TestRunner): void
             hasFunctionTest("", Symbol.iterator, true);
             hasFunctionTest(5, "spam", false);
             hasFunctionTest(5, "toString", true);
+
+            function hasFunctionWithOptionsTest<TPropertyKey extends PropertyKey>(value: unknown, propertyKey: TPropertyKey, options: HasFunctionOptions, expected: boolean): void
+            {
+                runner.test(`with ${runner.andList([value, propertyKey, options])}`, (test: Test) =>
+                {
+                    test.assertSame(hasFunction(value, propertyKey, options), expected);
+                });
+            }
+
+            hasFunctionWithOptionsTest(undefined, "spam", {}, false);
+            hasFunctionWithOptionsTest(null, "spam", {}, false);
+            hasFunctionWithOptionsTest([], "spam", {}, false);
+            hasFunctionWithOptionsTest([], "length", {}, false);
+            hasFunctionWithOptionsTest([], Symbol.iterator, {}, true);
+            hasFunctionWithOptionsTest({}, "spam", {}, false);
+            hasFunctionWithOptionsTest("", "spam", {}, false);
+            hasFunctionWithOptionsTest("", "length", {}, false);
+            hasFunctionWithOptionsTest("", "at", {}, true);
+            hasFunctionWithOptionsTest("", Symbol.iterator, {}, true);
+            hasFunctionWithOptionsTest(5, "spam", {}, false);
+            hasFunctionWithOptionsTest(5, "toString", {}, true);
+
+            hasFunctionWithOptionsTest(undefined, "spam", { allowInherited: false }, false);
+            hasFunctionWithOptionsTest(null, "spam", { allowInherited: false }, false);
+            hasFunctionWithOptionsTest([], "spam", { allowInherited: false }, false);
+            hasFunctionWithOptionsTest([], "length", { allowInherited: false }, false);
+            hasFunctionWithOptionsTest([], Symbol.iterator, { allowInherited: false }, true);
+            hasFunctionWithOptionsTest({}, "spam", { allowInherited: false }, false);
+            hasFunctionWithOptionsTest("", "spam", { allowInherited: false }, false);
+            hasFunctionWithOptionsTest("", "length", { allowInherited: false }, false);
+            hasFunctionWithOptionsTest("", "at", { allowInherited: false }, true);
+            hasFunctionWithOptionsTest("", Symbol.iterator, { allowInherited: false }, true);
+            hasFunctionWithOptionsTest(5, "spam", { allowInherited: false }, false);
+            hasFunctionWithOptionsTest(5, "toString", { allowInherited: false }, true);
         });
     });
 }

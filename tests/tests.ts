@@ -54,6 +54,8 @@ import * as consoleTestRunnerUITests from "./ConsoleTestRunnerUITests.js";
 import * as basicTestErrorTests from "./BasicTestErrorTests.js";
 import * as tokenizerTests from "./TokenizerTests.js";
 import * as clockTests from "./ClockTests.js";
+import * as temperatureUnitsTests from "./TemperatureUnitsTests.js";
+import * as temperatureTests from "./TemperatureTests.js";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -113,4 +115,6 @@ ConsoleTestRunner.run([
     characterTableTests,
     tokenizerTests,
     clockTests,
+    temperatureUnitsTests,
+    temperatureTests,
 ]);

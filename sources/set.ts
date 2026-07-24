@@ -16,9 +16,9 @@ export function isSet(value: unknown): value is Set<unknown>
 {
     return value instanceof Set ||
         (
-            hasFunction(value, "add", 1) &&
-            hasFunction(value, "addAll", 1) &&
-            hasFunction(value, "remove", 1)
+            hasFunction(value, "add", { parameterCount: 1 }) &&
+            hasFunction(value, "addAll", { parameterCount: 1 }) &&
+            hasFunction(value, "remove", { parameterCount: 1 })
         );
 }
 

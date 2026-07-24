@@ -124,7 +124,7 @@ export abstract class Test
      * @param left The first value.
      * @param right The second value.
      */
-    public abstract assertSame<T>(left: T, right: T): void;
+    public abstract assertSame<T>(left: T, right: T, message?: string): void;
 
     /**
      * Assert that the provided values don't point to the same object.
@@ -157,31 +157,31 @@ export abstract class Test
         Test.assertFalse(this, value);
     }
 
-    public static assertFalse(test: Test, value: boolean): asserts value is false
+    public static assertFalse(test: Test, value: boolean, message?: string): asserts value is false
     {
         PreCondition.assertNotUndefinedAndNotNull(test, "test");
 
-        test.assertSame(value, false);
+        test.assertSame(value, false, message);
     }
 
     /**
      * Assert that the provided value is true.
      * @param value The value to check.
      */
-    public assertTrue(value: boolean): asserts value is true
+    public assertTrue(value: boolean, message?: string): asserts value is true
     {
-        Test.assertTrue(this, value);
+        Test.assertTrue(this, value, message);
     }
 
     /**
      * Assert that the provided value is true.
      * @param value The value to check.
      */
-    public static assertTrue(test: Test, value: boolean): asserts value is true
+    public static assertTrue(test: Test, value: boolean, message?: string): asserts value is true
     {
         PreCondition.assertNotUndefinedAndNotNull(test, "test");
 
-        test.assertSame(value, true);
+        test.assertSame(value, true, message);
     }
 
     /**

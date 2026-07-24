@@ -19,8 +19,8 @@ export function isMutableMap(value: unknown): value is MutableMap<unknown, unkno
     return value instanceof MutableMap ||
         (
             isMap(value) && 
-            hasFunction(value, "set", 2) &&
-            hasFunction(value, "getOrSet", 2)
+            hasFunction(value, "set", { parameterCount: 2 }) &&
+            hasFunction(value, "getOrSet", { parameterCount: 2 })
         );
 }
 

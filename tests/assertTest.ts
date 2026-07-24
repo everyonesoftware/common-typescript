@@ -57,14 +57,14 @@ export class AssertTest implements Test
         Test.assertNotEmpty(this, value);
     }
 
-    public assertSame<T>(left: T, right: T): void
+    public assertSame<T>(left: T, right: T, message?: string): void
     {
-        assert.strictEqual(left, right);
+        assert.strictEqual(left, right, message);
     }
 
-    public assertNotSame<T>(left: T, right: T): void
+    public assertNotSame<T>(left: T, right: T, message?: string): void
     {
-        assert.notStrictEqual(left, right);
+        assert.notStrictEqual(left, right, message);
     }
 
     public assertEqual<T>(left: T, right: T, message?: string): void
@@ -72,19 +72,19 @@ export class AssertTest implements Test
         assert.deepStrictEqual(left, right, message);
     }
 
-    public assertNotEqual<T>(left: T, right: T): void
+    public assertNotEqual<T>(left: T, right: T, message?: string): void
     {
         assert.notDeepStrictEqual(left, right);
     }
 
-    public assertFalse(value: boolean): void
+    public assertFalse(value: boolean, message?: string): void
     {
-        Test.assertFalse(this, value);
+        Test.assertFalse(this, value, message);
     }
 
-    public assertTrue(value: boolean): void
+    public assertTrue(value: boolean, message?: string): void
     {
-        Test.assertTrue(this, value);
+        Test.assertTrue(this, value, message);
     }
 
     public assertThrows(action: SyncResult<unknown> | (() => void), expectedError?: Error): void

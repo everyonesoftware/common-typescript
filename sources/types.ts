@@ -279,24 +279,58 @@ export function hasProperty<TValue, TPropertyKey extends PropertyKey>(value: TVa
 }
 
 /**
+ * Options that can be passed to the {@link hasFunction} function.
+ */
+export interface HasFunctionOptions
+{
+    /**
+     * The number of parameters that the function must have. Defaults to allow any parameter count.
+     */
+    readonly parameterCount?: number;
+    /**
+     * Whether the function is allowed to be inherited from a base type. Defaults to true.
+     */
+    readonly allowInherited?: boolean;
+    /**
+     * Whether the default Object's implementation of the function is allowed. Defaults to true.
+     */
+    readonly allowObjectImplementation?: boolean;
+}
+
+/**
  * Get whether the value has a function with the provided name.
  * @param value The value to check.
  * @param functionName The name of the function to look for.
  */
-export function hasFunction<TValue, TPropertyKey extends PropertyKey>(value: TValue, functionName: TPropertyKey, parameterCount?: number): value is TValue & Record<TPropertyKey,Function>
+export function hasFunction<TValue, TPropertyKey extends PropertyKey>(value: TValue, functionName: TPropertyKey, options?: HasFunctionOptions): value is TValue & Record<TPropertyKey, Function>
 {
     let result: boolean = false;
     if (value !== undefined && value !== null)
     {
         const func: unknown = (value as any)[functionName];
-        if (isUndefinedOrNull(parameterCount))
+        if (!isUndefinedOrNull(func))
         {
-            result = isFunction(func);
+            if (isUndefinedOrNull(options?.parameterCount))
+            {
+                result = isFunction(func);
+            }
+            else
+            {
+                result = isFunctionWithParameterCount(func, options.parameterCount);
+            }
+
+            if (result && options?.allowInherited === false)
+            {
+                const prototype: any = Object.getPrototypeOf(value);
+                result = (func === prototype[functionName]);
+            }
+
+            if (result && options?.allowObjectImplementation === false)
+            {
+                result = (func !== Object.prototype[functionName as keyof Object]);
+            }
         }
-        else
-        {
-            result = isFunctionWithParameterCount(func, parameterCount);
-        }
+
     }
     return result;
 }
@@ -322,14 +356,14 @@ export function isJavascriptIterable<T>(value: unknown): value is JavascriptIter
 export function isIterator<T>(value: unknown): value is Iterator<T>
 {
     return isJavascriptIterable(value) &&
-        hasFunction(value, "next", 0) &&
-        hasFunction(value, "hasCurrent", 0);
+        hasFunction(value, "next", { parameterCount: 0 }) &&
+        hasFunction(value, "hasCurrent", { parameterCount: 0 });
 }
 
 export function isIterable<T>(value: unknown): value is Iterable<T>
 {
     return isJavascriptIterable(value) &&
-        hasFunction(value, "iterate", 0);
+        hasFunction(value, "iterate", { parameterCount: 0 });
 }
 
 /**
@@ -353,7 +387,7 @@ export function isJavascriptAsyncIterable<T>(value: unknown): value is Javascrip
 export function isAsyncIterable<T>(value: unknown): value is AsyncIterable<T>
 {
     return isJavascriptAsyncIterable(value) &&
-        hasFunction(value, "iterate", 0);
+        hasFunction(value, "iterate", { parameterCount: 0 });
 }
 
 /**
@@ -367,12 +401,12 @@ export function getName(type: Type<unknown>): string
 
 export function isPromiseLike<T>(value: unknown): value is PromiseLike<T>
 {
-    return hasFunction(value, "then", 2);
+    return hasFunction(value, "then", { parameterCount: 2 });
 }
 
 export function isPromise<T>(value: unknown): value is Promise<T>
 {
     return isPromiseLike<T>(value) &&
-        hasFunction(value, "catch", 1) &&
-        hasFunction(value, "finally", 1);
+        hasFunction(value, "catch", { parameterCount: 1 }) &&
+        hasFunction(value, "finally", { parameterCount: 1 });
 }

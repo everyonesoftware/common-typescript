@@ -2,6 +2,7 @@ import { HttpHeader } from "./httpHeader.js";
 import { HttpHeaders } from "./httpHeaders.js";
 import { AsyncResult } from "./asyncResult.js";
 import { SyncResult } from "./syncResult.js";
+import { PreCondition } from "./preCondition.js";
 
 /**
  * The response from a {@link HttpClient}'s sendRequest() method.
@@ -9,6 +10,19 @@ import { SyncResult } from "./syncResult.js";
 export abstract class HttpIncomingResponse
 {
     public abstract getStatusCode(): number;
+
+    public isStatusCodeOk(): boolean
+    {
+        return HttpIncomingResponse.isStatusCodeOk(this);
+    }
+
+    public static isStatusCodeOk(response: HttpIncomingResponse): boolean
+    {
+        PreCondition.assertNotUndefinedAndNotNull(response, "response");
+
+        const statusCode: number = response.getStatusCode();
+        return 200 <= statusCode && statusCode < 300;
+    }
 
     /**
      * Get the {@link HttpHeaders} of this {@link HttpIncomingResponse}.
