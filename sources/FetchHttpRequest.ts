@@ -2,7 +2,7 @@ import { AsyncResult } from "./asyncResult.js";
 import { HttpHeader } from "./httpHeader.js";
 import { HttpHeaders } from "./httpHeaders.js";
 import { HttpIncomingRequest } from "./httpIncomingRequest.js";
-import { HttpMethod, parseHttpMethod } from "./httpMethod.js";
+import { HttpMethod } from "./httpMethod.js";
 import { Map } from "./map.js";
 import { MutableMap } from "./mutableMap.js";
 import { NotFoundError } from "./notFoundError.js";
@@ -32,7 +32,7 @@ export class FetchHttpIncomingRequest implements HttpIncomingRequest
 
     public getMethod(): HttpMethod
     {
-        return parseHttpMethod(this.request.method).await();
+        return HttpMethod.parse(this.request.method).await();
     }
 
     public getHost(): SyncResult<string>

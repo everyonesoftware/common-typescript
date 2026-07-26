@@ -48,12 +48,12 @@ export abstract class HttpClient
      * @param sendRequestFunction The function to invoke when attempting to send a
      * {@link HttpOutgoingRequest}.
      */
-    public wrap(sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>): HttpClient
+    public wrap(sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => (HttpIncomingResponse | Promise<HttpIncomingResponse>)): HttpClient
     {
         return HttpClient.wrap(this, sendRequestFunction);
     }
 
-    public static wrap(httpClient: HttpClient, sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>): HttpClient
+    public static wrap(httpClient: HttpClient, sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => (HttpIncomingResponse | Promise<HttpIncomingResponse>)): HttpClient
     {
         return CustomHttpClient.create((request: HttpOutgoingRequest) =>
         {

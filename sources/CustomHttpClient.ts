@@ -12,9 +12,9 @@ import { PreCondition } from "./preCondition.js";
  */
 export class CustomHttpClient implements HttpClient
 {
-    private readonly sendRequestFunction: (request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>;
+    private readonly sendRequestFunction: (request: HttpOutgoingRequest) => (HttpIncomingResponse | Promise<HttpIncomingResponse>);
     
-    private constructor(sendRequestFunction: (request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>)
+    private constructor(sendRequestFunction: (request: HttpOutgoingRequest) => (HttpIncomingResponse | Promise<HttpIncomingResponse>))
     {
         PreCondition.assertNotUndefinedAndNotNull(sendRequestFunction, "sendRequestFunction");
 
@@ -27,7 +27,7 @@ export class CustomHttpClient implements HttpClient
      * @param sendRequestFunction The function that will be invoked to send a
      * {@link HttpOutgoingRequest}.
      */
-    public static create(sendRequestFunction: (request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>): CustomHttpClient
+    public static create(sendRequestFunction: (request: HttpOutgoingRequest) => (HttpIncomingResponse | Promise<HttpIncomingResponse>)): CustomHttpClient
     {
         return new CustomHttpClient(sendRequestFunction);
     }
@@ -37,14 +37,17 @@ export class CustomHttpClient implements HttpClient
         return HttpClient.logging(this, logger, options);
     }
 
-    public wrap(sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>): HttpClient
+    public wrap(sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => (HttpIncomingResponse | Promise<HttpIncomingResponse>)): HttpClient
     {
         return HttpClient.wrap(this, sendRequestFunction);
     }
 
     public sendRequest(request: HttpOutgoingRequest): AsyncResult<HttpIncomingResponse>
     {
-        return AsyncResult.create(this.sendRequestFunction(request));
+        return AsyncResult.create(async () =>
+        {
+            return await this.sendRequestFunction(request);
+        });
     }
 
     public sendGetRequest(url: string): AsyncResult<HttpIncomingResponse>

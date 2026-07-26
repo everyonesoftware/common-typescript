@@ -3,7 +3,6 @@ import { HttpClient } from "./httpClient.js";
 import { HttpOutgoingRequest } from "./httpOutgoingRequest.js";
 import { HttpHeader } from "./httpHeader.js";
 import { HttpMethod } from "./httpMethod.js";
-import { PostCondition } from "./postCondition.js";
 import { PreCondition } from "./preCondition.js";
 import { AsyncResult } from "./asyncResult.js";
 import { FetchError } from "./FetchError.js";
@@ -31,7 +30,7 @@ export class FetchHttpClient implements HttpClient
         return HttpClient.logging(this, logger, options);
     }
 
-    public wrap(sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>): HttpClient
+    public wrap(sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => (HttpIncomingResponse | Promise<HttpIncomingResponse>)): HttpClient
     {
         return HttpClient.wrap(this, sendRequestFunction);
     }
@@ -43,7 +42,7 @@ export class FetchHttpClient implements HttpClient
         return AsyncResult.create(async () =>
         {
             const fetchURL: string = request.getURL();
-            const fetchMethod: string = FetchHttpClient.convertMethod(request.getMethod());
+            const fetchMethod: string = request.getMethod().toString();
             const fetchHeaders: [string, string][] = FetchHttpClient.convertHeaders(request.getHeaders());
             const fetchBody: string | undefined = request.getBody() || undefined;
             const requestInit: RequestInit = {
@@ -75,47 +74,6 @@ export class FetchHttpClient implements HttpClient
     public sendGetRequest(url: string): AsyncResult<FetchHttpIncomingResponse>
     {
         return this.sendRequest(HttpOutgoingRequest.create(HttpMethod.GET, url));
-    }
-
-    public static convertMethod(method: HttpMethod): string
-    {
-        PreCondition.assertNotUndefinedAndNotNull(method, "method");
-
-        let result: string;
-        switch (method)
-        {
-            case HttpMethod.CONNECT:
-                result = "CONNECT";
-                break;
-            case HttpMethod.DELETE:
-                result = "DELETE";
-                break;
-            case HttpMethod.GET:
-                result = "GET";
-                break;
-            case HttpMethod.HEAD:
-                result = "HEAD";
-                break;
-            case HttpMethod.OPTIONS:
-                result = "OPTIONS";
-                break;
-            case HttpMethod.PATCH:
-                result = "PATCH";
-                break;
-            case HttpMethod.POST:
-                result = "POST";
-                break;
-            case HttpMethod.PUT:
-                result = "PUT";
-                break;
-            case HttpMethod.TRACE:
-                result = "TRACE";
-                break;
-        }
-
-        PostCondition.assertNotEmpty(result, "result");
-
-        return result;
     }
 
     public static convertHeaders(headers: HttpHeaders): [string, string][]

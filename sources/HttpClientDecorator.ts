@@ -26,7 +26,7 @@ export class HttpClientDecorator implements HttpClient
         return HttpClient.logging(this, logger, options);
     }
 
-    public wrap(sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>): HttpClient
+    public wrap(sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => (HttpIncomingResponse | Promise<HttpIncomingResponse>)): HttpClient
     {
         return HttpClient.wrap(this, sendRequestFunction);
     }

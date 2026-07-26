@@ -2,7 +2,6 @@ import { AsyncResult } from "./asyncResult.js";
 import { HttpClient } from "./httpClient.js";
 import { HttpClientDecorator } from "./HttpClientDecorator.js";
 import { HttpIncomingResponse } from "./httpIncomingResponse.js";
-import { httpMethodToString } from "./httpMethod.js";
 import { HttpOutgoingRequest } from "./httpOutgoingRequest.js";
 import { Logger } from "./Logger.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
@@ -98,7 +97,7 @@ export class LoggingHttpClient extends HttpClientDecorator
                     let shouldLog: boolean = false;
                     if (this.options?.logRequest?.method !== false)
                     {
-                        requestData.method = httpMethodToString(request.getMethod());
+                        requestData.method = request.getMethod().toString();
                         shouldLog = true;
                     }
                     if (this.options?.logRequest?.url !== false)

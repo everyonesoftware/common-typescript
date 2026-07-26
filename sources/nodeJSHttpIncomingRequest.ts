@@ -3,7 +3,7 @@ import * as http from "http";
 import { PreCondition } from "./preCondition.js";
 import { HttpHeader } from "./httpHeader.js";
 import { HttpHeaders } from "./httpHeaders.js";
-import { HttpMethod, parseHttpMethod } from "./httpMethod.js";
+import { HttpMethod } from "./httpMethod.js";
 import { NotFoundError } from "./notFoundError.js";
 import { isArray } from "./types.js";
 import { escapeAndQuote } from "./strings.js";
@@ -31,7 +31,7 @@ export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
 
     public getMethod(): HttpMethod
     {
-        return parseHttpMethod(this.request.method!).await();
+        return HttpMethod.parse(this.request.method!).await();
     }
 
     public getHost(): SyncResult<string>

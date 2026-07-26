@@ -1,5 +1,3 @@
-import { PreCondition } from "./preCondition.js";
-
 /**
  * The result of comparing two values.
  */
@@ -9,8 +7,6 @@ export class Comparison
 
     private constructor(name: string)
     {
-        PreCondition.assertNotEmpty(name, "name");
-
         this.name = name;
     }
 
