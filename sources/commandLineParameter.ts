@@ -7,7 +7,7 @@ import { PreCondition } from "./preCondition.js";
 /**
  * An individual parameter from a {@link CommandLineParameters} object.
  */
-export class CommandLineParameter<T>
+export class CommandLineParameter
 {
     private readonly owner: CommandLineParameters;
     private readonly name: string;
@@ -24,9 +24,9 @@ export class CommandLineParameter<T>
         this.name = name;
     }
 
-    public static create<T>(owner: CommandLineParameters, name: string): CommandLineParameter<T>;
-    public static create<T>(properties: { owner: CommandLineParameters, name: string }): CommandLineParameter<T>;
-    static create<T>(ownerOrProperties: CommandLineParameters | { owner: CommandLineParameters, name: string }, name?: string): CommandLineParameter<T>
+    public static create(owner: CommandLineParameters, name: string): CommandLineParameter;
+    public static create(properties: { owner: CommandLineParameters, name: string }): CommandLineParameter;
+    static create(ownerOrProperties: CommandLineParameters | { owner: CommandLineParameters, name: string }, name?: string): CommandLineParameter
     {
         let owner: CommandLineParameters;
         if (ownerOrProperties instanceof CommandLineParameters)
@@ -40,7 +40,7 @@ export class CommandLineParameter<T>
             name = ownerOrProperties.name;
         }
 
-        return new CommandLineParameter<T>(owner, name);
+        return new CommandLineParameter(owner, name);
     }
 
     /**

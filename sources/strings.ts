@@ -107,7 +107,7 @@ export function escape(valueOrParameters: string | undefined | null | { value: s
                         result += "\\t";
                         break;
 
-                    case "\'":
+                    case "'":
                         result += "\\\'";
                         break;
 

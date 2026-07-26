@@ -104,6 +104,15 @@ export function isUndefinedOrNull(value: unknown): value is undefined | null
 }
 
 /**
+ * Get whether the provided value is undefined, null, or empty.
+ * @param value The value to check.
+ */
+export function isUndefinedNullOrEmpty(value: string | undefined | null): value is undefined | null | ""
+{
+    return isUndefinedOrNull(value) || value.length === 0; 
+}
+
+/**
  * Get whether the provided value is a {@link boolean}.
  * @param value The value to check.
  */
@@ -327,7 +336,7 @@ export function hasFunction<TValue, TPropertyKey extends PropertyKey>(value: TVa
 
             if (result && options?.allowObjectImplementation === false)
             {
-                result = (func !== Object.prototype[functionName as keyof Object]);
+                result = (func !== Object.prototype[functionName as keyof object]);
             }
         }
 

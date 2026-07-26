@@ -3,7 +3,6 @@ export * from "./assertTestTests.js";
 export * from "./basicTestSkip.js";
 export * from "./consoleTestRunner.js";
 export * from "./failedTest.js";
-export * from "./FakeClock.js";
 export * from "./skippedTest.js";
 export * from "./test.js";
 export * from "./testAction.js";

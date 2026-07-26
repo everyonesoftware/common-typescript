@@ -1,15 +1,10 @@
 import { CommandLineParameter } from "./commandLineParameter.js";
 import { orList } from "./english.js";
 import { Iterable } from "./iterable.js";
-import { Iterator } from "./iterator.js";
 import { JavascriptIterable } from "./javascript.js";
 import { List } from "./list.js";
-import { Map } from "./map.js";
-import { MutableMap } from "./mutableMap.js";
 import { NotFoundError } from "./notFoundError.js";
 import { PreCondition } from "./preCondition.js";
-import { StringIterator } from "./stringIterator.js";
-import { join } from "./strings.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
 import { isIterable, isString } from "./types.js";
@@ -20,7 +15,7 @@ import { isIterable, isString } from "./types.js";
 export class CommandLineParameters
 {
     private readonly args: Iterable<string>;
-    private readonly parameters: List<CommandLineParameter<unknown>>;
+    private readonly parameters: List<CommandLineParameter>;
 
     private constructor(argv: JavascriptIterable<string>)
     {
@@ -105,9 +100,9 @@ export class CommandLineParameters
         return result;
     }
 
-    public add(name: string): CommandLineParameter<string>
+    public add(name: string): CommandLineParameter
     {
-        const result: CommandLineParameter<string> = CommandLineParameter.create({
+        const result: CommandLineParameter = CommandLineParameter.create({
             owner: this,
             name,
         });

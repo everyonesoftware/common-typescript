@@ -1,7 +1,7 @@
 import { AsyncResult } from "../sources/index.js";
 import { FetchHttpClient } from "../sources/fetchHttpClient.js";
 import { FetchHttpIncomingResponse } from "../sources/FetchHttpIncomingResponse.js";
-import { NodeJSHttpServer as NodeJSHttpServer } from "../sources/nodeJSHttpServer.js";
+import { NodeJSHttpServer } from "../sources/nodeJSHttpServer.js";
 import { PreConditionError } from "../sources/preConditionError.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";

@@ -3,7 +3,7 @@ import { EqualFunctions } from "../sources/equalFunctions.js";
 import { JavascriptIterable } from "../sources/javascript.js";
 import { NotFoundError } from "../sources/notFoundError.js";
 import { PreConditionError } from "../sources/preConditionError.js";
-import { isNumber, isString } from "../sources/types.js";
+import { isString } from "../sources/types.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
 

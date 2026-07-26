@@ -1,7 +1,6 @@
 import { EqualFunctions } from "./equalFunctions.js";
 import { JavascriptIterable } from "./javascript.js";
 import { ListQueue } from "./listQueue.js";
-import { ListStack } from "./listStack.js";
 import { AsyncResult } from "./asyncResult.js";
 
 /**

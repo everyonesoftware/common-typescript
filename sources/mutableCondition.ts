@@ -4,8 +4,7 @@ import { Comparer } from "./comparer.js";
 import { Comparison } from "./comparison.js";
 import { Condition } from "./condition.js";
 import { EqualFunctions } from "./equalFunctions.js";
-import { Iterable } from "./iterable.js";
-import { JavascriptIterable } from "./javascript.js";
+import { isJavascriptIterableEmpty, JavascriptIterable } from "./javascript.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
 import {
     hasFunction, hasProperty, instanceOf, isJavascriptIterable, isString, isUndefinedOrNull, Type
@@ -259,7 +258,7 @@ export class MutableCondition implements Condition
     {
         this.assertNotUndefinedAndNotNull(value, expression, message);
         if ((isString(value) && value.length === 0) ||
-            (isJavascriptIterable(value) && !Iterable.create(value).any().await()))
+            (isJavascriptIterable(value) && isJavascriptIterableEmpty(value)))
         {
             throw this.createError({
                 expected: "not empty",

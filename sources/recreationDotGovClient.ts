@@ -6,6 +6,7 @@ import { Iterable } from "./iterable.js";
 import { List } from "./list.js";
 import { PreCondition } from "./preCondition.js";
 import { AsyncResult } from "./asyncResult.js";
+import { HttpHeaders } from "./httpHeaders.js";
 
 export interface RecreationDotGovDivisionDayAvailability
 {
@@ -153,7 +154,7 @@ export interface RecreationDotGovErrorResponse
     readonly error: string;
 }
 
-export class RecreationDotGovClient implements HttpClient
+export class RecreationDotGovClient
 {
     private readonly httpClient: HttpClient;
 
@@ -174,9 +175,9 @@ export class RecreationDotGovClient implements HttpClient
         return this.httpClient.sendRequest(request);
     }
 
-    public sendGetRequest(url: string): AsyncResult<HttpIncomingResponse>
+    public sendGetRequest(url: string, headers?: HttpHeaders): AsyncResult<HttpIncomingResponse>
     {
-        return HttpClient.sendGetRequest(this, url);
+        return this.httpClient.sendGetRequest(url, headers);
     }
 
     public getPermitItinerary(permitItineraryId: string): AsyncResult<RecreationDotGovPermitItineraryJson>

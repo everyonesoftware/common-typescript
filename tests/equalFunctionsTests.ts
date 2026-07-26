@@ -1,4 +1,3 @@
-import { andList } from "../sources/english.js";
 import { EqualFunctions } from "../sources/equalFunctions.js";
 import { List } from "../sources/list.js";
 import { Map } from "../sources/map.js";

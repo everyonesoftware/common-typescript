@@ -1,6 +1,6 @@
 import { HttpClient } from "../sources/httpClient.js";
 import { PreConditionError } from "../sources/preConditionError.js";
-import { RecreationDotGovClient, RecreationDotGovDivisionAvailability, RecreationDotGovDivisionAvailabilityJson, RecreationDotGovError, RecreationDotGovPermitItineraryJson } from "../sources/recreationDotGovClient.js";
+import { RecreationDotGovClient, RecreationDotGovDivisionAvailability, RecreationDotGovError, RecreationDotGovPermitItineraryJson } from "../sources/recreationDotGovClient.js";
 import { WonderlandTrailClient, WonderlandTrailLocations } from "../sources/wonderlandTrailClient.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
@@ -104,7 +104,11 @@ export function test(runner: TestRunner): void
                 {
                     runner.test(`with ${runner.andList([itineraryId, divisionId, month, year])}`, async (test: Test) =>
                     {
-
+                        const client = RecreationDotGovClient.create(HttpClient.create());
+                        await test.assertThrowsAsync(
+                            async () => await client.getDivisionAvailability(itineraryId, divisionId, month, year),
+                            expected,
+                        );
                     });
                 }
 
@@ -135,7 +139,7 @@ export function test(runner: TestRunner): void
                     const month: number = 5;
                     const year: number = 2026;
                     const earlyAccessPermitLotteryId: string = "";
-                    
+
                     const response: RecreationDotGovDivisionAvailability = await client.getDivisionAvailability(itineraryId, divisionId, month, year, earlyAccessPermitLotteryId);
 
                     test.assertNotUndefinedAndNotNull(response);
@@ -155,7 +159,7 @@ export function test(runner: TestRunner): void
                     const month: number = 8;
                     const year: number = 2026;
                     const earlyAccessPermitLotteryId: string = "";
-                    
+
                     const response: RecreationDotGovDivisionAvailability = await client.getDivisionAvailability(itineraryId, divisionId, month, year, earlyAccessPermitLotteryId);
 
                     test.assertNotUndefinedAndNotNull(response);
@@ -175,7 +179,7 @@ export function test(runner: TestRunner): void
                     const month: number = 7;
                     const year: number = 2026;
                     const earlyAccessPermitLotteryId: string = "";
-                    
+
                     const response: RecreationDotGovDivisionAvailability = await client.getDivisionAvailability(itineraryId, divisionId, month, year, earlyAccessPermitLotteryId);
 
                     test.assertNotUndefinedAndNotNull(response);

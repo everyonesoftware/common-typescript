@@ -8,6 +8,8 @@ import { PreCondition } from "./preCondition.js";
 import { AsyncResult } from "./asyncResult.js";
 import { FetchError } from "./FetchError.js";
 import { HttpHeaders } from "./httpHeaders.js";
+import { Logger } from "./Logger.js";
+import { LoggingHttpClientOptions, LoggingHttpClient } from "./LoggingHttpClient.js";
 
 /**
  * A {@link HttpClient} that uses {@link fetch}() to make network requests.
@@ -21,6 +23,11 @@ export class FetchHttpClient implements HttpClient
     public static create(): FetchHttpClient
     {
         return new FetchHttpClient();
+    }
+
+    public logging(logger: Logger | undefined, options?: LoggingHttpClientOptions): LoggingHttpClient
+    {
+        return HttpClient.logging(this, logger, options);
     }
 
     public sendRequest(request: HttpOutgoingRequest): AsyncResult<FetchHttpIncomingResponse>

@@ -1,6 +1,5 @@
 import { FetchHttpClient } from "../sources/fetchHttpClient.js";
 import { FetchHttpIncomingResponse } from "../sources/FetchHttpIncomingResponse.js";
-import { HttpOutgoingRequest } from "../sources/httpOutgoingRequest.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
 import { hasNetworkAccess } from "./tests.js";

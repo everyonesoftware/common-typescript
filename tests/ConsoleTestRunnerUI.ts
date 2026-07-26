@@ -149,12 +149,12 @@ export abstract class ConsoleTestRunnerUI
         return AsyncResult.empty();
     }
 
-    public beforeTest(testAction: TestAction): AsyncResult<void>
+    public beforeTest(_: TestAction): AsyncResult<void>
     {
         return AsyncResult.empty();
     }
 
-    public afterPassedTest(testAction: TestAction): AsyncResult<void>
+    public afterPassedTest(_: TestAction): AsyncResult<void>
     {
         return AsyncResult.create(async () =>
         {

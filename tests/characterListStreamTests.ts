@@ -1,4 +1,3 @@
-import { CharacterList } from "../sources/characterList.js";
 import { CharacterListStream } from "../sources/characterListStream.js";
 import { EmptyError } from "../sources/emptyError.js";
 import { PreConditionError } from "../sources/preConditionError.js";
@@ -265,7 +264,7 @@ export function test(runner: TestRunner): void
                     runner.test("with output smaller than the available characters", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(1);
+                        const output: string[] = Array.from<string>({ length: 1 });
                         const readCharactersResult: number = stream.readCharacters(output).await();
                         test.assertEqual(1, readCharactersResult);
                         test.assertEqual(output, ["a"]);
@@ -275,7 +274,7 @@ export function test(runner: TestRunner): void
                     runner.test("with output equal to the available characters", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(5).fill("");
+                        const output: string[] = Array.from<string>({ length: 5 }).fill("");
                         const readCharactersResult: number = stream.readCharacters(output).await();
                         test.assertEqual(3, readCharactersResult);
                         test.assertEqual(output, ["a", "b", "c", "", ""]);
@@ -285,7 +284,7 @@ export function test(runner: TestRunner): void
                     runner.test("with output larger than available characters", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(5).fill("");
+                        const output: string[] = Array.from<string>({ length: 5 }).fill("");
                         const readCharactersResult: number = stream.readCharacters(output).await();
                         test.assertEqual(3, readCharactersResult);
                         test.assertEqual(output, ["a", "b", "c", "", ""]);
@@ -295,7 +294,7 @@ export function test(runner: TestRunner): void
                     runner.test("with negative startIndex", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(5);
+                        const output: string[] = Array.from<string>({ length: 5 });
                         test.assertThrows(() => stream.readCharacters(output, -1), new PreConditionError(
                             "Expression: startIndex",
                             "Expected: between 0 and 5",
@@ -307,7 +306,7 @@ export function test(runner: TestRunner): void
                     runner.test("with too large startIndex", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(5);
+                        const output: string[] = Array.from<string>({ length: 5 });
                         test.assertThrows(() => stream.readCharacters(output, 6), new PreConditionError(
                             "Expression: startIndex",
                             "Expected: between 0 and 5",
@@ -319,7 +318,7 @@ export function test(runner: TestRunner): void
                     runner.test("with startIndex with enough space to read the entire stream", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(5).fill("");
+                        const output: string[] = Array.from<string>({ length: 5 }).fill("");
                         test.assertEqual(3, stream.readCharacters(output, 2).await());
                         test.assertEqual(["", "", "a", "b", "c"], output);
                         test.assertEqual(0, stream.getAvailableCharacterCount());
@@ -328,7 +327,7 @@ export function test(runner: TestRunner): void
                     runner.test("with startIndex with not enough space to read the entire stream", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(5).fill("");
+                        const output: string[] = Array.from<string>({ length: 5 }).fill("");
                         test.assertEqual(2, stream.readCharacters(output, 3).await());
                         test.assertEqual(["", "", "", "a", "b"], output);
                         test.assertEqual(1, stream.getAvailableCharacterCount());
@@ -337,7 +336,7 @@ export function test(runner: TestRunner): void
                     runner.test("with startIndex equal to output length", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(5).fill("");
+                        const output: string[] = Array.from<string>({ length: 5 }).fill("");
                         test.assertEqual(0, stream.readCharacters(output, 5).await());
                         test.assertEqual(["", "", "", "", ""], output);
                         test.assertEqual(3, stream.getAvailableCharacterCount());
@@ -346,7 +345,7 @@ export function test(runner: TestRunner): void
                     runner.test("with negative count", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(5);
+                        const output: string[] = Array.from<string>({ length: 5 });
                         test.assertThrows(() => stream.readCharacters(output, 1, -1), new PreConditionError(
                             "Expression: count",
                             "Expected: between 0 and 4",
@@ -358,7 +357,7 @@ export function test(runner: TestRunner): void
                     runner.test("with count larger than output.length - startIndex", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(5);
+                        const output: string[] = Array.from<string>({ length: 5 });
                         test.assertThrows(() => stream.readCharacters(output, 1, 5), new PreConditionError(
                             "Expression: count",
                             "Expected: between 0 and 4",
@@ -370,7 +369,7 @@ export function test(runner: TestRunner): void
                     runner.test("with startIndex with enough space to read the entire stream", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(5).fill("");
+                        const output: string[] = Array.from<string>({ length: 5 }).fill("");
                         test.assertEqual(3, stream.readCharacters(output, 2, 3).await());
                         test.assertEqual(["", "", "a", "b", "c"], output);
                         test.assertEqual(0, stream.getAvailableCharacterCount());
@@ -379,7 +378,7 @@ export function test(runner: TestRunner): void
                     runner.test("with startIndex with not enough space to read the entire stream", (test: Test) =>
                     {
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
-                        const output: string[] = new Array(5).fill("");
+                        const output: string[] = Array.from<string>({ length: 5 }).fill("");
                         test.assertEqual(1, stream.readCharacters(output, 3, 1).await());
                         test.assertEqual(["", "", "", "a", ""], output);
                         test.assertEqual(2, stream.getAvailableCharacterCount());

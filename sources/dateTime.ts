@@ -55,7 +55,7 @@ export abstract class DateTime
                         result = left.getMinute() - right.getMinute();
                         if (result === 0)
                         {
-                            result = left.getSecond(); - right.getSecond();
+                            result = left.getSecond() - right.getSecond();
                         }
                     }
                 }

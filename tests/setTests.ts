@@ -5,7 +5,6 @@ import { JavascriptSetSet } from "../sources/javascriptSetSet.js";
 import { NotFoundError } from "../sources/notFoundError.js";
 import { SyncResult } from "../sources/syncResult.js";
 import { JavascriptIterable } from "../sources/javascript.js";
-import { PreCondition } from "../sources/preCondition.js";
 import { PreConditionError } from "../sources/preConditionError.js";
 
 export function test(runner: TestRunner): void

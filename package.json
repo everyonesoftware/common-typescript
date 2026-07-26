@@ -1,6 +1,6 @@
 {
   "name": "@everyonesoftware/common",
-  "version": "24.0.0",
+  "version": "25.0.0",
   "description": "A package containing common code for everyonesoftware projects.",
   "repository": {
     "url": "https://github.com/everyonesoftware/common-typescript"
@@ -25,7 +25,9 @@
     }
   },
   "scripts": {
-    "build": "npm run fix-imports && npm run generate-barrels && tsc",
+    "build": "npm run lint && npm run fix-imports && npm run generate-barrels && tsc",
+    "lint": "oxlint",
+    "lint-fix": "oxlint --fix",
     "clean": "rimraf coverage outputs",
     "test-only": "c8 node -r source-map-support/register outputs/tests/tests.js",
     "test": "npm run build && npm run test-only",
@@ -43,6 +45,7 @@
     "source-map-support": "^0.5.21",
     "ts-morph": "^28.0.0",
     "tsx": "^4.23.0",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "oxlint": "^1.75.0"
   }
 }

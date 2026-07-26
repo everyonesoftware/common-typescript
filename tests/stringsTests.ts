@@ -175,7 +175,7 @@ export function test(runner: TestRunner): void
             escapeAndQuoteTest("\n", undefined, undefined, `"\\n"`);
             escapeAndQuoteTest("\r", undefined, undefined, `"\\r"`);
             escapeAndQuoteTest("'", undefined, undefined, `"\\'"`);
-            escapeAndQuoteTest("\"", undefined, undefined, `"\\\""`);
+            escapeAndQuoteTest("\"", undefined, undefined, `"\\""`);
             escapeAndQuoteTest("&", undefined, undefined, `"&"`);
             escapeAndQuoteTest(" \r\n \t ", undefined, undefined, `" \\r\\n \\t "`);
             escapeAndQuoteTest("\t", undefined, [], `"\\t"`);

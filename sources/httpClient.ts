@@ -3,15 +3,48 @@ import { HttpOutgoingRequest } from "./httpOutgoingRequest.js";
 import { HttpIncomingResponse } from "./httpIncomingResponse.js";
 import { HttpMethod } from "./httpMethod.js";
 import { AsyncResult } from "./asyncResult.js";
+import { HttpHeaders } from "./httpHeaders.js";
+import { CustomHttpClient } from "./CustomHttpClient.js";
+import { isUndefinedOrNull } from "./types.js";
+import { LoggingHttpClient, LoggingHttpClientOptions } from "./LoggingHttpClient.js";
+import { Logger } from "./Logger.js";
 
 /**
  * An object that can make HTTP network requests.
  */
 export abstract class HttpClient
 {
+    /**
+     * Create the default HttpClient.
+     */
     public static create(): HttpClient
     {
         return FetchHttpClient.create();
+    }
+
+    public static custom(sendRequestFunction: (request: HttpOutgoingRequest) => AsyncResult<HttpIncomingResponse>): CustomHttpClient
+    {
+        return CustomHttpClient.create(sendRequestFunction);
+    }
+
+    /**
+     * Wrap this {@link HttpClient} in a {@link LoggingHttpClient}.
+     * @param logger The {@link Logger} that logs will be sent to.
+     * @param options The {@link LoggingHttpClientOptions} that define which logs should be emitted.
+     */
+    public logging(logger: Logger | undefined, options?: LoggingHttpClientOptions): LoggingHttpClient
+    {
+        return HttpClient.logging(this, logger, options);
+    }
+
+    /**
+     * Wrap the provided {@link HttpClient} in a {@link LoggingHttpClient}.
+     * @param logger The {@link Logger} that logs will be sent to.
+     * @param options The {@link LoggingHttpClientOptions} that define which logs should be emitted.
+     */
+    public static logging(httpClient: HttpClient, logger: Logger | undefined, options?: LoggingHttpClientOptions): LoggingHttpClient
+    {
+        return LoggingHttpClient.create(httpClient, logger, options);
     }
 
     /**
@@ -24,13 +57,18 @@ export abstract class HttpClient
      * Send a GET {@link HttpOutgoingRequest} to the provided URL.
      * @param url The URL to send the GET {@link HttpOutgoingRequest} to.
      */
-    public sendGetRequest(url: string): AsyncResult<HttpIncomingResponse>
+    public sendGetRequest(url: string, headers?: HttpHeaders): AsyncResult<HttpIncomingResponse>
     {
-        return HttpClient.sendGetRequest(this, url);
+        return HttpClient.sendGetRequest(this, url, headers);
     }
 
-    public static sendGetRequest(httpClient: HttpClient, url: string): AsyncResult<HttpIncomingResponse>
+    public static sendGetRequest(httpClient: HttpClient, url: string, headers?: HttpHeaders): AsyncResult<HttpIncomingResponse>
     {
-        return httpClient.sendRequest(HttpOutgoingRequest.create(HttpMethod.GET, url));
+        const request: HttpOutgoingRequest = HttpOutgoingRequest.create(HttpMethod.GET, url);
+        if (!isUndefinedOrNull(headers))
+        {
+            request.setHeaders(headers);
+        }
+        return httpClient.sendRequest(request);
     }
 }

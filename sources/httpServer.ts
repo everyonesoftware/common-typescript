@@ -1,4 +1,3 @@
-import { HttpIncomingRequest } from "./httpIncomingRequest.js";
 import { HttpIncomingRequestHandler } from "./HttpIncomingRequestHandler.js";
 
 export abstract class HttpServer

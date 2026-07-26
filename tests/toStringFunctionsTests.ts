@@ -50,7 +50,7 @@ export function test(runner: TestRunner): void
                 toStringTest(Map.create(), `{}`);
                 toStringTest(Map.create<string,number>().set("a", 1), `{"a":1}`);
                 toStringTest(Map.create<string,number>().set("a", 1).set("b", 2), `{"a":1,"b":2}`);
-                toStringTest(Comparison.LessThan, "0");
+                toStringTest(Comparison.LessThan, "LessThan");
                 toStringTest(TemperatureUnits.Fahrenheit, "Fahrenheit");
                 toStringTest(Temperature.celsius(10), "10°C");
             });

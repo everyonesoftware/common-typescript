@@ -74,7 +74,7 @@ export class AssertTest implements Test
 
     public assertNotEqual<T>(left: T, right: T, message?: string): void
     {
-        assert.notDeepStrictEqual(left, right);
+        assert.notDeepStrictEqual(left, right, message);
     }
 
     public assertFalse(value: boolean, message?: string): void

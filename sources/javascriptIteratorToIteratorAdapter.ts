@@ -1,5 +1,5 @@
 import { Iterator } from "./iterator.js";
-import { JavascriptIterable, JavascriptIterator, JavascriptIteratorResult } from "./javascript.js";
+import { isJavascriptIteratorResultDone, JavascriptIterable, JavascriptIterator, JavascriptIteratorResult } from "./javascript.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
 import { isJavascriptIterable, Type } from "./types.js";
@@ -41,7 +41,7 @@ export class JavascriptIteratorToIteratorAdapter<T> implements Iterator<T>
 
     public hasCurrent(): boolean
     {
-        return this.javascriptIteratorResult?.done === false;
+        return !isJavascriptIteratorResultDone(this.javascriptIteratorResult);
     }
 
     public getCurrent(): T

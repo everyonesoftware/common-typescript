@@ -16,6 +16,7 @@ import { Iterator } from "./iterator.js";
 import { Stack } from "./stack.js";
 import { ListStack } from "./listStack.js";
 import { SyncResult } from "./syncResult.js";
+import { HttpHeaders } from "./httpHeaders.js";
 
 export interface WonderlandTrailLocation
 {
@@ -1233,7 +1234,7 @@ export class WonderlandTrailItinerary
     }
 }
 
-export class WonderlandTrailClient implements HttpClient
+export class WonderlandTrailClient
 {
     public static readonly permitItineraryId: string = "4675317";
 
@@ -1258,9 +1259,9 @@ export class WonderlandTrailClient implements HttpClient
         return this.httpClient.sendRequest(request);
     }
 
-    public sendGetRequest(url: string): AsyncResult<HttpIncomingResponse>
+    public sendGetRequest(url: string, headers?: HttpHeaders): AsyncResult<HttpIncomingResponse>
     {
-        return HttpClient.sendGetRequest(this, url);
+        return this.httpClient.sendGetRequest(url, headers);
     }
 
     public getAvailability(month: number, year: number, allowWalkupPermits: boolean, allowIndividualSites: boolean, allowGroupSites: boolean, earlyAccessPermitLotteryId?: string): AsyncResult<WonderlandTrailAvailability>;

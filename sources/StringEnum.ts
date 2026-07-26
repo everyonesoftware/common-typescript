@@ -6,6 +6,7 @@ import { MutableMap } from "./mutableMap.js";
 import { PreCondition } from "./preCondition.js";
 import { escapeAndQuote } from "./strings.js";
 import { SyncResult } from "./syncResult.js";
+import { isString, isUndefinedNullOrEmpty } from "./types.js";
 
 /**
  * A collection of enum values that can be fetched using string names and aliases.
@@ -31,8 +32,27 @@ export class StringEnum<T>
     /**
      * Create a new {@link StringEnum} collection.
      */
-    public static create<T>(enumName: string, valueName: string): StringEnum<T>
+    public static create<T>(enumName: string, valueName?: string): StringEnum<T>;
+    public static create<T>(parameters: { enumName: string, valueName?: string }): StringEnum<T>;
+    static create<T>(parametersOrEnumName: string | { enumName: string, valueName?: string}, valueName?: string): StringEnum<T>
     {
+        let enumName: string;
+        if (isString(parametersOrEnumName))
+        {
+            enumName = parametersOrEnumName;
+        }
+        else
+        {
+            PreCondition.assertNotUndefinedAndNotNull(parametersOrEnumName, "parameters");
+
+            enumName = parametersOrEnumName.enumName;
+            valueName = parametersOrEnumName.valueName;
+        }
+
+        if (isUndefinedNullOrEmpty(valueName))
+        {
+            valueName = enumName;
+        }
         return new StringEnum<T>(enumName, valueName);
     }
 

@@ -107,7 +107,7 @@ export class NodeJSHttpOutgoingResponse implements HttpOutgoingResponse
 
     public end(): AsyncResult<void>
     {
-        return AsyncResult.create(new Promise<void>((resolve, reject) =>
+        return AsyncResult.create(new Promise<void>((resolve, _) =>
         {
             this.innerResponse.end(this.bodyString, () =>
             {

@@ -69,12 +69,12 @@ export class NodeJSHttpServer extends HttpServer
         return !!this.httpServer;
     }
 
-    public addRequestHandler(requestPath: string, handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>): void
+    public addRequestHandler(_requestPath: string, _handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>): void
     {
         throw new Error("Method not implemented.");
     }
 
-    public setDefaultRequestHandler(handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>): void
+    public setDefaultRequestHandler(_handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>): void
     {
         throw new Error("Method not implemented.");
     }

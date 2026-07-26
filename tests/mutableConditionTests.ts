@@ -151,7 +151,7 @@ export function test(runner: TestRunner): void
 
             runner.testFunction("assertUndefined()", () =>
             {
-                runner.test("with undefined", (test: Test) =>
+                runner.test("with undefined", (_: Test) =>
                 {
                     const mc: MutableCondition = MutableCondition.create();
                     mc.assertUndefined(undefined);
@@ -196,7 +196,7 @@ export function test(runner: TestRunner): void
 
                 function assertNotUndefinedTest(value: unknown): void
                 {
-                    runner.test(`with ${runner.toString(value)}`, (test: Test) =>
+                    runner.test(`with ${runner.toString(value)}`, (_: Test) =>
                     {
                         const mc: MutableCondition = MutableCondition.create();
                         mc.assertNotUndefined(value);

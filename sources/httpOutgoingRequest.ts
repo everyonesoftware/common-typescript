@@ -1,9 +1,11 @@
 import { HttpHeader } from "./httpHeader.js";
 import { HttpHeaders } from "./httpHeaders.js";
 import { HttpMethod } from "./httpMethod.js";
+import { JavascriptIterable } from "./javascript.js";
 import { MutableHttpHeaders } from "./mutableHttpHeaders.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
+import { isUndefinedOrNull } from "./types.js";
 
 /**
  * A HTTP request that is sent out by a {@link HttpClient}.
@@ -15,7 +17,7 @@ export class HttpOutgoingRequest
     private readonly headers: MutableHttpHeaders;
     private body: string;
 
-    private constructor(method: HttpMethod, url: string)
+    private constructor(method: HttpMethod, url: string, headers?: HttpHeaders)
     {
         PreCondition.assertNotUndefinedAndNotNull(method, "method");
         PreCondition.assertNotEmpty(url, "url");
@@ -23,12 +25,16 @@ export class HttpOutgoingRequest
         this.method = method;
         this.url = url;
         this.headers = HttpHeaders.create();
+        if (!isUndefinedOrNull(headers))
+        {
+            this.headers.setAll(headers);
+        }
         this.body = "";
     }
 
-    public static create(method: HttpMethod, url: string): HttpOutgoingRequest
+    public static create(method: HttpMethod, url: string, headers?: HttpHeaders): HttpOutgoingRequest
     {
-        return new HttpOutgoingRequest(method, url);
+        return new HttpOutgoingRequest(method, url, headers);
     }
 
     /**
@@ -38,6 +44,16 @@ export class HttpOutgoingRequest
     public static get(url: string): HttpOutgoingRequest
     {
         return HttpOutgoingRequest.create(HttpMethod.GET, url);
+    }
+
+    /**
+     * Create a deep-copy of this {@link HttpOutgoingRequest}.
+     */
+    public clone(): HttpOutgoingRequest
+    {
+        return HttpOutgoingRequest.create(this.getMethod(), this.getURL())
+            .setHeaders(this.getHeaders())
+            .setBody(this.getBody());
     }
 
     /**
@@ -107,6 +123,13 @@ export class HttpOutgoingRequest
         return this;
     }
 
+    public setHeaders(headers: JavascriptIterable<HttpHeader>): this
+    {
+        this.headers.setAll(headers);
+
+        return this;
+    }
+
     /**
      * Get the body that will be sent.
      */
@@ -122,5 +145,24 @@ export class HttpOutgoingRequest
         this.body = body;
 
         return this;
+    }
+
+    /**
+     * Get whether this {@link HttpOutgoingRequest} is equal to the provided
+     * {@link HttpOutgoingRequest}.
+     * @param rhs The {@link HttpOutgoingRequest} to compare against this
+     * {@link HttpOutgoingRequest}.
+     */
+    public equals(rhs: HttpOutgoingRequest): boolean
+    {
+        let result: boolean = false;
+        if (!isUndefinedOrNull(rhs))
+        {
+            result = this.getMethod() === rhs.getMethod() &&
+                this.getURL() === rhs.getURL() &&
+                this.getHeaders().equals(rhs.getHeaders()).await() &&
+                this.getBody() === rhs.getBody();
+        }
+        return result;
     }
 }

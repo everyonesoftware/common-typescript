@@ -1,5 +1,4 @@
 import { PromiseAsyncResult } from "../sources/promiseAsyncResult.js";
-import { NotFoundError } from "../sources/notFoundError.js";
 import { PreConditionError } from "../sources/preConditionError.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";

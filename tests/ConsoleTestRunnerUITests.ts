@@ -2,7 +2,7 @@ import { ConsoleTestRunnerUI, FlatConsoleTestRunnerUI, TreeConsoleTestRunnerUI }
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
 
-export function consoleTestRunnerUITests(runner: TestRunner, creator: () => ConsoleTestRunnerUI): void
+export function consoleTestRunnerUITests(runner: TestRunner, _: () => ConsoleTestRunnerUI): void
 {
     runner.testType("ConsoleTestRunnerUI", () =>
     {

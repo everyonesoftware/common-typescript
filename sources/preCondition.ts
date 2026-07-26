@@ -127,12 +127,12 @@ export abstract class PreCondition
     }
 
     /**
-     * Assert that the provided value is not empty.
+     * Assert that the provided value is not undefined, null, or empty.
      * @param value The value to check.
      * @param expression  The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public static assertNotEmpty(value: JavascriptIterable<unknown> | string | undefined | null, expression?: string, message?: string): void
+    public static assertNotEmpty(value: JavascriptIterable<unknown> | string | undefined | null, expression?: string, message?: string): asserts value is NonNullable<string>
     {
         return PreCondition.getCondition().assertNotEmpty(value, expression, message);
     }

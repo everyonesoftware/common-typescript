@@ -2,7 +2,6 @@ import { HttpHeader } from "./httpHeader.js";
 import { HttpHeaders } from "./httpHeaders.js";
 import { HttpMethod } from "./httpMethod.js";
 import { AsyncResult } from "./asyncResult.js";
-import { NotFoundError } from "./notFoundError.js";
 import { Map } from "./map.js";
 
 /**
