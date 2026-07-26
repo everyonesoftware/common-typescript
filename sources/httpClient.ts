@@ -22,11 +22,6 @@ export abstract class HttpClient
         return FetchHttpClient.create();
     }
 
-    public static custom(sendRequestFunction: (request: HttpOutgoingRequest) => AsyncResult<HttpIncomingResponse>): CustomHttpClient
-    {
-        return CustomHttpClient.create(sendRequestFunction);
-    }
-
     /**
      * Wrap this {@link HttpClient} in a {@link LoggingHttpClient}.
      * @param logger The {@link Logger} that logs will be sent to.
@@ -45,6 +40,25 @@ export abstract class HttpClient
     public static logging(httpClient: HttpClient, logger: Logger | undefined, options?: LoggingHttpClientOptions): LoggingHttpClient
     {
         return LoggingHttpClient.create(httpClient, logger, options);
+    }
+
+    /**
+     * Wrap this {@link HttpClient} in a {@link CustomHttpClient} that will invoke the provided
+     * function when attempting to send a {@link HttpOutgoingRequest}.
+     * @param sendRequestFunction The function to invoke when attempting to send a
+     * {@link HttpOutgoingRequest}.
+     */
+    public wrap(sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>): HttpClient
+    {
+        return HttpClient.wrap(this, sendRequestFunction);
+    }
+
+    public static wrap(httpClient: HttpClient, sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>): HttpClient
+    {
+        return CustomHttpClient.create((request: HttpOutgoingRequest) =>
+        {
+            return sendRequestFunction(httpClient, request);
+        });
     }
 
     /**

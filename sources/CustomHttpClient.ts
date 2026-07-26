@@ -12,9 +12,9 @@ import { PreCondition } from "./preCondition.js";
  */
 export class CustomHttpClient implements HttpClient
 {
-    private readonly sendRequestFunction: (request: HttpOutgoingRequest) => AsyncResult<HttpIncomingResponse>;
+    private readonly sendRequestFunction: (request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>;
     
-    private constructor(sendRequestFunction: (request: HttpOutgoingRequest) => AsyncResult<HttpIncomingResponse>)
+    private constructor(sendRequestFunction: (request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>)
     {
         PreCondition.assertNotUndefinedAndNotNull(sendRequestFunction, "sendRequestFunction");
 
@@ -27,7 +27,7 @@ export class CustomHttpClient implements HttpClient
      * @param sendRequestFunction The function that will be invoked to send a
      * {@link HttpOutgoingRequest}.
      */
-    public static create(sendRequestFunction: (request: HttpOutgoingRequest) => AsyncResult<HttpIncomingResponse>): CustomHttpClient
+    public static create(sendRequestFunction: (request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>): CustomHttpClient
     {
         return new CustomHttpClient(sendRequestFunction);
     }
@@ -37,13 +37,18 @@ export class CustomHttpClient implements HttpClient
         return HttpClient.logging(this, logger, options);
     }
 
+    public wrap(sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>): HttpClient
+    {
+        return HttpClient.wrap(this, sendRequestFunction);
+    }
+
     public sendRequest(request: HttpOutgoingRequest): AsyncResult<HttpIncomingResponse>
     {
-        return this.sendRequestFunction(request);
+        return AsyncResult.create(this.sendRequestFunction(request));
     }
 
     public sendGetRequest(url: string): AsyncResult<HttpIncomingResponse>
     {
-        return HttpClient.sendGetRequest(this, url);
+        return AsyncResult.create(HttpClient.sendGetRequest(this, url));
     }
 }

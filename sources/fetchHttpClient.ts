@@ -10,6 +10,7 @@ import { FetchError } from "./FetchError.js";
 import { HttpHeaders } from "./httpHeaders.js";
 import { Logger } from "./Logger.js";
 import { LoggingHttpClientOptions, LoggingHttpClient } from "./LoggingHttpClient.js";
+import { HttpIncomingResponse } from "./httpIncomingResponse.js";
 
 /**
  * A {@link HttpClient} that uses {@link fetch}() to make network requests.
@@ -28,6 +29,11 @@ export class FetchHttpClient implements HttpClient
     public logging(logger: Logger | undefined, options?: LoggingHttpClientOptions): LoggingHttpClient
     {
         return HttpClient.logging(this, logger, options);
+    }
+
+    public wrap(sendRequestFunction: (httpClient: HttpClient, request: HttpOutgoingRequest) => Promise<HttpIncomingResponse>): HttpClient
+    {
+        return HttpClient.wrap(this, sendRequestFunction);
     }
 
     public sendRequest(request: HttpOutgoingRequest): AsyncResult<FetchHttpIncomingResponse>
