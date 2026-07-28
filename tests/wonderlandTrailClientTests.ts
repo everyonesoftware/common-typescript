@@ -64,7 +64,7 @@ export function test(runner: TestRunner): void
                 runner.test("with undefined location", (test: Test) =>
                 {
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
-                    test.assertThrows(() => availability.addAvailability(undefined!, DateTime.now()), new PreConditionError(
+                    test.assertThrows(() => availability.addAvailability(undefined!, DateTime.parse("2026-03-11").await()), new PreConditionError(
                         "Expression: location",
                         "Expected: not undefined and not null",
                         "Actual: undefined",
@@ -74,7 +74,7 @@ export function test(runner: TestRunner): void
                 runner.test("with null location", (test: Test) =>
                 {
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
-                    test.assertThrows(() => availability.addAvailability(null!, DateTime.now()), new PreConditionError(
+                    test.assertThrows(() => availability.addAvailability(null!, DateTime.parse("2026-03-11").await()), new PreConditionError(
                         "Expression: location",
                         "Expected: not undefined and not null",
                         "Actual: null",
@@ -106,7 +106,7 @@ export function test(runner: TestRunner): void
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
 
                     const location: WonderlandTrailLocation = WonderlandTrailLocations.boxCanyon;
-                    const date: DateTime = DateTime.parse("2025-07-04");
+                    const date: DateTime = DateTime.parse("2025-07-04").await();
                     test.assertEqual(Map.create(), availability.getAvailability(location))
 
                     availability.addAvailability(location, date);
@@ -121,7 +121,7 @@ export function test(runner: TestRunner): void
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
 
                     const location: WonderlandTrailLocation = WonderlandTrailLocations.boxCanyon;
-                    const date: DateTime = DateTime.parse("2025-07-04");
+                    const date: DateTime = DateTime.parse("2025-07-04").await();
                     test.assertEqual(Map.create(), availability.getAvailability(location))
 
                     availability.addAvailability(location, date, WonderlandTrailReservationType.Walkup);
@@ -136,7 +136,7 @@ export function test(runner: TestRunner): void
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
 
                     const location: WonderlandTrailLocation = WonderlandTrailLocations.boxCanyon;
-                    const date: DateTime = DateTime.parse("2025-07-04");
+                    const date: DateTime = DateTime.parse("2025-07-04").await();
                     test.assertEqual(Map.create(), availability.getAvailability(location))
 
                     availability.addAvailability(location, date, undefined, WonderlandTrailReservationType.Reserved);
@@ -184,7 +184,7 @@ export function test(runner: TestRunner): void
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
 
                     const location: WonderlandTrailLocation = WonderlandTrailLocations.boxCanyon;
-                    const date: DateTime = DateTime.parse("2025-07-04");
+                    const date: DateTime = DateTime.parse("2025-07-04").await();
                     availability.addAvailability(location, date, WonderlandTrailReservationType.Reserved, WonderlandTrailReservationType.Walkup);
 
                     const locationAvailability: MutableMap<string, WonderlandTrailAvailabilityType> = availability.getAvailability(location);
@@ -209,12 +209,12 @@ export function test(runner: TestRunner): void
                     });
                 }
 
-                getDayAvailabilityErrorTest(undefined!, DateTime.parse("2025-07-04"), new PreConditionError(
+                getDayAvailabilityErrorTest(undefined!, DateTime.parse("2025-07-04").await(), new PreConditionError(
                     "Expression: location",
                     "Expected: not undefined and not null",
                     "Actual: undefined",
                 ));
-                getDayAvailabilityErrorTest(null!, DateTime.parse("2025-07-04"), new PreConditionError(
+                getDayAvailabilityErrorTest(null!, DateTime.parse("2025-07-04").await(), new PreConditionError(
                     "Expression: location",
                     "Expected: not undefined and not null",
                     "Actual: null",
@@ -234,7 +234,7 @@ export function test(runner: TestRunner): void
                 {
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
                     const location: WonderlandTrailLocation = WonderlandTrailLocations.boxCanyon;
-                    const date: DateTime = DateTime.parse("2025-07-04");
+                    const date: DateTime = DateTime.parse("2025-07-04").await();
 
                     test.assertThrows(() => availability.getDayAvailability(location, date).await(), new NotFoundError(
                         "No availability was found for Box Canyon on 2025-07-04.",
@@ -246,7 +246,7 @@ export function test(runner: TestRunner): void
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
 
                     const location: WonderlandTrailLocation = WonderlandTrailLocations.boxCanyon;
-                    const date: DateTime = DateTime.parse("2025-07-04");
+                    const date: DateTime = DateTime.parse("2025-07-04").await();
                     availability.addAvailability(location, date, WonderlandTrailReservationType.Reserved, WonderlandTrailReservationType.Walkup);
 
                     const dayAvailability: WonderlandTrailAvailabilityType = availability.getDayAvailability(location, date).await();

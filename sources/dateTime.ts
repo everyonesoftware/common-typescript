@@ -1,15 +1,14 @@
+import { Comparable } from "./comparable.js";
+import { Comparison } from "./comparison.js";
+import { Duration } from "./Duration.js";
 import { LuxonDateTime } from "./luxonDateTime.js";
+import { SyncResult } from "./syncResult.js";
 
-export abstract class DateTime
+export abstract class DateTime implements Comparable<DateTime>
 {
-    public static parse(text: string): DateTime
+    public static parse(text: string): SyncResult<DateTime>
     {
         return LuxonDateTime.parse(text);
-    }
-
-    public static now(): DateTime
-    {
-        return LuxonDateTime.now();
     }
 
     public abstract getYear(): number;
@@ -27,18 +26,30 @@ export abstract class DateTime
     public abstract addDays(days: number): DateTime;
 
     /**
+     * Add the provided {@link Duration} to this {@link DateTime}.
+     * @param duration The {@link Duration} to add to this {@link DateTime}.
+     */
+    public abstract plus(duration: Duration): DateTime;
+
+    /**
+     * Get the duration between this {@link DateTime} and the provided {@link DateTime}.
+     * @param rhs The {@link DateTime} to subtract from this {@link DateTime}.
+     */
+    public abstract minus(rhs: DateTime): Duration;
+
+    /**
      * Compare this {@link DateTime} to the provided {@link DateTime}. If this {@link DateTime} is
      * less than the provided {@link DateTime}, then a negative number will be returned, 0 if
      * they're equal, or a positive number if this {@link DateTime} is greater than the provided
      * {@link DateTime}.
      * @param dateTime The {@link DateTime} to compare to this {@link DateTime}.
      */
-    public compareTo(dateTime: DateTime, compareTimes: boolean): number
+    public compareTo(dateTime: DateTime, compareTimes?: boolean): Comparison
     {
         return DateTime.compareTo(this, dateTime, compareTimes);
     }
 
-    public static compareTo(left: DateTime, right: DateTime, compareTimes: boolean): number
+    public static compareTo(left: DateTime, right: DateTime, compareTimes?: boolean): Comparison
     {
         let result: number = left.getYear() - right.getYear();
         if (result === 0)
@@ -47,7 +58,7 @@ export abstract class DateTime
             if (result === 0)
             {
                 result = left.getDay() - right.getDay();
-                if (compareTimes && result === 0)
+                if (result === 0 && compareTimes)
                 {
                     result = left.getHour() - right.getHour();
                     if (result === 0)
@@ -61,67 +72,67 @@ export abstract class DateTime
                 }
             }
         }
-        return result;
+        return Comparison.parse(result);
     }
 
-    public lessThan(dateTime: DateTime, compareTimes: boolean): boolean
+    public lessThan(dateTime: DateTime, compareTimes?: boolean): boolean
     {
         return DateTime.lessThan(this, dateTime, compareTimes);
     }
 
-    public static lessThan(left: DateTime, right: DateTime, compareTimes: boolean): boolean
+    public static lessThan(left: DateTime, right: DateTime, compareTimes?: boolean): boolean
     {
-        return left.compareTo(right, compareTimes) < 0;
+        return left.compareTo(right, compareTimes) === Comparison.LessThan;
     }
 
-    public lessThanOrEqualTo(dateTime: DateTime, compareTimes: boolean): boolean
+    public lessThanOrEqualTo(dateTime: DateTime, compareTimes?: boolean): boolean
     {
         return DateTime.lessThanOrEqualTo(this, dateTime, compareTimes);
     }
 
-    public static lessThanOrEqualTo(left: DateTime, right: DateTime, compareTimes: boolean): boolean
+    public static lessThanOrEqualTo(left: DateTime, right: DateTime, compareTimes?: boolean): boolean
     {
-        return left.compareTo(right, compareTimes) <= 0;
+        return left.compareTo(right, compareTimes) !== Comparison.GreaterThan;
     }
 
-    public equals(dateTime: DateTime, compareTimes: boolean): boolean
+    public equals(dateTime: DateTime, compareTimes?: boolean): boolean
     {
         return DateTime.equals(this, dateTime, compareTimes);
     }
 
-    public static equals(left: DateTime, right: DateTime, compareTimes: boolean): boolean
+    public static equals(left: DateTime, right: DateTime, compareTimes?: boolean): boolean
     {
-        return left.compareTo(right, compareTimes) === 0;
+        return left.compareTo(right, compareTimes) === Comparison.Equal;
     }
 
-    public greaterThanOrEqualTo(dateTime: DateTime, compareTimes: boolean): boolean
+    public notEquals(dateTime: DateTime, compareTimes?: boolean): boolean
+    {
+        return DateTime.notEquals(this, dateTime, compareTimes);
+    }
+
+    public static notEquals(left: DateTime, right: DateTime, compareTimes?: boolean): boolean
+    {
+        return left.compareTo(right, compareTimes) !== Comparison.Equal;
+    }
+
+    public greaterThanOrEqualTo(dateTime: DateTime, compareTimes?: boolean): boolean
     {
         return DateTime.greaterThanOrEqualTo(this, dateTime, compareTimes);
     }
 
-    public static greaterThanOrEqualTo(left: DateTime, right: DateTime, compareTimes: boolean): boolean
+    public static greaterThanOrEqualTo(left: DateTime, right: DateTime, compareTimes?: boolean): boolean
     {
-        return left.compareTo(right, compareTimes) >= 0;
+        return left.compareTo(right, compareTimes) !== Comparison.LessThan;
     }
 
-    public greaterThan(dateTime: DateTime, compareTimes: boolean): boolean
+    public greaterThan(dateTime: DateTime, compareTimes?: boolean): boolean
     {
         return DateTime.greaterThan(this, dateTime, compareTimes);
     }
 
-    public static greaterThan(left: DateTime, right: DateTime, compareTimes: boolean): boolean
+    public static greaterThan(left: DateTime, right: DateTime, compareTimes?: boolean): boolean
     {
-        return left.compareTo(right, compareTimes) > 0;
-    }
-
-    public get debug(): string
-    {
-        return DateTime.debug(this);
-    }
-
-    public static debug(dateTime: DateTime): string
-    {
-        return dateTime.toString();
+        return left.compareTo(right, compareTimes) === Comparison.GreaterThan;
     }
 
     public abstract toString(): string;

@@ -1,5 +1,10 @@
 import * as luxon from "luxon";
 import { DateTime } from "./dateTime.js";
+import { Comparison } from "./comparison.js";
+import { LuxonDuration } from "./LuxonDuration.js";
+import { Duration } from "./Duration.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
 
 const pctTimeZone: string = "America/Los_Angeles";
 
@@ -17,9 +22,9 @@ export class LuxonDateTime implements DateTime
         return new LuxonDateTime(dateTime);
     }
 
-    public static parse(text: string): LuxonDateTime
+    public static parse(text: string): SyncResult<LuxonDateTime>
     {
-        return LuxonDateTime.create(luxon.DateTime.fromISO(text, { zone: pctTimeZone }));
+        return SyncResult.create(() => LuxonDateTime.create(luxon.DateTime.fromISO(text, { zone: pctTimeZone })));
     }
 
     public static now(): LuxonDateTime
@@ -62,6 +67,20 @@ export class LuxonDateTime implements DateTime
         return LuxonDateTime.create(this.dateTime.plus({ days: days }));
     }
 
+    public plus(duration: Duration): LuxonDateTime
+    {
+        PreCondition.assertNotUndefinedAndNotNull(duration, "duration");
+
+        const luxonDuration: LuxonDuration = duration instanceof LuxonDuration ? duration : LuxonDuration.parse(duration.toString()).await();
+        return LuxonDateTime.create(this.dateTime.plus(luxonDuration.getLuxonDuration()));
+    }
+
+    public minus(rhs: DateTime): LuxonDuration
+    {
+        const luxonRhs: LuxonDateTime = rhs instanceof LuxonDateTime ? rhs : LuxonDateTime.parse(rhs.toString()).await();
+        return LuxonDuration.create(this.dateTime.diff(luxonRhs.dateTime));
+    }
+
     public toString(): string
     {
         return this.dateTime.toISO()!;
@@ -77,38 +96,38 @@ export class LuxonDateTime implements DateTime
         return `${this.dateTime.monthShort} ${this.dateTime.day}`;
     }
 
-    public compareTo(dateTime: DateTime, compareTimes: boolean): number
+    public compareTo(dateTime: DateTime, compareTimes?: boolean): Comparison
     {
         return DateTime.compareTo(this, dateTime, compareTimes);
     }
 
-    public lessThan(dateTime: DateTime, compareTimes: boolean): boolean
+    public lessThan(dateTime: DateTime, compareTimes?: boolean): boolean
     {
         return DateTime.lessThan(this, dateTime, compareTimes);
     }
 
-    public lessThanOrEqualTo(dateTime: DateTime, compareTimes: boolean): boolean
+    public lessThanOrEqualTo(dateTime: DateTime, compareTimes?: boolean): boolean
     {
         return DateTime.lessThanOrEqualTo(this, dateTime, compareTimes);
     }
 
-    public equals(dateTime: DateTime, compareTimes: boolean): boolean
+    public equals(dateTime: DateTime, compareTimes?: boolean): boolean
     {
         return DateTime.equals(this, dateTime, compareTimes);
     }
 
-    public greaterThanOrEqualTo(dateTime: DateTime, compareTimes: boolean): boolean
+    public notEquals(dateTime: DateTime, compareTimes?: boolean): boolean
+    {
+        return DateTime.notEquals(this, dateTime, compareTimes);
+    }
+
+    public greaterThanOrEqualTo(dateTime: DateTime, compareTimes?: boolean): boolean
     {
         return DateTime.greaterThanOrEqualTo(this, dateTime, compareTimes);
     }
 
-    public greaterThan(dateTime: DateTime, compareTimes: boolean): boolean
+    public greaterThan(dateTime: DateTime, compareTimes?: boolean): boolean
     {
         return DateTime.greaterThan(this, dateTime, compareTimes);
-    }
-
-    public get debug(): string
-    {
-        return DateTime.debug(this);
     }
 }

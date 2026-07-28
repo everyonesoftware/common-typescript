@@ -58,6 +58,7 @@ import * as temperatureUnitsTests from "./TemperatureUnitsTests.js";
 import * as temperatureTests from "./TemperatureTests.js";
 import * as fakeHttpClientTests from "./FakeHttpClientTests.js";
 import * as fakeLoggerTests from "./FakeLoggerTests.js";
+import * as fakeClockTests from "./FakeClockTests.js";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -121,4 +122,5 @@ ConsoleTestRunner.run([
     temperatureTests,
     fakeHttpClientTests,
     fakeLoggerTests,
+    fakeClockTests,
 ]);

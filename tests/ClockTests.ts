@@ -23,12 +23,12 @@ export function clockTest(runner: TestRunner, creator: () => Clock): void
 {
     runner.testType("Clock", () =>
     {
-        runner.testFunction("now()", (test: Test) =>
+        runner.testFunction("getCurrent()", (test: Test) =>
         {
             const clock: Clock = creator();
             test.assertNotUndefinedAndNotNull(clock);
 
-            const now: DateTime = clock.now();
+            const now: DateTime = clock.getCurrent();
             test.assertNotUndefinedAndNotNull(now);
         });
     });

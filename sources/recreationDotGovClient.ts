@@ -100,7 +100,7 @@ export class RecreationDotGovDivisionAvailability
                 }
 
                 dayAvailabilities.add({
-                    date: DateTime.parse(dateString),
+                    date: DateTime.parse(dateString).await(),
                     totalSpots: usageData.total,
                     walkup,
                     reservationsRemaining,
