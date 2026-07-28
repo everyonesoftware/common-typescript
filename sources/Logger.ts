@@ -1,3 +1,4 @@
+import { JSONData } from "./JSON.js";
 import { LogLevel } from "./LogLevel.js";
 import { PreCondition } from "./preCondition.js";
 import { isUndefinedOrNull } from "./types.js";
@@ -10,7 +11,7 @@ export abstract class Logger
     /**
      * Log the provided message with the provided {@link LogLevel} severity. If no {@link LogLevel}
      * is provided, then it will default to {@link LogLevel.Info}.
-     * @param message The message to log
+     * @param message The message to log.
      * @param level The {@link LogLevel} associated with the provided message. If no
      * {@link LogLevel} is provided, then it will default to {@link LogLevel.Info}.
      */
@@ -18,7 +19,7 @@ export abstract class Logger
     /**
      * Log the provided message with the provided {@link LogLevel} severity.
      * @param level The {@link LogLevel} associated with the provided message.
-     * @param message The message to log
+     * @param message The message to log.
      */
     public abstract log(level: LogLevel, message: string): void;
 
@@ -45,22 +46,6 @@ export abstract class Logger
         }
 
         logFunction(level, message);
-    }
-
-    /**
-     * Log a trace message.
-     * @param message The message to log.
-     */
-    public trace(message: string): void
-    {
-        Logger.trace(this, message);
-    }
-
-    public static trace(logger: Logger, message: string): void
-    {
-        PreCondition.assertNotUndefinedAndNotNull(logger, "logger");
-
-        logger.log(message, LogLevel.Trace);
     }
 
     /**
@@ -126,52 +111,115 @@ export abstract class Logger
 
         logger.log(message, LogLevel.Error);
     }
-}
 
-export class ConsoleLogger extends Logger
-{
-    private constructor()
+    /**
+     * Log the provided data with the provided {@link LogLevel} severity. If no {@link LogLevel}
+     * is provided, then it will default to {@link LogLevel.Info}.
+     * @param data The data to log.
+     * @param level The {@link LogLevel} associated with the provided data. If no
+     * {@link LogLevel} is provided, then it will default to {@link LogLevel.Info}.
+     */
+    public logData(data: JSONData, level?: LogLevel): void;
+    /**
+     * Log the provided data with the provided {@link LogLevel} severity.
+     * @param level The {@link LogLevel} associated with the provided data.
+     * @param data The data to log.
+     */
+    public logData(level: LogLevel, data: JSONData): void;
+    logData(dataOrLevel: JSONData | LogLevel, levelOrData?: LogLevel | JSONData): void
     {
-        super();
-    }
-
-    public static create(): ConsoleLogger
-    {
-        return new ConsoleLogger();
-    }
-
-    public log(message: string, level?: LogLevel): void;
-    public log(level: LogLevel, message: string): void;
-    public log(messageOrLevel: string | LogLevel, levelOrMessage?: LogLevel | string): void
-    {
-        Logger.log(messageOrLevel, levelOrMessage, (level: LogLevel, message: string) =>
+        Logger.logData(dataOrLevel, levelOrData, (level: LogLevel, data: JSONData) =>
         {
-            switch (level)
-            {
-                case LogLevel.Trace:
-                    console.trace(message);
-                    break;
-
-                case LogLevel.Debug:
-                    console.debug(message);
-                    break;
-
-                case LogLevel.Info:
-                    console.info(message);
-                    break;
-
-                case LogLevel.Warning:
-                    console.warn(message);
-                    break;
-
-                case LogLevel.Error:
-                    console.error(message);
-                    break;
-
-                default:
-                    console.error(`Unsupported LogLevel: ${level}, Message: ${message}`);
-                    break;
-            }
+            this.log(level, JSON.stringify(data));
         });
+    }
+
+    public static logData(dataOrLevel: JSONData | LogLevel, levelOrData: LogLevel | JSONData | undefined, logDataFunction: (level: LogLevel, data: JSONData) => void): void
+    {
+        let data: JSONData;
+        let level: LogLevel;
+
+        if (dataOrLevel instanceof LogLevel)
+        {
+            level = dataOrLevel;
+            data = levelOrData as JSONData;
+
+            PreCondition.assertNotUndefinedAndNotNull(level, "level");
+            PreCondition.assertNotUndefined(data, "data");
+        }
+        else
+        {
+            data = dataOrLevel;
+            level = isUndefinedOrNull(levelOrData) ? LogLevel.Info : levelOrData as LogLevel;
+
+            PreCondition.assertNotUndefined(data, "data");
+            PreCondition.assertNotUndefinedAndNotNull(level);
+        }
+
+        logDataFunction(level, data);
+    }
+
+    /**
+     * Log debug data.
+     * @param data The data to log.
+     */
+    public debugData(data: string): void
+    {
+        Logger.debugData(this, data);
+    }
+
+    public static debugData(logger: Logger, data: JSONData): void
+    {
+        PreCondition.assertNotUndefinedAndNotNull(logger, "logger");
+
+        logger.logData(data, LogLevel.Debug);
+    }
+
+    /**
+     * Log informational data.
+     * @param data The data to log.
+     */
+    public infoData(data: JSONData): void
+    {
+        Logger.infoData(this, data);
+    }
+
+    public static infoData(logger: Logger, data: JSONData): void
+    {
+        PreCondition.assertNotUndefinedAndNotNull(logger, "logger");
+
+        logger.logData(data, LogLevel.Info);
+    }
+
+    /**
+     * Log warning data.
+     * @param data The data to log.
+     */
+    public warningData(data: JSONData): void
+    {
+        Logger.warningData(this, data);
+    }
+
+    public static warningData(logger: Logger, data: JSONData): void
+    {
+        PreCondition.assertNotUndefinedAndNotNull(logger, "logger");
+
+        logger.logData(data, LogLevel.Warning);
+    }
+
+    /**
+     * Log error data.
+     * @param data The data to log as an error.
+     */
+    public errorData(data: JSONData): void
+    {
+        Logger.errorData(this, data);
+    }
+
+    public static errorData(logger: Logger, data: JSONData): void
+    {
+        PreCondition.assertNotUndefinedAndNotNull(logger, "logger");
+
+        logger.logData(data, LogLevel.Error);
     }
 }

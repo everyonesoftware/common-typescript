@@ -43,7 +43,6 @@ export class LogLevel extends Comparable<LogLevel>
         return Comparison.parse(this.getValue() - logLevel.getValue());
     }
 
-    public static readonly Trace = LogLevel.create("Trace", 0);
     public static readonly Debug = LogLevel.create("Debug", 1);
     public static readonly Info = LogLevel.create("Info", 2);
     public static readonly Warning = LogLevel.create("Warning", 3);
