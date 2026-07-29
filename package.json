@@ -1,6 +1,6 @@
 {
   "name": "@everyonesoftware/common",
-  "version": "30.0.0",
+  "version": "31.0.0",
   "description": "A package containing common code for everyonesoftware projects.",
   "repository": {
     "url": "https://github.com/everyonesoftware/common-typescript"
@@ -20,14 +20,13 @@
       "import": "./outputs/sources/index.js"
     },
     "./tests": {
-      "types": "./outputs/testIndex.d.ts",
-      "import": "./outputs/testIndex.js"
+      "types": "./outputs/tests/index.d.ts",
+      "import": "./outputs/tests/index.js"
     }
   },
   "scripts": {
     "build": "npm run lint && npm run fix-imports && npm run generate-barrels && tsc",
     "lint": "oxlint",
-    "lint-fix": "oxlint --fix",
     "clean": "rimraf coverage outputs",
     "test-only": "c8 node -r source-map-support/register outputs/tests/tests.js",
     "test": "npm run build && npm run test-only",
