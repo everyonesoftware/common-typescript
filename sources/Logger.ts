@@ -163,7 +163,7 @@ export abstract class Logger
      * Log debug data.
      * @param data The data to log.
      */
-    public debugData(data: string): void
+    public debugData(data: JSONData): void
     {
         Logger.debugData(this, data);
     }
