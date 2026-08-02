@@ -26,16 +26,16 @@ export function test(runner: TestRunner): void
             isJSONDataTest(false, true);
             isJSONDataTest(true, true);
             isJSONDataTest({}, true);
-            isJSONDataTest({"a": null}, true);
-            isJSONDataTest({5: "a"}, true);
-            isJSONDataTest({4: 7}, true);
+            isJSONDataTest({ "a": null }, true);
+            isJSONDataTest({ 5: "a" }, true);
+            isJSONDataTest({ 4: 7 }, true);
             isJSONDataTest([], true);
             isJSONDataTest([1, 2, "hello"], true);
 
-            isJSONDataTest(() => {}, false);
+            isJSONDataTest(() => { }, false);
             isJSONDataTest(runner, false);
-            isJSONDataTest({"a": undefined}, false);
-            isJSONDataTest({"f": () => {}}, false);
+            isJSONDataTest({ "a": undefined }, false);
+            isJSONDataTest({ "f": () => { } }, false);
             isJSONDataTest([undefined], false);
         });
 
@@ -70,12 +70,22 @@ export function test(runner: TestRunner): void
             toJSONDataTest(true);
             toJSONDataTest("abc");
             toJSONDataTest({});
-            toJSONDataTest({a:undefined}, {});
-            toJSONDataTest({a:() => {}}, {});
-            toJSONDataTest({a:50});
-            toJSONDataTest({a:[50, {b:51}]});
+            toJSONDataTest({ a: undefined }, {});
+            toJSONDataTest({ a: () => { } }, {});
+            toJSONDataTest({ a: 50 });
+            toJSONDataTest({ a: [50, { b: 51 }] });
             toJSONDataTest([]);
             toJSONDataTest([undefined], []);
+            toJSONDataTest([
+                "https://geojson.org/geojson-ld/geojson-context.jsonld",
+                {
+                    "@version": "1.1",
+                    wx: "https://api.weather.gov/ontology#",
+                    geo: "http://www.opengis.net/ont/geosparql#",
+                    unit: "http://codes.wmo.int/common/unit/",
+                    "@vocab": "https://api.weather.gov/ontology#",
+                },
+            ]);
         });
     });
 }

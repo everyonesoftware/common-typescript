@@ -1,6 +1,7 @@
 import { JSONData } from "./JSON.js";
 import { LogLevel } from "./LogLevel.js";
 import { PreCondition } from "./preCondition.js";
+import { ToStringFunctions } from "./toStringFunctions.js";
 import { isUndefinedOrNull } from "./types.js";
 
 /**
@@ -119,24 +120,25 @@ export abstract class Logger
      * @param level The {@link LogLevel} associated with the provided data. If no
      * {@link LogLevel} is provided, then it will default to {@link LogLevel.Info}.
      */
-    public logData(data: JSONData, level?: LogLevel): void;
+    public logData(data: unknown, level?: LogLevel): void;
     /**
      * Log the provided data with the provided {@link LogLevel} severity.
      * @param level The {@link LogLevel} associated with the provided data.
      * @param data The data to log.
      */
-    public logData(level: LogLevel, data: JSONData): void;
-    logData(dataOrLevel: JSONData | LogLevel, levelOrData?: LogLevel | JSONData): void
+    public logData(level: LogLevel, data: unknown): void;
+    logData(dataOrLevel: unknown | LogLevel, levelOrData?: LogLevel | unknown): void
     {
-        Logger.logData(dataOrLevel, levelOrData, (level: LogLevel, data: JSONData) =>
+        Logger.logData(dataOrLevel, levelOrData, (level: LogLevel, data: unknown) =>
         {
-            this.log(level, JSON.stringify(data));
+            const toStringFunctions: ToStringFunctions = ToStringFunctions.create();
+            this.log(level, toStringFunctions.toString(data));
         });
     }
 
-    public static logData(dataOrLevel: JSONData | LogLevel, levelOrData: LogLevel | JSONData | undefined, logDataFunction: (level: LogLevel, data: JSONData) => void): void
+    public static logData(dataOrLevel: unknown | LogLevel, levelOrData: LogLevel | unknown | undefined, logDataFunction: (level: LogLevel, data: unknown) => void): void
     {
-        let data: JSONData;
+        let data: unknown;
         let level: LogLevel;
 
         if (dataOrLevel instanceof LogLevel)
@@ -163,12 +165,12 @@ export abstract class Logger
      * Log debug data.
      * @param data The data to log.
      */
-    public debugData(data: JSONData): void
+    public debugData(data: unknown): void
     {
         Logger.debugData(this, data);
     }
 
-    public static debugData(logger: Logger, data: JSONData): void
+    public static debugData(logger: Logger, data: unknown): void
     {
         PreCondition.assertNotUndefinedAndNotNull(logger, "logger");
 
@@ -179,12 +181,12 @@ export abstract class Logger
      * Log informational data.
      * @param data The data to log.
      */
-    public infoData(data: JSONData): void
+    public infoData(data: unknown): void
     {
         Logger.infoData(this, data);
     }
 
-    public static infoData(logger: Logger, data: JSONData): void
+    public static infoData(logger: Logger, data: unknown): void
     {
         PreCondition.assertNotUndefinedAndNotNull(logger, "logger");
 
@@ -195,12 +197,12 @@ export abstract class Logger
      * Log warning data.
      * @param data The data to log.
      */
-    public warningData(data: JSONData): void
+    public warningData(data: unknown): void
     {
         Logger.warningData(this, data);
     }
 
-    public static warningData(logger: Logger, data: JSONData): void
+    public static warningData(logger: Logger, data: unknown): void
     {
         PreCondition.assertNotUndefinedAndNotNull(logger, "logger");
 
@@ -211,12 +213,12 @@ export abstract class Logger
      * Log error data.
      * @param data The data to log as an error.
      */
-    public errorData(data: JSONData): void
+    public errorData(data: unknown): void
     {
         Logger.errorData(this, data);
     }
 
-    public static errorData(logger: Logger, data: JSONData): void
+    public static errorData(logger: Logger, data: unknown): void
     {
         PreCondition.assertNotUndefinedAndNotNull(logger, "logger");
 
