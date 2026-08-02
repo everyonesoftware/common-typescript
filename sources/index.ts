@@ -26,6 +26,7 @@ export * from "./concatenateIterator.js";
 export * from "./condition.js";
 export * from "./ConflictError.js";
 export * from "./ConsoleLogger.js";
+export * from "./ConversionError.js";
 export * from "./currentProcess.js";
 export * from "./CustomHttpClient.js";
 export * from "./dateTime.js";

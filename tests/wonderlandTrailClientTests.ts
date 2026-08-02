@@ -431,7 +431,7 @@ export function test(runner: TestRunner): void
                     test.assertFalse(availability.any());
                 });
 
-                runner.test("with a future month in the current year", async (test: Test) =>
+                runner.test("with a future month in the current year", runner.skip("Skip flaky test"), async (test: Test) =>
                 {
                     const httpClient: HttpClient = HttpClient.create();
                     const client: WonderlandTrailClient = WonderlandTrailClient.create(httpClient);

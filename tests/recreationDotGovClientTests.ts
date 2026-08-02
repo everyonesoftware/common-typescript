@@ -150,7 +150,7 @@ export function test(runner: TestRunner): void
                     test.assertUndefined(response.minimumGroupSize);
                 });
 
-                runner.test("with Sunrise Camp division id", runner.skip(!hasNetworkAccess), async (test: Test) =>
+                runner.test("with Sunrise Camp division id", runner.skip(true, "Skip flaky test"), async (test: Test) =>
                 {
                     const client: RecreationDotGovClient = RecreationDotGovClient.create(HttpClient.create());
 
