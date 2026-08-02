@@ -46,4 +46,35 @@ export class ConsoleLogger extends Logger
             }
         });
     }
+
+    public logData(data: unknown, level?: LogLevel): void;
+    public logData(level: LogLevel, data: unknown): void;
+    logData(dataOrLevel: unknown | LogLevel, levelOrData?: LogLevel | unknown): void
+    {
+        Logger.logData(dataOrLevel, levelOrData, (level: LogLevel, data: unknown) =>
+        {
+            switch (level)
+            {
+                case LogLevel.Debug:
+                    console.debug(data);
+                    break;
+
+                case LogLevel.Info:
+                    console.info(data);
+                    break;
+
+                case LogLevel.Warning:
+                    console.warn(data);
+                    break;
+
+                case LogLevel.Error:
+                    console.error(data);
+                    break;
+
+                default:
+                    console.error(`Unsupported LogLevel: ${level}, Data: ${JSON.stringify(data)}`);
+                    break;
+            }
+        });
+    }
 }
