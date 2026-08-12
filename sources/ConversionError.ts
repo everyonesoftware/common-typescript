@@ -1,10 +1,8 @@
+import { BaseError } from "./BaseError.js";
+
 /**
  * An {@link Error} that is created when a conversion fails.
  */
-export class ConversionError extends Error
+export class ConversionError extends BaseError
 {
-    public constructor(message?: string, cause?: unknown)
-    {
-        super(message, { cause });
-    }
 }

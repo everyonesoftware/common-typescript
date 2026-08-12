@@ -1,4 +1,10 @@
-import { AsyncResult, HttpClient, HttpIncomingResponse, HttpOutgoingRequest, PreCondition, TemperatureUnits } from "@everyonesoftware/common";
+import { AsyncResult } from "./asyncResult.js";
+import { BaseError } from "./BaseError.js";
+import { HttpClient } from "./httpClient.js";
+import { HttpIncomingResponse } from "./httpIncomingResponse.js";
+import { HttpOutgoingRequest } from "./httpOutgoingRequest.js";
+import { PreCondition } from "./preCondition.js";
+import { TemperatureUnits } from "./TemperatureUnits.js";
 
 export interface WeatherDotGovClientErrorData
 {
@@ -8,7 +14,7 @@ export interface WeatherDotGovClientErrorData
     readonly type: string,
 }
 
-export class WeatherDotGovClientError extends Error
+export class WeatherDotGovClientError extends BaseError
 {
     private readonly data: WeatherDotGovClientErrorData;
 

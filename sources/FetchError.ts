@@ -1,6 +1,7 @@
+import { BaseError } from "./BaseError.js";
 import { PreCondition } from "./preCondition.js";
 
-export class FetchError extends Error
+export class FetchError extends BaseError
 {
     private readonly innerError: Error;
 
@@ -8,7 +9,7 @@ export class FetchError extends Error
     {
         PreCondition.assertNotUndefinedAndNotNull(innerError, "innerError");
 
-        super(innerError.message, { cause: innerError });
+        super(innerError.message, innerError);
 
         this.innerError = innerError;
     }

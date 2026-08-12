@@ -1,12 +1,12 @@
-import { join } from "./strings.js";
+import { BaseError } from "./BaseError.js";
 
 /**
  * An {@link Error} that is thrown when a pre-condition fails.
  */
-export class PreConditionError extends Error
+export class PreConditionError extends BaseError
 {
     public constructor(...message: string[])
     {
-        super(join("\n", message));
+        super(message);
     }
 }

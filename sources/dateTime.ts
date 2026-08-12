@@ -2,13 +2,19 @@ import { Comparable } from "./comparable.js";
 import { Comparison } from "./comparison.js";
 import { Duration } from "./Duration.js";
 import { LuxonDateTime } from "./luxonDateTime.js";
+import { ParseError } from "./ParseError.js";
+import { escapeAndQuote } from "./strings.js";
 import { SyncResult } from "./syncResult.js";
 
 export abstract class DateTime implements Comparable<DateTime>
 {
     public static parse(text: string): SyncResult<DateTime>
     {
-        return LuxonDateTime.parse(text);
+        return LuxonDateTime.parse(text)
+            .convertError(ParseError, () =>
+            {
+                return new ParseError(`Unable to parse ${escapeAndQuote(text)} into a DateTime.`);
+            });
     }
 
     public abstract getYear(): number;

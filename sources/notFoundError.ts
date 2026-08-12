@@ -1,12 +1,8 @@
-import { join } from "./strings.js";
+import { BaseError } from "./BaseError.js";
 
 /**
  * An {@link Error} that is thrown when a value is not found.
  */
-export class NotFoundError extends Error
+export class NotFoundError extends BaseError
 {
-    public constructor(...message: string[])
-    {
-        super(join("\n", message));
-    }
 }

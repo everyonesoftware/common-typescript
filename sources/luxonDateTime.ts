@@ -5,6 +5,8 @@ import { LuxonDuration } from "./LuxonDuration.js";
 import { Duration } from "./Duration.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
+import { ParseError } from "./ParseError.js";
+import { escapeAndQuote } from "./strings.js";
 
 const pctTimeZone: string = "America/Los_Angeles";
 
@@ -14,6 +16,8 @@ export class LuxonDateTime implements DateTime
 
     private constructor(dateTime: luxon.DateTime)
     {
+        PreCondition.assertNotUndefinedAndNotNull(dateTime, "dateTime");
+
         this.dateTime = dateTime;
     }
 
@@ -24,7 +28,15 @@ export class LuxonDateTime implements DateTime
 
     public static parse(text: string): SyncResult<LuxonDateTime>
     {
-        return SyncResult.create(() => LuxonDateTime.create(luxon.DateTime.fromISO(text, { zone: pctTimeZone })));
+        return SyncResult.create(() =>
+        {
+            const luxonDateTime: luxon.DateTimeMaybeValid = luxon.DateTime.fromISO(text, { zone: pctTimeZone });
+            if (luxonDateTime?.isValid !== true)
+            {
+                throw new ParseError(`Unable to parse ${escapeAndQuote(text)} into a LuxonDateTime.`);
+            }
+            return LuxonDateTime.create(luxonDateTime);
+        });
     }
 
     public static now(): LuxonDateTime

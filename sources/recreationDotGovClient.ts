@@ -7,6 +7,7 @@ import { List } from "./list.js";
 import { PreCondition } from "./preCondition.js";
 import { AsyncResult } from "./asyncResult.js";
 import { HttpHeaders } from "./httpHeaders.js";
+import { BaseError } from "./BaseError.js";
 
 export interface RecreationDotGovDivisionDayAvailability
 {
@@ -141,12 +142,8 @@ export interface RecreationDotGovPermitItineraryJson
     readonly divisions: { [divisionId: number]: RecreationDotGovDivisionJson };
 }
 
-export class RecreationDotGovError extends Error
+export class RecreationDotGovError extends BaseError
 {
-    public constructor(message: string)
-    {
-        super(message);
-    }
 }
 
 export interface RecreationDotGovErrorResponse

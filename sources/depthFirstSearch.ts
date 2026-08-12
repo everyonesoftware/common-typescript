@@ -8,8 +8,9 @@ import { Set } from "./set.js";
 import { Iterator } from "./iterator.js";
 import { SyncResult } from "./syncResult.js";
 import { isJavascriptIterable, Type } from "./types.js";
+import { BaseError } from "./BaseError.js";
 
-class SearchBreakError extends Error
+class SearchBreakError extends BaseError
 {
 }
 
