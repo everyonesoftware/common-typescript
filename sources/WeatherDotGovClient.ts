@@ -202,33 +202,39 @@ export class WeatherDotGovClient
      * @param latitude The latitude to get metadata about.
      * @param longitude The longitude to get metadata about.
      */
-    public async getPoint(latitude: number, longitude: number): Promise<GetPointResponse>
+    public getPoint(latitude: number, longitude: number): AsyncResult<GetPointResponse>
     {
-        const requestLatitude: string = latitude.toFixed(4);
-        const requestLongitude: string = longitude.toFixed(4);
-        const pointsRequestURL: string = `https://api.weather.gov/points/${requestLatitude},${requestLongitude}`;
-
-        const rawPointsResponse: HttpIncomingResponse = await this.sendGetRequest(pointsRequestURL);
-        const pointsResponseJson: unknown = await rawPointsResponse.getBodyJSON();
-        if (rawPointsResponse.getStatusCode() / 100 !== 2)
+        return AsyncResult.create(async () =>
         {
-            throw new WeatherDotGovClientError(pointsResponseJson as WeatherDotGovClientErrorData);
-        }
+            const requestLatitude: string = latitude.toFixed(4);
+            const requestLongitude: string = longitude.toFixed(4);
+            const pointsRequestURL: string = `https://api.weather.gov/points/${requestLatitude},${requestLongitude}`;
 
-        return pointsResponseJson as GetPointResponse;
+            const rawPointsResponse: HttpIncomingResponse = await this.sendGetRequest(pointsRequestURL);
+            const pointsResponseJson: unknown = await rawPointsResponse.getBodyJSON();
+            if (rawPointsResponse.getStatusCode() / 100 !== 2)
+            {
+                throw new WeatherDotGovClientError(pointsResponseJson as WeatherDotGovClientErrorData);
+            }
+
+            return pointsResponseJson as GetPointResponse;
+        });
     }
 
-    public async getForecast(gridId: string, gridX: number, gridY: number, temperatureUnits: TemperatureUnits): Promise<GetForecastResponse>
+    public getForecast(gridId: string, gridX: number, gridY: number, temperatureUnits: TemperatureUnits): AsyncResult<GetForecastResponse>
     {
-        const noaaUnits: string = (temperatureUnits === TemperatureUnits.Celsius ? "si" : "us");
-        const forecastRequestURL: string = `https://api.weather.gov/gridpoints/${gridId}/${gridX},${gridY}/forecast?units=${noaaUnits}`;
-
-        const getForecastResponse: HttpIncomingResponse = await this.sendGetRequest(forecastRequestURL);
-        const forecastResponseJson: unknown = await getForecastResponse.getBodyJSON();
-        if (!getForecastResponse.isStatusCodeOk())
+        return AsyncResult.create(async () =>
         {
-            throw new WeatherDotGovClientError(forecastResponseJson as WeatherDotGovClientErrorData);
-        }
-        return forecastResponseJson as GetForecastResponse;
+            const noaaUnits: string = (temperatureUnits === TemperatureUnits.Celsius ? "si" : "us");
+            const forecastRequestURL: string = `https://api.weather.gov/gridpoints/${gridId}/${gridX},${gridY}/forecast?units=${noaaUnits}`;
+
+            const getForecastResponse: HttpIncomingResponse = await this.sendGetRequest(forecastRequestURL);
+            const forecastResponseJson: unknown = await getForecastResponse.getBodyJSON();
+            if (!getForecastResponse.isStatusCodeOk())
+            {
+                throw new WeatherDotGovClientError(forecastResponseJson as WeatherDotGovClientErrorData);
+            }
+            return forecastResponseJson as GetForecastResponse;
+        });
     }
 }
