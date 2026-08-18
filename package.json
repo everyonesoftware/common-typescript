@@ -1,6 +1,6 @@
 {
   "name": "@everyonesoftware/common",
-  "version": "38.0.0",
+  "version": "39.0.0",
   "description": "A package containing common code for everyonesoftware projects.",
   "repository": {
     "url": "https://github.com/everyonesoftware/common-typescript"
