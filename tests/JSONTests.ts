@@ -1,5 +1,5 @@
 import { ConversionError } from "../sources/ConversionError.js";
-import { asJSONData, isJSONData, isUndefined, JSONData, toJSONData } from "../sources/index.js";
+import { asJSONData, isJSONArrayData, isJSONData, isJSONObjectData, isUndefined, JSONData, toJSONData } from "../sources/index.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
 
@@ -37,6 +37,70 @@ export function test(runner: TestRunner): void
             isJSONDataTest({ "a": undefined }, false);
             isJSONDataTest({ "f": () => { } }, false);
             isJSONDataTest([undefined], false);
+        });
+
+        runner.testFunction("isJSONObjectData()", () =>
+        {
+            function isJSONObjectDataTest(value: unknown, expected: boolean): void
+            {
+                runner.test(`with ${runner.toString(value)}`, (test: Test) =>
+                {
+                    test.assertEqual(isJSONObjectData(value), expected);
+                });
+            }
+
+            isJSONObjectDataTest({}, true);
+            isJSONObjectDataTest({ "a": null }, true);
+            isJSONObjectDataTest({ 5: "a" }, true);
+            isJSONObjectDataTest({ 4: 7 }, true);
+
+            isJSONObjectDataTest(undefined, false);
+            isJSONObjectDataTest(null, false);
+            isJSONObjectDataTest("", false);
+            isJSONObjectDataTest("hello", false);
+            isJSONObjectDataTest("hello there", false);
+            isJSONObjectDataTest(1235, false);
+            isJSONObjectDataTest(false, false);
+            isJSONObjectDataTest(true, false);
+            isJSONObjectDataTest([], false);
+            isJSONObjectDataTest([1, 2, "hello"], false);
+            isJSONObjectDataTest(() => { }, false);
+            isJSONObjectDataTest(runner, false);
+            isJSONObjectDataTest({ "a": undefined }, false);
+            isJSONObjectDataTest({ "f": () => { } }, false);
+            isJSONObjectDataTest([undefined], false);
+        });
+
+        runner.testFunction("isJSONArrayData()", () =>
+        {
+            function isJSONArrayDataTest(value: unknown, expected: boolean): void
+            {
+                runner.test(`with ${runner.toString(value)}`, (test: Test) =>
+                {
+                    test.assertEqual(isJSONArrayData(value), expected);
+                });
+            }
+
+            isJSONArrayDataTest([], true);
+            isJSONArrayDataTest([1, 2, "hello"], true);
+
+            isJSONArrayDataTest({}, false);
+            isJSONArrayDataTest({ "a": null }, false);
+            isJSONArrayDataTest({ 5: "a" }, false);
+            isJSONArrayDataTest({ 4: 7 }, false);
+            isJSONArrayDataTest(undefined, false);
+            isJSONArrayDataTest(null, false);
+            isJSONArrayDataTest("", false);
+            isJSONArrayDataTest("hello", false);
+            isJSONArrayDataTest("hello there", false);
+            isJSONArrayDataTest(1235, false);
+            isJSONArrayDataTest(false, false);
+            isJSONArrayDataTest(true, false);
+            isJSONArrayDataTest(() => { }, false);
+            isJSONArrayDataTest(runner, false);
+            isJSONArrayDataTest({ "a": undefined }, false);
+            isJSONArrayDataTest({ "f": () => { } }, false);
+            isJSONArrayDataTest([undefined], false);
         });
 
         runner.testFunction("toJSONData()", () =>

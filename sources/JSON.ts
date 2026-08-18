@@ -5,7 +5,20 @@ import { isArray, isBoolean, isNull, isNumber, isObject, isString } from "./type
 /**
  * The different data types in a JSON file.
  */
-export type JSONData = string | number | boolean | null | {[propertyName: string]: JSONData} | JSONData[];
+export type JSONData = string | number | boolean | null | JSONObjectData | JSONArrayData;
+export type JSONObjectData = { [propertyName: string]: JSONData };
+export type JSONArrayData = JSONData[];
+
+export function isJSONObjectData(value: unknown): value is JSONObjectData
+{
+    return isObject(value) &&
+        Object.entries(value).every((property: [string, unknown]) => isString(property[0]) && isJSONData(property[1]));
+}
+
+export function isJSONArrayData(value: unknown): value is JSONArrayData
+{
+    return isArray(value) && value.every((element: unknown) => isJSONData(element))
+}
 
 /**
  * Get whether the provided value is a {@link JSONData}.
@@ -17,8 +30,8 @@ export function isJSONData(value: unknown): value is JSONData
         isNumber(value) ||
         isBoolean(value) ||
         isNull(value) ||
-        (isObject(value) && Object.entries(value).every((property: [string, unknown]) => isString(property[0]) && isJSONData(property[1]))) ||
-        (isArray(value) && value.every((element: unknown) => isJSONData(element)));
+        isJSONObjectData(value) ||
+        isJSONArrayData(value);
 }
 
 /**
