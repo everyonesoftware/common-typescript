@@ -1,5 +1,5 @@
 import { ConversionError } from "../sources/ConversionError.js";
-import { isJSONData, isUndefined, JSONData, toJSONData } from "../sources/index.js";
+import { asJSONData, isJSONData, isUndefined, JSONData, toJSONData } from "../sources/index.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
 
@@ -55,7 +55,7 @@ export function test(runner: TestRunner): void
             {
                 if (isUndefined(expected))
                 {
-                    expected = value;
+                    expected = asJSONData(value);
                 }
 
                 runner.test(`with ${runner.toString(value)}`, (test: Test) =>

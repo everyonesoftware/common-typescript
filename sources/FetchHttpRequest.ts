@@ -3,6 +3,7 @@ import { HttpHeader } from "./httpHeader.js";
 import { HttpHeaders } from "./httpHeaders.js";
 import { HttpIncomingRequest } from "./httpIncomingRequest.js";
 import { HttpMethod } from "./httpMethod.js";
+import { JSONData } from "./JSON.js";
 import { Map } from "./map.js";
 import { MutableMap } from "./mutableMap.js";
 import { NotFoundError } from "./notFoundError.js";
@@ -137,8 +138,13 @@ export class FetchHttpIncomingRequest implements HttpIncomingRequest
         });
     }
 
-    public getBody(): AsyncResult<string>
+    public getBodyString(): AsyncResult<string>
     {
         return AsyncResult.create(this.request.text());
+    }
+
+    public getBodyJSON(): AsyncResult<JSONData>
+    {
+        return AsyncResult.create(this.request.json());
     }
 }

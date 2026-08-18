@@ -3,6 +3,7 @@ import { HttpHeaders } from "./httpHeaders.js";
 import { HttpMethod } from "./httpMethod.js";
 import { AsyncResult } from "./asyncResult.js";
 import { Map } from "./map.js";
+import { JSONData } from "./JSON.js";
 
 /**
  * A HTTP request that is received by a {@link HttpServer}.
@@ -50,7 +51,12 @@ export abstract class HttpIncomingRequest
     public abstract getHeaderValue(headerName: string): AsyncResult<string>;
 
     /**
-     * Get the body of this {@link HttpIncomingRequest}.
+     * Get the body of this {@link HttpIncomingRequest} as a string.
      */
-    public abstract getBody(): AsyncResult<string>;
+    public abstract getBodyString(): AsyncResult<string>;
+
+    /**
+     * Get the body of this {@link HttpIncomingRequest} as a JSON value.
+     */
+    public abstract getBodyJSON(): AsyncResult<JSONData>;
 }

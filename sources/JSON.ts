@@ -5,7 +5,7 @@ import { isArray, isBoolean, isNull, isNumber, isObject, isString } from "./type
 /**
  * The different data types in a JSON file.
  */
-export type JSONData = string | number | boolean | null | {} | JSONData[];
+export type JSONData = string | number | boolean | null | {[propertyName: string]: JSONData} | JSONData[];
 
 /**
  * Get whether the provided value is a {@link JSONData}.

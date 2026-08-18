@@ -10,6 +10,7 @@ import { escapeAndQuote } from "./strings.js";
 import { SyncResult } from "./syncResult.js";
 import { Map } from "./map.js";
 import { MutableMap } from "./mutableMap.js";
+import { JSONData } from "./JSON.js";
 
 export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
 {
@@ -137,7 +138,15 @@ export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
         });
     }
 
-    public getBody(): SyncResult<string>
+    public getBodyString(): SyncResult<string>
+    {
+        return SyncResult.create(() =>
+        {
+            throw new NotFoundError("Could not read the body from the incoming HTTP request.");
+        });
+    }
+
+    public getBodyJSON(): SyncResult<JSONData>
     {
         return SyncResult.create(() =>
         {
