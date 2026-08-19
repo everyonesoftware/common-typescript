@@ -44,7 +44,7 @@ export class FetchHttpClient implements HttpClient
             const fetchURL: string = request.getURL();
             const fetchMethod: string = request.getMethod().toString();
             const fetchHeaders: [string, string][] = FetchHttpClient.convertHeaders(request.getHeaders());
-            const fetchBody: string | undefined = request.getBody() || undefined;
+            const fetchBody: string | undefined = request.getBodyString() || undefined;
             const requestInit: RequestInit = {
                 method: fetchMethod,
                 headers: fetchHeaders,

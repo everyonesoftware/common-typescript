@@ -112,7 +112,7 @@ export class LoggingHttpClient extends HttpClientDecorator
                     }
                     if (this.options?.logRequest?.body === true)
                     {
-                        const requestBody: string = request.getBody();
+                        const requestBody: string = request.getBodyString();
                         if (requestBody.length > 0)
                         {
                             requestData.body = requestBody;

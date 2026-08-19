@@ -2,6 +2,7 @@ import { HttpHeader } from "./httpHeader.js";
 import { HttpHeaders } from "./httpHeaders.js";
 import { HttpMethod } from "./httpMethod.js";
 import { JavascriptIterable } from "./javascript.js";
+import { JSONData } from "./JSON.js";
 import { MutableHttpHeaders } from "./mutableHttpHeaders.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
@@ -53,7 +54,7 @@ export class HttpOutgoingRequest
     {
         return HttpOutgoingRequest.create(this.getMethod(), this.getURL())
             .setHeaders(this.getHeaders())
-            .setBody(this.getBody());
+            .setBodyString(this.getBodyString());
     }
 
     /**
@@ -131,20 +132,35 @@ export class HttpOutgoingRequest
     }
 
     /**
-     * Get the body that will be sent.
+     * Get the string body that will be sent.
      */
-    public getBody(): string
+    public getBodyString(): string
     {
         return this.body;
     }
 
-    public setBody(body: string): this
+    /**
+     * Get the parsed JSON body that will be sent.
+     */
+    public getBodyJSON(): SyncResult<JSONData>
+    {
+        return SyncResult.create(() => JSON.parse(this.body));
+    }
+
+    public setBodyString(body: string): this
     {
         PreCondition.assertNotUndefinedAndNotNull(body, "body");
 
         this.body = body;
 
         return this;
+    }
+
+    public setBodyJSON(body: JSONData): this
+    {
+        PreCondition.assertNotUndefined(body, "body");
+
+        return this.setBodyString(JSON.stringify(body));
     }
 
     /**
@@ -161,7 +177,7 @@ export class HttpOutgoingRequest
             result = this.getMethod() === rhs.getMethod() &&
                 this.getURL() === rhs.getURL() &&
                 this.getHeaders().equals(rhs.getHeaders()).await() &&
-                this.getBody() === rhs.getBody();
+                this.getBodyString() === rhs.getBodyString();
         }
         return result;
     }
