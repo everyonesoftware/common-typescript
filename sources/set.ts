@@ -24,7 +24,7 @@ export function isSet(value: unknown): value is Set<unknown>
 
 export abstract class Set<T> implements Iterable<T>
 {
-    public static create<T>(initialValues?: JavascriptIterable<T>): JavascriptSetSet<T>
+    public static create<T>(initialValues?: JavascriptIterable<T>): Set<T>
     {
         return JavascriptSetSet.create(initialValues);
     }

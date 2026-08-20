@@ -1,7 +1,6 @@
 import { TestRunner } from "./testRunner.js";
 import { Set } from "../sources/set.js";
 import { Test } from "./test.js";
-import { JavascriptSetSet } from "../sources/javascriptSetSet.js";
 import { NotFoundError } from "../sources/notFoundError.js";
 import { SyncResult } from "../sources/syncResult.js";
 import { JavascriptIterable } from "../sources/javascript.js";
@@ -15,7 +14,7 @@ export function test(runner: TestRunner): void
         {
             runner.testFunction("create()", (test: Test) =>
             {
-                const set: JavascriptSetSet<number> = Set.create();
+                const set: Set<number> = Set.create();
                 test.assertNotUndefinedAndNotNull(set);
                 test.assertEqual(0, set.getCount().await());
                 test.assertEqual([], set.toArray().await());

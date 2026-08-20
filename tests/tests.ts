@@ -12,7 +12,7 @@ import * as conditionTests from "./conditionTests.js";
 import * as consoleTestRunnerTests from "./consoleTestRunnerTests.js";
 import * as dateTimeTests from "./dateTimeTests.js";
 import * as depthFirstSearchTests from "./depthFirstSearchTests.js";
-import * as disposableTests from "./disposableTests.js";
+import * as syncDisposableTests from "./SyncDisposableTests.js";
 import * as englishTests from "./englishTests.js";
 import * as equalFunctionsTests from "./equalFunctionsTests.js";
 import * as fetchHttpClientTests from "./fetchHttpClientTests.js";
@@ -62,6 +62,7 @@ import * as fakeClockTests from "./FakeClockTests.js";
 import * as jsonTests from "./JSONTests.js";
 import * as logLevelTests from "./LogLevelTests.js";
 import * as httpOutgoingRequestTests from "./HttpOutgoingRequestTests.js";
+import * as asyncDisposableTests from "./AsyncDisposableTests.js";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -80,7 +81,7 @@ ConsoleTestRunner.run([
     consoleTestRunnerUITests,
     dateTimeTests,
     depthFirstSearchTests,
-    disposableTests,
+    syncDisposableTests,
     englishTests,
     equalFunctionsTests.test,
     fetchHttpClientTests,
@@ -129,4 +130,5 @@ ConsoleTestRunner.run([
     jsonTests,
     logLevelTests,
     httpOutgoingRequestTests,
+    asyncDisposableTests,
 ]);
