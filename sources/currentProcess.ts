@@ -1,5 +1,6 @@
 import { CharacterWriteStream } from "./characterWriteStream.js";
 import { CommandLineParameters } from "./commandLineParameters.js";
+import { DynamicProperty } from "./DynamicProperty.js";
 import { Iterable } from "./iterable.js";
 import { JavascriptIterable } from "./javascript.js";
 import { Network } from "./network.js";
@@ -7,7 +8,7 @@ import { NodeJSCharacterWriteStream } from "./nodeJSCharacterWriteStream.js";
 import { PreCondition } from "./preCondition.js";
 import { Property } from "./property.js";
 import { RealNetwork } from "./realNetwork.js";
-import { isIterable, isNumber } from "./types.js";
+import { isIterable, isNumber, isUndefinedOrNull } from "./types.js";
 
 /**
  * An object that provides all of the resources that are available to the current process.
@@ -29,22 +30,24 @@ export class CurrentProcess
         return new CurrentProcess();
     }
 
-    public static async run(action: (currentProcess: CurrentProcess) => void | number | Promise<void | number>): Promise<void>
+    public static async run(action: (currentProcess: CurrentProcess) => (void | number | Promise<void | number>)): Promise<void>
     {
         PreCondition.assertNotUndefinedAndNotNull(action, "action");
 
         const currentProcess: CurrentProcess = CurrentProcess.create();
+        const exitCode: Property<number> = currentProcess.exitCode();
         try
         {
             const result: void | number = await action(currentProcess);
             if (isNumber(result))
             {
-                currentProcess.setExitCode(result);
+                exitCode.set(result);
             }
         }
         catch (error)
         {
-            currentProcess.setExitCode(-1);
+            exitCode.set(-1);
+
             const writeStream: CharacterWriteStream = currentProcess.getOutputWriteStream();
             if (error instanceof Error && error.stack)
             {
@@ -102,39 +105,19 @@ export class CurrentProcess
         return this;
     }
 
-    public getExitCode(): number
+    /**
+     * Get the exit code {@link Property} for this {@link CurrentProcess}.
+     */
+    public exitCode(): Property<number>
     {
-        return this.getExitCodeProperty().getValue();
-    }
-
-    public setExitCode(exitCode: number): this
-    {
-        PreCondition.assertNotUndefinedAndNotNull(exitCode, "exitCode");
-
-        this.getExitCodeProperty().setValue(exitCode);
-
-        return this;
-    }
-
-    public getExitCodeProperty(): Property<number>
-    {
-        if (!this.exitCodeProperty)
+        if (isUndefinedOrNull(this.exitCodeProperty))
         {
-            this.exitCodeProperty = Property.create({
+            this.exitCodeProperty = DynamicProperty.create({
                 getter: () => process.exitCode as number,
                 setter: (value: number) => { process.exitCode = value; },
             });
         }
         return this.exitCodeProperty;
-    }
-
-    public setExitCodeProperty(exitCodeProperty: Property<number>): this
-    {
-        PreCondition.assertNotUndefinedAndNotNull(exitCodeProperty, "exitCodeProperty");
-
-        this.exitCodeProperty = exitCodeProperty;
-
-        return this;
     }
 
     public getNetwork(): Network

@@ -34,7 +34,7 @@ import * as notFoundErrorTests from "./notFoundErrorTests.js";
 import * as postConditionErrorTests from "./postConditionErrorTests.js";
 import * as preConditionErrorTests from "./preConditionErrorTests.js";
 import * as promiseAsyncResultTests from "./promiseAsyncResultTests.js";
-import * as propertyTests from "./propertyTests.js";
+import * as dynamicPropertyTests from "./DynamicPropertyTests.js";
 import * as queueTests from "./queueTests.js";
 import * as realHttpServerTests from "./nodeJSHttpServerTests.js";
 import * as recreationDotGovClientTests from "./recreationDotGovClientTests.js";
@@ -63,6 +63,7 @@ import * as jsonTests from "./JSONTests.js";
 import * as logLevelTests from "./LogLevelTests.js";
 import * as httpOutgoingRequestTests from "./HttpOutgoingRequestTests.js";
 import * as asyncDisposableTests from "./AsyncDisposableTests.js";
+import * as basicPropertyTests from "./BasicPropertyTests.js";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -103,7 +104,7 @@ ConsoleTestRunner.run([
     postConditionErrorTests,
     preConditionErrorTests,
     promiseAsyncResultTests.test,
-    propertyTests,
+    dynamicPropertyTests,
     queueTests,
     realHttpServerTests,
     recreationDotGovClientTests,
@@ -131,4 +132,5 @@ ConsoleTestRunner.run([
     logLevelTests,
     httpOutgoingRequestTests,
     asyncDisposableTests,
+    basicPropertyTests,
 ]);

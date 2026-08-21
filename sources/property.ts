@@ -1,63 +1,41 @@
 import { PreCondition } from "./preCondition.js";
-import { hasProperty, isFunction, isObject } from "./types.js";
+import { SyncDisposable } from "./SyncDisposable.js";
 
-export class Property<T>
+/**
+ * An object that wraps around a value and provides functions for getting the value, setting the
+ * value, and be notified when the value changes.
+ */
+export abstract class Property<T>
 {
-    private readonly getter: () => T;
-    private readonly setter: (value: T) => void;
+    /**
+     * Get the value of this {@link Property}.
+     */
+    public abstract get(): T;
 
-    private constructor(getter: () => T, setter: (value: T) => void)
-    {
-        PreCondition.assertNotUndefinedAndNotNull(getter, "getter");
-        PreCondition.assertNotUndefinedAndNotNull(setter, "setter");
+    /**
+     * Set the value of this {@link Property}.
+     * @param value The new value of this {@link Property}.
+     */
+    public abstract set(value: T): this;
 
-        this.getter = getter;
-        this.setter = setter;
-    }
+    /**
+     * Register the provided listener function to be run when this {@link Property}'s value changes.
+     * @param listener The function to run when this {@link Property}'s value changes.
+     */
+    public abstract onChanged(listener: (newValue: T, oldValue: T) => unknown): SyncDisposable;
 
-    public static create<T>(getter: () => T, setter: (value: T) => void): Property<T>;
-    public static create<T>(options: { getter: () => T, setter: (value: T) => void }): Property<T>;
-    public static create<T>(initialValue: T): Property<T>;
-    static create<T>(getterOptionsOrInitialValue: (() => T) | { getter: () => T, setter: (value: T) => void } | T, setter?: (value: T) => void): Property<T>
-    {
-        let getter: () => T;
-        if (isFunction(getterOptionsOrInitialValue))
-        {
-            getter = getterOptionsOrInitialValue;
-        }
-        else if (isObject(getterOptionsOrInitialValue) &&
-            hasProperty(getterOptionsOrInitialValue, "getter") &&
-            hasProperty(getterOptionsOrInitialValue, "setter"))
-        {
-            const options: { getter: () => T, setter: (value: T) => void } = getterOptionsOrInitialValue;
-            getter = options.getter;
-            setter = options.setter;
-        }
-        else
-        {
-            let initialValue: T = getterOptionsOrInitialValue;
-            getter = () => { return initialValue; };
-            setter = (value: T) => { initialValue = value; };
-        }
-        PreCondition.assertNotUndefinedAndNotNull(getter, "getter");
-        PreCondition.assertNotUndefinedAndNotNull(setter, "setter");
-
-        return new Property<T>(getter, setter);
-    }
-
-    public getValue(): T
-    {
-        return this.getter();
-    }
-
-    public setValue(value: T): this
-    {
-        this.setter(value);
-        return this;
-    }
-
+    /**
+     * Get the string representation of this {@link Property}'s value.
+     */
     public toString(): string
     {
-        return `${this.getValue()}`;
+        return `${this.get()}`;
+    }
+
+    public static toString<T>(property: Property<T>): string
+    {
+        PreCondition.assertNotUndefinedAndNotNull(property, "property");
+
+        return `${property.get()}`;
     }
 }
