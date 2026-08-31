@@ -5,7 +5,7 @@ import * as byteListTests from "./byteListTests.js";
 import * as byteTests from "./bytesTests.js";
 import * as characterListStreamTests from "./characterListStreamTests.js";
 import * as characterListTests from "./characterListTests.js";
-import * as characterTableTests from "./CharacterTableTests.js";
+import * as stringTableTests from "./StringTableTests.js";
 import * as commandLineParametersTests from "./CommandLineParametersTests.js";
 import * as comparerTests from "./comparerTests.js";
 import * as conditionTests from "./conditionTests.js";
@@ -120,7 +120,7 @@ ConsoleTestRunner.run([
     typesTests,
     whereIteratorTests,
     wonderlandTrailClientTests,
-    characterTableTests,
+    stringTableTests,
     tokenizerTests,
     clockTests,
     temperatureUnitsTests,

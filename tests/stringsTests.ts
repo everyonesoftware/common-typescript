@@ -1,7 +1,7 @@
 import { PreConditionError } from "../sources/preConditionError.js";
 import {
     escape, escapeAndQuote, getLength, isDigit, isLetter, isLetterOrDigit, isLowercasedLetter,
-    isUppercasedLetter, isWhitespace, join, quote
+    isUppercasedLetter, isWhitespace, iterateLines, join, quote
 } from "../sources/strings.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
@@ -511,6 +511,29 @@ export function test(runner: TestRunner): void
             isLetterOrDigitTest("\t", false);
             isLetterOrDigitTest("_", false);
             isLetterOrDigitTest("-", false);
+        });
+
+        runner.testFunction("iterateLines()", () =>
+        {
+            function iterateLinesTest(value: string, expected: string[]): void
+            {
+                runner.test(`with ${runner.toString(value)}`, (test: Test) =>
+                {
+                    const lines: string[] = iterateLines(value).toArray().await();
+                    test.assertEqual(expected, lines);
+                });
+            }
+
+            iterateLinesTest(undefined!, []);
+            iterateLinesTest(null!, []);
+            iterateLinesTest("", []);
+            iterateLinesTest("\n", ["", ""]);
+            iterateLinesTest("a", ["a"]);
+            iterateLinesTest("abc", ["abc"]);
+            iterateLinesTest("a\nb", ["a", "b"]);
+            iterateLinesTest("a\r\nb", ["a", "b"]);
+            iterateLinesTest("a\nb\n", ["a", "b", ""]);
+            iterateLinesTest("a\nb\nc", ["a", "b", "c"]);
         });
     });
 }

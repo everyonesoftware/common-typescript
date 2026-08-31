@@ -1,6 +1,8 @@
+import { Generator } from "./generator.js";
+import { Iterator } from "./iterator.js";
 import { JavascriptIterable } from "./javascript.js";
 import { PreCondition } from "./preCondition.js";
-import { isString } from "./types.js";
+import { isString, isUndefinedOrNull } from "./types.js";
 
 export function getLength(value: string | undefined | null): number
 {
@@ -242,7 +244,7 @@ export function isLetter(value: string): boolean
 {
     PreCondition.assertNotUndefinedAndNotNull(value, "value");
     PreCondition.assertSame(1, value.length, "value.length");
-    
+
     const character: string = value[0];
     let result: boolean = false;
     if ("A" <= character)
@@ -319,4 +321,51 @@ export function isLetterOrDigit(value: string): boolean
         }
     }
     return result;
+}
+
+/**
+ * Get and {@link Iterator} that will iterate over each of the lines in the provided string value.
+ * @param value The value to iterate the lines of.
+ */
+export function iterateLines(value: string): Iterator<string>
+{
+    let newLineIndex: number = -1;
+    const valueLength: number = value?.length ?? 0;
+    return Generator.create<string>(() =>
+    {
+        let result: string | undefined;
+        if (0 < valueLength && newLineIndex < valueLength)
+        {
+            let nextNewLineIndex: number = newLineIndex + 1;
+            while (nextNewLineIndex < valueLength)
+            {
+                if (value.charAt(nextNewLineIndex) !== "\n")
+                {
+                    ++nextNewLineIndex;
+                }
+                else
+                {
+                    let lineEndIndex: number = nextNewLineIndex;
+                    if (lineEndIndex !== 0 && value.charAt(lineEndIndex - 1) === "\r")
+                    {
+                        --lineEndIndex;
+                    }
+
+                    result = value.substring(newLineIndex + 1, lineEndIndex)
+                    newLineIndex = nextNewLineIndex;
+                    break;
+                }
+            }
+
+            if (isUndefinedOrNull(result))
+            {
+                if (newLineIndex < valueLength)
+                {
+                    result = value.substring(newLineIndex + 1, valueLength)
+                    newLineIndex = valueLength;
+                }
+            }
+        }
+        return result;
+    });
 }
