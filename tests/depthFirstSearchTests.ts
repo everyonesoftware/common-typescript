@@ -17,8 +17,8 @@ export function test(runner: TestRunner): void
             {
                 test.assertThrows(() => depthFirstSearch(undefined!, () => {}), new PreConditionError(
                     "Expression: parameters",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
             });
 
@@ -26,8 +26,8 @@ export function test(runner: TestRunner): void
             {
                 test.assertThrows(() => depthFirstSearch(null!, () => {}), new PreConditionError(
                     "Expression: parameters",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
             });
 
@@ -35,8 +35,8 @@ export function test(runner: TestRunner): void
             {
                 test.assertThrows(() => depthFirstSearch([], undefined!), new PreConditionError(
                     "Expression: searchAction",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
             });
 
@@ -44,8 +44,8 @@ export function test(runner: TestRunner): void
             {
                 test.assertThrows(() => depthFirstSearch([], null!), new PreConditionError(
                     "Expression: searchAction",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
             });
 

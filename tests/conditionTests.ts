@@ -19,7 +19,7 @@ export function test(runner: TestRunner): void
                 test.assertThrows(() => condition.assertFalse(true),
                     new Error([
                         "Expected: false",
-                        "Actual: true",
+                        "Actual:   true",
                     ].join("\n")));
             });
 
@@ -44,19 +44,19 @@ export function test(runner: TestRunner): void
                     null,
                     new Error(join("\n", [
                         "Expected: undefined",
-                        "Actual: null",
+                        "Actual:   null",
                     ])));
                 assertUndefinedErrorTest(
                     "",
                     new Error(join("\n", [
                         "Expected: undefined",
-                        "Actual: \"\"",
+                        "Actual:   \"\"",
                     ])));
                 assertUndefinedErrorTest(
                     50,
                     new Error(join("\n", [
                         "Expected: undefined",
-                        "Actual: 50",
+                        "Actual:   50",
                     ])));
             });
 
@@ -68,7 +68,7 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => condition.assertNotUndefinedAndNotNull(undefined),
                         new Error([
                             "Expected: not undefined and not null",
-                            "Actual: undefined",
+                            "Actual:   undefined",
                         ].join("\n")));
                 });
 
@@ -78,7 +78,7 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => condition.assertNotUndefinedAndNotNull(null),
                         new Error([
                             "Expected: not undefined and not null",
-                            "Actual: null",
+                            "Actual:   null",
                         ].join("\n")));
                 });
 
@@ -101,8 +101,8 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => condition.assertNotUndefinedAndNotNull(undefined, "fake-expression"),
                         new Error([
                             "Expression: fake-expression",
-                            "Expected: not undefined and not null",
-                            "Actual: undefined"
+                            "Expected:   not undefined and not null",
+                            "Actual:     undefined"
                         ].join("\n")));
                 });
 
@@ -111,10 +111,10 @@ export function test(runner: TestRunner): void
                     const condition: MutableCondition = Condition.create();
                     test.assertThrows(() => condition.assertNotUndefinedAndNotNull(null, "fake-expression", "fake-message"),
                         new Error([
-                            "Message: fake-message",
+                            "Message:    fake-message",
                             "Expression: fake-expression",
-                            "Expected: not undefined and not null",
-                            "Actual: null"
+                            "Expected:   not undefined and not null",
+                            "Actual:     null"
                         ].join("\n")));
                 });
             });
@@ -127,7 +127,7 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => condition.assertTrue(false),
                         new Error([
                             "Expected: true",
-                            "Actual: false",
+                            "Actual:   false",
                         ].join("\n")));
                 });
 
@@ -149,7 +149,7 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => condition.assertFalse(true),
                         new Error([
                             "Expected: false",
-                            "Actual: true",
+                            "Actual:   true",
                         ].join("\n")));
                 });
 
@@ -180,10 +180,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: undefined",
-                        "Actual: null",
+                        "Expected:   undefined",
+                        "Actual:     null",
                     ])));
                 assertSameErrorTest(
                     3,
@@ -191,10 +191,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: 3",
-                        "Actual: 4",
+                        "Expected:   3",
+                        "Actual:     4",
                     ])));
                 assertSameErrorTest(
                     {},
@@ -202,10 +202,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: {}",
-                        "Actual: {}",
+                        "Expected:   {}",
+                        "Actual:     {}",
                     ])));
                 assertSameErrorTest(
                     { "a": "b" },
@@ -213,10 +213,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: {\"a\":\"b\"}",
-                        "Actual: {\"a\":\"b\"}",
+                        "Expected:   {\"a\":\"b\"}",
+                        "Actual:     {\"a\":\"b\"}",
                     ])));
                 assertSameErrorTest(
                     [],
@@ -224,10 +224,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: []",
-                        "Actual: []",
+                        "Expected:   []",
+                        "Actual:     []",
                     ])));
 
                 function assertSameTest<T>(expected: T, actual: T, expression: string | undefined, message: string | undefined): void
@@ -267,10 +267,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: not undefined",
-                        "Actual: undefined",
+                        "Expected:   not undefined",
+                        "Actual:     undefined",
                     ])));
                 assertNotSameErrorTest(
                     null,
@@ -278,10 +278,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: not null",
-                        "Actual: null",
+                        "Expected:   not null",
+                        "Actual:     null",
                     ])));
                 assertNotSameErrorTest(
                     0,
@@ -289,10 +289,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: not 0",
-                        "Actual: 0",
+                        "Expected:   not 0",
+                        "Actual:     0",
                     ])));
                 assertNotSameErrorTest(
                     10,
@@ -300,10 +300,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: not 10",
-                        "Actual: 10",
+                        "Expected:   not 10",
+                        "Actual:     10",
                     ])));
                 assertNotSameErrorTest(
                     true,
@@ -311,10 +311,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: not true",
-                        "Actual: true",
+                        "Expected:   not true",
+                        "Actual:     true",
                     ])));
                 assertNotSameErrorTest(
                     "abc",
@@ -322,10 +322,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: not \"abc\"",
-                        "Actual: \"abc\"",
+                        "Expected:   not \"abc\"",
+                        "Actual:     \"abc\"",
                     ])));
                 
                 const o = {};
@@ -335,10 +335,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: not {}",
-                        "Actual: {}",
+                        "Expected:   not {}",
+                        "Actual:     {}",
                     ])));
 
                 function assertNotSameTest<T>(expected: T, actual: T, expression: string | undefined, message: string | undefined): void
@@ -370,22 +370,22 @@ export function test(runner: TestRunner): void
                 }
 
                 assertNotEmptyErrorTest(undefined!, "fake-expression", "fake-message", new Error(join("\n", [
-                    "Message: fake-message",
+                    "Message:    fake-message",
                     "Expression: fake-expression",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ])));
                 assertNotEmptyErrorTest(null!, "fake-expression", "fake-message", new Error(join("\n", [
-                    "Message: fake-message",
+                    "Message:    fake-message",
                     "Expression: fake-expression",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ])));
                 assertNotEmptyErrorTest("", "fake-expression", "fake-message", new Error(join("\n", [
-                    "Message: fake-message",
+                    "Message:    fake-message",
                     "Expression: fake-expression",
-                    "Expected: not empty",
-                    "Actual: \"\"",
+                    "Expected:   not empty",
+                    "Actual:     \"\"",
                 ])));
 
                 function assertNotEmptyTest(value: string, expression: string | undefined, message: string | undefined): void
@@ -414,21 +414,21 @@ export function test(runner: TestRunner): void
 
                 assertLessThanErrorTest(-1, -1, undefined, undefined, new Error(join("\n", [
                     "Expected: less than -1",
-                    "Actual: -1",
+                    "Actual:   -1",
                 ])));
                 assertLessThanErrorTest(0, 0, undefined, undefined, new Error(join("\n", [
                     "Expected: less than 0",
-                    "Actual: 0",
+                    "Actual:   0",
                 ])));
                 assertLessThanErrorTest(2, 1, undefined, undefined, new Error(join("\n", [
                     "Expected: less than 1",
-                    "Actual: 2",
+                    "Actual:   2",
                 ])));
                 assertLessThanErrorTest(2, 1, "fake-expression", "fake-message", new Error(join("\n", [
-                    "Message: fake-message",
+                    "Message:    fake-message",
                     "Expression: fake-expression",
-                    "Expected: less than 1",
-                    "Actual: 2",
+                    "Expected:   less than 1",
+                    "Actual:     2",
                 ])));
 
                 function assertLessThanTest(value: number, upperBound: number, expression?: string, message?: string): void
@@ -459,13 +459,13 @@ export function test(runner: TestRunner): void
 
                 assertLessThanOrEqualToErrorTest(2, 1, undefined, undefined, new Error(join("\n", [
                     "Expected: less than or equal to 1",
-                    "Actual: 2",
+                    "Actual:   2",
                 ])));
                 assertLessThanOrEqualToErrorTest(2, 1, "fake-expression", "fake-message", new Error(join("\n", [
-                    "Message: fake-message",
+                    "Message:    fake-message",
                     "Expression: fake-expression",
-                    "Expected: less than or equal to 1",
-                    "Actual: 2",
+                    "Expected:   less than or equal to 1",
+                    "Actual:     2",
                 ])));
 
                 function assertLessThanOrEqualToTest(value: number, upperBound: number, expression: string | undefined, message: string | undefined): void
@@ -499,13 +499,13 @@ export function test(runner: TestRunner): void
 
                 assertGreaterThanOrEqualToErrorTest(1, 2, undefined, undefined, new Error(join("\n", [
                     "Expected: greater than or equal to 2",
-                    "Actual: 1",
+                    "Actual:   1",
                 ])));
                 assertGreaterThanOrEqualToErrorTest(1, 2, "fake-expression", "fake-message", new Error(join("\n", [
-                    "Message: fake-message",
+                    "Message:    fake-message",
                     "Expression: fake-expression",
-                    "Expected: greater than or equal to 2",
-                    "Actual: 1",
+                    "Expected:   greater than or equal to 2",
+                    "Actual:     1",
                 ])));
 
                 function assertGreaterThanOrEqualToTest(value: number, lowerBound: number, expression?: string, message?: string): void
@@ -539,21 +539,21 @@ export function test(runner: TestRunner): void
 
                 assertGreaterThanErrorTest(-1, -1, undefined, undefined, new Error(join("\n", [
                     "Expected: greater than -1",
-                    "Actual: -1",
+                    "Actual:   -1",
                 ])));
                 assertGreaterThanErrorTest(0, 0, undefined, undefined, new Error(join("\n", [
                     "Expected: greater than 0",
-                    "Actual: 0",
+                    "Actual:   0",
                 ])));
                 assertGreaterThanErrorTest(1, 2, undefined, undefined, new Error(join("\n", [
                     "Expected: greater than 2",
-                    "Actual: 1",
+                    "Actual:   1",
                 ])));
                 assertGreaterThanErrorTest(1, 2, "fake-expression", "fake-message", new Error(join("\n", [
-                    "Message: fake-message",
+                    "Message:    fake-message",
                     "Expression: fake-expression",
-                    "Expected: greater than 2",
-                    "Actual: 1",
+                    "Expected:   greater than 2",
+                    "Actual:     1",
                 ])));
 
                 function assertGreaterThanTest(value: number, lowerBound: number, expression?: string, message?: string): void
@@ -584,24 +584,24 @@ export function test(runner: TestRunner): void
 
                 assertBetweenErrorTest(0, 1, 0, undefined, undefined, new Error(join("\n", [
                     "Expected: 0",
-                    "Actual: 1",
+                    "Actual:   1",
                 ])));
                 assertBetweenErrorTest(0, -1, 0, undefined, undefined, new Error(join("\n", [
                     "Expected: 0",
-                    "Actual: -1",
+                    "Actual:   -1",
                 ])));
                 assertBetweenErrorTest(0, -1, 2, undefined, undefined, new Error(join("\n", [
                     "Expected: between 0 and 2",
-                    "Actual: -1",
+                    "Actual:   -1",
                 ])));
                 assertBetweenErrorTest(0, 3, 2, undefined, undefined, new Error(join("\n", [
                     "Expected: between 0 and 2",
-                    "Actual: 3",
+                    "Actual:   3",
                 ])));
                 assertBetweenErrorTest(5, 3, 2, "fake-expression", "fake-message", new Error(join("\n", [
                     "Expression: lowerBound",
-                    "Expected: less than or equal to 2",
-                    "Actual: 5",
+                    "Expected:   less than or equal to 2",
+                    "Actual:     5",
                 ])));
 
                 function assertBetweenTest(lowerBound: number, value: number, upperBound: number, expression?: string, message?: string): void
@@ -647,42 +647,42 @@ export function test(runner: TestRunner): void
 
                 assertAccessIndexErrorTest(-1, 0, undefined, undefined, new Error(join("\n", [
                     "Expression: count",
-                    "Expected: greater than or equal to 1",
-                    "Actual: 0",
+                    "Expected:   greater than or equal to 1",
+                    "Actual:     0",
                 ])));
                 assertAccessIndexErrorTest(0, 0, undefined, undefined, new Error(join("\n", [
                     "Expression: count",
-                    "Expected: greater than or equal to 1",
-                    "Actual: 0",
+                    "Expected:   greater than or equal to 1",
+                    "Actual:     0",
                 ])));
                 assertAccessIndexErrorTest(1, 0, undefined, undefined, new Error(join("\n", [
                     "Expression: count",
-                    "Expected: greater than or equal to 1",
-                    "Actual: 0",
+                    "Expected:   greater than or equal to 1",
+                    "Actual:     0",
                 ])));
                 assertAccessIndexErrorTest(-1, 1, undefined, undefined, new Error(join("\n", [
                     "Expected: 0",
-                    "Actual: -1",
+                    "Actual:   -1",
                 ])));
                 assertAccessIndexErrorTest(1, 1, undefined, undefined, new Error(join("\n", [
                     "Expected: 0",
-                    "Actual: 1",
+                    "Actual:   1",
                 ])));
                 assertAccessIndexErrorTest(-1, 2, undefined, undefined, new Error(join("\n", [
                     "Expected: between 0 and 1",
-                    "Actual: -1",
+                    "Actual:   -1",
                 ])));
                 assertAccessIndexErrorTest(1, 1, "fake-expression", "fake-message", new Error(join("\n", [
-                    "Message: fake-message",
+                    "Message:    fake-message",
                     "Expression: fake-expression",
-                    "Expected: 0",
-                    "Actual: 1",
+                    "Expected:   0",
+                    "Actual:     1",
                 ])));
                 assertAccessIndexErrorTest(3, 2, "fake-expression", "fake-message", new Error(join("\n", [
-                    "Message: fake-message",
+                    "Message:    fake-message",
                     "Expression: fake-expression",
-                    "Expected: between 0 and 1",
-                    "Actual: 3",
+                    "Expected:   between 0 and 1",
+                    "Actual:     3",
                 ])));
             });
 
@@ -699,35 +699,35 @@ export function test(runner: TestRunner): void
 
                 assertInsertIndexErrorTest(-1, 0, undefined, undefined, new Error(join("\n", [
                     "Expected: 0",
-                    "Actual: -1",
+                    "Actual:   -1",
                 ])));
                 assertInsertIndexErrorTest(1, 0, undefined, undefined, new Error(join("\n", [
                     "Expected: 0",
-                    "Actual: 1",
+                    "Actual:   1",
                 ])));
                 assertInsertIndexErrorTest(-1, 1, undefined, undefined, new Error(join("\n", [
                     "Expected: between 0 and 1",
-                    "Actual: -1",
+                    "Actual:   -1",
                 ])));
                 assertInsertIndexErrorTest(2, 1, undefined, undefined, new Error(join("\n", [
                     "Expected: between 0 and 1",
-                    "Actual: 2",
+                    "Actual:   2",
                 ])));
                 assertInsertIndexErrorTest(-1, 2, undefined, undefined, new Error(join("\n", [
                     "Expected: between 0 and 2",
-                    "Actual: -1",
+                    "Actual:   -1",
                 ])));
                 assertInsertIndexErrorTest(2, 1, "fake-expression", "fake-message", new Error(join("\n", [
-                    "Message: fake-message",
+                    "Message:    fake-message",
                     "Expression: fake-expression",
-                    "Expected: between 0 and 1",
-                    "Actual: 2",
+                    "Expected:   between 0 and 1",
+                    "Actual:     2",
                 ])));
                 assertInsertIndexErrorTest(3, 2, "fake-expression", "fake-message", new Error(join("\n", [
-                    "Message: fake-message",
+                    "Message:    fake-message",
                     "Expression: fake-expression",
-                    "Expected: between 0 and 2",
-                    "Actual: 3",
+                    "Expected:   between 0 and 2",
+                    "Actual:     3",
                 ])));
 
                 function assertInsertIndexTest(index: number, count: number, expression?: string, message?: string): void
@@ -765,8 +765,8 @@ export function test(runner: TestRunner): void
                     undefined,
                     new PreConditionError(
                         "Expression: possibilities",
-                        "Expected: not undefined and not null",
-                        "Actual: undefined",
+                        "Expected:   not undefined and not null",
+                        "Actual:     undefined",
                     ));
                 assertOneOfErrorTest(
                     null!,
@@ -775,8 +775,8 @@ export function test(runner: TestRunner): void
                     undefined,
                     new PreConditionError(
                         "Expression: possibilities",
-                        "Expected: not undefined and not null",
-                        "Actual: null",
+                        "Expected:   not undefined and not null",
+                        "Actual:     null",
                     ));
                 assertOneOfErrorTest(
                     [],
@@ -785,7 +785,7 @@ export function test(runner: TestRunner): void
                     undefined,
                     new PreConditionError(
                         "Expected: one of []",
-                        "Actual: 5",
+                        "Actual:   5",
                     ));
                 assertOneOfErrorTest(
                     [],
@@ -793,10 +793,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new PreConditionError(
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: one of []",
-                        "Actual: 5",
+                        "Expected:   one of []",
+                        "Actual:     5",
                     ));
                 assertOneOfErrorTest(
                     [1, 2, 3],
@@ -804,10 +804,10 @@ export function test(runner: TestRunner): void
                     "fake-expression",
                     "fake-message",
                     new PreConditionError(
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: one of [1,2,3]",
-                        "Actual: 5",
+                        "Expected:   one of [1,2,3]",
+                        "Actual:     5",
                     ));
 
                 function assertOneOfTest<T>(possibilities: JavascriptIterable<T>, value: T, expression?: string, message?: string): void
@@ -838,25 +838,25 @@ export function test(runner: TestRunner): void
                     1.2,
                     new Error(join("\n", [
                         "Expected: integer",
-                        "Actual: 1.2",
+                        "Actual:   1.2",
                     ])));
                 assertIntegerErrorTest(
                     NaN,
                     new Error(join("\n", [
                         "Expected: integer",
-                        "Actual: NaN",
+                        "Actual:   NaN",
                     ])));
                 assertIntegerErrorTest(
                     Infinity,
                     new Error(join("\n", [
                         "Expected: integer",
-                        "Actual: Infinity",
+                        "Actual:   Infinity",
                     ])));
                 assertIntegerErrorTest(
                     -Infinity,
                     new Error(join("\n", [
                         "Expected: integer",
-                        "Actual: -Infinity",
+                        "Actual:   -Infinity",
                     ])));
 
                 function assertIntegerTest(value: number): void

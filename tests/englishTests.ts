@@ -23,16 +23,16 @@ export function test(runner: TestRunner): void
                 new PreConditionError(
                     join("\n", [
                         "Expression: values",
-                        "Expected: not undefined and not null",
-                        "Actual: undefined",
+                        "Expected:   not undefined and not null",
+                        "Actual:     undefined",
                     ])));
                     andListErrorTest(
                 null,
                 new PreConditionError(
                     join("\n", [
                         "Expression: values",
-                        "Expected: not undefined and not null",
-                        "Actual: null",
+                        "Expected:   not undefined and not null",
+                        "Actual:     null",
                     ])));
 
             function andListTest(values: string[], expected: string): void
@@ -69,16 +69,16 @@ export function test(runner: TestRunner): void
                 new PreConditionError(
                     join("\n", [
                         "Expression: values",
-                        "Expected: not undefined and not null",
-                        "Actual: undefined",
+                        "Expected:   not undefined and not null",
+                        "Actual:     undefined",
                     ])));
                     orListErrorTest(
                 null,
                 new PreConditionError(
                     join("\n", [
                         "Expression: values",
-                        "Expected: not undefined and not null",
-                        "Actual: null",
+                        "Expected:   not undefined and not null",
+                        "Actual:     null",
                     ])));
 
             function orListTest(values: string[], expected: string): void

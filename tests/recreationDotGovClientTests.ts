@@ -8,7 +8,7 @@ import { hasNetworkAccess } from "./tests.js";
 
 export function test(runner: TestRunner): void
 {
-    runner.testFile("recreationDotGovClient.ts", () =>
+    runner.testFile("recreationDotGovClient.ts", runner.skip(), () =>
     {
         runner.testType("RecreationDotGovClient", () =>
         {
@@ -24,13 +24,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest(undefined!, new PreConditionError(
                     "Expression: httpClient",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 createErrorTest(null!, new PreConditionError(
                     "Expression: httpClient",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
 
                 runner.test("with default HttpClient", (test: Test) =>

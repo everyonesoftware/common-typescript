@@ -21,13 +21,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest(undefined!, new PreConditionError(
                     "Expression: innerStream",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 createErrorTest(null!, new PreConditionError(
                     "Expression: innerStream",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
 
                 runner.test("with valid innerStream", (test: Test) =>
@@ -61,13 +61,13 @@ export function test(runner: TestRunner): void
 
                 setSingleIndentErrorTest(undefined!, new PreConditionError(
                     "Expression: singleIndent",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 setSingleIndentErrorTest(null!, new PreConditionError(
                     "Expression: singleIndent",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
 
                 function setSingleIndentTest(singleIndent: string): void
@@ -150,8 +150,8 @@ export function test(runner: TestRunner): void
 
                     test.assertThrows(() => stream.removeIndentation(), new PreConditionError(
                         "Expression: this.getCurrentIndentationCount()",
-                        "Expected: greater than or equal to 1",
-                        "Actual: 0",
+                        "Expected:   greater than or equal to 1",
+                        "Actual:     0",
                     ));
 
                     test.assertEqual(0, stream.getCurrentIndentationCount());
@@ -188,60 +188,60 @@ export function test(runner: TestRunner): void
 
             runner.testFunction("indent()", () =>
             {
-                runner.test("with no singleIndent and undefined action", (test: Test) =>
+                runner.test("with no singleIndent and undefined action", async (test: Test) =>
                 {
                     const innerStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
                     const stream: IndentedCharacterWriteStream = IndentedCharacterWriteStream.create(innerStream);
 
-                    test.assertThrowsAsync(async () => await stream.indent(undefined!), new PreConditionError(
+                    await test.assertThrowsAsync(() => stream.indent(undefined!), new PreConditionError(
                         "Expression: action",
-                        "Expected: not undefined and not null",
-                        "Actual: undefined",
+                        "Expected:   not undefined and not null",
+                        "Actual:     undefined",
                     ));
 
                     test.assertEqual("", innerStream.getWrittenText());
                     test.assertEqual(0, stream.getCurrentIndentationCount());
                 });
 
-                runner.test("with no singleIndent and null action", (test: Test) =>
+                runner.test("with no singleIndent and null action", async (test: Test) =>
                 {
                     const innerStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
                     const stream: IndentedCharacterWriteStream = IndentedCharacterWriteStream.create(innerStream);
 
-                    test.assertThrowsAsync(async () => await stream.indent(null!), new PreConditionError(
+                    await test.assertThrowsAsync(() => stream.indent(null!), new PreConditionError(
                         "Expression: action",
-                        "Expected: not undefined and not null",
-                        "Actual: null",
+                        "Expected:   not undefined and not null",
+                        "Actual:     null",
                     ));
 
                     test.assertEqual("", innerStream.getWrittenText());
                     test.assertEqual(0, stream.getCurrentIndentationCount());
                 });
 
-                runner.test("with singleIndent and undefined action", (test: Test) =>
+                runner.test("with singleIndent and undefined action", async (test: Test) =>
                 {
                     const innerStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
                     const stream: IndentedCharacterWriteStream = IndentedCharacterWriteStream.create(innerStream);
 
-                    test.assertThrowsAsync(async () => await stream.indent("  ", undefined!), new PreConditionError(
+                    await test.assertThrowsAsync(() => stream.indent("  ", undefined!), new PreConditionError(
                         "Expression: action",
-                        "Expected: not undefined and not null",
-                        "Actual: undefined",
+                        "Expected:   not undefined and not null",
+                        "Actual:     undefined",
                     ));
 
                     test.assertEqual("", innerStream.getWrittenText());
                     test.assertEqual(0, stream.getCurrentIndentationCount());
                 });
 
-                runner.test("with singleIndent and null action", (test: Test) =>
+                runner.test("with singleIndent and null action", async (test: Test) =>
                 {
                     const innerStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
                     const stream: IndentedCharacterWriteStream = IndentedCharacterWriteStream.create(innerStream);
 
-                    test.assertThrowsAsync(async () => await stream.indent(" ", null!), new PreConditionError(
+                    await test.assertThrowsAsync(async () => await stream.indent(" ", null!), new PreConditionError(
                         "Expression: action",
-                        "Expected: not undefined and not null",
-                        "Actual: null",
+                        "Expected:   not undefined and not null",
+                        "Actual:     null",
                     ));
 
                     test.assertEqual("", innerStream.getWrittenText());

@@ -20,13 +20,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest(undefined!, new PreConditionError(
                     "Expression: currentTime",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 createErrorTest(null!, new PreConditionError(
                     "Expression: currentTime",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
 
                 function createTest(currentTime: DateTime): void
@@ -60,13 +60,13 @@ export function test(runner: TestRunner): void
 
                 setCurrentErrorTest(undefined!, new PreConditionError(
                     "Expression: currentTime",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 setCurrentErrorTest(null!, new PreConditionError(
                     "Expression: currentTime",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
 
                 function setCurrentTest(current: DateTime): void
@@ -104,13 +104,13 @@ export function test(runner: TestRunner): void
 
                 advanceCurrentErrorTest(undefined!, new PreConditionError(
                     "Expression: duration",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 advanceCurrentErrorTest(null!, new PreConditionError(
                     "Expression: duration",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
 
                 function advanceCurrentTest(initial: DateTime, duration: Duration, expected: DateTime): void

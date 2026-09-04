@@ -5,9 +5,10 @@ import { Comparison } from "./comparison.js";
 import { Condition } from "./condition.js";
 import { EqualFunctions } from "./equalFunctions.js";
 import { isJavascriptIterableEmpty, JavascriptIterable } from "./javascript.js";
+import { StringTable } from "./StringTable.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
 import {
-    hasFunction, hasProperty, instanceOf, isJavascriptIterable, isString, isUndefinedOrNull, Type
+    hasFunction, hasProperty, instanceOf, isJavascriptIterable, isString, isUndefinedNullOrEmpty, isUndefinedOrNull, Type
 } from "./types.js";
 
 /**
@@ -128,35 +129,24 @@ export class MutableCondition implements Condition
      */
     public static createErrorMessage(parameters: AssertMessageParameters): string
     {
-        let result: string = "";
+        const table: StringTable = StringTable.create();
 
-        if (parameters.message)
+        if (!isUndefinedNullOrEmpty(parameters.message))
         {
-            result += `Message: ${parameters.message}`;
+            table.addRow(["Message:", parameters.message]);
         }
 
-        if (parameters.expression)
+        if (!isUndefinedNullOrEmpty(parameters.expression))
         {
-            if (result)
-            {
-                result += "\n";
-            }
-            result += `Expression: ${parameters.expression}`;
+            table.addRow(["Expression:", parameters.expression]);
         }
 
-        if (result)
-        {
-            result += "\n";
-        }
-        result += `Expected: ${parameters.expected}`;
+        table.addRow(["Expected:", parameters.expected]);
+        table.addRow(["Actual:", parameters.actual]);
 
-        if (result)
-        {
-            result += "\n";
-        }
-        result += `Actual: ${parameters.actual}`;
-
-        return result;
+        return table.toString({
+            betweenColumns: " ",
+        });
     }
 
     public assertNotUndefinedAndNotNull<T>(value: T, expression?: string, message?: string): asserts value is NonNullable<T>

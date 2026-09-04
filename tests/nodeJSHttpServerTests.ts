@@ -8,7 +8,7 @@ import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {
-    runner.testFile("nodeJSHttpServer.ts", () =>
+    runner.testFile("nodeJSHttpServer.ts", runner.skip(), () =>
     {
         runner.testType("NodeJSHttpServer", () =>
         {

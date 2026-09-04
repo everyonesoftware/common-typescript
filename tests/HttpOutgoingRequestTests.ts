@@ -22,13 +22,13 @@ export function test(runner: TestRunner): void
 
                 setBodyStringErrorTest(undefined!, new PreConditionError(
                     "Expression: body",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 setBodyStringErrorTest(null!, new PreConditionError(
                     "Expression: body",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
             });
 
@@ -46,8 +46,8 @@ export function test(runner: TestRunner): void
 
                 setBodyJSONErrorTest(undefined!, new PreConditionError(
                     "Expression: body",
-                    "Expected: not undefined",
-                    "Actual: undefined",
+                    "Expected:   not undefined",
+                    "Actual:     undefined",
                 ));
 
                 function setBodyJSONTest(body: JSONData, expectedBody?: string): void

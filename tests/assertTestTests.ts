@@ -33,7 +33,7 @@ export function test(runner: TestRunner): void
 
             runner.testFunction("assertThrowsAsync()", () =>
             {
-                runner.test("with throwing sync action", async (_: Test) =>
+                runner.test("with throwing sync action", async (_test: Test) =>
                 {
                     const at: AssertTest = AssertTest.create();
                     await at.assertThrowsAsync(() => { throw new Error("abc"); }, new Error("abc"));

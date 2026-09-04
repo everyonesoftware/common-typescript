@@ -6,17 +6,17 @@ export interface AssertMessageParameters
     /**
      * The expected state.
      */
-    expected: string,
+    readonly expected: string,
     /**
      * The actual state.
      */
-    actual: string,
+    readonly actual: string,
     /**
      * A string representation of the expression that produced the actual state.
      */
-    expression?: string,
+    readonly expression?: string,
     /**
      * A message that describes the failure.
      */
-    message?: string,
+    readonly message?: string,
 }

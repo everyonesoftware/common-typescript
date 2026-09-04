@@ -25,6 +25,7 @@ export * from "./comparison.js";
 export * from "./concatenateIterable.js";
 export * from "./concatenateIterator.js";
 export * from "./condition.js";
+export * from "./ConditionError.js";
 export * from "./ConflictError.js";
 export * from "./ConsoleLogger.js";
 export * from "./ConversionError.js";

@@ -20,13 +20,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest(undefined!, new PreConditionError(
                     "Expression: argv",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 createErrorTest(null!, new PreConditionError(
                     "Expression: argv",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
 
                 function createTest(argv: JavascriptIterable<string>): void
@@ -78,23 +78,23 @@ export function test(runner: TestRunner): void
 
                 getNamedArgumentStringValueErrorTest([], undefined!, new PreConditionError(
                     "Expression: nameOrNames",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 getNamedArgumentStringValueErrorTest([], null!, new PreConditionError(
                     "Expression: nameOrNames",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
                 getNamedArgumentStringValueErrorTest([], "", new PreConditionError(
                     "Expression: nameOrNames",
-                    "Expected: not empty",
-                    "Actual: \"\"",
+                    "Expected:   not empty",
+                    "Actual:     \"\"",
                 ));
                 getNamedArgumentStringValueErrorTest([], [], new PreConditionError(
                     "Expression: nameOrNames",
-                    "Expected: not empty",
-                    "Actual: []",
+                    "Expected:   not empty",
+                    "Actual:     []",
                 ));
                 getNamedArgumentStringValueErrorTest([], "a", new PreConditionError(
                     "No argument found that matches \"a\".",

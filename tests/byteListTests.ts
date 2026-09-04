@@ -27,13 +27,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest([-1], new PreConditionError(
                     "Expression: value",
-                    "Expected: between 0 and 255",
-                    "Actual: -1",
+                    "Expected:   between 0 and 255",
+                    "Actual:     -1",
                 ));
                 createErrorTest([256], new PreConditionError(
                     "Expression: value",
-                    "Expected: between 0 and 255",
-                    "Actual: 256",
+                    "Expected:   between 0 and 255",
+                    "Actual:     256",
                 ));
 
                 function createTest(initialValues: JavascriptIterable<number>): void
