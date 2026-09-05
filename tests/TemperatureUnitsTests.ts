@@ -62,18 +62,18 @@ export function test(runner: TestRunner): void
 
                 parseErrorTest(undefined!, new PreConditionError(
                     "Expression: text",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 parseErrorTest(null!, new PreConditionError(
                     "Expression: text",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
                 parseErrorTest("", new PreConditionError(
                     "Expression: text",
-                    "Expected: not empty",
-                    "Actual: \"\"",
+                    "Expected:   not empty",
+                    "Actual:     \"\"",
                 ));
                 parseErrorTest("a", new NotFoundError("No TemperatureUnits found for: \"a\""));
                 parseErrorTest("b", new NotFoundError("No TemperatureUnits found for: \"b\""));

@@ -34,13 +34,13 @@ export function test(runner: TestRunner): void
 
                 setToStringFunctionsErrorTest("with undefined", undefined!, new PreConditionError(
                     "Expression: toStringFunctions",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 setToStringFunctionsErrorTest("with null", null!, new PreConditionError(
                     "Expression: toStringFunctions",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
 
                 runner.test("with valid value", (test: Test) =>
@@ -69,13 +69,13 @@ export function test(runner: TestRunner): void
 
                 setEqualFunctionsErrorTest("with undefined", undefined!, new PreConditionError(
                     "Expression: equalFunctions",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 setEqualFunctionsErrorTest("with null", null!, new PreConditionError(
                     "Expression: equalFunctions",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
 
                 runner.test("with valid value", (test: Test) =>
@@ -114,13 +114,13 @@ export function test(runner: TestRunner): void
 
                 setCreateErrorFunctionErrorTest("with undefined", undefined!, new PreConditionError(
                     "Expression: createErrorFunction",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 setCreateErrorFunctionErrorTest("with null", null!, new PreConditionError(
                     "Expression: createErrorFunction",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
 
                 runner.test("with valid function", (test: Test) =>
@@ -168,15 +168,15 @@ export function test(runner: TestRunner): void
 
                 assertUndefinedErrorTest(null, new Error(join("\n", [
                     "Expected: undefined",
-                    "Actual: null",
+                    "Actual:   null",
                 ])));
                 assertUndefinedErrorTest(false, new Error(join("\n", [
                     "Expected: undefined",
-                    "Actual: false",
+                    "Actual:   false",
                 ])));
                 assertUndefinedErrorTest("abc", new Error(join("\n", [
                     "Expected: undefined",
-                    "Actual: \"abc\"",
+                    "Actual:   \"abc\"",
                 ])));
             });
 
@@ -189,7 +189,7 @@ export function test(runner: TestRunner): void
                         () => mc.assertNotUndefined(undefined),
                         new Error(join("\n", [
                             "Expected: not undefined",
-                            "Actual: undefined",
+                            "Actual:   undefined",
                         ])),
                     );
                 });
@@ -261,10 +261,10 @@ export function test(runner: TestRunner): void
                         message: "fake-message",
                     });
                     test.assertEqual(error, new Error(join("\n", [
-                        "Message: fake-message",
+                        "Message:    fake-message",
                         "Expression: fake-expression",
-                        "Expected: fake-expected",
-                        "Actual: fake-actual",
+                        "Expected:   fake-expected",
+                        "Actual:     fake-actual",
                     ])));
                 });
             });

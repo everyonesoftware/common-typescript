@@ -8,7 +8,7 @@ import { hasNetworkAccess } from "./tests.js";
 
 export function test(runner: TestRunner): void
 {
-    runner.testFile("recreationDotGovClient.ts", runner.skip(), () =>
+    runner.testFile("recreationDotGovClient.ts", () =>
     {
         runner.testType("RecreationDotGovClient", () =>
         {
@@ -54,18 +54,18 @@ export function test(runner: TestRunner): void
 
                 getPermitItineraryErrorTest(undefined!, new PreConditionError(
                     "Expression: permitItineraryId",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 getPermitItineraryErrorTest(null!, new PreConditionError(
                     "Expression: permitItineraryId",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
                 getPermitItineraryErrorTest("", new PreConditionError(
                     "Expression: permitItineraryId",
-                    "Expected: not empty",
-                    "Actual: \"\"",
+                    "Expected:   not empty",
+                    "Actual:     \"\"",
                 ));
 
                 runner.test("with invalid permit itinerary id", runner.skip(!hasNetworkAccess), async (test: Test) =>
@@ -114,18 +114,18 @@ export function test(runner: TestRunner): void
 
                 getDivisionAvailabilityErrorTest(undefined!, "fake-division-id", 5, 2026, new PreConditionError(
                     "Expression: permitItineraryId",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 getDivisionAvailabilityErrorTest(null!, "fake-division-id", 5, 2026, new PreConditionError(
                     "Expression: permitItineraryId",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
                 getDivisionAvailabilityErrorTest("", "fake-division-id", 5, 2026, new PreConditionError(
                     "Expression: permitItineraryId",
-                    "Expected: not empty",
-                    "Actual: \"\"",
+                    "Expected:   not empty",
+                    "Actual:     \"\"",
                 ));
                 getDivisionAvailabilityErrorTest("oopsie!", "fake-division-id", 5, 2026, new RecreationDotGovError(
                     `No permit itinerary found for id: "oopsie!"`,

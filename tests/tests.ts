@@ -35,35 +35,35 @@ import * as javascriptMapMapTests from "./javascriptMapMapTests.js";
 import * as jsonTests from "./JSONTests.js";
 import * as listTests from "./listTests.js";
 import * as logLevelTests from "./LogLevelTests.js";
-// import * as mapIteratorTests from "./mapIteratorTests.js";
-// import * as mapTests from "./mapTests.js";
-// import * as mutableConditionTests from "./mutableConditionTests.js";
-// import * as mutableIndexableTests from "./MutableIndexableTests.js";
-// import * as mutableMapTests from "./mutableMapTests.js";
-// import * as notFoundErrorTests from "./notFoundErrorTests.js";
-// import * as postConditionErrorTests from "./postConditionErrorTests.js";
-// import * as preConditionErrorTests from "./preConditionErrorTests.js";
-// import * as promiseAsyncResultTests from "./promiseAsyncResultTests.js";
-// import * as queueTests from "./queueTests.js";
-// import * as realHttpServerTests from "./nodeJSHttpServerTests.js";
-// import * as recreationDotGovClientTests from "./recreationDotGovClientTests.js";
-// import * as setTests from "./setTests.js";
-// import * as stackTests from "./stackTests.js";
-// import * as stringComparerTests from "./stringComparerTests.js";
-// import * as stringIteratorTests from "./stringIteratorTests.js";
-// import * as stringsTests from "./stringsTests.js";
+import * as mapIteratorTests from "./mapIteratorTests.js";
+import * as mapTests from "./mapTests.js";
+import * as mutableConditionTests from "./mutableConditionTests.js";
+import * as mutableIndexableTests from "./MutableIndexableTests.js";
+import * as mutableMapTests from "./mutableMapTests.js";
+import * as notFoundErrorTests from "./notFoundErrorTests.js";
+import * as postConditionErrorTests from "./postConditionErrorTests.js";
+import * as preConditionErrorTests from "./preConditionErrorTests.js";
+import * as promiseAsyncResultTests from "./promiseAsyncResultTests.js";
+import * as queueTests from "./queueTests.js";
+import * as nodeJSHttpServerTests from "./nodeJSHttpServerTests.js";
+import * as recreationDotGovClientTests from "./recreationDotGovClientTests.js";
+import * as setTests from "./setTests.js";
+import * as stackTests from "./stackTests.js";
+import * as stringComparerTests from "./stringComparerTests.js";
+import * as stringIteratorTests from "./stringIteratorTests.js";
+import * as stringsTests from "./stringsTests.js";
 import * as stringTableTests from "./StringTableTests.js";
-// import * as syncDisposableTests from "./SyncDisposableTests.js";
-// import * as syncResultTests from "./syncResultTests.js";
-// import * as temperatureTests from "./TemperatureTests.js";
-// import * as temperatureUnitsTests from "./TemperatureUnitsTests.js";
-// import * as testActionTests from "./testActionTests.js";
-// import * as testRunnerTests from "./testRunnerTests.js";
-// import * as tokenizerTests from "./TokenizerTests.js";
-// import * as toStringFunctionsTests from "./toStringFunctionsTests.js";
-// import * as typesTests from "./typesTests.js";
-// import * as whereIteratorTests from "./whereIteratorTests.js";
-// import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests.js";
+import * as syncDisposableTests from "./SyncDisposableTests.js";
+import * as syncResultTests from "./syncResultTests.js";
+import * as temperatureTests from "./TemperatureTests.js";
+import * as temperatureUnitsTests from "./TemperatureUnitsTests.js";
+import * as testActionTests from "./testActionTests.js";
+import * as testRunnerTests from "./testRunnerTests.js";
+import * as tokenizerTests from "./TokenizerTests.js";
+import * as toStringFunctionsTests from "./toStringFunctionsTests.js";
+import * as typesTests from "./typesTests.js";
+import * as whereIteratorTests from "./whereIteratorTests.js";
+import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests.js";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -104,33 +104,33 @@ ConsoleTestRunner.run([
     jsonTests,
     listTests,
     logLevelTests,
-    // mapIteratorTests,
-    // mapTests,
-    // mutableConditionTests,
-    // mutableIndexableTests,
-    // mutableMapTests,
-    // notFoundErrorTests,
-    // postConditionErrorTests,
-    // preConditionErrorTests,
-    // promiseAsyncResultTests.test,
-    // queueTests,
-    // realHttpServerTests,
-    // recreationDotGovClientTests,
-    // setTests,
-    // stackTests,
-    // stringComparerTests,
-    // stringIteratorTests,
-    // stringsTests,
+    mapIteratorTests,
+    mapTests,
+    mutableConditionTests,
+    mutableIndexableTests,
+    mutableMapTests,
+    notFoundErrorTests,
+    postConditionErrorTests,
+    preConditionErrorTests,
+    promiseAsyncResultTests.test,
+    queueTests,
+    nodeJSHttpServerTests,
+    recreationDotGovClientTests,
+    setTests,
+    stackTests,
+    stringComparerTests,
+    stringIteratorTests,
+    stringsTests,
     stringTableTests,
-    // syncDisposableTests,
-    // syncResultTests,
-    // temperatureTests,
-    // temperatureUnitsTests,
-    // testActionTests,
-    // testRunnerTests,
-    // tokenizerTests,
-    // toStringFunctionsTests,
-    // typesTests,
-    // whereIteratorTests,
-    // wonderlandTrailClientTests,
+    syncDisposableTests,
+    syncResultTests,
+    temperatureTests,
+    temperatureUnitsTests,
+    testActionTests,
+    testRunnerTests,
+    tokenizerTests,
+    toStringFunctionsTests,
+    typesTests,
+    whereIteratorTests,
+    wonderlandTrailClientTests,
 ]);

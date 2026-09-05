@@ -26,21 +26,21 @@ export function test(runner: TestRunner): void
                 createErrorTest(
                     `with undefined innerIterator`,
                     undefined!,
-                    (_: number) => true,
+                    (_value: number) => true,
                     new PreConditionError(
                         "Expression: innerIterator",
-                        "Expected: not undefined and not null",
-                        "Actual: undefined",
+                        "Expected:   not undefined and not null",
+                        "Actual:     undefined",
                     ),
                 );
                 createErrorTest(
                     `with null innerIterator`,
                     null!,
-                    (_: number) => true,
+                    (_value: number) => true,
                     new PreConditionError(
                         "Expression: innerIterator",
-                        "Expected: not undefined and not null",
-                        "Actual: null",
+                        "Expected:   not undefined and not null",
+                        "Actual:     null",
                     ),
                 );
 

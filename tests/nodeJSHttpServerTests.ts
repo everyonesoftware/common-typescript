@@ -8,7 +8,7 @@ import { TestRunner } from "./testRunner.js";
 
 export function test(runner: TestRunner): void
 {
-    runner.testFile("nodeJSHttpServer.ts", runner.skip(), () =>
+    runner.testFile("nodeJSHttpServer.ts", () =>
     {
         runner.testType("NodeJSHttpServer", () =>
         {
@@ -43,10 +43,10 @@ export function test(runner: TestRunner): void
                     const httpServer: NodeJSHttpServer = NodeJSHttpServer.create();
                     test.assertTrue(await httpServer.dispose());
 
-                    test.assertThrowsAsync(() => httpServer.start(3000), new PreConditionError(
+                    await test.assertThrowsAsync(async () => await httpServer.start(3000), new PreConditionError(
                         "Expression: this.isDisposed()",
-                        "Expected: false",
-                        "Actual: true",
+                        "Expected:   false",
+                        "Actual:     true",
                     ));
                     test.assertTrue(httpServer.isDisposed());
                     test.assertFalse(httpServer.isStarted());

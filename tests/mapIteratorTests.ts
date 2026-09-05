@@ -12,31 +12,29 @@ export function test(runner: TestRunner): void
         {
             runner.testFunction("create(Iterator<TInput>,(TInput)=>TOutput)", () =>
             {
-                function createErrorTest<TInput,TOutput>(testName: string, innerIterator: Iterator<TInput>, mapping: (value: TInput) => TOutput, expected: Error): void
+                function createErrorTest<TInput,TOutput>(innerIterator: Iterator<TInput>, mapping: (value: TInput) => TOutput, expected: Error): void
                 {
-                    runner.test(testName, (test: Test) =>
+                    runner.test(`with ${runner.toString(innerIterator)}`, (test: Test) =>
                     {
                         test.assertThrows(() => MapIterator.create(innerIterator, mapping), expected);
                     });
                 }
         
                 createErrorTest(
-                    "with undefined inputIterator",
                     undefined!,
                     (value: number) => value.toString(),
                     new PreConditionError(
                         "Expression: inputIterator",
-                        "Expected: not undefined and not null",
-                        "Actual: undefined",
+                        "Expected:   not undefined and not null",
+                        "Actual:     undefined",
                     ));
                 createErrorTest(
-                    "with null inputIterator",
                     null!,
                     (value: number) => value.toString(),
                     new PreConditionError(
                         "Expression: inputIterator",
-                        "Expected: not undefined and not null",
-                        "Actual: null",
+                        "Expected:   not undefined and not null",
+                        "Actual:     null",
                     ));
         
                 runner.test("with valid values", (test: Test) =>

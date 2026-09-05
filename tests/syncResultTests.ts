@@ -22,13 +22,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest("with undefined", undefined!, new PreConditionError(
                     "Expression: action",
-                    "Expected: not undefined and not null",
-                    "Actual: undefined",
+                    "Expected:   not undefined and not null",
+                    "Actual:     undefined",
                 ));
                 createErrorTest("with null", null!, new PreConditionError(
                     "Expression: action",
-                    "Expected: not undefined and not null",
-                    "Actual: null",
+                    "Expected:   not undefined and not null",
+                    "Actual:     null",
                 ));
 
                 runner.test("with action", (test: Test) =>
@@ -253,8 +253,8 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => parentResult.catch(undefined!, () => 6),
                         new PreConditionError(
                             "Expression: errorType",
-                            "Expected: not undefined and not null",
-                            "Actual: undefined"));
+                            "Expected:   not undefined and not null",
+                            "Actual:     undefined"));
                 });
 
                 runner.test("with null errorType", (test: Test) =>
@@ -263,8 +263,8 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => parentResult.catch(null!, () => 6),
                         new PreConditionError(
                             "Expression: errorType",
-                            "Expected: not undefined and not null",
-                            "Actual: null"));
+                            "Expected:   not undefined and not null",
+                            "Actual:     null"));
                 });
 
                 runner.testGroup("sync", () =>
@@ -480,8 +480,8 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => parentResult.onError(undefined!, () => { }),
                         new PreConditionError(
                             "Expression: errorType",
-                            "Expected: not undefined and not null",
-                            "Actual: undefined"));
+                            "Expected:   not undefined and not null",
+                            "Actual:     undefined"));
                 });
 
                 runner.test("with null errorType", (test: Test) =>
@@ -490,8 +490,8 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => parentResult.onError(null!, () => { }),
                         new PreConditionError(
                             "Expression: errorType",
-                            "Expected: not undefined and not null",
-                            "Actual: null"));
+                            "Expected:   not undefined and not null",
+                            "Actual:     null"));
                 });
 
                 runner.testGroup("sync", () =>
@@ -739,8 +739,8 @@ export function test(runner: TestRunner): void
                         test.assertThrows(() => parentResult.convertError(undefined!),
                             new PreConditionError(
                                 "Expression: convertErrorFunction",
-                                "Expected: not undefined and not null",
-                                "Actual: undefined"));
+                                "Expected:   not undefined and not null",
+                                "Actual:     undefined"));
                     });
 
                     runner.test("with null convertErrorFunction", (test: Test) =>
@@ -749,8 +749,8 @@ export function test(runner: TestRunner): void
                         test.assertThrows(() => parentResult.convertError(null!),
                             new PreConditionError(
                                 "Expression: convertErrorFunction",
-                                "Expected: not undefined and not null",
-                                "Actual: null"));
+                                "Expected:   not undefined and not null",
+                                "Actual:     null"));
                     });
 
                     runner.test("with successful parent", async (test: Test) =>
@@ -932,8 +932,8 @@ export function test(runner: TestRunner): void
                         test.assertThrows(() => parentResult.convertError(undefined!),
                             new PreConditionError(
                                 "Expression: convertErrorFunction",
-                                "Expected: not undefined and not null",
-                                "Actual: undefined"));
+                                "Expected:   not undefined and not null",
+                                "Actual:     undefined"));
                     });
 
                     runner.test("with null convertErrorFunction", (test: Test) =>
@@ -942,8 +942,8 @@ export function test(runner: TestRunner): void
                         test.assertThrows(() => parentResult.convertError(null!),
                             new PreConditionError(
                                 "Expression: convertErrorFunction",
-                                "Expected: not undefined and not null",
-                                "Actual: null"));
+                                "Expected:   not undefined and not null",
+                                "Actual:     null"));
                     });
 
                     runner.test("with successful parent", (test: Test) =>
