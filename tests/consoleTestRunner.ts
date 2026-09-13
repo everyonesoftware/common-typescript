@@ -93,18 +93,21 @@ export class ConsoleTestRunner implements TestRunner
             };
         }
 
-        return CurrentProcess.run(async (currentProcess: CurrentProcess) =>
+        return CurrentProcess.run((currentProcess: CurrentProcess) =>
         {
+            const output: CharacterWriteStream = currentProcess.getOutputWriteStream();
+
             const command: CommandLineCommand = CommandLineCommand.create({
                 name: "test",
                 description: "Run the project's tests.",
                 arguments: currentProcess.getArguments(),
+                writeStream: output,
             });
             const timerParameter: CommandLineParameter = command.addParameter("timer", ["time"], "Measure the duration of the tests.", {
                 notFound: "false",
                 valueNotFound: "true",
             });
-            if (!await command.showHelp(currentProcess.getOutputWriteStream()))
+            command.setAction(async () =>
             {
                 let timer: Timer | undefined;
                 if (timerParameter.getBooleanValue().await())
@@ -113,7 +116,7 @@ export class ConsoleTestRunner implements TestRunner
                 }
 
                 const runner: ConsoleTestRunner = ConsoleTestRunner.create()
-                    .setWriteStream(currentProcess.getOutputWriteStream())
+                    .setWriteStream(output)
                     .setStyles({
                         file: t => ANSIStyles.blue(t),
                         function: t => ANSIStyles.blue(t),
@@ -130,7 +133,10 @@ export class ConsoleTestRunner implements TestRunner
                 await runner.runAsync();
 
                 await runner.printSummary(timer);
-            }
+
+                return runner.getFailedTestCount();
+            });
+            return command.run();
         });
     }
 

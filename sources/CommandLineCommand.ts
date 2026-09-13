@@ -1,9 +1,11 @@
 import { AsyncResult } from "./asyncResult.js";
 import { CharacterWriteStream } from "./characterWriteStream.js";
 import { CommandLineParameter, CommandLineParameterDefaultValues as CommandLineParameterDefaultValue, CommandLineParameterOptions, CommandLineParameterParent } from "./commandLineParameter.js";
+import { InMemoryCharacterWriteStream } from "./inMemoryCharacterWriteStream.js";
 import { Iterable } from "./iterable.js";
 import { JavascriptIterable } from "./javascript.js";
 import { List } from "./list.js";
+import { NotFoundError } from "./notFoundError.js";
 import { PreCondition } from "./preCondition.js";
 import { join } from "./strings.js";
 import { StringTable } from "./StringTable.js";
@@ -14,6 +16,8 @@ import { asIterable, isString, isUndefinedNullOrEmpty, isUndefinedOrNull } from 
  */
 export abstract class CommandLineCommandParent
 {
+    public abstract getFullName(): string;
+
     /**
      * Get whether any of the provided command name and aliases already exist in this
      * {@link CommandLineCommandParent}.
@@ -24,7 +28,12 @@ export abstract class CommandLineCommandParent
     /**
      * Get the command line arguments that have been provided.
      */
-    public abstract getArguments(): JavascriptIterable<string> | undefined;
+    public abstract getArguments(): Iterable<string> | undefined;
+
+    /**
+     * Get the {@link CharacterWriteStream} where the help message will be written to (if needed).
+     */
+    public abstract getWriteStream(): CharacterWriteStream;
 }
 
 export interface CommandLineCommandOptions
@@ -42,6 +51,12 @@ export interface CommandLineCommandOptions
      * A description of the {@link CommandLineCommand}.
      */
     readonly description?: string;
+
+    /**
+     * The action that will be run when the {@link CommandLineCommand} is invoked.
+     * @param command The created {@link CommandLineCommand}.
+     */
+    readonly action?: () => (void | number | Promise<void | number>);
 }
 
 export interface CommandLineCommandProperties extends CommandLineCommandOptions
@@ -55,17 +70,23 @@ export interface CommandLineCommandProperties extends CommandLineCommandOptions
      * The command line arguments that were passed to the application.
      */
     readonly arguments?: JavascriptIterable<string>;
+    /**
+     * The {@link CharacterWriteStream} where the help message will be written to (if needed).
+     */
+    readonly writeStream?: CharacterWriteStream;
 }
 
 export class CommandLineCommand implements CommandLineCommandParent, CommandLineParameterParent
 {
     private readonly name: string;
-    private readonly aliases?: JavascriptIterable<string>;
+    private readonly aliases: Iterable<string>;
     private readonly description?: string;
     private readonly parent?: CommandLineCommandParent;
-    private readonly arguments?: JavascriptIterable<string>;
+    private readonly arguments?: Iterable<string>;
+    private readonly writeStream?: CharacterWriteStream;
+    private action?: () => (void | number | Promise<void | number>);
 
-    private subCommands?: List<CommandLineCommand>;
+    private readonly subCommands: List<CommandLineCommand>;
     private readonly parameters: List<CommandLineParameter>;
 
     private constructor(properties: CommandLineCommandProperties)
@@ -75,11 +96,14 @@ export class CommandLineCommand implements CommandLineCommandParent, CommandLine
         PreCondition.assertFalse(properties.parent?.doCommandNameOrAliasesExist([properties.name, ...(properties.aliases ?? [])]) === true, "parent?.doAnyCommandNameOrAliasesExist([name, ...aliases]) === true");
 
         this.name = properties.name;
-        this.aliases = properties.aliases;
+        this.aliases = asIterable(properties.aliases ?? []);
         this.description = properties.description;
         this.parent = properties.parent;
-        this.arguments = properties.arguments;
+        this.writeStream = properties.writeStream;
+        this.arguments = !isUndefinedOrNull(properties.arguments) ? asIterable(properties.arguments) : undefined;
+        this.action = properties.action;
 
+        this.subCommands = List.create();
         this.parameters = List.create();
         this.addParameter({
             name: "help",
@@ -92,19 +116,9 @@ export class CommandLineCommand implements CommandLineCommandParent, CommandLine
         });
     }
 
-    public static create(properties: CommandLineCommandProperties): CommandLineCommand;
-    public static create(name: string, aliases?: JavascriptIterable<string>, description?: string): CommandLineCommand;
-    static create(propertiesOrName: CommandLineCommandProperties | string, aliases?: JavascriptIterable<string>, description?: string): CommandLineCommand
+    public static create(properties: CommandLineCommandProperties): CommandLineCommand
     {
-        if (isUndefinedOrNull(propertiesOrName) || isString(propertiesOrName))
-        {
-            propertiesOrName = {
-                name: propertiesOrName,
-                aliases,
-                description,
-            };
-        }
-        return new CommandLineCommand(propertiesOrName);
+        return new CommandLineCommand(properties);
     }
 
     public doCommandNameOrAliasesExist(nameAndAliases: JavascriptIterable<string>): boolean
@@ -134,9 +148,15 @@ export class CommandLineCommand implements CommandLineCommandParent, CommandLine
         return this.name;
     }
 
-    public getAliases(): JavascriptIterable<string>
+    public getFullName(): string
     {
-        return this.aliases ?? [];
+        const name: string = this.getName();
+        return isUndefinedOrNull(this.parent) ? name : `${this.parent.getFullName()} ${name}`;
+    }
+
+    public getAliases(): Iterable<string>
+    {
+        return this.aliases;
     }
 
     public getNameAndAliases(): Iterable<string>
@@ -171,6 +191,7 @@ export class CommandLineCommand implements CommandLineCommandParent, CommandLine
             ...optionsOrName,
             parent: this,
         });
+        // Leave the help parameter in the last spot.
         const parametersCount: number = this.parameters.getCount().await();
         this.parameters.insert(parametersCount === 0 ? 0 : parametersCount - 1, parameter);
 
@@ -179,38 +200,63 @@ export class CommandLineCommand implements CommandLineCommandParent, CommandLine
 
     public getParameters(): Iterable<CommandLineParameter>
     {
-        return this.parameters ?? Iterable.create();
+        return this.parameters;
     }
 
-    public getArguments(): JavascriptIterable<string> | undefined
+    public addCommand(options: CommandLineCommandOptions): CommandLineCommand
     {
-        return this.arguments ?? this.parent?.getArguments();
+        const result: CommandLineCommand = CommandLineCommand.create({ ...options, parent: this });
+        this.subCommands.add(result);
+
+        return result;
+    }
+
+    public getCommands(): Iterable<CommandLineCommand>
+    {
+        return this.subCommands;
+    }
+
+    public getArguments(): Iterable<string>
+    {
+        return this.arguments ?? this.parent?.getArguments() ?? Iterable.create();
+    }
+
+    public getWriteStream(): CharacterWriteStream
+    {
+        return this.writeStream ?? this.parent?.getWriteStream() ?? InMemoryCharacterWriteStream.create();
+    }
+
+    public setAction(action: () => (void | number | Promise<void | number>)): this
+    {
+        PreCondition.assertUndefined(this.action, "this.action");
+        PreCondition.assertNotUndefinedAndNotNull(action, "action");
+
+        this.action = action;
+
+        return this;
     }
 
     /**
      * If the help parameter's value is true, then write the command's help message to the provided
      * writeStream and return true. If the help parameter's value is false, then do nothing and
      * return false.
-     * @param writeStream The {@link CharacterWriteStream} to write the help messages to.
-     * @param args The command line arguments to use to determine the help parameter's value.
      */
-    public showHelp(writeStream: CharacterWriteStream, args?: JavascriptIterable<string>): AsyncResult<boolean>
+    public showHelp(options?: { readonly force?: boolean }): AsyncResult<boolean>
     {
-        PreCondition.assertNotUndefinedAndNotNull(writeStream, "writeStream");
-
         return AsyncResult.create(async () =>
         {
-            args ??= this.getArguments() ?? [];
+            const args: Iterable<string> = this.getArguments();
 
             const parameters: Iterable<CommandLineParameter> = this.getParameters();
             const helpParameter: CommandLineParameter = parameters.last().await();
 
             const helpValue: boolean = helpParameter.getBooleanValue(args).await();
-            if (helpValue)
+            if (helpValue || options?.force === true)
             {
+                const writeStream: CharacterWriteStream = this.getWriteStream();
                 const topTable: StringTable = StringTable.create()
 
-                let commandString: string = this.getName();
+                let commandString: string = this.getFullName();
                 const aliases: Iterable<string> = asIterable(this.getAliases());
                 if (aliases.any().await())
                 {
@@ -243,6 +289,46 @@ export class CommandLineCommand implements CommandLineCommandParent, CommandLine
             }
 
             return helpValue;
+        });
+    }
+
+    public run(): AsyncResult<void | number>
+    {
+        return AsyncResult.create(async () =>
+        {
+            let result: void | number = undefined;
+
+            const args: Iterable<string> = this.getArguments();
+
+            let matchingSubCommand: CommandLineCommand | undefined;
+            if (args.any().await())
+            {
+                const firstArgument: string = args.first().await();
+                matchingSubCommand = this.getCommands()
+                    .first((subCommand: CommandLineCommand) => subCommand.getNameAndAliases().contains(firstArgument).await())
+                    .catch(NotFoundError, () => undefined)
+                    .await();
+                if (matchingSubCommand !== undefined)
+                {
+                    result = await matchingSubCommand.run();
+                }
+            }
+
+            if (matchingSubCommand === undefined)
+            {
+                if (await this.showHelp({ force: isUndefinedOrNull(this.action) }))
+                {
+                    result = -1;
+                }
+                else
+                {
+                    // We only get to this point if there is no --help argument and if there is a
+                    // valid action.
+                    result = await this.action!();
+                }
+            }
+
+            return result;
         });
     }
 }
