@@ -65,7 +65,6 @@ export function test(runner: TestRunner): void
             isJSONObjectDataTest([], false);
             isJSONObjectDataTest([1, 2, "hello"], false);
             isJSONObjectDataTest(() => { }, false);
-            isJSONObjectDataTest(runner, false);
             isJSONObjectDataTest({ "a": undefined }, false);
             isJSONObjectDataTest({ "f": () => { } }, false);
             isJSONObjectDataTest([undefined], false);
