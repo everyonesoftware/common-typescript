@@ -270,6 +270,7 @@ export class CommandLineCommand implements CommandLineCommandParent, CommandLine
                     topTable.addRow(["Description:", description]);
                 }
                 await topTable.writeTo(writeStream, { betweenColumns: " " });
+                await writeStream.writeLine();
 
                 if (parameters.any().await())
                 {
@@ -284,6 +285,23 @@ export class CommandLineCommand implements CommandLineCommandParent, CommandLine
                         ]);
                     }
                     await parameterTable.writeTo(writeStream, { betweenColumns: " " });
+                    await writeStream.writeLine();
+                }
+
+                const commands: Iterable<CommandLineCommand> = this.getCommands();
+                if (commands.any().await())
+                {
+                    await writeStream.writeLine();
+                    await writeStream.writeLine("Commands:");
+                    const commandTable: StringTable = StringTable.create();
+                    for (const command of commands)
+                    {
+                        commandTable.addRow([
+                            `${command.getName()} [${join(",", command.getAliases())}]:`,
+                            command.getDescription(),
+                        ]);
+                    }
+                    await commandTable.writeTo(writeStream, { betweenColumns: " " });
                     await writeStream.writeLine();
                 }
             }

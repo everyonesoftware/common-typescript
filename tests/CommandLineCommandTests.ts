@@ -155,6 +155,7 @@ export function test(runner: TestRunner): void
                     test.assertEqual(writeStream.getWrittenText(), join("\n", [
                         "Command:     fake-command [fc]",
                         "Description: fake-command-description",
+                        "",
                         "Parameters:",
                         "--help [-?]: Show the command's help menu.",
                         "",
@@ -179,10 +180,40 @@ export function test(runner: TestRunner): void
                     test.assertEqual(writeStream.getWrittenText(), join("\n", [
                         "Command:     fake-command [fc]",
                         "Description: fake-command-description",
+                        "",
                         "Parameters:",
                         "--apples [-a,-ap]:      How many apples?",
                         "--vegetarian [-v,-veg]: Should it be vegetarian?",
                         "--help [-?]:            Show the command's help menu.",
+                        "",
+                    ]));
+                });
+
+                runner.test("with commands", async (test: Test) =>
+                {
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const command: CommandLineCommand = CommandLineCommand.create({
+                        name: "fake-command",
+                        aliases: ["fc"],
+                        description: "fake-command-description",
+                        arguments: ["--help"],
+                        writeStream,
+                    });
+                    command.addCommand({ name: "subcommand1", aliases: ["sc1"], description: "The first subcommand" });
+                    command.addCommand({ name: "subcommand2", description: "The second subcommand"});
+
+                    const showHelpResult: boolean = await command.showHelp();
+                    test.assertTrue(showHelpResult);
+                    test.assertEqual(writeStream.getWrittenText(), join("\n", [
+                        "Command:     fake-command [fc]",
+                        "Description: fake-command-description",
+                        "",
+                        "Parameters:",
+                        "--help [-?]: Show the command's help menu.",
+                        "",
+                        "Commands:",
+                        "subcommand1 [sc1]: The first subcommand",
+                        "subcommand2 []:    The second subcommand",
                         "",
                     ]));
                 });
@@ -303,6 +334,55 @@ export function test(runner: TestRunner): void
                     test.assertEqual(values, List.create([]));
                     test.assertEqual(writeStream.getWrittenText(), join("\n", [
                         "Command: a b",
+                        "",
+                        "Parameters:",
+                        "--help [-?]: Show the command's help menu.",
+                        "",
+                    ]));
+                });
+
+                runner.test("with no action on the parent command, 1 sub-command, and matching command name argument", async (test: Test) =>
+                {
+                    const values: List<number> = List.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+
+                    const command: CommandLineCommand = CommandLineCommand.create({
+                        name: "a",
+                        arguments: ["b"],
+                        writeStream,
+                    });
+                    command.addCommand({
+                        name: "b",
+                        action: () => { values.add(2); },
+                    });
+                    
+                    const result: void | number = await command.run();
+                    test.assertEqual(undefined, result);
+                    test.assertEqual(values, List.create([2]));
+                    test.assertEqual(writeStream.getWrittenText(), "");
+                });
+
+                runner.test("with no action on the parent command, 1 sub-command, matching command name argument, and --help argument", async (test: Test) =>
+                {
+                    const values: List<number> = List.create();
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+
+                    const command: CommandLineCommand = CommandLineCommand.create({
+                        name: "a",
+                        arguments: ["b", "--help"],
+                        writeStream,
+                    });
+                    command.addCommand({
+                        name: "b",
+                        action: () => { values.add(2); },
+                    });
+                    
+                    const result: void | number = await command.run();
+                    test.assertEqual(-1, result);
+                    test.assertEqual(values, List.create([]));
+                    test.assertEqual(writeStream.getWrittenText(), join("\n", [
+                        "Command: a b",
+                        "",
                         "Parameters:",
                         "--help [-?]: Show the command's help menu.",
                         "",
