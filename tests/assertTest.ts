@@ -109,4 +109,9 @@ export class AssertTest implements Test
     {
         Test.assertInstanceOf(this, value, type, typeCheck);
     }
+
+    public assertContains(value: string, expectedSubstring: string, message?: string): void
+    {
+        Test.assertContains(this, value, expectedSubstring, message);
+    }
 }

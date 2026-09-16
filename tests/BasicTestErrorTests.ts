@@ -54,9 +54,9 @@ export function test(runner: TestRunner): void
                     test.assertSame(error, testError.getError());
 
                     const errorString: string = testError.getErrorString();
-                    test.assertTrue(errorString.includes("Error: I'm an error!"));
-                    test.assertTrue(errorString.includes("tests/BasicTestErrorTests.ts:"));
-                    test.assertTrue(errorString.includes("tests/consoleTestRunner.ts:"));
+                    test.assertContains(errorString, "Error: I'm an error!");
+                    test.assertContains(errorString, "tests/BasicTestErrorTests.ts:");
+                    test.assertContains(errorString, "tests/consoleTestRunner.ts:");
                 });
 
                 runner.test(`with TypeError`, (test: Test) =>
@@ -67,9 +67,9 @@ export function test(runner: TestRunner): void
                     test.assertSame(error, testError.getError());
 
                     const errorString: string = testError.getErrorString();
-                    test.assertTrue(errorString.includes("TypeError: Oops! Type error!"));
-                    test.assertTrue(errorString.includes("tests/BasicTestErrorTests.ts:"));
-                    test.assertTrue(errorString.includes("tests/consoleTestRunner.ts:"));
+                    test.assertContains(errorString, "TypeError: Oops! Type error!");
+                    test.assertContains(errorString, "tests/BasicTestErrorTests.ts:");
+                    test.assertContains(errorString, "tests/consoleTestRunner.ts:");
                 });
 
                 runner.test(`with test failure error`, (test: Test) =>
@@ -86,10 +86,10 @@ export function test(runner: TestRunner): void
                     test.assertNotUndefinedAndNotNull(testError);
 
                     const errorString: string = testError.getErrorString();
-                    test.assertTrue(errorString.includes("AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:"));
-                    test.assertTrue(errorString.includes("1 !== 2"));
-                    test.assertTrue(errorString.includes("tests/BasicTestErrorTests.ts:"));
-                    test.assertTrue(errorString.includes("tests/consoleTestRunner.ts:"));
+                    test.assertContains(errorString, "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:");
+                    test.assertContains(errorString, "1 !== 2");
+                    test.assertContains(errorString, "tests/BasicTestErrorTests.ts:");
+                    test.assertContains(errorString, "tests/consoleTestRunner.ts:");
                 });
             });
 

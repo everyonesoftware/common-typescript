@@ -1,4 +1,4 @@
-import { Iterable, JavascriptIterable, isUndefinedOrNull, Type, SyncResult, PreCondition, AsyncResult } from "../sources//index.js";
+import { Iterable, JavascriptIterable, isUndefinedOrNull, Type, SyncResult, PreCondition, AsyncResult, escapeAndQuote } from "../sources//index.js";
 
 /**
  * A type that can be used to make assertions during a test.
@@ -231,6 +231,36 @@ export abstract class Test
         if (!typeCheck(value))
         {
             test.fail(`Expected value to be of type ${type.name} but found ${value} instead.`);
+        }
+    }
+
+    /**
+     * Assert that the provided value contains the provided substring.
+     * @param value The value that should contain the provided substring.
+     * @param expectedSubstring The substring to find in the value.
+     * @param message An optional message to include if the assertion fails.
+     */
+    public assertContains(value: string, expectedSubstring: string, message?: string): void
+    {
+        Test.assertContains(this, value, expectedSubstring, message);
+    }
+
+    public static assertContains(test: Test, value: string, expectedSubstring: string, message?: string): void
+    {
+        PreCondition.assertNotUndefinedAndNotNull(test, "test");
+
+        if (!value.includes(expectedSubstring))
+        {
+            if (isUndefinedOrNull(message))
+            {
+                message = "";
+            }
+            else
+            {
+                message += "\n";
+            }
+            message += `Expected ${escapeAndQuote(value)} to contain ${escapeAndQuote(expectedSubstring)}.`;
+            test.fail(message);
         }
     }
 }
