@@ -1,4 +1,3 @@
-import { fileURLToPath } from "url";
 import { PreCondition } from "../sources/index.js";
 import { GetErrorStringOptions, TestError } from "./TestError.js";
 import path from "path";
@@ -59,7 +58,7 @@ export class BasicTestError implements TestError
         let result: string | undefined = BasicTestError.normalizePath(stackFrameLocation);
         if (result.startsWith('file:///'))
         {
-            result = BasicTestError.normalizePath(fileURLToPath(result));
+            result = BasicTestError.normalizePath(result.substring("file:///".length));
         }
         else if (!/^[A-Za-z]:[\\/]/.test(result) && !result.startsWith("/"))
         {
