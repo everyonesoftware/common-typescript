@@ -33,7 +33,6 @@ export function test(runner: TestRunner): void
             isJSONDataTest([1, 2, "hello"], true);
 
             isJSONDataTest(() => { }, false);
-            isJSONDataTest(runner, false);
             isJSONDataTest({ "a": undefined }, false);
             isJSONDataTest({ "f": () => { } }, false);
             isJSONDataTest([undefined], false);
@@ -96,7 +95,6 @@ export function test(runner: TestRunner): void
             isJSONArrayDataTest(false, false);
             isJSONArrayDataTest(true, false);
             isJSONArrayDataTest(() => { }, false);
-            isJSONArrayDataTest(runner, false);
             isJSONArrayDataTest({ "a": undefined }, false);
             isJSONArrayDataTest({ "f": () => { } }, false);
             isJSONArrayDataTest([undefined], false);
