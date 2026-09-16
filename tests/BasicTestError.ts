@@ -43,18 +43,18 @@ export class BasicTestError implements TestError
         return result;
     }
 
-    private static getStackFrameLineMatch(line: string): RegExpMatchArray | null
+    public static getStackFrameLineMatch(line: string): RegExpMatchArray | null
     {
         return line.match(/^(\s*)at (.*) \((.+)\)$/) ??
             line.match(/^(\s*)at (.+)$/);
     }
 
-    private static normalizePath(path: string): string
+    public static normalizePath(path: string): string
     {
         return path.replace(/\\/g, "/");
     }
 
-    private static getStackFrameAbsolutePath(stackFrameLocation: string): string | undefined
+    public static getStackFrameAbsolutePath(stackFrameLocation: string): string | undefined
     {
         let result: string | undefined = BasicTestError.normalizePath(stackFrameLocation);
         if (result.startsWith('file:///'))
@@ -83,7 +83,7 @@ export class BasicTestError implements TestError
                     const location: string = hasFunctionName ? stackFrameLineMatch[3] : stackFrameLineMatch[2];
 
                     const filePath: string | undefined = BasicTestError.getStackFrameAbsolutePath(location);
-                    keepLine = !!filePath && filePath.startsWith(currentFolderPath) && !filePath.includes("/node_modules/");
+                    keepLine = filePath?.startsWith(currentFolderPath) === true && !filePath.includes("/node_modules/");
                 }
                 return keepLine;
             })

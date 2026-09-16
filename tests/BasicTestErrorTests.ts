@@ -1,4 +1,4 @@
-import { PreConditionError } from "../sources/index.js";
+import { isUndefinedOrNull, PreConditionError } from "../sources/index.js";
 import { BasicTestError } from "./BasicTestError.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
@@ -91,6 +91,82 @@ export function test(runner: TestRunner): void
                     test.assertTrue(errorString.includes("tests/BasicTestErrorTests.ts:"));
                     test.assertTrue(errorString.includes("tests/consoleTestRunner.ts:"));
                 });
+            });
+
+            runner.testFunction("getStackFrameLineMatch()", () =>
+            {
+                function getStackFrameLineMatchTest(line: string, expected: null | string[]): void
+                {
+                    runner.test(`with ${runner.toString(line)}`, (test: Test) =>
+                    {
+                        const result: null | RegExpMatchArray = BasicTestError.getStackFrameLineMatch(line);
+                        if (expected === null)
+                        {
+                            test.assertNull(result);
+                        }
+                        else
+                        {
+                            test.assertNotUndefinedAndNotNull(result);
+                            test.assertEqual(result[0], line);
+                            test.assertTrue(result.length === expected.length + 1);
+                            for (let i = 0; i < expected.length; i++)
+                            {
+                                test.assertEqual(result[i + 1], expected[i]);
+                            }
+                        }
+                    });
+                }
+
+                getStackFrameLineMatchTest("", null);
+                getStackFrameLineMatchTest("     ", null);
+                getStackFrameLineMatchTest("hello there", null);
+                getStackFrameLineMatchTest("      at _AssertTest.assertEqual (tests/assertTest.ts:76:16)", [
+                    "      ",
+                    "_AssertTest.assertEqual",
+                    "tests/assertTest.ts:76:16",
+                ]);
+                getStackFrameLineMatchTest("      at file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:112:13", [
+                    "      ",
+                    "file:///C:/my/code/common-typescript/tests/consoleTestRunner.ts:112:13",
+                ]);
+            });
+
+            runner.testFunction("normalizePath()", () =>
+            {
+                function normalizePathTest(path: string, expected?: string): void
+                {
+                    runner.test(`with ${runner.toString(path)}`, (test: Test) =>
+                    {
+                        if (isUndefinedOrNull(expected))
+                        {
+                            expected = path;
+                        }
+                        test.assertEqual(expected, BasicTestError.normalizePath(path));
+                    });
+                }
+
+                normalizePathTest("");
+                normalizePathTest("hello");
+                normalizePathTest("file:///C:/my/code/common-typescript/tests/assertTest.ts:76:16");
+                normalizePathTest("C:\\my\\code", "C:/my/code");
+            });
+
+            runner.testFunction("getStackFrameAbsolutePath()", () =>
+            {
+                function getStackFrameAbsolutePathTest(path: string, expected: string | undefined): void
+                {
+                    runner.test(`with ${runner.toString(path)}`, (test: Test) =>
+                    {
+                        test.assertEqual(expected, BasicTestError.getStackFrameAbsolutePath(path));
+                    });
+                }
+
+                getStackFrameAbsolutePathTest("", undefined);
+                getStackFrameAbsolutePathTest("hello", undefined);
+                getStackFrameAbsolutePathTest("node:internal/process/task_queues:104:5", undefined);
+                getStackFrameAbsolutePathTest("file:///C:/my/code/common-typescript/tests/assertTest.ts:76:16", "C:/my/code/common-typescript/tests/assertTest.ts:76:16");
+                getStackFrameAbsolutePathTest("C:\\my\\code", "C:/my/code");
+                getStackFrameAbsolutePathTest("C:/my/code", "C:/my/code");
             });
 
             runner.testFunction("removeNonProjectPaths()", () =>
