@@ -299,4 +299,14 @@ export abstract class MutableMap<TKey, TValue> implements Map<TKey, TValue>
     {
         return Map.containsAny(map, entries, equalFunctions);
     }
+
+    public skip(toSkip: number): Iterable<MapEntry<TKey,TValue>>
+    {
+        return MutableMap.skip(this, toSkip);
+    }
+
+    public static skip<TKey,TValue>(map: Map<TKey,TValue>, toSkip: number): Iterable<MapEntry<TKey,TValue>>
+    {
+        return Map.skip(map, toSkip);
+    }
 }

@@ -8,6 +8,7 @@ import { Iterator } from "./iterator.js";
 import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
 import { MapIterable } from "./mapIterable.js";
 import { PreCondition } from "./preCondition.js";
+import { SkipIterable } from "./SkipIterable.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
 import { instanceOf, isIterable, isUndefinedOrNull, Type } from "./types.js";
@@ -355,5 +356,20 @@ export abstract class Iterable<T> implements JavascriptIterable<T>
             }
             return result;
         });
+    }
+
+    /**
+     * Get an {@link Iterable} that skips the first provided number of values from this
+     * {@link Iterable}.
+     * @param toSkip The number of values to skip.
+     */
+    public skip(toSkip: number): Iterable<T>
+    {
+        return Iterable.skip(this, toSkip);
+    }
+
+    public static skip<T>(iterable: Iterable<T>, toSkip: number): Iterable<T>
+    {
+        return SkipIterable.create(iterable, toSkip);
     }
 }

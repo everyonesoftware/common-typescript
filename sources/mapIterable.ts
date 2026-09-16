@@ -107,4 +107,9 @@ export class MapIterable<TInput,TOutput> implements Iterable<TOutput>
     {
         return Iterable.containsAny(this, values, equalFunctions);
     }
+
+    public skip(toSkip: number): Iterable<TOutput>
+    {
+        return Iterable.skip(this, toSkip);
+    }
 }

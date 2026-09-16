@@ -206,4 +206,9 @@ export class MutableHttpHeaders implements HttpHeaders
     {
         return HttpHeaders.containsAny(this, values, equalFunctions);
     }
+
+    public skip(toSkip: number): Iterable<HttpHeader>
+    {
+        return HttpHeaders.skip(this, toSkip);
+    }
 }

@@ -145,4 +145,9 @@ export class JavascriptMapMap<TKey, TValue> implements MutableMap<TKey, TValue>
     {
         return MutableMap.containsAny(this, values, equalFunctions);
     }
+
+    public skip(toSkip: number): Iterable<MapEntry<TKey,TValue>>
+    {
+        return MutableMap.skip(this, toSkip);
+    }
 }

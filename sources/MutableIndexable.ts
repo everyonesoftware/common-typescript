@@ -178,4 +178,14 @@ export abstract class MutableIndexable<T> implements Indexable<T>
     {
         return Indexable.containsAny(indexable, values, equalFunctions);
     }
+
+    public skip(toSkip: number): Iterable<T>
+    {
+        return MutableIndexable.skip(this, toSkip);
+    }
+
+    public static skip<T>(indexable: MutableIndexable<T>, toSkip: number): Iterable<T>
+    {
+        return Indexable.skip(indexable, toSkip);
+    }
 }

@@ -197,4 +197,9 @@ export class CharacterList implements List<string>
     {
         return List[Symbol.iterator](this);
     }
+
+    public skip(toSkip: number): Iterable<string>
+    {
+        return List.skip(this, toSkip);
+    }
 }

@@ -211,4 +211,14 @@ export abstract class Indexable<T> implements Iterable<T>
     {
         return Iterable.containsAny(indexable, values, equalFunctions);
     }
+
+    public skip(toSkip: number): Iterable<T>
+    {
+        return Indexable.skip(this, toSkip);
+    }
+
+    public static skip<T>(indexable: Indexable<T>, toSkip: number): Iterable<T>
+    {
+        return Iterable.skip(indexable, toSkip);
+    }
 }

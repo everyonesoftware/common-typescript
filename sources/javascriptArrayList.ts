@@ -177,4 +177,9 @@ export class JavascriptArrayList<T> implements List<T>
     {
         return List.containsAny(this, values, equalFunctions);
     }
+
+    public skip(toSkip: number): Iterable<T>
+    {
+        return List.skip(this, toSkip);
+    }
 }

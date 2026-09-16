@@ -111,6 +111,7 @@ export * from "./recreationDotGovClient.js";
 export * from "./searchControl.js";
 export * from "./set.js";
 export * from "./skipAsyncIterator.js";
+export * from "./SkipIterable.js";
 export * from "./skipIterator.js";
 export * from "./stack.js";
 export * from "./stringComparer.js";

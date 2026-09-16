@@ -316,4 +316,14 @@ export abstract class Map<TKey, TValue> implements Iterable<MapEntry<TKey, TValu
             return result;
         });
     }
+
+    public skip(toSkip: number): Iterable<MapEntry<TKey,TValue>>
+    {
+        return Map.skip(this, toSkip);
+    }
+
+    public static skip<TKey,TValue>(map: Map<TKey,TValue>, toSkip: number): Iterable<MapEntry<TKey,TValue>>
+    {
+        return Iterable.skip(map, toSkip);
+    }
 }

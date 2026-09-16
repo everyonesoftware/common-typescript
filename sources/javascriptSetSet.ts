@@ -136,4 +136,9 @@ export class JavascriptSetSet<T> implements Set<T>
     {
         return Set[Symbol.iterator](this);
     }
+
+    public skip(toSkip: number): Iterable<T>
+    {
+        return Iterable.skip(this, toSkip);
+    }
 }

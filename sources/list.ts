@@ -335,8 +335,18 @@ export abstract class List<T> implements MutableIndexable<T>
         return List.containsAny(this, values, equalFunctions);
     }
 
-    public static containsAny<T>(indexable: Indexable<T>, values: JavascriptIterable<T>, equalFunctions?: EqualFunctions): SyncResult<boolean>
+    public static containsAny<T>(list: List<T>, values: JavascriptIterable<T>, equalFunctions?: EqualFunctions): SyncResult<boolean>
     {
-        return MutableIndexable.containsAny(indexable, values, equalFunctions);
+        return MutableIndexable.containsAny(list, values, equalFunctions);
+    }
+
+    public skip(toSkip: number): Iterable<T>
+    {
+        return List.skip(this, toSkip);
+    }
+
+    public static skip<T>(list: List<T>, toSkip: number): Iterable<T>
+    {
+        return MutableIndexable.skip(list, toSkip);
     }
 }

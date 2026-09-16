@@ -106,4 +106,9 @@ export class FlatMapIterable<TInput, TOutput> implements Iterable<TOutput>
     {
         return Iterable[Symbol.iterator](this);
     }
+
+    public skip(toSkip: number): Iterable<TOutput>
+    {
+        return Iterable.skip(this, toSkip);
+    }
 }

@@ -204,4 +204,9 @@ export class ByteList implements List<number>
     {
         return List[Symbol.iterator](this);
     }
+
+    public skip(toSkip: number): Iterable<number>
+    {
+        return List.skip(this, toSkip);
+    }
 }

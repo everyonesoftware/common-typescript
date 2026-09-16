@@ -1,42 +1,37 @@
-import { ConcatenateIterator } from "./concatenateIterator.js";
 import { EqualFunctions } from "./equalFunctions.js";
 import { Iterable } from "./iterable.js";
 import { Iterator } from "./iterator.js";
 import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
-import { List } from "./list.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
 import { Type } from "./types.js";
 
-export class ConcatenateIterable<T> implements Iterable<T>
+/**
+ * An {@link Iterable} that only returns values that match a condition.
+ */
+export class SkipIterable<T> implements Iterable<T>
 {
-    private readonly innerIterables: Iterable<Iterable<T>>;
+    private readonly innerIterable: Iterable<T>;
+    private readonly toSkip: number;
 
-    private constructor(innerIterables: Iterable<Iterable<T>>)
-    {
-        PreCondition.assertNotUndefinedAndNotNull(innerIterables, "innerIterables");
-
-        this.innerIterables = innerIterables;
-    }
-
-    public static create<T>(innerIterable: Iterable<T>, ...toConcatenate: JavascriptIterable<T>[]): ConcatenateIterable<T>
+    private constructor(innerIterable: Iterable<T>, toSkip: number)
     {
         PreCondition.assertNotUndefinedAndNotNull(innerIterable, "innerIterable");
-        PreCondition.assertNotUndefinedAndNotNull(toConcatenate, "toConcatenate");
+        PreCondition.assertGreaterThanOrEqualTo(toSkip, 0, "toSkip");
 
-        const innerIterables: List<Iterable<T>> = List.create();
-        innerIterables.add(innerIterable);
-        for (const value of toConcatenate)
-        {
-            innerIterables.add(Iterable.create(value));
-        }
-        return new ConcatenateIterable<T>(innerIterables);
+        this.innerIterable = innerIterable;
+        this.toSkip = toSkip;
+    }
+
+    public static create<T>(innerIterable: Iterable<T>, toSkip: number): SkipIterable<T>
+    {
+        return new SkipIterable(innerIterable, toSkip);
     }
 
     public iterate(): Iterator<T>
     {
-        return ConcatenateIterator.create<T>(...this.innerIterables);
+        return this.innerIterable.iterate().skip(this.toSkip);
     }
 
     public toArray(): SyncResult<T[]>
@@ -51,15 +46,7 @@ export class ConcatenateIterable<T> implements Iterable<T>
 
     public getCount(): SyncResult<number>
     {
-        return SyncResult.create(() =>
-        {
-            let result: number = 0;
-            for (const innerIterable of this.innerIterables)
-            {
-                result += innerIterable.getCount().await();
-            }
-            return result;
-        });
+        return Iterable.getCount(this);
     }
 
     public equals(right: JavascriptIterable<T>, equalFunctions?: EqualFunctions): SyncResult<boolean>
@@ -77,7 +64,7 @@ export class ConcatenateIterable<T> implements Iterable<T>
         return Iterable.concatenate(this, ...toConcatenate);
     }
 
-    public map<TOutput>(mapping: (value: T) => TOutput | SyncResult<TOutput>): Iterable<TOutput>
+    public map<TOutput>(mapping: (value: T) => (TOutput | SyncResult<TOutput>)): Iterable<TOutput>
     {
         return Iterable.map(this, mapping);
     }
@@ -107,6 +94,11 @@ export class ConcatenateIterable<T> implements Iterable<T>
         return Iterable.last(this, condition);
     }
 
+    public [Symbol.iterator](): JavascriptIterator<T>
+    {
+        return Iterable[Symbol.iterator](this);
+    }
+
     public contains(value: T, equalFunctions?: EqualFunctions): SyncResult<boolean>
     {
         return Iterable.contains(this, value, equalFunctions);
@@ -115,11 +107,6 @@ export class ConcatenateIterable<T> implements Iterable<T>
     public containsAny(values: JavascriptIterable<T>, equalFunctions?: EqualFunctions): SyncResult<boolean>
     {
         return Iterable.containsAny(this, values, equalFunctions);
-    }
-
-    public [Symbol.iterator](): JavascriptIterator<T>
-    {
-        return Iterable[Symbol.iterator](this);
     }
 
     public skip(toSkip: number): Iterable<T>

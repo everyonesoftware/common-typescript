@@ -246,4 +246,9 @@ export abstract class Set<T> implements Iterable<T>
     {
         return Iterable.containsAny(this, values, equalFunctions);
     }
+
+    public skip(toSkip: number): Iterable<T>
+    {
+        return Iterable.skip(this, toSkip);
+    }
 }

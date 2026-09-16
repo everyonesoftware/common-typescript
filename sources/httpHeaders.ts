@@ -241,4 +241,14 @@ export abstract class HttpHeaders implements Iterable<HttpHeader>
             return result;
         });
     }
+
+    public skip(toSkip: number): Iterable<HttpHeader>
+    {
+        return HttpHeaders.skip(this, toSkip);
+    }
+
+    public static skip(headers: HttpHeaders, toSkip: number): Iterable<HttpHeader>
+    {
+        return Iterable.skip(headers, toSkip);
+    }
 }
