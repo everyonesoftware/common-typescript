@@ -250,8 +250,8 @@ export class CommandLineCommand implements CommandLineCommandParent, CommandLine
             const parameters: Iterable<CommandLineParameter> = this.getParameters();
             const helpParameter: CommandLineParameter = parameters.last().await();
 
-            const helpValue: boolean = helpParameter.getBooleanValue(args).await();
-            if (helpValue || options?.force === true)
+            const helpValue: boolean = helpParameter.getBooleanValue(args).await() || options?.force === true;
+            if (helpValue)
             {
                 const writeStream: CharacterWriteStream = this.getWriteStream();
                 const topTable: StringTable = StringTable.create()
