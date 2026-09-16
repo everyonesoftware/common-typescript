@@ -29,12 +29,12 @@ export class BasicTestError implements TestError
 
         const currentFolderPath: string = process.cwd();
 
-        if (options?.removeNonProjectPaths ?? true)
+        if (options?.removeNonProjectPaths ?? false)
         {
             result = BasicTestError.removeNonProjectPaths(result, currentFolderPath);
         }
 
-        if (options?.relativeFilePaths ?? true)
+        if (options?.relativeFilePaths ?? false)
         {
             result = BasicTestError.makeFilePathsRelative(result, currentFolderPath);
         }

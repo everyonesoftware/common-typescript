@@ -634,8 +634,8 @@ export function test(runner: TestRunner): void
                     test.assertEqual(Iterable.create(["fake-test-1"]), failedTest.getTestAction().getFullNameParts());
                     const testError: TestError = failedTest.getTestError();
                     const errorMessage: string = testError.getErrorString();
-                    test.assertTrue(errorMessage.includes("AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:"));
-                    test.assertTrue(errorMessage.includes("1 !== 2"));
+                    test.assertContains(errorMessage, "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:");
+                    test.assertContains(errorMessage, "1 !== 2");
                 });
 
                 runner.test("with unexpected failure", async (test: Test) =>
@@ -672,7 +672,7 @@ export function test(runner: TestRunner): void
                     test.assertEqual(Iterable.create(["fake-test-1"]), failedTest.getTestAction().getFullNameParts());
                     const testError: TestError = failedTest.getTestError();
                     const errorMessage: string = testError.getErrorString();
-                    test.assertTrue(errorMessage.includes("Error: oops!"));
+                    test.assertContains(errorMessage, "Error: oops!");
                 });
             });
         });

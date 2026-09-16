@@ -117,6 +117,10 @@ export class ConsoleTestRunner implements TestRunner
 
                 const runner: ConsoleTestRunner = ConsoleTestRunner.create()
                     .setWriteStream(output)
+                    .setGetErrorStringOptions({
+                        relativeFilePaths: true,
+                        removeNonProjectPaths: true,
+                    })
                     .setStyles({
                         file: t => ANSIStyles.blue(t),
                         function: t => ANSIStyles.blue(t),

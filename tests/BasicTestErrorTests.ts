@@ -53,7 +53,7 @@ export function test(runner: TestRunner): void
                     test.assertNotUndefinedAndNotNull(testError);
                     test.assertSame(error, testError.getError());
 
-                    const errorString: string = testError.getErrorString();
+                    const errorString: string = testError.getErrorString({ relativeFilePaths: false, removeNonProjectPaths: false });
                     test.assertContains(errorString, "Error: I'm an error!");
                     test.assertContains(errorString, "tests/BasicTestErrorTests.ts:");
                     test.assertContains(errorString, "tests/consoleTestRunner.ts:");
@@ -66,7 +66,7 @@ export function test(runner: TestRunner): void
                     test.assertNotUndefinedAndNotNull(testError);
                     test.assertSame(error, testError.getError());
 
-                    const errorString: string = testError.getErrorString();
+                    const errorString: string = testError.getErrorString({ relativeFilePaths: false, removeNonProjectPaths: false });
                     test.assertContains(errorString, "TypeError: Oops! Type error!");
                     test.assertContains(errorString, "tests/BasicTestErrorTests.ts:");
                     test.assertContains(errorString, "tests/consoleTestRunner.ts:");
@@ -85,7 +85,7 @@ export function test(runner: TestRunner): void
                     }
                     test.assertNotUndefinedAndNotNull(testError);
 
-                    const errorString: string = testError.getErrorString();
+                    const errorString: string = testError.getErrorString({ relativeFilePaths: false, removeNonProjectPaths: false });
                     test.assertContains(errorString, "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:");
                     test.assertContains(errorString, "1 !== 2");
                     test.assertContains(errorString, "tests/BasicTestErrorTests.ts:");
