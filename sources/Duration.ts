@@ -22,47 +22,62 @@ export abstract class Duration
     }
 
     /**
-     * Get the number of years in this {@link Duration}.
+     * Get the years component of this {@link Duration}.
      */
     public abstract getYears(): number;
     
     /**
-     * Get the number of months in this {@link Duration}.
+     * Get the months component of this {@link Duration}.
      */
     public abstract getMonths(): number;
     
     /**
-     * Get the number of days in this {@link Duration}.
+     * Get the days component of this {@link Duration}.
      */
     public abstract getDays(): number;
     
     /**
-     * Get the number of hours in this {@link Duration}.
+     * Get the hours component of this {@link Duration}.
      */
     public abstract getHours(): number;
     
     /**
-     * Get the number of minutes in this {@link Duration}.
+     * Get the minutes component of this {@link Duration}.
      */
     public abstract getMinutes(): number;
 
     /**
-     * Get the number of seconds in this {@link Duration}.
+     * Get the seconds component of this {@link Duration}.
      */
     public abstract getSeconds(): number;
 
     /**
-     * Get the total number of minutes in this {@link Duration}.
+     * Get the milliseconds component of this {@link Duration}.
+     */
+    public abstract getMilliseconds(): number;
+
+    /**
+     * Get this {@link Duration}'s value converted to days.
+     */
+    public abstract toDays(): number;
+
+    /**
+     * Get this {@link Duration}'s value converted to hours.
+     */
+    public abstract toHours(): number;
+
+    /**
+     * Get this {@link Duration}'s value converted to minutes.
      */
     public abstract toMinutes(): number;
 
     /**
-     * Get the total number of seconds in this {@link Duration}.
+     * Get this {@link Duration}'s value converted to seconds.
      */
     public abstract toSeconds(): number;
 
     /**
-     * Get the total number of milliseconds in this {@link Duration}.
+     * Get this {@link Duration}'s value converted to milliseconds.
      */
     public abstract toMilliseconds(): number
 

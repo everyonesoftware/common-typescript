@@ -65,6 +65,7 @@ import * as whereIteratorTests from "./whereIteratorTests.js";
 import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests.js";
 import * as commandLineCommandTests from "./CommandLineCommandTests.js";
 import * as realProcessRunnerTests from "./RealProcessRunnerTests.js";
+import * as durationTests from "./DurationTests.js";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -135,4 +136,5 @@ await ConsoleTestRunner.run([
     wonderlandTrailClientTests,
     commandLineCommandTests,
     realProcessRunnerTests,
+    durationTests,
 ]);

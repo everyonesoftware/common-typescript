@@ -2,6 +2,8 @@ import { Duration } from "./Duration.js";
 import * as luxon from "luxon";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
+import { ParseError } from "./ParseError.js";
+import { escapeAndQuote } from "./strings.js";
 
 /**
  * A {@link Duration} object that wraps around a {@link luxon.Duration}.
@@ -13,6 +15,7 @@ export class LuxonDuration implements Duration
     private constructor(duration: luxon.Duration)
     {
         PreCondition.assertNotUndefinedAndNotNull(duration, "duration");
+        PreCondition.assertTrue(duration.isValid, "duration.isValid");
 
         this.duration = duration;
     }
@@ -29,9 +32,16 @@ export class LuxonDuration implements Duration
 
     public static parse(text: string): SyncResult<LuxonDuration>
     {
+        PreCondition.assertNotEmpty(text, "text");
+
         return SyncResult.create(() =>
         {
-            return LuxonDuration.create(luxon.Duration.fromISO(text));
+            const luxonDuration: luxon.DurationMaybeValid = luxon.Duration.fromISO(text);
+            if (!luxonDuration.isValid)
+            {
+                throw new ParseError(`${escapeAndQuote(text)} is not a valid Duration.`);
+            }
+            return LuxonDuration.create(luxonDuration);
         });
     }
 
@@ -73,19 +83,34 @@ export class LuxonDuration implements Duration
         return this.duration.get("seconds");
     }
 
+    public getMilliseconds(): number
+    {
+        return this.duration.get("milliseconds");
+    }
+
+    public toDays(): number
+    {
+        return this.duration.as("days");
+    }
+
+    public toHours(): number
+    {
+        return this.duration.as("hours");
+    }
+
     public toMinutes(): number
     {
-        return this.duration.toMillis() / 60000;
+        return this.duration.as("minutes");
     }
 
     public toSeconds(): number
     {
-        return this.duration.toMillis() / 1000;
+        return this.duration.as("seconds");
     }
 
     public toMilliseconds(): number
     {
-        return this.duration.toMillis();
+        return this.duration.as("milliseconds");
     }
 
     public toString(): string

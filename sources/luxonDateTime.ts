@@ -74,6 +74,11 @@ export class LuxonDateTime implements DateTime
         return this.dateTime.second;
     }
 
+    public getMillisecond(): number
+    {
+        return this.dateTime.millisecond;
+    }
+
     public addDays(days: number): LuxonDateTime
     {
         return LuxonDateTime.create(this.dateTime.plus({ days: days }));

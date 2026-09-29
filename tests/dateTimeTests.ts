@@ -1,5 +1,4 @@
-import { DateTime } from "../sources/dateTime.js";
-import { ParseError } from "../sources/ParseError.js";
+import { DateTime, Duration, ParseError } from "../sources/index.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
 
@@ -47,6 +46,24 @@ export function test(runner: TestRunner): void
                         `Unable to parse "fake-date-time" into a DateTime.`,
                     ));
                 });
+            });
+
+            runner.testFunction("minus()", () =>
+            {
+                function minusTest(leftText: string, rightText: string, expectedText: string): void
+                {
+                    runner.test(`with ${runner.andList([leftText, rightText])}`, (test: Test) =>
+                    {
+                        const left: DateTime = DateTime.parse(leftText).await();
+                        const right: DateTime = DateTime.parse(rightText).await();
+                        const result: Duration = left.minus(right);
+                        test.assertEqual(result.toString(), expectedText);
+                    });
+                }
+
+                minusTest("2026-09-28", "2026-09-28", "PT0S");
+                minusTest("2026-09-28", "2026-09-29", "PT-86400S");
+                minusTest("2026-09-28", "2026-10-01", "PT-259200S");
             });
         });
     });
