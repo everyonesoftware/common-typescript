@@ -1,7 +1,10 @@
 import { Iterable } from "../sources/iterable.js";
+import { Iterator } from "../sources/iterator.js";
+import { JavascriptIterable } from "../sources/javascript.js";
 import { List } from "../sources/list.js";
+import { PreConditionError } from "../sources/preConditionError.js";
 import {
-    asBoolean, hasFunction, HasFunctionOptions, hasProperty, isArray, isBoolean, isFunction, isNumber, isObject,
+    asBoolean, asReadonlyArray, hasFunction, HasFunctionOptions, hasProperty, isArray, isBoolean, isFunction, isNumber, isObject,
     isObjectOrArrayOrNull, isString
 } from "../sources/types.js";
 import { Test } from "./test.js";
@@ -286,6 +289,62 @@ export function test(runner: TestRunner): void
             hasFunctionWithOptionsTest("", Symbol.iterator, { allowInherited: false }, true);
             hasFunctionWithOptionsTest(5, "spam", { allowInherited: false }, false);
             hasFunctionWithOptionsTest(5, "toString", { allowInherited: false }, true);
+        });
+
+        runner.testFunction("asReadonlyArray()", () =>
+        {
+            function asReadonlyArrayErrorTest<T>(value: JavascriptIterable<T>, expected: Error): void
+            {
+                runner.test(`with ${runner.toString(value)}`, (test: Test) =>
+                {
+                    test.assertThrows(() => asReadonlyArray(value), expected);
+                });
+            }
+
+            asReadonlyArrayErrorTest(undefined!, new PreConditionError({
+                expression: "value",
+                expected: "not undefined and not null",
+                actual: "undefined",
+            }));
+            asReadonlyArrayErrorTest(null!, new PreConditionError({
+                expression: "value",
+                expected: "not undefined and not null",
+                actual: "null",
+            }));
+
+            function asReadonlyArrayTest<T>(testType: string, value: JavascriptIterable<T>): void
+            {
+                runner.test(`with ${testType} ${runner.toString(value)}`, (test: Test) =>
+                {
+                    const array: ReadonlyArray<T> = asReadonlyArray(value);
+                    test.assertNotUndefinedAndNotNull(array);
+
+                    const expectedIterator: Iterator<T> = Iterator.create(value).start().await();
+                    let i: number = 0;
+                    const arrayLength: number = array.length;
+                    for (; i < arrayLength; i++)
+                    {
+                        test.assertTrue(expectedIterator.hasCurrent());
+                        test.assertEqual(array[i], expectedIterator.getCurrent());
+
+                        expectedIterator.next().await();
+                    }
+
+                    test.assertFalse(expectedIterator.hasCurrent());
+                });
+            }
+
+            asReadonlyArrayTest("array", []);
+            asReadonlyArrayTest("array", [1]);
+            asReadonlyArrayTest("array", [1, 2]);
+
+            asReadonlyArrayTest("Iterable", Iterable.create());
+            asReadonlyArrayTest("Iterable", Iterable.create([1]));
+            asReadonlyArrayTest("Iterable", Iterable.create([1, 2]));
+
+            asReadonlyArrayTest("List", List.create());
+            asReadonlyArrayTest("List", List.create([1]));
+            asReadonlyArrayTest("List", List.create([1, 2]));
         });
     });
 }

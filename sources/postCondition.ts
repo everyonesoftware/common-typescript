@@ -144,7 +144,7 @@ export abstract class PostCondition
      * @param expression  The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public static assertLessThan(value: number, upperBound: number, expression?: string, message?: string): void
+    public static assertLessThan(value: number | bigint, upperBound: number | bigint, expression?: string, message?: string): void
     {
         return PostCondition.getCondition().assertLessThan(value, upperBound, expression, message);
     }
@@ -156,7 +156,7 @@ export abstract class PostCondition
      * @param expression  The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public static assertLessThanOrEqualTo(value: number, upperBound: number, expression?: string, message?: string): void
+    public static assertLessThanOrEqualTo(value: number | bigint, upperBound: number | bigint, expression?: string, message?: string): void
     {
         return PostCondition.getCondition().assertLessThanOrEqualTo(value, upperBound, expression, message);
     }
@@ -168,7 +168,7 @@ export abstract class PostCondition
      * @param expression  The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public static assertGreaterThanOrEqualTo(value: number, lowerBound: number, expression?: string, message?: string): void
+    public static assertGreaterThanOrEqualTo(value: number | bigint, lowerBound: number | bigint, expression?: string, message?: string): void
     {
         return PostCondition.getCondition().assertGreaterThanOrEqualTo(value, lowerBound, expression, message);
     }
@@ -180,7 +180,7 @@ export abstract class PostCondition
      * @param expression  The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public static assertGreaterThan(value: number, lowerBound: number, expression?: string, message?: string): void
+    public static assertGreaterThan(value: number | bigint, lowerBound: number | bigint, expression?: string, message?: string): void
     {
         return PostCondition.getCondition().assertGreaterThan(value, lowerBound, expression, message);
     }
@@ -194,7 +194,7 @@ export abstract class PostCondition
      * @param expression  The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public static assertBetween(lowerBound: number, value: number, upperBound: number, expression?: string, message?: string): void
+    public static assertBetween(lowerBound: number | bigint, value: number | bigint, upperBound: number | bigint, expression?: string, message?: string): void
     {
         return PostCondition.getCondition().assertBetween(lowerBound, value, upperBound, expression, message);
     }

@@ -3,7 +3,7 @@ import { Iterator } from "./iterator.js";
 import { isMap, Map, MapEntry } from "./map.js";
 import { isSet, Set } from "./set.js";
 import { escapeAndQuote, join } from "./strings.js";
-import { hasFunction, isArray, isIterable, isNumber, isObject, isString } from "./types.js";
+import { hasFunction, isArray, isBigInt, isIterable, isNumber, isObject, isString } from "./types.js";
 
 /**
  * A collection of {@link ToStringFunction}s.
@@ -37,7 +37,7 @@ export class ToStringFunctions
         {
             result = this.iterableToString(value);
         }
-        else if (isNumber(value))
+        else if (isNumber(value) || isBigInt(value))
         {
             result = value.toString();
         }

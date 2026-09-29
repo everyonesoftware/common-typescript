@@ -570,9 +570,9 @@ export function test(runner: TestRunner): void
                 assertGreaterThanTest(5, 4);
             });
 
-            runner.testFunction("assertBetween(number,number,number,string?,string?)", () =>
+            runner.testFunction("assertBetween()", () =>
             {
-                function assertBetweenErrorTest(lowerBound: number, value: number, upperBound: number, expression: string | undefined, message: string | undefined, expectedError: Error): void
+                function assertBetweenErrorTest(lowerBound: number | bigint, value: number | bigint, upperBound: number | bigint, expression: string | undefined, message: string | undefined, expectedError: Error): void
                 {
                     runner.test(`with ${runner.andList([lowerBound, value, upperBound])}`, (test: Test) =>
                     {
@@ -602,8 +602,13 @@ export function test(runner: TestRunner): void
                     "Expected:   less than or equal to 2",
                     "Actual:     5",
                 ])));
+                assertBetweenErrorTest(5n, 3, 2n, "fake-expression", "fake-message", new Error(join("\n", [
+                    "Expression: lowerBound",
+                    "Expected:   less than or equal to 2",
+                    "Actual:     5",
+                ])));
 
-                function assertBetweenTest(lowerBound: number, value: number, upperBound: number, expression?: string, message?: string): void
+                function assertBetweenTest(lowerBound: number | bigint, value: number | bigint, upperBound: number | bigint, expression?: string, message?: string): void
                 {
                     runner.test(`with ${runner.andList([lowerBound, value, upperBound])}`, () =>
                     {
@@ -618,6 +623,7 @@ export function test(runner: TestRunner): void
                 assertBetweenTest(4, 5, 6);
                 assertBetweenTest(0, 0, 0);
                 assertBetweenTest(1, 1, 1);
+                assertBetweenTest(1n, 1n, 1n);
             });
 
             runner.testFunction("assertAccessIndex(number,number,string?,string?)", () =>

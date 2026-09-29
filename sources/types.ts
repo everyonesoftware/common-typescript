@@ -1,6 +1,7 @@
 import { Iterable } from "./iterable.js";
 import { Iterator } from "./iterator.js";
 import { JavascriptAsyncIterable, JavascriptAsyncIterator, JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { PreCondition } from "./preCondition.js";
 
 /**
  * A {@link Type} that can be used to pass types as parameters.
@@ -146,6 +147,24 @@ export function isNumber(value: unknown): value is number
 export function asNumber(value: unknown): number | undefined
 {
     return as(value, isNumber);
+}
+
+/**
+ * Get whether the provided value is a bigint.
+ * @param value The value to check.
+ */
+export function isBigInt(value: unknown): value is bigint
+{
+    return typeof value === "bigint";
+}
+
+/**
+ * Return the provided value if it is a bigint, otherwise return undefined.
+ * @param value The value to check.
+ */
+export function asBigInt(value: unknown): bigint | undefined
+{
+    return as(value, isBigInt);
 }
 
 /**
@@ -423,4 +442,18 @@ export function isPromise<T>(value: unknown): value is Promise<T>
     return isPromiseLike<T>(value) &&
         hasFunction(value, "catch", { parameterCount: 1 }) &&
         hasFunction(value, "finally", { parameterCount: 1 });
+}
+
+/**
+ * Return the provided value is a {@link ReadonlyArray}. If the value is already an {@link Array},
+ * then the original {@link Array} will be returned as a {@link ReadonlyArray}. If the value is not
+ * an {@link Array}, then a new {@link Array} will be created with the provided values and returned
+ * as a {@link ReadonlyArray}.
+ * @param value The value to ensure is a {@link ReadonlyArray}.
+ */
+export function asReadonlyArray<T>(value: JavascriptIterable<T>): ReadonlyArray<T>
+{
+    PreCondition.assertNotUndefinedAndNotNull(value, "value");
+
+    return (isArray(value) ? value : asIterable(value).toArray().await()) as ReadonlyArray<T>;
 }

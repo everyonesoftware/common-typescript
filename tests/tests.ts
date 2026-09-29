@@ -64,6 +64,7 @@ import * as typesTests from "./typesTests.js";
 import * as whereIteratorTests from "./whereIteratorTests.js";
 import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests.js";
 import * as commandLineCommandTests from "./CommandLineCommandTests.js";
+import * as realProcessRunnerTests from "./RealProcessRunnerTests.js";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -133,4 +134,5 @@ await ConsoleTestRunner.run([
     whereIteratorTests,
     wonderlandTrailClientTests,
     commandLineCommandTests,
+    realProcessRunnerTests,
 ]);

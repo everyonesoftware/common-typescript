@@ -30,6 +30,7 @@ export function test(runner: TestRunner): void
                 toStringTest(false, "false");
                 toStringTest(true, "true");
                 toStringTest(50, "50");
+                toStringTest(75n, "75");
                 toStringTest(NaN, "NaN");
                 toStringTest(Infinity, "Infinity");
                 toStringTest(-Infinity, "-Infinity");

@@ -215,7 +215,7 @@ export class MutableCondition implements Condition
         }
     }
 
-    public assertLessThan(value: number, upperBound: number, expression?: string, message?: string): void
+    public assertLessThan(value: number | bigint, upperBound: number | bigint, expression?: string, message?: string): void
     {
         if (!(value < upperBound))
         {
@@ -228,7 +228,7 @@ export class MutableCondition implements Condition
         }
     }
 
-    public assertLessThanOrEqualTo(value: number, upperBound: number, expression?: string, message?: string): void
+    public assertLessThanOrEqualTo(value: number | bigint, upperBound: number | bigint, expression?: string, message?: string): void
     {
         if (!(value <= upperBound))
         {
@@ -241,7 +241,7 @@ export class MutableCondition implements Condition
         }
     }
 
-    public assertGreaterThanOrEqualTo(value: number, lowerBound: number, expression?: string, message?: string): void
+    public assertGreaterThanOrEqualTo(value: number | bigint, lowerBound: number | bigint, expression?: string, message?: string): void
     {
         if (!(lowerBound <= value))
         {
@@ -254,7 +254,7 @@ export class MutableCondition implements Condition
         }
     }
 
-    public assertGreaterThan(value: number, lowerBound: number, expression?: string, message?: string): void
+    public assertGreaterThan(value: number | bigint, lowerBound: number | bigint, expression?: string, message?: string): void
     {
         if (!(lowerBound < value))
         {
@@ -267,7 +267,7 @@ export class MutableCondition implements Condition
         }
     }
 
-    public assertBetween(lowerBound: number, value: number, upperBound: number, expression?: string, message?: string): void
+    public assertBetween(lowerBound: number | bigint, value: number | bigint, upperBound: number | bigint, expression?: string, message?: string): void
     {
         this.assertLessThanOrEqualTo(lowerBound, upperBound, "lowerBound");
         if (isUndefinedOrNull(value) || !(lowerBound <= value && value <= upperBound))

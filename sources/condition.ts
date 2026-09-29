@@ -183,7 +183,7 @@ export abstract class Condition
      * @param expression  The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public abstract assertLessThan(value: number, upperBound: number, expression?: string, message?: string): void;
+    public abstract assertLessThan(value: number | bigint, upperBound: number | bigint, expression?: string, message?: string): void;
 
     /**
      * Assert that the provided value is less than or equal to the provided upperBound.
@@ -192,7 +192,7 @@ export abstract class Condition
      * @param expression  The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public abstract assertLessThanOrEqualTo(value: number, upperBound: number, expression?: string, message?: string): void;
+    public abstract assertLessThanOrEqualTo(value: number | bigint, upperBound: number | bigint, expression?: string, message?: string): void;
 
     /**
      * Assert that the provided value is greater than or equal to the provided lowerBound.
@@ -201,7 +201,7 @@ export abstract class Condition
      * @param expression  The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public abstract assertGreaterThanOrEqualTo(value: number, lowerBound: number, expression?: string, message?: string): void;
+    public abstract assertGreaterThanOrEqualTo(value: number | bigint, lowerBound: number | bigint, expression?: string, message?: string): void;
 
     /**
      * Assert that the provided value is greater than the provided lowerBound.
@@ -210,7 +210,7 @@ export abstract class Condition
      * @param expression  The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public abstract assertGreaterThan(value: number, lowerBound: number, expression?: string, message?: string): void;
+    public abstract assertGreaterThan(value: number | bigint, lowerBound: number | bigint, expression?: string, message?: string): void;
 
     /**
      * Assert that the value is greater than or equal to the lowerBound and less than or equal to
@@ -221,7 +221,7 @@ export abstract class Condition
      * @param expression  The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public abstract assertBetween(lowerBound: number, value: number, upperBound: number, expression?: string, message?: string): void;
+    public abstract assertBetween(lowerBound: number | bigint, value: number | bigint, upperBound: number | bigint, expression?: string, message?: string): void;
 
     /**
      * Assert that the index is within the access bounds of an indexable with the provided count.
