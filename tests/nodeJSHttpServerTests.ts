@@ -1,8 +1,4 @@
-import { AsyncResult } from "../sources/index.js";
-import { FetchHttpClient } from "../sources/fetchHttpClient.js";
-import { FetchHttpIncomingResponse } from "../sources/FetchHttpIncomingResponse.js";
-import { NodeJSHttpServer } from "../sources/nodeJSHttpServer.js";
-import { PreConditionError } from "../sources/preConditionError.js";
+import { HttpClient, HttpIncomingResponse, NodeJSHttpServer, PreConditionError } from "../sources/index.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
 
@@ -17,7 +13,7 @@ export function test(runner: TestRunner): void
                 const httpServer: NodeJSHttpServer = NodeJSHttpServer.create();
                 test.assertNotUndefinedAndNotNull(httpServer);
                 test.assertFalse(httpServer.isDisposed());
-                test.assertFalse(httpServer.isStarted());
+                test.assertFalse(httpServer.isListening());
             });
 
             runner.testFunction("dispose()", async (test: Test) =>
@@ -26,13 +22,13 @@ export function test(runner: TestRunner): void
 
                 test.assertTrue(await httpServer.dispose());
                 test.assertTrue(httpServer.isDisposed());
-                test.assertFalse(httpServer.isStarted());
+                test.assertFalse(httpServer.isListening());
 
                 for (let i = 0; i < 3; i++)
                 {
                     test.assertFalse(await httpServer.dispose());
                     test.assertTrue(httpServer.isDisposed());
-                    test.assertFalse(httpServer.isStarted());
+                    test.assertFalse(httpServer.isListening());
                 }
             });
 
@@ -49,26 +45,26 @@ export function test(runner: TestRunner): void
                         actual: "true",
                     }));
                     test.assertTrue(httpServer.isDisposed());
-                    test.assertFalse(httpServer.isStarted());
+                    test.assertFalse(httpServer.isListening());
                 });
 
                 runner.test("simple scenario", async (test: Test) =>
                 {
                     const httpServer: NodeJSHttpServer = NodeJSHttpServer.create();
 
-                    const startResult: AsyncResult<void> = httpServer.start(3000);
+                    await httpServer.start();
                     try
                     {
-                        const httpClient: FetchHttpClient = FetchHttpClient.create();
-                        const response: FetchHttpIncomingResponse = await httpClient.sendGetRequest("http://localhost:3000");
+                        const httpClient: HttpClient = HttpClient.create();
+                        const response: HttpIncomingResponse = await httpClient.sendGetRequest(`http://localhost:${httpServer.getPortNumber()}`);
 
                         test.assertNotUndefinedAndNotNull(response);
-                        test.assertEqual(200, response.getStatusCode());
+                        test.assertEqual(response.getStatusCode(), 404);
+                        test.assertEqual(await response.getBodyString(), "Unrecognized request");
                     }
                     finally
                     {
                         await httpServer.dispose();
-                        await startResult;
                     }
                 });
             });

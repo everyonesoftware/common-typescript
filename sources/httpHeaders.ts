@@ -9,6 +9,7 @@ import { AsyncResult } from "./asyncResult.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
 import { Type } from "./types.js";
+import { JSONObjectData } from "./JSON.js";
 
 /**
  * A collection of {@link HttpHeader}s.
@@ -111,6 +112,21 @@ export abstract class HttpHeaders implements Iterable<HttpHeader>
     public static toString(headers: HttpHeaders, toStringFunctions?: ToStringFunctions): string
     {
         return Iterable.toString(headers, toStringFunctions);
+    }
+
+    public toJSON(): JSONObjectData
+    {
+        return HttpHeaders.toJSON(this);
+    }
+
+    public static toJSON(headers: HttpHeaders): JSONObjectData
+    {
+        const result: JSONObjectData = {};
+        for (const header of headers)
+        {
+            result[header.getName()] = header.getValue();
+        }
+        return result;
     }
 
     public concatenate(...toConcatenate: JavascriptIterable<HttpHeader>[]): Iterable<HttpHeader>

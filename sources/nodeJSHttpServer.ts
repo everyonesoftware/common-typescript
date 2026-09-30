@@ -6,6 +6,13 @@ import { HttpOutgoingResponse } from "./httpOutgoingResponse.js";
 import { PreCondition } from "./preCondition.js";
 import { AsyncResult } from "./asyncResult.js";
 import { NodeJSHttpOutgoingResponse } from "./NodeJSHttpOutgoingResponse.js";
+import { HttpIncomingRequestHandler } from "./HttpIncomingRequestHandler.js";
+import { AddressInfo } from "net";
+import { isString, isUndefinedOrNull } from "./types.js";
+import { NotFoundError } from "./notFoundError.js";
+import { ParseError } from "./ParseError.js";
+import { escapeAndQuote } from "./strings.js";
+import { NodeJSHttpIncomingRequest } from "./nodeJSHttpIncomingRequest.js";
 
 /**
  * A {@link HttpServer} implementation that uses the Node.js HTTP module.
@@ -14,6 +21,7 @@ export class NodeJSHttpServer extends HttpServer
 {
     private httpServer: http.Server | undefined;
     private disposed: boolean;
+    private defaultRequestHandler?: HttpIncomingRequestHandler;
 
     private constructor()
     {
@@ -42,7 +50,7 @@ export class NodeJSHttpServer extends HttpServer
             }
             else
             {
-                this.httpServer.close((error?: Error) =>
+                this.httpServer.once("close", (error?: Error) =>
                 {
                     if (error)
                     {
@@ -55,6 +63,8 @@ export class NodeJSHttpServer extends HttpServer
                         resolve(true);
                     }
                 });
+
+                this.httpServer.close();
             }
         }));
     }
@@ -64,29 +74,49 @@ export class NodeJSHttpServer extends HttpServer
         return this.disposed;
     }
 
-    public isStarted(): boolean
+    public isListening(): boolean
     {
-        return !!this.httpServer;
+        return this.httpServer?.listening === true;
     }
 
-    public addRequestHandler(_requestPath: string, _handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>): void
+    public getPortNumber(): number
+    {
+        PreCondition.assertTrue(this.isListening(), "this.isListening()");
+
+        const addressInfoOrString: string | AddressInfo | null = this.httpServer!.address();
+        if (isUndefinedOrNull(addressInfoOrString))
+        {
+            throw new NotFoundError("Couldn't get AddressInfo from NodeJSHttpServer.");
+        }
+        else if (isString(addressInfoOrString))
+        {
+            throw new ParseError(`Expected AddressInfo, but got string: ${escapeAndQuote(addressInfoOrString)}`);
+        }
+
+        return addressInfoOrString.port;
+    }
+
+    public addRequestHandler(_requestPath: string, _handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => Promise<void>): void
     {
         throw new Error("Method not implemented.");
     }
 
-    public setDefaultRequestHandler(_handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => AsyncResult<void>): void
+    public setDefaultRequestHandler(handler: (request: HttpIncomingRequest, response: HttpOutgoingResponse) => Promise<void>): void
     {
-        throw new Error("Method not implemented.");
+        PreCondition.assertNotUndefinedAndNotNull(handler, "handler");
+
+        this.defaultRequestHandler = handler;
     }
 
     /**
      * Start listening for incoming connections on the provided port number. The returned
-     * {@link AsyncResult} will complete when the server is disposed.
-     * @param portNumber The port number to start listening on.
+     * {@link AsyncResult} will complete when the server is listening.
+     * @param portNumber The port number to start listening on. If this is undefined then a random
+     * port will be chosen instead.
      */
-    public start(portNumber: number): AsyncResult<void>
+    public start(portNumber?: number): AsyncResult<void>
     {
-        PreCondition.assertGreaterThanOrEqualTo(portNumber, 1, "portNumber");
+        PreCondition.assertTrue(isUndefinedOrNull(portNumber) || portNumber >= 1, "isUndefinedOrNull(portNumber) || portNumber >= 1");
         PreCondition.assertFalse(this.isDisposed(), "this.isDisposed()");
         PreCondition.assertUndefined(this.httpServer, "this.httpServer");
 
@@ -100,19 +130,26 @@ export class NodeJSHttpServer extends HttpServer
             {
                 this.httpServer = http.createServer();
 
-                this.httpServer.on("request", async (rawRequest: http.IncomingMessage, rawResponse: http.ServerResponse<http.IncomingMessage> & { req: http.IncomingMessage }) =>
-                {
-                    // const httpRequest: HttpIncomingRequest = NodeJSHttpIncomingRequest.create(request);
-                    const response = NodeJSHttpOutgoingResponse.create(rawResponse)
-                        .setStatusCode(200)
-                        .setHeader("Content-Type", "text/plain")
-                        .setBodyString("Hello world!");
-                    await response.end();
-                });
-
-                this.httpServer.on("close", () =>
+                this.httpServer.on("listening", () =>
                 {
                     resolve();
+                });
+
+                this.httpServer.on("request", async (rawRequest: http.IncomingMessage, rawResponse: http.ServerResponse<http.IncomingMessage> & { req: http.IncomingMessage }) =>
+                {
+                    const httpRequest: NodeJSHttpIncomingRequest = NodeJSHttpIncomingRequest.create(rawRequest);
+                    const httpResponse: NodeJSHttpOutgoingResponse = NodeJSHttpOutgoingResponse.create(rawResponse);
+
+                    if (!isUndefinedOrNull(this.defaultRequestHandler))
+                    {
+                        await this.defaultRequestHandler(httpRequest, httpResponse);
+                    }
+                    else
+                    {
+                        httpResponse.setStatusCode(404).setBodyString("Unrecognized request");
+                    }
+
+                    await httpResponse.end();
                 });
 
                 this.httpServer.on("error", (error: Error) =>

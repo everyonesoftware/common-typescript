@@ -40,16 +40,19 @@ export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
         return SyncResult.value(process.env.HOST ?? "localhost");
     }
 
+    public getURL(): URL
+    {
+        return new URL(`http://${this.getHost().await()}${this.request.url}`);
+    }
+
     public getPath(): string
     {
-        const url: URL = new URL(this.request.url!);
-        return url.pathname;
+        return this.getURL().pathname;
     }
 
     public getQueryParameters(): Map<string, string>
     {
-        const url: URL = new URL(this.request.url!);
-        const queryParameters: URLSearchParams = url.searchParams;
+        const queryParameters: URLSearchParams = this.getURL().searchParams;
 
         const result: MutableMap<string, string> = MutableMap.create();
         for (const queryParameter of queryParameters)
@@ -58,7 +61,6 @@ export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
         }
         return result;
     }
-    
 
     private static toHttpHeader(header: [string, string | string[] | undefined]): HttpHeader
     {
@@ -83,7 +85,8 @@ export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
 
     public getHeaders(): SyncResult<HttpHeaders>
     {
-        return SyncResult.value(HttpHeaders.create(Object.entries(this.request.headers).map(NodeJSHttpIncomingRequest.toHttpHeader)));
+        return SyncResult.value(HttpHeaders.create(Object.entries(this.request.headers)
+            .map(header => NodeJSHttpIncomingRequest.toHttpHeader(header))));
     }
 
     public getHeader(headerName: string): SyncResult<HttpHeader>

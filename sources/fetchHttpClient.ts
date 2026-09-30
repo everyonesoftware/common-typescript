@@ -71,9 +71,9 @@ export class FetchHttpClient implements HttpClient
         });
     }
 
-    public sendGetRequest(url: string): AsyncResult<FetchHttpIncomingResponse>
+    public sendGetRequest(url: string, headers?: HttpHeaders): AsyncResult<FetchHttpIncomingResponse>
     {
-        return this.sendRequest(HttpOutgoingRequest.create(HttpMethod.GET, url));
+        return this.sendRequest(HttpOutgoingRequest.create(HttpMethod.GET, url, headers));
     }
 
     public static convertHeaders(headers: HttpHeaders): [string, string][]

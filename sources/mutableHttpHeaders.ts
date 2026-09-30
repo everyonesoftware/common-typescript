@@ -4,6 +4,7 @@ import { HttpHeaders } from "./httpHeaders.js";
 import { Iterable } from "./iterable.js";
 import { Iterator } from "./iterator.js";
 import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
+import { JSONObjectData } from "./JSON.js";
 import { List } from "./list.js";
 import { NotFoundError } from "./notFoundError.js";
 import { PreCondition } from "./preCondition.js";
@@ -155,6 +156,11 @@ export class MutableHttpHeaders implements HttpHeaders
     public toString(toStringFunctions?: ToStringFunctions): string
     {
         return HttpHeaders.toString(this, toStringFunctions);
+    }
+
+    public toJSON(): JSONObjectData
+    {
+        return HttpHeaders.toJSON(this);
     }
 
     public concatenate(...toConcatenate: JavascriptIterable<HttpHeader>[]): Iterable<HttpHeader>
