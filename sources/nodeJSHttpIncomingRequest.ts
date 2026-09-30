@@ -11,6 +11,7 @@ import { SyncResult } from "./syncResult.js";
 import { Map } from "./map.js";
 import { MutableMap } from "./mutableMap.js";
 import { JSONData } from "./JSON.js";
+import { MutableHttpHeaders } from "./mutableHttpHeaders.js";
 
 export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
 {
@@ -83,10 +84,14 @@ export class NodeJSHttpIncomingRequest extends HttpIncomingRequest
         return result;
     }
 
-    public getHeaders(): SyncResult<HttpHeaders>
+    public getHeaders(): HttpHeaders
     {
-        return SyncResult.value(HttpHeaders.create(Object.entries(this.request.headers)
-            .map(header => NodeJSHttpIncomingRequest.toHttpHeader(header))));
+        const result: MutableHttpHeaders = HttpHeaders.create();
+        for (const header of Object.entries(this.request.headers))
+        {
+            result.set(NodeJSHttpIncomingRequest.toHttpHeader(header));
+        }
+        return result;
     }
 
     public getHeader(headerName: string): SyncResult<HttpHeader>

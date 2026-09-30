@@ -1,4 +1,4 @@
-import { HttpMethod, HttpOutgoingRequest, isUndefinedOrNull, JSONData, PreConditionError } from "../sources/index.js";
+import { HttpHeaders, HttpMethod, HttpOutgoingRequest, isUndefinedOrNull, JSONData, PreConditionError } from "../sources/index.js";
 import { Test } from "./test.js";
 import { TestRunner } from "./testRunner.js";
 
@@ -8,6 +8,22 @@ export function test(runner: TestRunner): void
     {
         runner.testType("HttpOutgoingRequest", () =>
         {
+            runner.testFunction("create()", () =>
+            {
+                runner.test("with headers", (test: Test) =>
+                {
+                    const request: HttpOutgoingRequest = HttpOutgoingRequest.create(
+                        HttpMethod.GET,
+                        "http://localhost/hello",
+                        HttpHeaders.create().set("hey", "there"),
+                    );
+                    test.assertNotUndefinedAndNotNull(request);
+                    test.assertEqual(request.getMethod(), HttpMethod.GET);
+                    test.assertEqual(request.getURL(), "http://localhost/hello");
+                    test.assertEqual(request.getHeaderValue("hey").await(), "there");
+                });
+            });
+
             runner.testFunction("setBodyString()", () =>
             {
                 function setBodyStringErrorTest(body: string, expected: Error): void

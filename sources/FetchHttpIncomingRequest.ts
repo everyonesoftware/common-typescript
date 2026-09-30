@@ -5,6 +5,7 @@ import { HttpIncomingRequest } from "./httpIncomingRequest.js";
 import { HttpMethod } from "./httpMethod.js";
 import { JSONData } from "./JSON.js";
 import { Map } from "./map.js";
+import { MutableHttpHeaders } from "./mutableHttpHeaders.js";
 import { MutableMap } from "./mutableMap.js";
 import { NotFoundError } from "./notFoundError.js";
 import { PreCondition } from "./preCondition.js";
@@ -82,9 +83,14 @@ export class FetchHttpIncomingRequest implements HttpIncomingRequest
         return result;
     }
 
-    public getHeaders(): SyncResult<HttpHeaders>
+    public getHeaders(): HttpHeaders
     {
-        return SyncResult.value(HttpHeaders.create(Object.entries(this.request.headers).map(FetchHttpIncomingRequest.toHttpHeader)));
+        const result: MutableHttpHeaders = HttpHeaders.create();
+        for (const header of this.request.headers)
+        {
+            result.set(FetchHttpIncomingRequest.toHttpHeader(header));
+        }
+        return result;
     }
 
     public getHeader(headerName: string): SyncResult<HttpHeader>

@@ -33,7 +33,7 @@ export abstract class HttpIncomingRequest
     /**
      * Get the {@link HttpHeaders} of this {@link HttpIncomingRequest}.
      */
-    public abstract getHeaders(): AsyncResult<HttpHeaders>;
+    public abstract getHeaders(): HttpHeaders;
 
     /**
      * Get the {@link HttpHeader} with the provided name in this {@link HttpIncomingRequest}. If no
