@@ -34,7 +34,17 @@ export abstract class HttpIncomingResponse
      * header exists with the provided name, then a {@link NotFoundError} will be returned.
      * @param headerName The name of the header to get.
      */
-    public abstract getHeader(headerName: string): SyncResult<HttpHeader>;
+    public getHeader(headerName: string): SyncResult<HttpHeader>
+    {
+        return HttpIncomingResponse.getHeader(this, headerName);
+    }
+
+    public static getHeader(response: HttpIncomingResponse, headerName: string): SyncResult<HttpHeader>
+    {
+        PreCondition.assertNotUndefinedAndNotNull(response, "response");
+
+        return response.getHeaders().get(headerName);
+    }
 
     /**
      * Get the value of the {@link HttpHeader} with the provided name in this
@@ -42,7 +52,17 @@ export abstract class HttpIncomingResponse
      * {@link NotFoundError} will be returned.
      * @param headerName The name of the header value to get.
      */
-    public abstract getHeaderValue(headerName: string): SyncResult<string>;
+    public getHeaderValue(headerName: string): SyncResult<string>
+    {
+        return HttpIncomingResponse.getHeaderValue(this, headerName);
+    }
+
+    public static getHeaderValue(response: HttpIncomingResponse, headerName: string): SyncResult<string>
+    {
+        PreCondition.assertNotUndefinedAndNotNull(response, "response");
+
+        return response.getHeaders().getValue(headerName);
+    }
 
     /**
      * Get the raw string of the body.

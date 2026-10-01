@@ -7,9 +7,7 @@ import { JSONData } from "./JSON.js";
 import { Map } from "./map.js";
 import { MutableHttpHeaders } from "./mutableHttpHeaders.js";
 import { MutableMap } from "./mutableMap.js";
-import { NotFoundError } from "./notFoundError.js";
 import { PreCondition } from "./preCondition.js";
-import { escapeAndQuote } from "./strings.js";
 import { SyncResult } from "./syncResult.js";
 import { isArray } from "./types.js";
 
@@ -95,53 +93,12 @@ export class FetchHttpIncomingRequest implements HttpIncomingRequest
 
     public getHeader(headerName: string): SyncResult<HttpHeader>
     {
-        PreCondition.assertNotEmpty(headerName, "headerName");
-
-        return SyncResult.create(() =>
-        {
-            let result: HttpHeader | undefined;
-
-            const lowerHeaderName: string = headerName.toLowerCase();
-            for (const header of Object.entries(this.request.headers))
-            {
-                if (header[0].toLowerCase() === lowerHeaderName)
-                {
-                    result = HttpHeader.create(header[0], FetchHttpIncomingRequest.toHttpHeaderValue(header[1]));
-                    break;
-                }
-            }
-            if (result === undefined)
-            {
-                throw new NotFoundError(`No header with the name ${escapeAndQuote(headerName)} found.`);
-            }
-
-            return result;
-        });
+        return HttpIncomingRequest.getHeader(this, headerName);
     }
+
     public getHeaderValue(headerName: string): SyncResult<string>
     {
-        PreCondition.assertNotEmpty(headerName, "headerName");
-
-        return SyncResult.create(() =>
-        {
-            let result: string | undefined;
-
-            const lowerHeaderName: string = headerName.toLowerCase();
-            for (const header of Object.entries(this.request.headers))
-            {
-                if (header[0].toLowerCase() === lowerHeaderName)
-                {
-                    result = FetchHttpIncomingRequest.toHttpHeaderValue(header[1]);
-                    break;
-                }
-            }
-            if (result === undefined)
-            {
-                throw new NotFoundError(`No header with the name ${escapeAndQuote(headerName)} found.`);
-            }
-
-            return result;
-        });
+        return HttpIncomingRequest.getHeaderValue(this, headerName);
     }
 
     public getBodyString(): AsyncResult<string>

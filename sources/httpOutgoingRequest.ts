@@ -109,12 +109,12 @@ export class HttpOutgoingRequest
 
     public getHeader(headerName: string): SyncResult<HttpHeader>
     {
-        return this.headers.get(headerName);
+        return this.getHeaders().get(headerName);
     }
 
     public getHeaderValue(headerName: string): SyncResult<string>
     {
-        return this.headers.getValue(headerName);
+        return this.getHeaders().getValue(headerName);
     }
 
     public setHeader(headerName: string, headerValue: string): this

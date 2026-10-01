@@ -1,5 +1,6 @@
 import { HttpHeader } from "./httpHeader.js";
 import { HttpHeaders } from "./httpHeaders.js";
+import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
 
 /**
@@ -28,7 +29,17 @@ export abstract class HttpOutgoingResponse
      * header exists with the provided name, then a {@link NotFoundError} will be returned.
      * @param headerName The name of the header to get.
      */
-    public abstract getHeader(headerName: string): SyncResult<HttpHeader>;
+    public getHeader(headerName: string): SyncResult<HttpHeader>
+    {
+        return HttpOutgoingResponse.getHeader(this, headerName);
+    }
+
+    public static getHeader(response: HttpOutgoingResponse, headerName: string): SyncResult<HttpHeader>
+    {
+        PreCondition.assertNotUndefinedAndNotNull(response, "response");
+
+        return response.getHeaders().get(headerName);
+    }
 
     /**
      * Get the value of the {@link HttpHeader} with the provided name in this
@@ -36,7 +47,17 @@ export abstract class HttpOutgoingResponse
      * {@link NotFoundError} will be returned.
      * @param headerName The name of the header value to get.
      */
-    public abstract getHeaderValue(headerName: string): SyncResult<string>;
+    public getHeaderValue(headerName: string): SyncResult<string>
+    {
+        return HttpOutgoingResponse.getHeaderValue(this, headerName);
+    }
+
+    public static getHeaderValue(response: HttpOutgoingResponse, headerName: string): SyncResult<string>
+    {
+        PreCondition.assertNotUndefinedAndNotNull(response, "response");
+
+        return response.getHeaders().getValue(headerName);
+    }
 
     public abstract setHeader(headerName: string, headerValue: string): this;
 

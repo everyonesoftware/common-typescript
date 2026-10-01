@@ -55,12 +55,12 @@ export class FetchHttpOutgoingResponse extends HttpOutgoingResponse
 
     public getHeader(headerName: string): SyncResult<HttpHeader>
     {
-        return this.headers.get(headerName);
+        return HttpOutgoingResponse.getHeader(this, headerName);
     }
 
     public getHeaderValue(headerName: string): SyncResult<string>
     {
-        return this.headers.getValue(headerName);
+        return HttpOutgoingResponse.getHeaderValue(this, headerName);
     }
 
     public setHeader(headerName: string, headerValue: string): this

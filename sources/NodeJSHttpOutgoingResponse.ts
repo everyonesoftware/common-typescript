@@ -6,8 +6,7 @@ import { HttpHeaders } from "./httpHeaders.js";
 import { MutableHttpHeaders } from "./mutableHttpHeaders.js";
 import { HttpHeader } from "./httpHeader.js";
 import { isArray } from "./types.js";
-import { escapeAndQuote, join } from "./strings.js";
-import { NotFoundError } from "./notFoundError.js";
+import { join } from "./strings.js";
 import { AsyncResult } from "./asyncResult.js";
 
 export class NodeJSHttpOutgoingResponse implements HttpOutgoingResponse
@@ -63,20 +62,12 @@ export class NodeJSHttpOutgoingResponse implements HttpOutgoingResponse
 
     public getHeader(headerName: string): SyncResult<HttpHeader>
     {
-        PreCondition.assertNotEmpty(headerName, "headerName");
-
-        const headerValue: http.OutgoingHttpHeader | undefined = this.innerResponse.getHeader(headerName);
-        return headerValue === undefined
-            ? SyncResult.error(new NotFoundError(`No HTTP header value exists with the name ${escapeAndQuote(headerName)}.`))
-            : SyncResult.value(HttpHeader.create(headerName, NodeJSHttpOutgoingResponse.headerValueToString(headerValue)));
+        return HttpOutgoingResponse.getHeader(this, headerName);
     }
 
     public getHeaderValue(headerName: string): SyncResult<string>
     {
-        const headerValue: http.OutgoingHttpHeader | undefined = this.innerResponse.getHeader(headerName);
-        return headerValue === undefined
-            ? SyncResult.error(new NotFoundError(`No HTTP header value exists with the name ${escapeAndQuote(headerName)}.`))
-            : SyncResult.value(NodeJSHttpOutgoingResponse.headerValueToString(headerValue));
+        return HttpOutgoingResponse.getHeaderValue(this, headerName);
     }
 
     public setHeader(headerName: string, headerValue: string): this

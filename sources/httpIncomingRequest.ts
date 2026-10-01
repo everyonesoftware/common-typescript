@@ -4,6 +4,8 @@ import { HttpMethod } from "./httpMethod.js";
 import { AsyncResult } from "./asyncResult.js";
 import { Map } from "./map.js";
 import { JSONData } from "./JSON.js";
+import { PreCondition } from "./preCondition.js";
+import { SyncResult } from "./syncResult.js";
 
 /**
  * A HTTP request that is received by a {@link HttpServer}.
@@ -40,7 +42,17 @@ export abstract class HttpIncomingRequest
      * header exists with the provided name, then a {@link NotFoundError} will be returned.
      * @param headerName The name of the header to get.
      */
-    public abstract getHeader(headerName: string): AsyncResult<HttpHeader>;
+    public getHeader(headerName: string): SyncResult<HttpHeader>
+    {
+        return HttpIncomingRequest.getHeader(this, headerName);
+    }
+
+    public static getHeader(request: HttpIncomingRequest, headerName: string): SyncResult<HttpHeader>
+    {
+        PreCondition.assertNotUndefinedAndNotNull(request, "request");
+
+        return request.getHeaders().get(headerName);
+    }
 
     /**
      * Get the value of the {@link HttpHeader} with the provided name in this
@@ -48,7 +60,17 @@ export abstract class HttpIncomingRequest
      * {@link NotFoundError} will be returned.
      * @param headerName The name of the header value to get.
      */
-    public abstract getHeaderValue(headerName: string): AsyncResult<string>;
+    public getHeaderValue(headerName: string): SyncResult<string>
+    {
+        return HttpIncomingRequest.getHeaderValue(this, headerName);
+    }
+
+    public static getHeaderValue(request: HttpIncomingRequest, headerName: string): SyncResult<string>
+    {
+        PreCondition.assertNotUndefinedAndNotNull(request, "request");
+
+        return request.getHeaders().getValue(headerName);
+    }
 
     /**
      * Get the body of this {@link HttpIncomingRequest} as a string.
