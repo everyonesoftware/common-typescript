@@ -56,6 +56,6 @@ export class NodeJSPath implements Path
 
     public isAbsolute(): boolean
     {
-        return !!this.parsedPath.root;
+        return path.isAbsolute(this.toString());
     }
 }
