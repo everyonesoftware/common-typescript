@@ -45,15 +45,15 @@ export function pathTests(runner: TestRunner, parser: (pathString: string) => Sy
                 });
             }
 
-            parseTest("/", "\\");
-            parseTest("/hello", "\\hello");
-            parseTest("/hello/there", "\\hello\\there");
-            parseTest("/hello//there", "\\hello\\there");
-            parseTest("/hello/././../there", "\\there")
-            parseTest("/hello/./../../there", "\\there")
-            parseTest("/hello/../../../there", "\\there")
+            parseTest("/", "/");
+            parseTest("/hello", "/hello");
+            parseTest("/hello/there", "/hello\\there");
+            parseTest("/hello//there", "/hello/\\there");
+            parseTest("/hello/././../there", "/hello/././..\\there")
+            parseTest("/hello/./../../there", "/hello/./../..\\there")
+            parseTest("/hello/../../../there", "/hello/../../..\\there")
             parseTest("C:\\", "C:\\");
-            parseTest("C:/Windows/System32/notepad.exe", "C:\\Windows\\System32\\notepad.exe");
+            parseTest("C:/Windows/System32/notepad.exe", "C:/Windows/System32\\notepad.exe");
             parseTest("C:\\<>:\"|?*.txt", "C:\\<>:\"|?*.txt");
         });
 
@@ -91,15 +91,15 @@ export function pathTests(runner: TestRunner, parser: (pathString: string) => Sy
                 });
             }
 
-            getParentTest("/", "\\");
-            getParentTest("/hello", "\\");
-            getParentTest("/hello/there", "\\hello");
-            getParentTest("/hello//there", "\\hello");
-            getParentTest("/hello/././../there", "\\")
-            getParentTest("/hello/./../../there", "\\")
-            getParentTest("/hello/../../../there", "\\")
+            getParentTest("/", "/");
+            getParentTest("/hello", "/");
+            getParentTest("/hello/there", "/hello");
+            getParentTest("/hello//there", "/hello");
+            getParentTest("/hello/././../there", "/hello/./.\\..")
+            getParentTest("/hello/./../../there", "/hello/./..\\..")
+            getParentTest("/hello/../../../there", "/hello/../..\\..")
             getParentTest("C:\\", "C:\\");
-            getParentTest("C:/Windows/System32/notepad.exe", "C:\\Windows\\System32");
+            getParentTest("C:/Windows/System32/notepad.exe", "C:/Windows\\System32");
             getParentTest("C:\\<>:\"|?*.txt", "C:\\");
         });
 

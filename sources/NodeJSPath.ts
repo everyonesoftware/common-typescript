@@ -39,9 +39,14 @@ export class NodeJSPath implements Path
         return NodeJSPath.parse(path.join(this.toString(), part)).await();
     }
 
-    public toString(): string
+    public toString(options?: { separator?: string }): string
     {
-        return path.join(this.parsedPath.dir, this.parsedPath.base);
+        let result: string = path.format(this.parsedPath);
+        if (options?.separator)
+        {
+            result = result.replaceAll(/[\\/]/g, options.separator);
+        }
+        return result;
     }
 
     public isRelative(): boolean
