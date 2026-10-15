@@ -20,7 +20,7 @@ export class NodeJSPath implements Path
 
         return SyncResult.create(() =>
         {
-            return new NodeJSPath(path.parse(pathString));
+            return new NodeJSPath(path.parse(Path.convertSeparators(pathString, "/")));
         });
     }
 
@@ -44,7 +44,7 @@ export class NodeJSPath implements Path
         let result: string = path.format(this.parsedPath);
         if (options?.separator)
         {
-            result = result.replaceAll(/[\\/]/g, options.separator);
+            result = Path.convertSeparators(result, options.separator);
         }
         return result;
     }

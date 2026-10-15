@@ -41,20 +41,20 @@ export function pathTests(runner: TestRunner, parser: (pathString: string) => Sy
                 {
                     const path: Path = parser(pathString).await();
                     test.assertNotUndefinedAndNotNull(path);
-                    test.assertEqual(path.toString(), expectedToString);
+                    test.assertEqual(path.toString({ separator: "/" }), expectedToString);
                 });
             }
 
             parseTest("/", "/");
             parseTest("/hello", "/hello");
-            parseTest("/hello/there", "/hello\\there");
-            parseTest("/hello//there", "/hello/\\there");
-            parseTest("/hello/././../there", "/hello/././..\\there")
-            parseTest("/hello/./../../there", "/hello/./../..\\there")
-            parseTest("/hello/../../../there", "/hello/../../..\\there")
-            parseTest("C:\\", "C:\\");
-            parseTest("C:/Windows/System32/notepad.exe", "C:/Windows/System32\\notepad.exe");
-            parseTest("C:\\<>:\"|?*.txt", "C:\\<>:\"|?*.txt");
+            parseTest("/hello/there", "/hello/there");
+            parseTest("/hello//there", "/hello//there");
+            parseTest("/hello/././../there", "/hello/././../there")
+            parseTest("/hello/./../../there", "/hello/./../../there")
+            parseTest("/hello/../../../there", "/hello/../../../there")
+            parseTest("C:\\", "C:/");
+            parseTest("C:/Windows/System32/notepad.exe", "C:/Windows/System32/notepad.exe");
+            parseTest("C:\\<>:\"|?*.txt", "C:/<>:\"|?*.txt");
         });
 
         runner.testFunction("getName()", () =>
@@ -75,7 +75,7 @@ export function pathTests(runner: TestRunner, parser: (pathString: string) => Sy
             getNameTest("/hello/././../there", "there")
             getNameTest("/hello/./../../there", "there")
             getNameTest("/hello/../../../there", "there")
-            getNameTest("C:\\", "");
+            getNameTest("C:/", "");
             getNameTest("C:/Windows/System32/notepad.exe", "notepad.exe");
             getNameTest("C:\\<>:\"|?*.txt", "<>:\"|?*.txt");
         });
@@ -87,7 +87,7 @@ export function pathTests(runner: TestRunner, parser: (pathString: string) => Sy
                 runner.test(`with ${runner.toString(pathString)}`, (test: Test) =>
                 {
                     const path: Path = parser(pathString).await();
-                    test.assertEqual(path.getParent().await().toString(), expected);
+                    test.assertEqual(path.getParent().await().toString({ separator: "/" }), expected);
                 });
             }
 
@@ -95,12 +95,12 @@ export function pathTests(runner: TestRunner, parser: (pathString: string) => Sy
             getParentTest("/hello", "/");
             getParentTest("/hello/there", "/hello");
             getParentTest("/hello//there", "/hello");
-            getParentTest("/hello/././../there", "/hello/./.\\..")
-            getParentTest("/hello/./../../there", "/hello/./..\\..")
-            getParentTest("/hello/../../../there", "/hello/../..\\..")
-            getParentTest("C:\\", "C:\\");
-            getParentTest("C:/Windows/System32/notepad.exe", "C:/Windows\\System32");
-            getParentTest("C:\\<>:\"|?*.txt", "C:\\");
+            getParentTest("/hello/././../there", "/hello/././..")
+            getParentTest("/hello/./../../there", "/hello/./../..")
+            getParentTest("/hello/../../../there", "/hello/../../..")
+            getParentTest("C:\\", "C:/");
+            getParentTest("C:/Windows/System32/notepad.exe", "C:/Windows/System32");
+            getParentTest("C:\\<>:\"|?*.txt", "C:/");
         });
 
         runner.testFunction("isRelative()", () =>

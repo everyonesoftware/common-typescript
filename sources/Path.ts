@@ -13,6 +13,14 @@ export abstract class Path
         return NodeJSPath.parse(pathString);
     }
 
+    public static convertSeparators(pathString: string, separator: string): string
+    {
+        PreCondition.assertNotUndefinedAndNotNull(pathString, "pathString");
+        PreCondition.assertNotEmpty(separator, "separator");
+
+        return pathString.replaceAll(/[\\/]/g, separator);
+    }
+
     /**
      * Ensure that the provided value is a {@link Path}.
      * @param path The path value to check.
@@ -53,7 +61,7 @@ export abstract class Path
     /**
      * Get the string representation of this {@link Path}.
      */
-    public abstract toString(): string;
+    public abstract toString(options?: { separator?: string }): string;
 
     /**
      * Get whether this {@link Path} is relative. In other words, does this {@link Path} not specify
