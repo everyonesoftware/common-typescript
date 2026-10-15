@@ -41,8 +41,8 @@ export function test(runner: TestRunner): void
                     const stream: CharacterListStream = CharacterListStream.create();
                     test.assertThrows(() => stream.writeCharacters(undefined!), new PreConditionError({
                         expression: "characters",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }));
                     test.assertEqual(0, stream.getAvailableCharacterCount());
                 });
@@ -52,8 +52,8 @@ export function test(runner: TestRunner): void
                     const stream: CharacterListStream = CharacterListStream.create();
                     test.assertThrows(() => stream.writeCharacters(null!), new PreConditionError({
                         expression: "characters",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }));
                     test.assertEqual(0, stream.getAvailableCharacterCount());
                 });
@@ -84,8 +84,8 @@ export function test(runner: TestRunner): void
                     const stream: CharacterListStream = CharacterListStream.create();
                     test.assertThrows(() => stream.writeCharacters("ab", -1), new PreConditionError({
                         expression: "startIndex",
-                        expected: "between 0 and 2",
-                        actual: "-1",
+                        expectedString: "between 0 and 2",
+                        actualString: "-1",
                     }));
                     test.assertEqual(0, stream.getAvailableCharacterCount());
                 });
@@ -95,8 +95,8 @@ export function test(runner: TestRunner): void
                     const stream: CharacterListStream = CharacterListStream.create();
                     test.assertThrows(() => stream.writeCharacters("ab", 3), new PreConditionError({
                         expression: "startIndex",
-                        expected: "between 0 and 2",
-                        actual: "3",
+                        expectedString: "between 0 and 2",
+                        actualString: "3",
                     }));
                     test.assertEqual(0, stream.getAvailableCharacterCount());
                 });
@@ -125,8 +125,8 @@ export function test(runner: TestRunner): void
                     const stream: CharacterListStream = CharacterListStream.create();
                     test.assertThrows(() => stream.writeCharacters("ab", 0, -1), new PreConditionError({
                         expression: "length",
-                        expected: "between 0 and 2",
-                        actual: "-1",
+                        expectedString: "between 0 and 2",
+                        actualString: "-1",
                     }));
                     test.assertEqual(0, stream.getAvailableCharacterCount());
                 });
@@ -136,8 +136,8 @@ export function test(runner: TestRunner): void
                     const stream: CharacterListStream = CharacterListStream.create();
                     test.assertThrows(() => stream.writeCharacters("ab", 0, 3), new PreConditionError({
                         expression: "length",
-                        expected: "between 0 and 2",
-                        actual: "3",
+                        expectedString: "between 0 and 2",
+                        actualString: "3",
                     }));
                     test.assertEqual(0, stream.getAvailableCharacterCount());
                 });
@@ -163,8 +163,8 @@ export function test(runner: TestRunner): void
                         const stream: CharacterListStream = CharacterListStream.create();
                         test.assertThrows(() => stream.readCharacters(-1).await(), new PreConditionError({
                             expression: "count",
-                            expected: "greater than or equal to 0",
-                            actual: "-1",
+                            expectedString: "greater than or equal to 0",
+                            actualString: "-1",
                         }));
                         test.assertEqual(0, stream.getAvailableCharacterCount());
                     });
@@ -191,8 +191,8 @@ export function test(runner: TestRunner): void
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
                         test.assertThrows(() => stream.readCharacters(-1).await(), new PreConditionError({
                             expression: "count",
-                            expected: "greater than or equal to 0",
-                            actual: "-1",
+                            expectedString: "greater than or equal to 0",
+                            actualString: "-1",
                         }));
                         test.assertEqual(3, stream.getAvailableCharacterCount());
                     });
@@ -234,8 +234,8 @@ export function test(runner: TestRunner): void
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
                         test.assertThrows(() => stream.readCharacters(undefined!), new PreConditionError({
                             expression: "output",
-                            expected: "not undefined and not null",
-                            actual: "undefined",
+                            expectedString: "not undefined and not null",
+                            actualString: "undefined",
                         }));
                         test.assertEqual(3, stream.getAvailableCharacterCount());
                     });
@@ -245,8 +245,8 @@ export function test(runner: TestRunner): void
                         const stream: CharacterListStream = CharacterListStream.create(["a", "b", "c"]);
                         test.assertThrows(() => stream.readCharacters(null!), new PreConditionError({
                             expression: "output",
-                            expected: "not undefined and not null",
-                            actual: "null",
+                            expectedString: "not undefined and not null",
+                            actualString: "null",
                         }));
                         test.assertEqual(3, stream.getAvailableCharacterCount());
                     });
@@ -297,8 +297,8 @@ export function test(runner: TestRunner): void
                         const output: string[] = Array.from<string>({ length: 5 });
                         test.assertThrows(() => stream.readCharacters(output, -1), new PreConditionError({
                             expression: "startIndex",
-                            expected: "between 0 and 5",
-                            actual: "-1",
+                            expectedString: "between 0 and 5",
+                            actualString: "-1",
                         }));
                         test.assertEqual(3, stream.getAvailableCharacterCount());
                     });
@@ -309,8 +309,8 @@ export function test(runner: TestRunner): void
                         const output: string[] = Array.from<string>({ length: 5 });
                         test.assertThrows(() => stream.readCharacters(output, 6), new PreConditionError({
                             expression: "startIndex",
-                            expected: "between 0 and 5",
-                            actual: "6",
+                            expectedString: "between 0 and 5",
+                            actualString: "6",
                         }));
                         test.assertEqual(3, stream.getAvailableCharacterCount());
                     });
@@ -348,8 +348,8 @@ export function test(runner: TestRunner): void
                         const output: string[] = Array.from<string>({ length: 5 });
                         test.assertThrows(() => stream.readCharacters(output, 1, -1), new PreConditionError({
                             expression: "count",
-                            expected: "between 0 and 4",
-                            actual: "-1",
+                            expectedString: "between 0 and 4",
+                            actualString: "-1",
                         }));
                         test.assertEqual(3, stream.getAvailableCharacterCount());
                     });
@@ -360,8 +360,8 @@ export function test(runner: TestRunner): void
                         const output: string[] = Array.from<string>({ length: 5 });
                         test.assertThrows(() => stream.readCharacters(output, 1, 5), new PreConditionError({
                             expression: "count",
-                            expected: "between 0 and 4",
-                            actual: "5",
+                            expectedString: "between 0 and 4",
+                            actualString: "5",
                         }));
                         test.assertEqual(3, stream.getAvailableCharacterCount());
                     });

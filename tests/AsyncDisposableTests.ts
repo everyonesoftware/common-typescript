@@ -22,13 +22,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest("with undefined", undefined!, new PreConditionError({
                     expression: "disposeFunction",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 createErrorTest("with null", null!, new PreConditionError({
                     expression: "disposeFunction",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 runner.test("with function", (test: Test) =>

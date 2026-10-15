@@ -13,8 +13,8 @@ export function test(runner: TestRunner): void
                 runner.test("with expected and actual", (test: Test) =>
                 {
                     const error: PostConditionError = new PostConditionError({
-                        expected: "xyz",
-                        actual: "lmo",
+                        expectedString: "xyz",
+                        actualString: "lmo",
                     });
                     test.assertNotUndefinedAndNotNull(error);
                     test.assertEqual(error.name, "Error");

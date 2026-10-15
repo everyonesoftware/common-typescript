@@ -9,7 +9,7 @@ import { NotFoundError } from "./notFoundError.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { isUndefinedOrNull, Type } from "./types.js";
+import { isUndefinedOrNull } from "./types.js";
 
 export abstract class List<T> implements MutableIndexable<T>
 {
@@ -278,16 +278,6 @@ export abstract class List<T> implements MutableIndexable<T>
     public static where<T>(list: List<T>, condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>
     {
         return MutableIndexable.where(list, condition);
-    }
-
-    public instanceOf<TOutput extends T>(typeOrTypeCheck: Type<TOutput> | ((value: T) => value is TOutput)): Iterable<TOutput>
-    {
-        return List.instanceOf(this, typeOrTypeCheck);
-    }
-
-    public static instanceOf<TInput, TOutput extends TInput>(list: List<TInput>, typeOrTypeCheck: Type<TOutput> | ((value: TInput) => value is TOutput)): Iterable<TOutput>
-    {
-        return MutableIndexable.instanceOf(list, typeOrTypeCheck);
     }
 
     public first(condition?: ((value: T) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<T>

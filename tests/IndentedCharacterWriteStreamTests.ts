@@ -21,13 +21,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest(undefined!, new PreConditionError({
                     expression: "innerStream",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 createErrorTest(null!, new PreConditionError({
                     expression: "innerStream",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 runner.test("with valid innerStream", (test: Test) =>
@@ -61,13 +61,13 @@ export function test(runner: TestRunner): void
 
                 setSingleIndentErrorTest(undefined!, new PreConditionError({
                     expression: "singleIndent",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 setSingleIndentErrorTest(null!, new PreConditionError({
                     expression: "singleIndent",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 function setSingleIndentTest(singleIndent: string): void
@@ -150,8 +150,8 @@ export function test(runner: TestRunner): void
 
                     test.assertThrows(() => stream.removeIndentation(), new PreConditionError({
                         expression: "this.getCurrentIndentationCount()",
-                        expected: "greater than or equal to 1",
-                        actual: "0",
+                        expectedString: "greater than or equal to 1",
+                        actualString: "0",
                     }));
 
                     test.assertEqual(0, stream.getCurrentIndentationCount());
@@ -195,8 +195,8 @@ export function test(runner: TestRunner): void
 
                     await test.assertThrowsAsync(() => stream.indent(undefined!), new PreConditionError({
                         expression: "action",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }));
 
                     test.assertEqual("", innerStream.getWrittenText());
@@ -210,8 +210,8 @@ export function test(runner: TestRunner): void
 
                     await test.assertThrowsAsync(() => stream.indent(null!), new PreConditionError({
                         expression: "action",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }));
 
                     test.assertEqual("", innerStream.getWrittenText());
@@ -225,8 +225,8 @@ export function test(runner: TestRunner): void
 
                     await test.assertThrowsAsync(() => stream.indent("  ", undefined!), new PreConditionError({
                         expression: "action",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }));
 
                     test.assertEqual("", innerStream.getWrittenText());
@@ -240,8 +240,8 @@ export function test(runner: TestRunner): void
 
                     await test.assertThrowsAsync(async () => await stream.indent(" ", null!), new PreConditionError({
                         expression: "action",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }));
 
                     test.assertEqual("", innerStream.getWrittenText());

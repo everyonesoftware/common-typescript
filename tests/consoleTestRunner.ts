@@ -5,14 +5,14 @@ import { JavascriptIterable } from "../sources/javascript.js";
 import { List } from "../sources/list.js";
 import { NodeJSCharacterWriteStream } from "../sources/nodeJSCharacterWriteStream.js";
 import { PreCondition } from "../sources/preCondition.js";
-import { getName, getParameterCount, isBoolean, isFunction, isJavascriptIterable, isString, Type } from "../sources/types.js";
+import { getName, getParameterCount, isBoolean, isFunction, isJavascriptIterable, isString, toUndefinedNullOrDefinedString, Type } from "../sources/types.js";
 import { FailedTest } from "./failedTest.js";
 import { SkippedTest } from "./skippedTest.js";
 import { Test } from "./test.js";
 import { TestAction, TestActionType } from "./testAction.js";
 import { TestRunner } from "./testRunner.js";
 import { TestSkip } from "./testSkip.js";
-import { AsyncResult, CommandLineCommand, CommandLineParameter, IndentedCharacterWriteStream, Timer } from "../sources/index.js";
+import { AsyncResult, CommandLineCommand, CommandLineParameter, Folder, IndentedCharacterWriteStream, Timer } from "../sources/index.js";
 import { ConsoleTestRunnerStyle, ConsoleTestRunnerUI } from "./ConsoleTestRunnerUI.js";
 import { ANSIStyles } from "../sources/ANSIStyles.js";
 import { TestCreator } from "./TestCreator.js";
@@ -25,6 +25,7 @@ export type ConsoleTestFunctionContainer = { test: ConsoleTestFunction };
 export class ConsoleTestRunner implements TestRunner
 {
     private writeStream: CharacterWriteStream;
+    private currentFolder: Folder | undefined;
 
     private readonly testActions: List<TestAction>;
     private testActionInsertIndex: number;
@@ -103,9 +104,11 @@ export class ConsoleTestRunner implements TestRunner
                 arguments: currentProcess.getArguments(),
                 writeStream: output,
             });
-            const timerParameter: CommandLineParameter = command.addParameter("timer", ["time"], "Measure the duration of the tests.", {
-                notFound: "false",
-                valueNotFound: "true",
+            const timerParameter: CommandLineParameter = command.addParameter({
+                name: "timer",
+                aliases: ["time"],
+                description: "Measure the duration of the tests.",
+                defaultValue: "true",
             });
             command.setAction(async () =>
             {
@@ -117,6 +120,7 @@ export class ConsoleTestRunner implements TestRunner
 
                 const runner: ConsoleTestRunner = ConsoleTestRunner.create()
                     .setWriteStream(output)
+                    .setCurrentFolder(currentProcess.getCurrentFolder())
                     .setGetErrorStringOptions({
                         relativeFilePaths: true,
                         removeNonProjectPaths: true,
@@ -570,5 +574,22 @@ export class ConsoleTestRunner implements TestRunner
     public printSummary(timer?: Timer): AsyncResult<void>
     {
         return this.ui.writeSummary(this.passedTestCount, this.getSkippedTests(), this.getFailedTests(), timer);
+    }
+
+    public getCurrentFolder(): Folder
+    {
+        PreCondition.assertNotUndefinedAndNotNull(this.currentFolder, "this.currentFolder");
+
+        return this.currentFolder;
+    }
+
+    public setCurrentFolder(currentFolder: Folder): this
+    {
+        PreCondition.assertNotUndefinedAndNotNull(currentFolder, "currentFolder");
+        PreCondition.assertUndefined(this.currentFolder, "this.currentFolder", { toStringFunction: toUndefinedNullOrDefinedString });
+
+        this.currentFolder = currentFolder;
+
+        return this;
     }
 }

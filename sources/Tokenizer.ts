@@ -4,7 +4,7 @@ import { PreCondition } from "./preCondition.js";
 import { isDigit, isLetter } from "./strings.js";
 import { SyncResult } from "./syncResult.js";
 import { Token } from "./Token.js";
-import { isIterator, Type } from "./types.js";
+import { isIterator } from "./types.js";
 
 /**
  * A type that converts a stream of characters into a stream of tokens.
@@ -188,7 +188,7 @@ export class Tokenizer implements Iterator<Token>
         return Iterator.concatenate(this, ...toConcatenate);
     }
 
-    public where(condition: (value: Token) => (boolean | SyncResult<boolean>)): Iterator<Token>
+    public where<U extends Token>(condition: (value: Token) => value is U): Iterator<U>
     {
         return Iterator.where(this, condition);
     }
@@ -201,16 +201,6 @@ export class Tokenizer implements Iterator<Token>
     public flatMap<TOutput>(mapping: (value: Token) => JavascriptIterable<TOutput>): Iterator<TOutput>
     {
         return Iterator.flatMap(this, mapping);
-    }
-
-    public whereInstanceOf<U extends Token>(typeCheck: (value: Token) => value is U): Iterator<U>
-    {
-        return Iterator.whereInstanceOf(this, typeCheck);
-    }
-
-    public whereInstanceOfType<U extends Token>(type: Type<U>): Iterator<U>
-    {
-        return Iterator.whereInstanceOfType(this, type);
     }
 
     public first(condition?: ((value: Token) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<Token>

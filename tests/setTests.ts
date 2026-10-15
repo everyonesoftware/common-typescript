@@ -111,13 +111,13 @@ export function test(runner: TestRunner): void
 
                 unionErrorTest(Set.create<number>(), undefined!, new PreConditionError({
                     expression: "values",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 unionErrorTest(Set.create<number>(), null!, new PreConditionError({
                     expression: "values",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 function unionTest<T>(set: Set<T>, values: JavascriptIterable<T>, expected: JavascriptIterable<T>): void

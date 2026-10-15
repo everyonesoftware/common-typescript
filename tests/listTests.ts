@@ -86,28 +86,28 @@ export function test(runner: TestRunner): void
 
                 setErrorTest(List.create(), -1, 5, new PreConditionError({
                     expression: "count",
-                    expected: "greater than or equal to 1",
-                    actual: "0",
+                    expectedString: "greater than or equal to 1",
+                    actualString: "0",
                 }));
                 setErrorTest(List.create(), 0, 5, new PreConditionError({
                     expression: "count",
-                    expected: "greater than or equal to 1",
-                    actual: "0",
+                    expectedString: "greater than or equal to 1",
+                    actualString: "0",
                 }));
                 setErrorTest(List.create(), 1, 5, new PreConditionError({
                     expression: "count",
-                    expected: "greater than or equal to 1",
-                    actual: "0",
+                    expectedString: "greater than or equal to 1",
+                    actualString: "0",
                 }));
                 setErrorTest(List.create([1]), -1, 5, new PreConditionError({
                     expression: "index",
-                    expected: "0",
-                    actual: "-1",
+                    expectedString: "0",
+                    actualString: "-1",
                 }));
                 setErrorTest(List.create([1]), 1, 5, new PreConditionError({
                     expression: "index",
-                    expected: "0",
-                    actual: "1",
+                    expectedString: "0",
+                    actualString: "1",
                 }));
 
                 function setTest(list: List<number>, index: number, value: number, expected: number[]): void
@@ -139,28 +139,28 @@ export function test(runner: TestRunner): void
 
                 getErrorTest(List.create(), -1, new PreConditionError({
                     expression: "count",
-                    expected: "greater than or equal to 1",
-                    actual: "0",
+                    expectedString: "greater than or equal to 1",
+                    actualString: "0",
                 }));
                 getErrorTest(List.create(), 0, new PreConditionError({
                     expression: "count",
-                    expected: "greater than or equal to 1",
-                    actual: "0",
+                    expectedString: "greater than or equal to 1",
+                    actualString: "0",
                 }));
                 getErrorTest(List.create(), 1, new PreConditionError({
                     expression: "count",
-                    expected: "greater than or equal to 1",
-                    actual: "0",
+                    expectedString: "greater than or equal to 1",
+                    actualString: "0",
                 }));
                 getErrorTest(List.create([1]), -1, new PreConditionError({
                     expression: "index",
-                    expected: "0",
-                    actual: "-1",
+                    expectedString: "0",
+                    actualString: "-1",
                 }));
                 getErrorTest(List.create([1]), 1, new PreConditionError({
                     expression: "index",
-                    expected: "0",
-                    actual: "1",
+                    expectedString: "0",
+                    actualString: "1",
                 }));
 
                 function getTest(list: List<number>, index: number, expected: number): void
@@ -234,23 +234,23 @@ export function test(runner: TestRunner): void
 
                 insertErrorTest(List.create(), -1, 1, new PreConditionError({
                     expression: "index",
-                    expected: "0",
-                    actual: "-1",
+                    expectedString: "0",
+                    actualString: "-1",
                 }));
                 insertErrorTest(List.create(), 1, 1, new PreConditionError({
                     expression: "index",
-                    expected: "0",
-                    actual: "1",
+                    expectedString: "0",
+                    actualString: "1",
                 }));
                 insertErrorTest(List.create([1]), -1, 1, new PreConditionError({
                     expression: "index",
-                    expected: "between 0 and 1",
-                    actual: "-1",
+                    expectedString: "between 0 and 1",
+                    actualString: "-1",
                 }));
                 insertErrorTest(List.create([1]), 2, 1, new PreConditionError({
                     expression: "index",
-                    expected: "between 0 and 1",
-                    actual: "2",
+                    expectedString: "between 0 and 1",
+                    actualString: "2",
                 }));
 
                 function insertTest(list: List<number>, index: number, value: number, expected: number[]): void
@@ -285,23 +285,23 @@ export function test(runner: TestRunner): void
 
                 insertAllErrorTest(List.create(), -1, [1], new PreConditionError({
                     expression: "index",
-                    expected: "0",
-                    actual: "-1",
+                    expectedString: "0",
+                    actualString: "-1",
                 }));
                 insertAllErrorTest(List.create(), 1, [1], new PreConditionError({
                     expression: "index",
-                    expected: "0",
-                    actual: "1",
+                    expectedString: "0",
+                    actualString: "1",
                 }));
                 insertAllErrorTest(List.create([1]), -1, [1], new PreConditionError({
                     expression: "index",
-                    expected: "between 0 and 1",
-                    actual: "-1",
+                    expectedString: "between 0 and 1",
+                    actualString: "-1",
                 }));
                 insertAllErrorTest(List.create([1]), 2, [1], new PreConditionError({
                     expression: "index",
-                    expected: "between 0 and 1",
-                    actual: "2",
+                    expectedString: "between 0 and 1",
+                    actualString: "2",
                 }));
 
                 function insertAllTest(list: List<number>, index: number, values: JavascriptIterable<number>, expected: number[]): void

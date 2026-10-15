@@ -11,7 +11,7 @@ import { PreCondition } from "./preCondition.js";
 import { SkipIterator } from "./skipIterator.js";
 import { SyncResult } from "./syncResult.js";
 import { TakeIterator } from "./takeIterator.js";
-import { instanceOfType, isJavascriptIterator, isUndefinedOrNull, Type } from "./types.js";
+import { isJavascriptIterator, isUndefinedOrNull } from "./types.js";
 import { WhereIterator } from "./whereIterator.js";
 
 /**
@@ -221,12 +221,16 @@ export abstract class Iterator<T> implements JavascriptIterable<T>
      * Get an {@link Iterator} that will only return values that match the provided condition.
      * @param condition The condition to run against each of the values in this {@link Iterator}.
      */
-    public where(condition: (value: T) => (boolean | SyncResult<boolean>)): Iterator<T>
+    public where<U extends T>(condition: (value: T) => value is U): Iterator<U>;
+    public where(condition: (value: T) => boolean): Iterator<T>;
+    where<U extends T>(condition: (value: T) => value is U): Iterator<U>
     {
         return Iterator.where(this, condition);
     }
 
-    public static where<T>(iterator: Iterator<T>, condition: (value: T) => (boolean | SyncResult<boolean>)): Iterator<T>
+    public static where<T,U extends T>(iterator: Iterator<T>, condition: (value: T) => value is U): Iterator<U>;
+    public static where<T>(iterator: Iterator<T>, condition: (value: T) => boolean): Iterator<T>;
+    static where<T,U extends T>(iterator: Iterator<T>, condition: (value: T) => value is U): Iterator<U>
     {
         PreCondition.assertNotUndefinedAndNotNull(iterator, "iterator");
         PreCondition.assertNotUndefinedAndNotNull(condition, "condition");
@@ -263,42 +267,6 @@ export abstract class Iterator<T> implements JavascriptIterable<T>
         PreCondition.assertNotUndefinedAndNotNull(mapping, "mapping");
 
         return FlatMapIterator.create(iterator, mapping);
-    }
-
-    /**
-     * Get an {@link Iterator} that will filter this {@link Iterator} to only the values that are
-     * instances of {@link U} based on the provided type check {@link Function}.
-     * @param typeCheck The {@link Function} that will be used to determine if values are of type
-     * {@link U}.
-     */
-    public whereInstanceOf<U extends T>(typeCheck: (value: T) => value is U): Iterator<U>
-    {
-        return Iterator.whereInstanceOf(this, typeCheck);
-    }
-
-    public static whereInstanceOf<T, U extends T>(iterator: Iterator<T>, typeCheck: (value: T) => value is U): Iterator<U>
-    {
-        PreCondition.assertNotUndefinedAndNotNull(typeCheck, "typeCheck");
-
-        return iterator.where(typeCheck)
-            .map((value: T) => value as U);
-    }
-
-    /**
-     * Get an {@link Iterator} that will filter this {@link Iterator} to only the values that are
-     * instances of the provided {@link Type}.
-     * @param type The type of values to return from the new {@link Iterator}.
-     */
-    public whereInstanceOfType<U extends T>(type: Type<U>): Iterator<U>
-    {
-        return Iterator.whereInstanceOfType(this, type);
-    }
-
-    public static whereInstanceOfType<T, U extends T>(iterator: Iterator<T>, type: Type<U>): Iterator<U>
-    {
-        PreCondition.assertNotUndefinedAndNotNull(type, "type");
-
-        return iterator.whereInstanceOf((value: T) => instanceOfType(value, type));
     }
 
     /**

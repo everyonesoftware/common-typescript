@@ -41,8 +41,8 @@ export function test(runner: TestRunner): void
 
                     await test.assertThrowsAsync(async () => await httpServer.start(3000), new PreConditionError({
                         expression: "this.isDisposed()",
-                        expected: "false",
-                        actual: "true",
+                        expectedString: "false",
+                        actualString: "true",
                     }));
                     test.assertTrue(httpServer.isDisposed());
                     test.assertFalse(httpServer.isListening());

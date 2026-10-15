@@ -20,23 +20,23 @@ export function test(runner: TestRunner): void
 
                 createErrorTest(undefined!, TemperatureUnits.Fahrenheit, new PreConditionError({
                     expression: "value",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 createErrorTest(null!, TemperatureUnits.Fahrenheit, new PreConditionError({
                     expression: "value",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 createErrorTest(5, undefined!, new PreConditionError({
                     expression: "units",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 createErrorTest(5, null!, new PreConditionError({
                     expression: "units",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 createErrorTest(5, "apples", new NotFoundError("No TemperatureUnits found for: \"apples\""));
 
@@ -66,13 +66,13 @@ export function test(runner: TestRunner): void
 
                 fahrenheitErrorTest(undefined!, new PreConditionError({
                     expression: "value",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 fahrenheitErrorTest(null!, new PreConditionError({
                     expression: "value",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 function createTest(value: number): void
@@ -105,13 +105,13 @@ export function test(runner: TestRunner): void
 
                 celsiusErrorTest(undefined!, new PreConditionError({
                     expression: "value",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 celsiusErrorTest(null!, new PreConditionError({
                     expression: "value",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 function createTest(value: number): void
@@ -144,13 +144,13 @@ export function test(runner: TestRunner): void
 
                 kelvinErrorTest(undefined!, new PreConditionError({
                     expression: "value",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 kelvinErrorTest(null!, new PreConditionError({
                     expression: "value",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 function createTest(value: number): void
@@ -183,13 +183,13 @@ export function test(runner: TestRunner): void
 
                 rankineErrorTest(undefined!, new PreConditionError({
                     expression: "value",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 rankineErrorTest(null!, new PreConditionError({
                     expression: "value",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 function createTest(value: number): void
@@ -222,13 +222,13 @@ export function test(runner: TestRunner): void
 
                 convertToErrorTest(Temperature.celsius(0), undefined!, new PreConditionError({
                     expression: "units",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 convertToErrorTest(Temperature.celsius(0), null!, new PreConditionError({
                     expression: "units",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 function convertToTest(temperature: Temperature, units: TemperatureUnits, expectedConvertedValue: number, marginOfError?: number): void

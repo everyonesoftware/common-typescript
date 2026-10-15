@@ -29,8 +29,8 @@ export function test(runner: TestRunner): void
                     (_value: number) => true,
                     new PreConditionError({
                         expression: "innerIterator",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }),
                 );
                 createErrorTest(
@@ -39,8 +39,8 @@ export function test(runner: TestRunner): void
                     (_value: number) => true,
                     new PreConditionError({
                         expression: "innerIterator",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }),
                 );
 

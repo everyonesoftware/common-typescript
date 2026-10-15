@@ -72,13 +72,13 @@ export function test(runner: TestRunner): void
 
                 addRowErrorTest(undefined!, new PreConditionError({
                     expression: "row",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 addRowErrorTest(null!, new PreConditionError({
                     expression: "row",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 function addRowTest(row: JavascriptIterable<string>): void
@@ -117,13 +117,13 @@ export function test(runner: TestRunner): void
 
                 addRowsErrorTest(undefined!, new PreConditionError({
                     expression: "rows",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 addRowsErrorTest(null!, new PreConditionError({
                     expression: "rows",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 function addRowsTest(rows: JavascriptIterable<JavascriptIterable<string>>): void
@@ -163,13 +163,13 @@ export function test(runner: TestRunner): void
 
                 writeToErrorTest(undefined!, new PreConditionError({
                     expression: "writeStream",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 writeToErrorTest(null!, new PreConditionError({
                     expression: "writeStream",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 function writeToTest(values: string[][], expected: string): void;

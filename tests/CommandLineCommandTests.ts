@@ -21,18 +21,18 @@ export function test(runner: TestRunner): void
 
                 withNameErrorTest(undefined!, new PreConditionError({
                     expression: "name",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 withNameErrorTest(null!, new PreConditionError({
                     expression: "name",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 withNameErrorTest("", new PreConditionError({
                     expression: "name",
-                    expected: "not empty",
-                    actual: `""`,
+                    expectedString: "not empty",
+                    actualString: `""`,
                 }));
 
                 function withNameTest(name: string): void
@@ -70,18 +70,18 @@ export function test(runner: TestRunner): void
 
                 addParameterNameErrorTest(undefined!, new PreConditionError({
                     expression: "name",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 addParameterNameErrorTest(null!, new PreConditionError({
                     expression: "name",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 addParameterNameErrorTest("", new PreConditionError({
                     expression: "name",
-                    expected: "not empty",
-                    actual: `""`,
+                    expectedString: "not empty",
+                    actualString: `""`,
                 }));
 
                 function addParameterNameTest(name: string): void

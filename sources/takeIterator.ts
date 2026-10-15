@@ -2,7 +2,6 @@ import { Iterator } from "./iterator.js";
 import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
-import { Type } from "./types.js";
 
 /**
  * An {@link Iterator} that iterates over a maximum number of values.
@@ -99,19 +98,9 @@ export class TakeIterator<T> implements Iterator<T>
         return Iterator.concatenate(this, ...toConcatenate);
     }
 
-    public where(condition: (value: T) => boolean): Iterator<T>
+    public where<U extends T>(condition: (value: T) => value is U): Iterator<U>
     {
         return Iterator.where(this, condition);
-    }
-
-    public whereInstanceOf<U extends T>(typeCheck: (value: T) => value is U): Iterator<U>
-    {
-        return Iterator.whereInstanceOf(this, typeCheck);
-    }
-
-    public whereInstanceOfType<U extends T>(type: Type<U>): Iterator<U>
-    {
-        return Iterator.whereInstanceOfType(this, type);
     }
 
     public map<TOutput>(mapping: (value: T) => (TOutput | SyncResult<TOutput>)): Iterator<TOutput>

@@ -2,7 +2,6 @@ import { Iterator } from "./iterator.js";
 import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
-import { Type } from "./types.js";
 
 /**
  * An {@link Iterator} that maps {@link TInput} values to {@link TOutput} values.
@@ -118,19 +117,9 @@ export class MapIterator<TInput, TOutput> implements Iterator<TOutput>
         return Iterator.last(this);
     }
 
-    public where(condition: (value: TOutput) => boolean): Iterator<TOutput>
+    public where<TOutput2 extends TOutput>(condition: (value: TOutput) => value is TOutput2): Iterator<TOutput2>
     {
         return Iterator.where(this, condition);
-    }
-
-    public whereInstanceOf<U extends TOutput>(typeCheck: (value: TOutput) => value is U): Iterator<U>
-    {
-        return Iterator.whereInstanceOf(this, typeCheck);
-    }
-
-    public whereInstanceOfType<U extends TOutput>(type: Type<U>): Iterator<U>
-    {
-        return Iterator.whereInstanceOfType(this, type);
     }
 
     public take(maximumToTake: number): Iterator<TOutput>

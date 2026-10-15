@@ -8,7 +8,7 @@ import { StringIterator } from "./stringIterator.js";
 import { join } from "./strings.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { isString, Type } from "./types.js";
+import { isString } from "./types.js";
 
 export class CharacterList implements List<string>
 {
@@ -166,11 +166,6 @@ export class CharacterList implements List<string>
     public where(condition: (value: string) => (boolean | SyncResult<boolean>)): Iterable<string>
     {
         return List.where(this, condition);
-    }
-
-    public instanceOf<TOutput extends string>(typeOrTypeCheck: Type<TOutput> | ((value: string) => value is TOutput)): Iterable<TOutput>
-    {
-        return List.instanceOf(this, typeOrTypeCheck);
     }
 
     public first(condition?: (value: string) => (boolean | SyncResult<boolean>)): SyncResult<string>

@@ -23,18 +23,18 @@ export function indexableTests<T>(runner: TestRunner, creator: () => Indexable<T
 
             getErrorTest("with undefined", undefined!, new PreConditionError({
                 expression: "count",
-                expected: "greater than or equal to 1",
-                actual: "0",
+                expectedString: "greater than or equal to 1",
+                actualString: "0",
             }));
             getErrorTest("with null", null!, new PreConditionError({
                 expression: "count",
-                expected: "greater than or equal to 1",
-                actual: "0",
+                expectedString: "greater than or equal to 1",
+                actualString: "0",
             }));
             getErrorTest("with negative", -1!, new PreConditionError({
                 expression: "count",
-                expected: "greater than or equal to 1",
-                actual: "0",
+                expectedString: "greater than or equal to 1",
+                actualString: "0",
             }));
         });
     });

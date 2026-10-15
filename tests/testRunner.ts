@@ -1,5 +1,5 @@
 import { andList } from "../sources/english.js";
-import { JavascriptIterable, MapIterable } from "../sources/index.js";
+import { Folder, JavascriptIterable, MapIterable } from "../sources/index.js";
 import { PreCondition } from "../sources/preCondition.js";
 import { ToStringFunctions } from "../sources/toStringFunctions.js";
 import { isBoolean, Type } from "../sources/types.js";
@@ -151,4 +151,9 @@ export abstract class TestRunner
      * @param testAction The action that runs the test.
      */
     public abstract test(testName: string, skip: TestSkip | undefined, testAction: (test: Test) => void): void;
+
+    /**
+     * Get the {@link Folder} that this {@link TestRunner} is executing from.
+     */
+    public abstract getCurrentFolder(): Folder;
 }

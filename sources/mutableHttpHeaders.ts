@@ -11,7 +11,7 @@ import { PreCondition } from "./preCondition.js";
 import { escapeAndQuote } from "./strings.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { isString, Type } from "./types.js";
+import { isString } from "./types.js";
 
 export class MutableHttpHeaders implements HttpHeaders
 {
@@ -181,11 +181,6 @@ export class MutableHttpHeaders implements HttpHeaders
     public where(condition: (value: HttpHeader) => (boolean | SyncResult<boolean>)): Iterable<HttpHeader>
     {
         return HttpHeaders.where(this, condition);
-    }
-
-    public instanceOf<TOutput extends HttpHeader>(typeOrTypeCheck: Type<TOutput> | ((value: HttpHeader) => value is TOutput)): Iterable<TOutput>
-    {
-        return HttpHeaders.instanceOf(this, typeOrTypeCheck);
     }
 
     public first(condition?: (value: HttpHeader) => (boolean | SyncResult<boolean>)): SyncResult<HttpHeader>

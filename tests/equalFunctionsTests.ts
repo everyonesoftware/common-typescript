@@ -173,8 +173,8 @@ export function test(runner: TestRunner): void
                         () => functions.add(undefined!),
                         new PreConditionError({
                             expression: "equalFunction",
-                            expected: "not undefined and not null",
-                            actual: "undefined",
+                            expectedString: "not undefined and not null",
+                            actualString: "undefined",
                         }),
                     );
                 });
@@ -186,8 +186,8 @@ export function test(runner: TestRunner): void
                         () => functions.add(null!),
                         new PreConditionError({
                             expression: "equalFunction",
-                            expected: "not undefined and not null",
-                            actual: "null",
+                            expectedString: "not undefined and not null",
+                            actualString: "null",
                         }),
                     );
                 });

@@ -3,7 +3,6 @@ import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
 import { List } from "./list.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
-import { Type } from "./types.js";
 
 /**
  * A control that can be used to interact with a {@link Generator} while it is generating values.
@@ -199,7 +198,7 @@ export class Generator<T> implements Iterator<T>
         return Iterator.concatenate(this, ...toConcatenate);
     }
 
-    public where(condition: (value: T) => (boolean | SyncResult<boolean>)): Iterator<T>
+    public where<U extends T>(condition: (value: T) => value is U): Iterator<U>
     {
         return Iterator.where(this, condition);
     }
@@ -212,16 +211,6 @@ export class Generator<T> implements Iterator<T>
     public flatMap<TOutput>(mapping: (value: T) => JavascriptIterable<TOutput>): Iterator<TOutput>
     {
         return Iterator.flatMap(this, mapping);
-    }
-
-    public whereInstanceOf<U extends T>(typeCheck: (value: T) => value is U): Iterator<U>
-    {
-        return Iterator.whereInstanceOf(this, typeCheck);
-    }
-
-    public whereInstanceOfType<U extends T>(type: Type<U>): Iterator<U>
-    {
-        return Iterator.whereInstanceOfType(this, type);
     }
 
     public first(condition?: ((value: T) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<T>

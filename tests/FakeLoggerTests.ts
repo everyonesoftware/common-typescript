@@ -31,18 +31,18 @@ export function test(runner: TestRunner): void
 
                 logMessageLevelErrorTest(undefined!, undefined, new PreConditionError({
                     expression: "message",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 logMessageLevelErrorTest(null!, undefined, new PreConditionError({
                     expression: "message",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 logMessageLevelErrorTest("", undefined, new PreConditionError({
                     expression: "message",
-                    expected: "not empty",
-                    actual: `""`,
+                    expectedString: "not empty",
+                    actualString: `""`,
                 }));
 
                 function logMessageLevelTest(message: string, logLevel: LogLevel | undefined, expected: JavascriptIterable<FakeLog>): void
@@ -75,28 +75,28 @@ export function test(runner: TestRunner): void
 
                 logLevelMessageErrorTest(undefined!, undefined!, new PreConditionError({
                     expression: "message",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 logLevelMessageErrorTest(null!, undefined!, new PreConditionError({
                     expression: "message",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 logLevelMessageErrorTest(LogLevel.Debug, undefined!, new PreConditionError({
                     expression: "message",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 logLevelMessageErrorTest(LogLevel.Debug, null!, new PreConditionError({
                     expression: "message",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 logLevelMessageErrorTest(LogLevel.Debug, "", new PreConditionError({
                     expression: "message",
-                    expected: "not empty",
-                    actual: `""`,
+                    expectedString: "not empty",
+                    actualString: `""`,
                 }));
 
                 function logLevelMessageTest(logLevel: LogLevel, message: string, expected: JavascriptIterable<FakeLog>): void

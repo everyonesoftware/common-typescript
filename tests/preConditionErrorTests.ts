@@ -14,8 +14,8 @@ export function test(runner: TestRunner): void
                 runner.test("with expected and actual", (test: Test) =>
                 {
                     const error: PreConditionError = new PreConditionError({
-                        expected: "abc",
-                        actual: "def",
+                        expectedString: "abc",
+                        actualString: "def",
                     });
                     test.assertNotUndefinedAndNotNull(error);
                     test.assertEqual(error.name, "Error");

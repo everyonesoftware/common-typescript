@@ -21,13 +21,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest(undefined, new PreConditionError({
                     expression: "error",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 createErrorTest(null, new PreConditionError({
                     expression: "error",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 runner.test(`with ${runner.toString("hello there")}`, (test: Test) =>

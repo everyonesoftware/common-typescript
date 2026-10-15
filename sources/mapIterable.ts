@@ -4,7 +4,7 @@ import { Iterator } from "./iterator.js";
 import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
-import { isIterable, Type } from "./types.js";
+import { isIterable } from "./types.js";
 
 /**
  * An {@link Iterable} that converts {@link TInput} values to {@link TOutput} values.
@@ -63,14 +63,9 @@ export class MapIterable<TInput,TOutput> implements Iterable<TOutput>
         return Iterable.flatMap(this, mapping);
     }
 
-    public where(condition: (value: TOutput) => boolean): Iterable<TOutput>
+    public where<TOutput2 extends TOutput>(condition: (value: TOutput) => value is TOutput2): Iterable<TOutput2>
     {
         return Iterable.where(this, condition);
-    }
-
-    public instanceOf<TOutput2 extends TOutput>(typeOrTypeCheck: Type<TOutput2> | ((value: TOutput) => value is TOutput2)): Iterable<TOutput2>
-    {
-        return Iterable.instanceOf(this, typeOrTypeCheck);
     }
 
     public [Symbol.iterator](): JavascriptIterator<TOutput>

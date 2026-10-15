@@ -1,15 +1,19 @@
 import { CharacterWriteStream } from "./characterWriteStream.js";
 import { Clock } from "./Clock.js";
 import { DynamicProperty } from "./DynamicProperty.js";
+import { FileSystem } from "./FileSystem.js";
+import { Folder } from "./Folder.js";
 import { Iterable } from "./iterable.js";
 import { JavascriptIterable } from "./javascript.js";
 import { Network } from "./network.js";
 import { NodeJSCharacterWriteStream } from "./nodeJSCharacterWriteStream.js";
+import { NodeJSFileSystem } from "./NodeJSFileSystem.js";
+import { Path } from "./Path.js";
 import { PreCondition } from "./preCondition.js";
 import { Property } from "./property.js";
 import { RealClock } from "./RealClock.js";
 import { RealNetwork } from "./realNetwork.js";
-import { isIterable, isNumber, isUndefinedOrNull } from "./types.js";
+import { isIterable, isNumber, isUndefinedOrNull, toUndefinedNullOrDefinedString } from "./types.js";
 
 /**
  * An object that provides all of the resources that are available to the current process.
@@ -21,6 +25,8 @@ export class CurrentProcess
     private exitCodeProperty: Property<number> | undefined;
     private network: Network | undefined;
     private clock: Clock | undefined;
+    private fileSystem: FileSystem | undefined;
+    private currentFolderString: string | undefined;
 
     private constructor()
     {
@@ -73,6 +79,7 @@ export class CurrentProcess
     public setArguments(args: JavascriptIterable<string>): this
     {
         PreCondition.assertNotUndefinedAndNotNull(args, "args");
+        PreCondition.assertUndefined(this.args, "this.args");
 
         this.args = isIterable<string>(args) ? args : Iterable.create(args);
         return this;
@@ -90,11 +97,14 @@ export class CurrentProcess
     public setOutputWriteStream(outputWriteStream: CharacterWriteStream): this
     {
         PreCondition.assertNotUndefinedAndNotNull(outputWriteStream, "outputWriteStream");
+        PreCondition.assertUndefined(this.outputWriteStream, "this.outputWriteStream", { toStringFunction: toUndefinedNullOrDefinedString });
 
         this.outputWriteStream = outputWriteStream;
 
         return this;
     }
+
+
 
     /**
      * Get the exit code {@link Property} for this {@link CurrentProcess}.
@@ -147,5 +157,55 @@ export class CurrentProcess
         this.clock = clock;
 
         return this;
+    }
+
+    public getFileSystem(): FileSystem
+    {
+        if (isUndefinedOrNull(this.fileSystem))
+        {
+            this.fileSystem = NodeJSFileSystem.create();
+        }
+        return this.fileSystem;
+    }
+
+    public setFileSystem(fileSystem: FileSystem): this
+    {
+        PreCondition.assertUndefined(this.fileSystem, "this.fileSystem", { toStringFunction: toUndefinedNullOrDefinedString });
+        PreCondition.assertNotUndefinedAndNotNull(fileSystem, "fileSystem");
+
+        this.fileSystem = fileSystem;
+
+        return this;
+    }
+
+    public getCurrentFolderString(): string
+    {
+        if (isUndefinedOrNull(this.currentFolderString))
+        {
+            this.currentFolderString = process.cwd();
+        }
+        return this.currentFolderString;
+    }
+
+    public setCurrentFolderString(currentFolderString: string): CurrentProcess
+    {
+        PreCondition.assertUndefined(this.currentFolderString, "this.currentFolderString");
+        PreCondition.assertNotEmpty(currentFolderString, "currentFolderString");
+
+        this.currentFolderString = currentFolderString;
+
+        return this;
+    }
+
+    public getCurrentFolderPath(): Path
+    {
+        return Path.parse(this.getCurrentFolderString()).await();
+    }
+
+    public getCurrentFolder(): Folder
+    {
+        const path: Path = this.getCurrentFolderPath();
+        const fileSystem: FileSystem = this.getFileSystem();
+        return fileSystem.getFolder(path).await();
     }
 }

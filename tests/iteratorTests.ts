@@ -27,13 +27,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest(undefined!, new PreConditionError({
                     expression: "values",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 createErrorTest(null!, new PreConditionError({
                     expression: "values",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 function createTest<T>(values: T[]): void
@@ -78,8 +78,8 @@ export function test(runner: TestRunner): void
                                 () => iterator.getCurrent(),
                                 new PreConditionError({
                                     expression: "this.hasCurrent()",
-                                    expected: "true",
-                                    actual: "false",
+                                    expectedString: "true",
+                                    actualString: "false",
                                 }),
                             );
                         }
@@ -110,8 +110,8 @@ export function test(runner: TestRunner): void
                                 () => iterator.getCurrent(),
                                 new PreConditionError({
                                     expression: "this.hasCurrent()",
-                                    expected: "true",
-                                    actual: "false",
+                                    expectedString: "true",
+                                    actualString: "false",
                                 }),
                             );
                         }
@@ -147,8 +147,8 @@ export function test(runner: TestRunner): void
                             test.assertThrows(() => iterator.takeCurrent(),
                                 new PreConditionError({
                                     expression: "iterator.hasCurrent()",
-                                    expected: "true",
-                                    actual: "false",
+                                    expectedString: "true",
+                                    actualString: "false",
                                 }));
                             test.assertFalse(iterator.hasStarted());
                             test.assertFalse(iterator.hasCurrent());
@@ -743,23 +743,23 @@ export function test(runner: TestRunner): void
 
                 skipErrorTest([], undefined!, new PreConditionError({
                     expression: "maximumToSkip",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 skipErrorTest([], null!, new PreConditionError({
                     expression: "maximumToSkip",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 skipErrorTest([], 0.5, new PreConditionError({
                     expression: "maximumToSkip",
-                    expected: "integer",
-                    actual: "0.5",
+                    expectedString: "integer",
+                    actualString: "0.5",
                 }));
                 skipErrorTest([], -1, new PreConditionError({
                     expression: "maximumToSkip",
-                    expected: "greater than or equal to 0",
-                    actual: "-1",
+                    expectedString: "greater than or equal to 0",
+                    actualString: "-1",
                 }));
 
                 function skipTest(iterable: JavascriptIterable<string>, maximumToSkip: number, expected: JavascriptIterable<string>): void
@@ -797,8 +797,8 @@ export function iteratorTests<T>(runner: TestRunner, creator: () => Iterator<T>)
             test.assertFalse(iterator.hasCurrent());
             test.assertThrows(() => iterator.getCurrent(), new PreConditionError({
                 expression: "this.hasCurrent()",
-                expected: "true",
-                actual: "false",
+                expectedString: "true",
+                actualString: "false",
             }));
         });
 
@@ -826,8 +826,8 @@ export function iteratorTests<T>(runner: TestRunner, creator: () => Iterator<T>)
                         test.assertThrows(() => iterator.takeCurrent(),
                             new PreConditionError({
                                 expression: "iterator.hasCurrent()",
-                                expected: "true",
-                                actual: "false",
+                                expectedString: "true",
+                                actualString: "false",
                             }));
                         test.assertFalse(iterator.hasStarted());
                         test.assertFalse(iterator.hasCurrent());
@@ -845,8 +845,8 @@ export function iteratorTests<T>(runner: TestRunner, creator: () => Iterator<T>)
                         test.assertThrows(() => iterator.takeCurrent(),
                             new PreConditionError({
                                 expression: "iterator.hasCurrent()",
-                                expected: "true",
-                                actual: "false",
+                                expectedString: "true",
+                                actualString: "false",
                             }));
                         test.assertTrue(iterator.hasStarted());
                         test.assertFalse(iterator.hasCurrent());
@@ -958,8 +958,8 @@ export function iteratorTests<T>(runner: TestRunner, creator: () => Iterator<T>)
                 const iterator: Iterator<T> = creator();
                 test.assertThrows(() => iterator.where(undefined!), new PreConditionError({
                     expression: "condition",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 test.assertFalse(iterator.hasStarted());
                 test.assertFalse(iterator.hasCurrent());
@@ -970,8 +970,8 @@ export function iteratorTests<T>(runner: TestRunner, creator: () => Iterator<T>)
                 const iterator: Iterator<T> = creator();
                 test.assertThrows(() => iterator.where(null!), new PreConditionError({
                     expression: "condition",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 test.assertFalse(iterator.hasStarted());
                 test.assertFalse(iterator.hasCurrent());
@@ -1028,8 +1028,8 @@ export function iteratorTests<T>(runner: TestRunner, creator: () => Iterator<T>)
                 const iterator: Iterator<T> = creator();
                 test.assertThrows(() => iterator.map(undefined!), new PreConditionError({
                     expression: "mapping",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 test.assertFalse(iterator.hasStarted());
                 test.assertFalse(iterator.hasCurrent());
@@ -1040,8 +1040,8 @@ export function iteratorTests<T>(runner: TestRunner, creator: () => Iterator<T>)
                 const iterator: Iterator<T> = creator();
                 test.assertThrows(() => iterator.map(null!), new PreConditionError({
                     expression: "mapping",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 test.assertFalse(iterator.hasStarted());
                 test.assertFalse(iterator.hasCurrent());

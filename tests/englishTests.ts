@@ -21,15 +21,15 @@ export function test(runner: TestRunner): void
                 undefined,
                 new PreConditionError({
                     expression: "values",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
             andListErrorTest(
                 null,
                 new PreConditionError({
                     expression: "values",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
             function andListTest(values: string[], expected: string): void
@@ -65,15 +65,15 @@ export function test(runner: TestRunner): void
                 undefined,
                 new PreConditionError({
                     expression: "values",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
             orListErrorTest(
                 null,
                 new PreConditionError({
                     expression: "values",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
             function orListTest(values: string[], expected: string): void

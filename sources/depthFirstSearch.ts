@@ -7,7 +7,7 @@ import { Stack } from "./stack.js";
 import { Set } from "./set.js";
 import { Iterator } from "./iterator.js";
 import { SyncResult } from "./syncResult.js";
-import { isJavascriptIterable, Type } from "./types.js";
+import { isJavascriptIterable } from "./types.js";
 import { BaseError } from "./BaseError.js";
 
 class SearchBreakError extends BaseError
@@ -155,7 +155,7 @@ class DepthFirstSearch<TVisit,TResult> implements SearchControl<TVisit,TResult>,
         return Iterator.concatenate(this, ...toConcatenate);
     }
 
-    public where(condition: (value: TResult) => (boolean | SyncResult<boolean>)): Iterator<TResult>
+    public where<U extends TResult>(condition: (value: TResult) => value is U): Iterator<U>
     {
         return Iterator.where(this, condition);
     }
@@ -168,16 +168,6 @@ class DepthFirstSearch<TVisit,TResult> implements SearchControl<TVisit,TResult>,
     public flatMap<TOutput>(mapping: (value: TResult) => JavascriptIterable<TOutput>): Iterator<TOutput>
     {
         return Iterator.flatMap(this, mapping);
-    }
-
-    public whereInstanceOf<U extends TResult>(typeCheck: (value: TResult) => value is U): Iterator<U>
-    {
-        return Iterator.whereInstanceOf(this, typeCheck);
-    }
-
-    public whereInstanceOfType<U extends TResult>(type: Type<U>): Iterator<U>
-    {
-        return Iterator.whereInstanceOfType(this, type);
     }
 
     public first(condition?: ((value: TResult) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<TResult>

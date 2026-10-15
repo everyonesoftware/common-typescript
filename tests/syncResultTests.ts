@@ -22,13 +22,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest("with undefined", undefined!, new PreConditionError({
                     expression: "action",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 createErrorTest("with null", null!, new PreConditionError({
                     expression: "action",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 runner.test("with action", (test: Test) =>
@@ -253,8 +253,8 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => parentResult.catch(undefined!, () => 6),
                         new PreConditionError({
                             expression: "errorType",
-                            expected: "not undefined and not null",
-                            actual: "undefined",
+                            expectedString: "not undefined and not null",
+                            actualString: "undefined",
                         }));
                 });
 
@@ -264,8 +264,8 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => parentResult.catch(null!, () => 6),
                         new PreConditionError({
                             expression: "errorType",
-                            expected: "not undefined and not null",
-                            actual: "null",
+                            expectedString: "not undefined and not null",
+                            actualString: "null",
                         }));
                 });
 
@@ -482,8 +482,8 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => parentResult.onError(undefined!, () => { }),
                         new PreConditionError({
                             expression: "errorType",
-                            expected: "not undefined and not null",
-                            actual: "undefined",
+                            expectedString: "not undefined and not null",
+                            actualString: "undefined",
                         }));
                 });
 
@@ -493,8 +493,8 @@ export function test(runner: TestRunner): void
                     test.assertThrows(() => parentResult.onError(null!, () => { }),
                         new PreConditionError({
                             expression: "errorType",
-                            expected: "not undefined and not null",
-                            actual: "null",
+                            expectedString: "not undefined and not null",
+                            actualString: "null",
                         }));
                 });
 
@@ -743,8 +743,8 @@ export function test(runner: TestRunner): void
                         test.assertThrows(() => parentResult.convertError(undefined!),
                             new PreConditionError({
                                 expression: "convertErrorFunction",
-                                expected: "not undefined and not null",
-                                actual: "undefined",
+                                expectedString: "not undefined and not null",
+                                actualString: "undefined",
                             }));
                     });
 
@@ -755,8 +755,8 @@ export function test(runner: TestRunner): void
                             () => parentResult.convertError(null!),
                             new PreConditionError({
                                 expression: "convertErrorFunction",
-                                expected: "not undefined and not null",
-                                actual: "null",
+                                expectedString: "not undefined and not null",
+                                actualString: "null",
                             }),
                         );
                     });
@@ -940,8 +940,8 @@ export function test(runner: TestRunner): void
                         test.assertThrows(() => parentResult.convertError(undefined!),
                             new PreConditionError({
                                 expression: "convertErrorFunction",
-                                expected: "not undefined and not null",
-                                actual: "undefined",
+                                expectedString: "not undefined and not null",
+                                actualString: "undefined",
                             }));
                     });
 
@@ -951,8 +951,8 @@ export function test(runner: TestRunner): void
                         test.assertThrows(() => parentResult.convertError(null!),
                             new PreConditionError({
                                 expression: "convertErrorFunction",
-                                expected: "not undefined and not null",
-                                actual: "null",
+                                expectedString: "not undefined and not null",
+                                actualString: "null",
                             }));
                     });
 

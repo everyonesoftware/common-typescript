@@ -6,7 +6,6 @@ import { List } from "./list.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { Type } from "./types.js";
 
 export class JavascriptArrayList<T> implements List<T>
 {
@@ -146,11 +145,6 @@ export class JavascriptArrayList<T> implements List<T>
     public where(condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>
     {
         return List.where(this, condition);
-    }
-
-    public instanceOf<TOutput extends T>(typeOrTypeCheck: Type<TOutput> | ((value: T) => value is TOutput)): Iterable<TOutput>
-    {
-        return List.instanceOf(this, typeOrTypeCheck);
     }
 
     public first(condition?: ((value: T) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<T>

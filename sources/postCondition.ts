@@ -29,9 +29,9 @@ export abstract class PostCondition
      * @param expression The name of the expression that produced the value.
      * @param message An additional message that will be included with the error.
      */
-    public static assertUndefined(value: unknown, expression?: string, message?: string): asserts value is undefined
+    public static assertUndefined(value: unknown, expression?: string): asserts value is undefined
     {
-        return PostCondition.getCondition().assertUndefined(value, expression, message);
+        return PostCondition.getCondition().assertUndefined(value, expression);
     }
 
     /**
@@ -85,9 +85,9 @@ export abstract class PostCondition
      * @param expression The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public static assertSame<T>(expected: T, actual: T, expression?: string, message?: string): void
+    public static assertSame<T>(expected: T, actual: T, expression?: string): void
     {
-        return PostCondition.getCondition().assertSame(expected, actual, expression, message);
+        return PostCondition.getCondition().assertSame(expected, actual, expression);
     }
 
     /**

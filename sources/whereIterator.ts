@@ -2,19 +2,18 @@ import { Iterator } from "./iterator.js";
 import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
-import { isBoolean, Type } from "./types.js";
 
 /**
  * An {@link Iterator} that only returns values that match a condition.
  */
-export class WhereIterator<T> implements Iterator<T>
+export class WhereIterator<TInner, TOuter extends TInner = TInner> implements Iterator<TOuter>
 {
     // WhereIterator cannot extend Iterator because their create() functions are different.
-    private readonly innerIterator: Iterator<T>;
+    private readonly innerIterator: Iterator<TInner>;
     private started: boolean;
-    private readonly condition: (value: T) => (boolean | SyncResult<boolean>);
+    private readonly condition: (value: TInner) => value is TOuter;
 
-    private constructor(innerIterator: Iterator<T>, condition: (value: T) => (boolean | SyncResult<boolean>))
+    private constructor(innerIterator: Iterator<TInner>, condition: (value: TInner) => value is TOuter)
     {
         PreCondition.assertNotUndefinedAndNotNull(innerIterator, "innerIterator");
         PreCondition.assertNotUndefinedAndNotNull(condition, "condition");
@@ -24,7 +23,9 @@ export class WhereIterator<T> implements Iterator<T>
         this.condition = condition;
     }
 
-    public static create<T>(innerIterator: Iterator<T>, condition: (value: T) => (boolean | SyncResult<boolean>)): WhereIterator<T>
+    public static create<TInner,TOuter extends TInner>(innerIterator: Iterator<TInner>, condition: (value: TInner) => value is TOuter): WhereIterator<TInner,TOuter>;
+    public static create<TInner>(innerIterator: Iterator<TInner>, condition: (value: TInner) => boolean): WhereIterator<TInner>;
+    static create<TInner,TOuter extends TInner>(innerIterator: Iterator<TInner>, condition: (value: TInner) => value is TOuter): WhereIterator<TInner,TOuter>
     {
         return new WhereIterator(innerIterator, condition);
     }
@@ -39,11 +40,11 @@ export class WhereIterator<T> implements Iterator<T>
         return this.hasStarted() && this.innerIterator.hasCurrent();
     }
 
-    public getCurrent(): T
+    public getCurrent(): TOuter
     {
         PreCondition.assertTrue(this.hasCurrent(), "this.hasCurrent()");
 
-        return this.innerIterator.getCurrent();
+        return this.innerIterator.getCurrent() as TOuter;
     }
 
     public next(): SyncResult<boolean>
@@ -62,9 +63,7 @@ export class WhereIterator<T> implements Iterator<T>
 
             while (this.hasCurrent())
             {
-                const conditionResult: boolean | SyncResult<boolean> = this.condition(this.getCurrent());
-                const conditionBoolean: boolean = isBoolean(conditionResult) ? conditionResult : conditionResult.await();
-                if (conditionBoolean)
+                if (this.condition(this.getCurrent()))
                 {
                     break;
                 }
@@ -77,12 +76,12 @@ export class WhereIterator<T> implements Iterator<T>
 
     public start(): SyncResult<this>
     {
-        return Iterator.start<T, this>(this);
+        return Iterator.start<TOuter, this>(this);
     }
 
-    public takeCurrent(): SyncResult<T>
+    public takeCurrent(): SyncResult<TOuter>
     {
-        return Iterator.takeCurrent(this);
+        return Iterator.takeCurrent(this) as SyncResult<TOuter>;
     }
 
     public any(): SyncResult<boolean>
@@ -95,62 +94,52 @@ export class WhereIterator<T> implements Iterator<T>
         return Iterator.getCount(this);
     }
 
-    public toArray(): SyncResult<T[]>
+    public toArray(): SyncResult<TOuter[]>
     {
         return Iterator.toArray(this);
     }
     
-    public concatenate(...toConcatenate: JavascriptIterable<T>[]): Iterator<T>
+    public concatenate(...toConcatenate: JavascriptIterable<TOuter>[]): Iterator<TOuter>
     {
         return Iterator.concatenate(this, ...toConcatenate);
     }
 
-    public where(condition: (value: T) => boolean): Iterator<T>
+    public where<TOuter2 extends TOuter>(condition: (value: TOuter) => value is TOuter2): Iterator<TOuter2>
     {
         return Iterator.where(this, condition);
     }
 
-    public map<TOutput>(mapping: (value: T) => (TOutput | SyncResult<TOutput>)): Iterator<TOutput>
+    public map<TOuter2>(mapping: (value: TOuter) => (TOuter2 | SyncResult<TOuter2>)): Iterator<TOuter2>
     {
         return Iterator.map(this, mapping);
     }
 
-    public flatMap<TOutput>(mapping: (value: T) => JavascriptIterable<TOutput>): Iterator<TOutput>
+    public flatMap<TOuter2>(mapping: (value: TOuter) => JavascriptIterable<TOuter2>): Iterator<TOuter2>
     {
         return Iterator.flatMap(this, mapping);
     }
 
-    public whereInstanceOf<U extends T>(typeCheck: (value: T) => value is U): Iterator<U>
-    {
-        return Iterator.whereInstanceOf(this, typeCheck);
-    }
-
-    public whereInstanceOfType<U extends T>(type: Type<U>): Iterator<U>
-    {
-        return Iterator.whereInstanceOfType(this, type);
-    }
-
-    public first(condition?: (value: T) => boolean): SyncResult<T>
+    public first(condition?: (value: TOuter) => boolean): SyncResult<TOuter>
     {
         return Iterator.first(this, condition);
     }
 
-    public last(condition?: (value: T) => boolean): SyncResult<T>
+    public last(condition?: (value: TOuter) => boolean): SyncResult<TOuter>
     {
         return Iterator.last(this, condition);
     }
 
-    public take(maximumToTake: number): Iterator<T>
+    public take(maximumToTake: number): Iterator<TOuter>
     {
         return Iterator.take(this, maximumToTake);
     }
 
-    public skip(maximumToSkip: number): Iterator<T>
+    public skip(maximumToSkip: number): Iterator<TOuter>
     {
         return Iterator.skip(this, maximumToSkip);
     }
 
-    public [Symbol.iterator](): JavascriptIterator<T>
+    public [Symbol.iterator](): JavascriptIterator<TOuter>
     {
         return Iterator[Symbol.iterator](this);
     }

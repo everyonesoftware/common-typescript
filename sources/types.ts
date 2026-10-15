@@ -114,6 +114,31 @@ export function isUndefinedNullOrEmpty(value: string | undefined | null): value 
 }
 
 /**
+ * Get a string representation of the provided value that is either "undefined", "null", or
+ * "defined".
+ * @param value The value to get the string representation of.
+ */
+export function toUndefinedNullOrDefinedString(value: unknown): string
+{
+    let result: string;
+    switch (value)
+    {
+        case undefined:
+            result = "undefined";
+            break;
+
+        case null:
+            result = "null";
+            break;
+
+        default:
+            result = "defined";
+            break;
+    }
+    return result;
+}
+
+/**
  * Get whether the provided value is a {@link boolean}.
  * @param value The value to check.
  */

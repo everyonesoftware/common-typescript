@@ -21,8 +21,8 @@ export function test(runner: TestRunner): void
                     const processRunner: RealProcessRunner = RealProcessRunner.create();
                     test.assertThrows(() => processRunner.start(undefined!), new PreConditionError({
                         expression: "shellCommand",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }));
                 });
 
@@ -31,8 +31,8 @@ export function test(runner: TestRunner): void
                     const processRunner: RealProcessRunner = RealProcessRunner.create();
                     test.assertThrows(() => processRunner.start(null!), new PreConditionError({
                         expression: "shellCommand",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }));
                 });
 

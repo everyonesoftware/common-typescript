@@ -25,16 +25,16 @@ export function test(runner: TestRunner): void
                     (value: number) => value.toString(),
                     new PreConditionError({
                         expression: "inputIterator",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }));
                 createErrorTest(
                     null!,
                     (value: number) => value.toString(),
                     new PreConditionError({
                         expression: "inputIterator",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }));
 
                 runner.test("with valid values", (test: Test) =>

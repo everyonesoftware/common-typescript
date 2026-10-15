@@ -303,13 +303,13 @@ export function test(runner: TestRunner): void
 
             asReadonlyArrayErrorTest(undefined!, new PreConditionError({
                 expression: "value",
-                expected: "not undefined and not null",
-                actual: "undefined",
+                expectedString: "not undefined and not null",
+                actualString: "undefined",
             }));
             asReadonlyArrayErrorTest(null!, new PreConditionError({
                 expression: "value",
-                expected: "not undefined and not null",
-                actual: "null",
+                expectedString: "not undefined and not null",
+                actualString: "null",
             }));
 
             function asReadonlyArrayTest<T>(testType: string, value: JavascriptIterable<T>): void

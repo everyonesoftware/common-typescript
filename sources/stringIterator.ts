@@ -2,7 +2,6 @@ import { Iterator } from "./iterator.js";
 import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
-import { Type } from "./types.js";
 
 /**
  * An {@link Iterator} that iterates over the characters in a {@link string}.
@@ -117,19 +116,9 @@ export class StringIterator implements Iterator<string>
         return Iterator.last(this);
     }
 
-    public where(condition: (value: string) => boolean): Iterator<string>
+    public where<U extends string>(condition: (value: string) => value is U): Iterator<U>
     {
         return Iterator.where(this, condition);
-    }
-
-    public whereInstanceOf<U extends string>(typeCheck: (value: string) => value is U): Iterator<U>
-    {
-        return Iterator.whereInstanceOf(this, typeCheck);
-    }
-
-    public whereInstanceOfType<U extends string>(type: Type<U>): Iterator<U>
-    {
-        return Iterator.whereInstanceOfType(this, type);
     }
 
     public take(maximumToTake: number): Iterator<string>

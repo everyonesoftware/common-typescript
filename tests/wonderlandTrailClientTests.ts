@@ -66,8 +66,8 @@ export function test(runner: TestRunner): void
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
                     test.assertThrows(() => availability.addAvailability(undefined!, DateTime.parse("2026-03-11").await()), new PreConditionError({
                         expression: "location",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }));
                 });
 
@@ -76,8 +76,8 @@ export function test(runner: TestRunner): void
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
                     test.assertThrows(() => availability.addAvailability(null!, DateTime.parse("2026-03-11").await()), new PreConditionError({
                         expression: "location",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }));
                 });
 
@@ -86,8 +86,8 @@ export function test(runner: TestRunner): void
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
                     test.assertThrows(() => availability.addAvailability(WonderlandTrailLocations.boxCanyon, undefined!), new PreConditionError({
                         expression: "date",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }));
                 });
 
@@ -96,8 +96,8 @@ export function test(runner: TestRunner): void
                     const availability: WonderlandTrailAvailability = WonderlandTrailAvailability.create();
                     test.assertThrows(() => availability.addAvailability(WonderlandTrailLocations.boxCanyon, null!), new PreConditionError({
                         expression: "date",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }));
                 });
 
@@ -160,13 +160,13 @@ export function test(runner: TestRunner): void
 
                 getAvailabilityErrorTest(undefined!, new PreConditionError({
                     expression: "location",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 getAvailabilityErrorTest(null!, new PreConditionError({
                     expression: "location",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 runner.test("when location isn't found", (test: Test) =>
@@ -211,23 +211,23 @@ export function test(runner: TestRunner): void
 
                 getDayAvailabilityErrorTest(undefined!, DateTime.parse("2025-07-04").await(), new PreConditionError({
                     expression: "location",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 getDayAvailabilityErrorTest(null!, DateTime.parse("2025-07-04").await(), new PreConditionError({
                     expression: "location",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 getDayAvailabilityErrorTest(WonderlandTrailLocations.boxCanyon, undefined!, new PreConditionError({
                     expression: "date",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 getDayAvailabilityErrorTest(WonderlandTrailLocations.boxCanyon, null!, new PreConditionError({
                     expression: "date",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 runner.test("with not found location or date", (test: Test) =>
@@ -387,8 +387,8 @@ export function test(runner: TestRunner): void
                 {
                     test.assertThrows(() => WonderlandTrailClient.create(undefined!), new PreConditionError({
                         expression: "httpClient",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }));
                 });
 
@@ -396,8 +396,8 @@ export function test(runner: TestRunner): void
                 {
                     test.assertThrows(() => WonderlandTrailClient.create(null!), new PreConditionError({
                         expression: "httpClient",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }));
                 });
 

@@ -32,13 +32,13 @@ export function test(runner: TestRunner): void
 
                 setToStringFunctionsErrorTest("with undefined", undefined!, new PreConditionError({
                     expression: "toStringFunctions",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 setToStringFunctionsErrorTest("with null", null!, new PreConditionError({
                     expression: "toStringFunctions",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 runner.test("with valid value", (test: Test) =>
@@ -67,13 +67,13 @@ export function test(runner: TestRunner): void
 
                 setEqualFunctionsErrorTest("with undefined", undefined!, new PreConditionError({
                     expression: "equalFunctions",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 setEqualFunctionsErrorTest("with null", null!, new PreConditionError({
                     expression: "equalFunctions",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 runner.test("with valid value", (test: Test) =>
@@ -205,8 +205,8 @@ export function test(runner: TestRunner): void
                 {
                     const mc: MutableCondition = MutableCondition.create();
                     const error: Error = mc.createError({
-                        actual: "fake-actual",
-                        expected: "fake-expected",
+                        actualString: "fake-actual",
+                        expectedString: "fake-expected",
                         expression: "fake-expression",
                         message: "fake-message",
                     });

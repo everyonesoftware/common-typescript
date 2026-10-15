@@ -31,13 +31,13 @@ export function test(runner: TestRunner): void
 
                 sendRequestErrorTest(undefined!, new PreConditionError({
                     expression: "request",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 sendRequestErrorTest(null!, new PreConditionError({
                     expression: "request",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 runner.test("with simple request", async (test: Test) =>

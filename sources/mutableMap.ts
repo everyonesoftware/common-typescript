@@ -7,7 +7,7 @@ import { NotFoundError } from "./notFoundError.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { hasFunction, Type } from "./types.js";
+import { hasFunction } from "./types.js";
 import { isMap, Map, MapEntry } from "./map.js";
 
 /**
@@ -118,24 +118,14 @@ export abstract class MutableMap<TKey, TValue> implements Map<TKey, TValue>
         return Map.flatMap(map, mapping);
     }
 
-    public where(condition: (value: MapEntry<TKey, TValue>) => (boolean | SyncResult<boolean>)): Iterable<MapEntry<TKey, TValue>>
+    public where<TKey2 extends TKey, TValue2 extends TValue>(condition: (value: MapEntry<TKey, TValue>) => value is MapEntry<TKey2,TValue2>): Iterable<MapEntry<TKey2, TValue2>>
     {
         return MutableMap.where(this, condition);
     }
 
-    public static where<TKey,TValue>(map: MutableMap<TKey,TValue>, condition: (value: MapEntry<TKey,TValue>) => (boolean | SyncResult<boolean>)): Iterable<MapEntry<TKey,TValue>>
+    public static where<TKey,TValue,TKey2 extends TKey,TValue2 extends TValue>(map: MutableMap<TKey,TValue>, condition: (value: MapEntry<TKey,TValue>) => value is MapEntry<TKey2,TValue2>): Iterable<MapEntry<TKey2,TValue2>>
     {
         return Map.where(map, condition);
-    }
-
-    public instanceOf<T extends MapEntry<TKey, TValue>>(typeOrTypeCheck: Type<T> | ((value: MapEntry<TKey, TValue>) => value is T)): Iterable<T>
-    {
-        return MutableMap.instanceOf(this, typeOrTypeCheck);
-    }
-
-    public static instanceOf<TKey,TValue,T extends MapEntry<TKey, TValue>>(map: MutableMap<TKey,TValue>, typeOrTypeCheck: Type<T> | ((value: MapEntry<TKey, TValue>) => value is T)): Iterable<T>
-    {
-        return Map.instanceOf(map, typeOrTypeCheck);
     }
 
     public [Symbol.iterator](): JavascriptIterator<MapEntry<TKey, TValue>>

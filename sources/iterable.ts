@@ -11,7 +11,7 @@ import { PreCondition } from "./preCondition.js";
 import { SkipIterable } from "./SkipIterable.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { instanceOf, isIterable, isUndefinedOrNull, Type } from "./types.js";
+import { isIterable, isUndefinedOrNull } from "./types.js";
 import { WhereIterable } from "./whereIterable.js";
 
 /**
@@ -217,7 +217,9 @@ export abstract class Iterable<T> implements JavascriptIterable<T>
      * provided condition.
      * @param condition The condition to run against each of the values in this {@link Iterable}.
      */
-    public where(condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>
+    public where<U extends T>(condition: (value: T) => value is U): Iterable<U>;
+    public where(condition: (value: T) => boolean): Iterable<T>;
+    where<U extends T>(condition: (value: T) => value is U): Iterable<U>
     {
         return Iterable.where(this, condition);
     }
@@ -229,7 +231,9 @@ export abstract class Iterable<T> implements JavascriptIterable<T>
      * @param condition The condition that the values must match to be contained in the new
      * {@link Iterable}.
      */
-    public static where<T>(iterable: JavascriptIterable<T>, condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>
+    public static where<T,U extends T>(iterable: JavascriptIterable<T>, condition: (value: T) => value is U): Iterable<U>;
+    public static where<T>(iterable: JavascriptIterable<T>, condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>;
+    static where<T,U extends T>(iterable: JavascriptIterable<T>, condition: (value: T) => value is U): Iterable<U>
     {
         PreCondition.assertNotUndefinedAndNotNull(iterable, "iterable");
         PreCondition.assertNotUndefinedAndNotNull(condition, "condition");
@@ -239,33 +243,6 @@ export abstract class Iterable<T> implements JavascriptIterable<T>
             iterable = Iterable.create(iterable);
         }
         return WhereIterable.create(iterable as Iterable<T>, condition);
-    }
-
-    /**
-     * Get an {@link Iterable} that contains values from this {@link Iterable} that match the
-     * provided {@link Type} or type check function.
-     * @param typeOrTypeCheck The {@link Type} or type check function that returned values must
-     * match.
-     */
-    public instanceOf<TOutput extends T>(typeOrTypeCheck: Type<TOutput> | ((value: T) => value is TOutput)): Iterable<TOutput>
-    {
-        return Iterable.instanceOf(this, typeOrTypeCheck);
-    }
-
-    /**
-     * Get an {@link Iterable} that contains values from the provided {@link Iterable} that match
-     * the provided {@link Type} or type check function.
-     * @param iterable The {@link Iterable} to get values from.
-     * @param typeOrTypeCheck The {@link Type} or type check function that returned values must
-     * match.
-     */
-    public static instanceOf<TInput, TOutput extends TInput>(iterable: JavascriptIterable<TInput>, typeOrTypeCheck: Type<TOutput> | ((value: TInput) => value is TOutput)): Iterable<TOutput>
-    {
-        PreCondition.assertNotUndefinedAndNotNull(iterable, "iterable");
-        PreCondition.assertNotUndefinedAndNotNull(typeOrTypeCheck, "typeOrTypeCheck");
-
-        return Iterable.where(iterable, (value: TInput) => instanceOf(value, typeOrTypeCheck))
-            .map((value: TInput) => (value as unknown) as TOutput);
     }
 
     /**

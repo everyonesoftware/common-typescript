@@ -29,9 +29,9 @@ export abstract class PreCondition
      * @param expression The name of the expression that produced the value.
      * @param message An additional message that will be included with the error.
      */
-    public static assertUndefined(value: unknown, expression?: string, message?: string): asserts value is undefined
+    public static assertUndefined(value: unknown, expression?: string, options?: { toStringFunction?: (value: unknown) => string }): asserts value is undefined
     {
-        return PreCondition.getCondition().assertUndefined(value, expression, message);
+        return PreCondition.getCondition().assertUndefined(value, expression, options);
     }
 
     /**
@@ -83,11 +83,10 @@ export abstract class PreCondition
      * @param expected The expected value.
      * @param actual The actual value.
      * @param expression The expression that produced the actual value.
-     * @param message An optional message that describes the scenario.
      */
-    public static assertSame<T>(expected: T, actual: T, expression?: string, message?: string): void
+    public static assertSame<T>(expected: T, actual: T, expression?: string, options?: { toStringFunction?: (value: unknown) => string }): void
     {
-        return PreCondition.getCondition().assertSame(expected, actual, expression, message);
+        return PreCondition.getCondition().assertSame(expected, actual, expression, options);
     }
 
     /**

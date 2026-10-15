@@ -6,7 +6,6 @@ import { List } from "./list.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { Type } from "./types.js";
 
 /**
  * A {@link List} of bytes.
@@ -173,11 +172,6 @@ export class ByteList implements List<number>
     public where(condition: (value: number) => (boolean | SyncResult<boolean>)): Iterable<number>
     {
         return List.where(this, condition);
-    }
-
-    public instanceOf<TOutput extends number>(typeOrTypeCheck: Type<TOutput> | ((value: number) => value is TOutput)): Iterable<TOutput>
-    {
-        return List.instanceOf(this, typeOrTypeCheck);
     }
 
     public first(condition?: ((value: number) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<number>

@@ -27,7 +27,7 @@ export function test(runner: TestRunner): void
                 runner.test("with undefined", () =>
                 {
                     const condition: MutableCondition = Condition.create();
-                    condition.assertUndefined(undefined, "fake-expression", "fake-message");
+                    condition.assertUndefined(undefined, "fake-expression", { message: "fake-message" });
                 });
 
                 function assertUndefinedErrorTest(value: unknown, expected: Error): void
@@ -169,7 +169,7 @@ export function test(runner: TestRunner): void
                     runner.test(`with ${runner.andList([expected, actual, expression, message])}`, (test: Test) =>
                     {
                         const condition: MutableCondition = Condition.create();
-                        test.assertThrows(() => condition.assertSame(expected, actual, expression, message), expectedError);
+                        test.assertThrows(() => condition.assertSame(expected, actual, expression, { message }), expectedError);
                     });
                 }
 
@@ -234,7 +234,7 @@ export function test(runner: TestRunner): void
                     runner.test(`with ${runner.andList([expected, actual, expression, message])}`, (_test: Test) =>
                     {
                         const condition: MutableCondition = Condition.create();
-                        condition.assertSame(expected, actual, expression, message);
+                        condition.assertSame(expected, actual, expression, { message: message });
                     });
                 }
 

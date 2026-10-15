@@ -7,7 +7,6 @@ import { MutableMap } from "./mutableMap.js";
 import { NotFoundError } from "./notFoundError.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { Type } from "./types.js";
 
 export class JavascriptMapMap<TKey, TValue> implements MutableMap<TKey, TValue>
 {
@@ -106,14 +105,9 @@ export class JavascriptMapMap<TKey, TValue> implements MutableMap<TKey, TValue>
         return MutableMap.flatMap(this, mapping);
     }
 
-    public where(condition: (value: MapEntry<TKey, TValue>) => (boolean | SyncResult<boolean>)): Iterable<MapEntry<TKey, TValue>>
+    public where<TKey2 extends TKey, TValue2 extends TValue>(condition: (value: MapEntry<TKey, TValue>) => value is MapEntry<TKey2,TValue2>): Iterable<MapEntry<TKey2, TValue2>>
     {
         return MutableMap.where(this, condition);
-    }
-
-    public instanceOf<T extends MapEntry<TKey, TValue>>(typeOrTypeCheck: Type<T> | ((value: MapEntry<TKey, TValue>) => value is T)): Iterable<T>
-    {
-        return MutableMap.instanceOf(this, typeOrTypeCheck);
     }
 
     public first(condition?: ((entry: MapEntry<TKey, TValue>) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<MapEntry<TKey, TValue>>

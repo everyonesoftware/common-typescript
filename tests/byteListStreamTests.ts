@@ -41,8 +41,8 @@ export function test(runner: TestRunner): void
                     const stream: ByteListStream = ByteListStream.create();
                     test.assertThrows(() => stream.writeBytes(undefined!), new PreConditionError({
                         expression: "bytes",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }));
                     test.assertEqual(0, stream.getAvailableByteCount());
                 });
@@ -52,8 +52,8 @@ export function test(runner: TestRunner): void
                     const stream: ByteListStream = ByteListStream.create();
                     test.assertThrows(() => stream.writeBytes(null!), new PreConditionError({
                         expression: "bytes",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }));
                     test.assertEqual(0, stream.getAvailableByteCount());
                 });
@@ -84,8 +84,8 @@ export function test(runner: TestRunner): void
                     const stream: ByteListStream = ByteListStream.create();
                     test.assertThrows(() => stream.writeBytes([1, 2], -1), new PreConditionError({
                         expression: "startIndex",
-                        expected: "between 0 and 2",
-                        actual: "-1",
+                        expectedString: "between 0 and 2",
+                        actualString: "-1",
                     }));
                     test.assertEqual(0, stream.getAvailableByteCount());
                 });
@@ -95,8 +95,8 @@ export function test(runner: TestRunner): void
                     const stream: ByteListStream = ByteListStream.create();
                     test.assertThrows(() => stream.writeBytes([1, 2], 3), new PreConditionError({
                         expression: "startIndex",
-                        expected: "between 0 and 2",
-                        actual: "3",
+                        expectedString: "between 0 and 2",
+                        actualString: "3",
                     }));
                     test.assertEqual(0, stream.getAvailableByteCount());
                 });
@@ -125,8 +125,8 @@ export function test(runner: TestRunner): void
                     const stream: ByteListStream = ByteListStream.create();
                     test.assertThrows(() => stream.writeBytes([1, 2], 0, -1), new PreConditionError({
                         expression: "length",
-                        expected: "between 0 and 2",
-                        actual: "-1",
+                        expectedString: "between 0 and 2",
+                        actualString: "-1",
                     }));
                     test.assertEqual(0, stream.getAvailableByteCount());
                 });
@@ -136,8 +136,8 @@ export function test(runner: TestRunner): void
                     const stream: ByteListStream = ByteListStream.create();
                     test.assertThrows(() => stream.writeBytes([1, 2], 0, 3), new PreConditionError({
                         expression: "length",
-                        expected: "between 0 and 2",
-                        actual: "3",
+                        expectedString: "between 0 and 2",
+                        actualString: "3",
                     }));
                     test.assertEqual(0, stream.getAvailableByteCount());
                 });
@@ -163,8 +163,8 @@ export function test(runner: TestRunner): void
                         const stream: ByteListStream = ByteListStream.create();
                         test.assertThrows(() => stream.readBytes(-1).await(), new PreConditionError({
                             expression: "count",
-                            expected: "greater than or equal to 0",
-                            actual: "-1",
+                            expectedString: "greater than or equal to 0",
+                            actualString: "-1",
                         }));
                         test.assertEqual(0, stream.getAvailableByteCount());
                     });
@@ -191,8 +191,8 @@ export function test(runner: TestRunner): void
                         const stream: ByteListStream = ByteListStream.create([1, 2, 3]);
                         test.assertThrows(() => stream.readBytes(-1).await(), new PreConditionError({
                             expression: "count",
-                            expected: "greater than or equal to 0",
-                            actual: "-1",
+                            expectedString: "greater than or equal to 0",
+                            actualString: "-1",
                         }));
                         test.assertEqual(3, stream.getAvailableByteCount());
                     });
@@ -234,8 +234,8 @@ export function test(runner: TestRunner): void
                         const stream: ByteListStream = ByteListStream.create([1, 2, 3]);
                         test.assertThrows(() => stream.readBytes(undefined!), new PreConditionError({
                             expression: "output",
-                            expected: "not undefined and not null",
-                            actual: "undefined",
+                            expectedString: "not undefined and not null",
+                            actualString: "undefined",
                         }));
                         test.assertEqual(3, stream.getAvailableByteCount());
                     });
@@ -245,8 +245,8 @@ export function test(runner: TestRunner): void
                         const stream: ByteListStream = ByteListStream.create([1, 2, 3]);
                         test.assertThrows(() => stream.readBytes(null!), new PreConditionError({
                             expression: "output",
-                            expected: "not undefined and not null",
-                            actual: "null",
+                            expectedString: "not undefined and not null",
+                            actualString: "null",
                         }));
                         test.assertEqual(3, stream.getAvailableByteCount());
                     });
@@ -297,8 +297,8 @@ export function test(runner: TestRunner): void
                         const output: Uint8Array = new Uint8Array(5);
                         test.assertThrows(() => stream.readBytes(output, -1), new PreConditionError({
                             expression: "startIndex",
-                            expected: "between 0 and 5",
-                            actual: "-1",
+                            expectedString: "between 0 and 5",
+                            actualString: "-1",
                         }));
                         test.assertEqual(3, stream.getAvailableByteCount());
                     });
@@ -309,8 +309,8 @@ export function test(runner: TestRunner): void
                         const output: Uint8Array = new Uint8Array(5);
                         test.assertThrows(() => stream.readBytes(output, 6), new PreConditionError({
                             expression: "startIndex",
-                            expected: "between 0 and 5",
-                            actual: "6",
+                            expectedString: "between 0 and 5",
+                            actualString: "6",
                         }));
                         test.assertEqual(3, stream.getAvailableByteCount());
                     });
@@ -348,8 +348,8 @@ export function test(runner: TestRunner): void
                         const output: Uint8Array = new Uint8Array(5);
                         test.assertThrows(() => stream.readBytes(output, 1, -1), new PreConditionError({
                             expression: "count",
-                            expected: "between 0 and 4",
-                            actual: "-1",
+                            expectedString: "between 0 and 4",
+                            actualString: "-1",
                         }));
                         test.assertEqual(3, stream.getAvailableByteCount());
                     });
@@ -360,8 +360,8 @@ export function test(runner: TestRunner): void
                         const output: Uint8Array = new Uint8Array(5);
                         test.assertThrows(() => stream.readBytes(output, 1, 5), new PreConditionError({
                             expression: "count",
-                            expected: "between 0 and 4",
-                            actual: "5",
+                            expectedString: "between 0 and 4",
+                            actualString: "5",
                         }));
                         test.assertEqual(3, stream.getAvailableByteCount());
                     });

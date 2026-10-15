@@ -6,7 +6,6 @@ import { NotFoundError } from "./notFoundError.js";
 import { Set } from "./set.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { Type } from "./types.js";
 
 export class JavascriptSetSet<T> implements Set<T>
 {
@@ -100,14 +99,9 @@ export class JavascriptSetSet<T> implements Set<T>
         return Set.flatMap(this, mapping);
     }
 
-    public where(condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>
+    public where<U extends T>(condition: (value: T) => value is U): Iterable<U>
     {
         return Set.where(this, condition);
-    }
-
-    public instanceOf<TOutput extends T>(typeOrTypeCheck: Type<TOutput> | ((value: T) => value is TOutput)): Iterable<TOutput>
-    {
-        return Set.instanceOf(this, typeOrTypeCheck);
     }
 
     public first(condition?: ((value: T) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<T>

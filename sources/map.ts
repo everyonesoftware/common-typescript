@@ -9,7 +9,7 @@ import { PreCondition } from "./preCondition.js";
 import { join } from "./strings.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { hasFunction, isUndefinedOrNull, Type } from "./types.js";
+import { hasFunction, isUndefinedOrNull } from "./types.js";
 
 /**
  * Get whether the provided value is {@link Map}.
@@ -166,24 +166,14 @@ export abstract class Map<TKey, TValue> implements Iterable<MapEntry<TKey, TValu
         return Iterable.flatMap(map, mapping);
     } 
 
-    public where(condition: (value: MapEntry<TKey, TValue>) => (boolean | SyncResult<boolean>)): Iterable<MapEntry<TKey, TValue>>
+    public where<TKey2 extends TKey, TValue2 extends TValue>(condition: (value: MapEntry<TKey, TValue>) => value is MapEntry<TKey2,TValue2>): Iterable<MapEntry<TKey2, TValue2>>
     {
         return Map.where(this, condition);
     }
 
-    public static where<TKey,TValue>(map: Map<TKey,TValue>, condition: (value: MapEntry<TKey,TValue>) => (boolean | SyncResult<boolean>)): Iterable<MapEntry<TKey,TValue>>
+    public static where<TKey,TValue,TKey2 extends TKey, TValue2 extends TValue>(map: Map<TKey,TValue>, condition: (value: MapEntry<TKey,TValue>) => value is MapEntry<TKey2,TValue2>): Iterable<MapEntry<TKey2,TValue2>>
     {
         return Iterable.where(map, condition);
-    }
-
-    public instanceOf<T extends MapEntry<TKey, TValue>>(typeOrTypeCheck: Type<T> | ((value: MapEntry<TKey, TValue>) => value is T)): Iterable<T>
-    {
-        return Map.instanceOf(this, typeOrTypeCheck);
-    }
-
-    public static instanceOf<TKey,TValue,T extends MapEntry<TKey, TValue>>(map: Map<TKey,TValue>, typeOrTypeCheck: Type<T> | ((value: MapEntry<TKey, TValue>) => value is T)): Iterable<T>
-    {
-        return Iterable.instanceOf(map, typeOrTypeCheck);
     }
 
     public [Symbol.iterator](): JavascriptIterator<MapEntry<TKey, TValue>>

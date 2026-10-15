@@ -5,7 +5,6 @@ import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { Type } from "./types.js";
 
 export class FlatMapIterable<TInput, TOutput> implements Iterable<TOutput>
 {
@@ -75,11 +74,6 @@ export class FlatMapIterable<TInput, TOutput> implements Iterable<TOutput>
     public where(condition: (value: TOutput) => (boolean | SyncResult<boolean>)): Iterable<TOutput>
     {
         return Iterable.where(this, condition);
-    }
-
-    public instanceOf<TOutput2 extends TOutput>(typeOrTypeCheck: Type<TOutput2> | ((value: TOutput2) => value is TOutput2)): Iterable<TOutput2>
-    {
-        return Iterable.instanceOf<TOutput, TOutput2>(this, typeOrTypeCheck);
     }
 
     public first(condition?: ((value: TOutput) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<TOutput>

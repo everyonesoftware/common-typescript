@@ -6,7 +6,7 @@ import { JavascriptSetSet } from "./javascriptSetSet.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { hasFunction, Type } from "./types.js";
+import { hasFunction } from "./types.js";
 
 /**
  * Get whether the provided value is a {@link Set}.
@@ -182,24 +182,14 @@ export abstract class Set<T> implements Iterable<T>
         return Iterable.flatMap<TInput, TOutput>(set, mapping);
     }
 
-    public where(condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>
+    public where<U extends T>(condition: (value: T) => value is U): Iterable<U>
     {
         return Set.where(this, condition);
     }
 
-    public static where<T>(set: Set<T>, condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>
+    public static where<T,U extends T>(set: Set<T>, condition: (value: T) => value is U): Iterable<U>
     {
         return Iterable.where(set, condition);
-    }
-
-    public instanceOf<TOutput extends T>(typeOrTypeCheck: Type<TOutput> | ((value: T) => value is TOutput)): Iterable<TOutput>
-    {
-        return Set.instanceOf(this, typeOrTypeCheck);
-    }
-
-    public static instanceOf<TInput, TOutput extends TInput>(set: Set<TInput>, typeOrTypeCheck: Type<TOutput> | ((value: TInput) => value is TOutput)): Iterable<TOutput>
-    {
-        return Iterable.instanceOf(set, typeOrTypeCheck);
     }
 
     public first(condition?: ((value: T) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<T>

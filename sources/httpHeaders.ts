@@ -8,7 +8,6 @@ import { NotFoundError } from "./notFoundError.js";
 import { AsyncResult } from "./asyncResult.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { Type } from "./types.js";
 import { JSONObjectData } from "./JSON.js";
 
 /**
@@ -167,16 +166,6 @@ export abstract class HttpHeaders implements Iterable<HttpHeader>
     public static where(headers: HttpHeaders, condition: (value: HttpHeader) => (boolean | SyncResult<boolean>)): Iterable<HttpHeader>
     {
         return Iterable.where(headers, condition);
-    }
-
-    public instanceOf<TOutput extends HttpHeader>(typeOrTypeCheck: Type<TOutput> | ((value: HttpHeader) => value is TOutput)): Iterable<TOutput>
-    {
-        return HttpHeaders.instanceOf(this, typeOrTypeCheck);
-    }
-
-    public static instanceOf<TOutput extends HttpHeader>(headers: HttpHeaders, typeOrTypeCheck: Type<TOutput> | ((value: HttpHeader) => value is TOutput)): Iterable<TOutput>
-    {
-        return Iterable.instanceOf(headers, typeOrTypeCheck);
     }
 
     public first(condition?: (value: HttpHeader) => (boolean | SyncResult<boolean>)): SyncResult<HttpHeader>

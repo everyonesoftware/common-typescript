@@ -6,7 +6,6 @@ import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
 import { List } from "./list.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { Type } from "./types.js";
 
 /**
  * An {@link Indexable} that can change it's values.
@@ -117,16 +116,6 @@ export abstract class MutableIndexable<T> implements Indexable<T>
     public static where<T>(indexable: Indexable<T>, condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>
     {
         return Indexable.where(indexable, condition);
-    }
-
-    public instanceOf<TOutput extends T>(typeOrTypeCheck: Type<TOutput> | ((value: T) => value is TOutput)): Iterable<TOutput>
-    {
-        return MutableIndexable.instanceOf(this, typeOrTypeCheck);
-    }
-
-    public static instanceOf<TInput, TOutput extends TInput>(indexable: Indexable<TInput>, typeOrTypeCheck: Type<TOutput> | ((value: TInput) => value is TOutput)): Iterable<TOutput>
-    {
-        return Indexable.instanceOf(indexable, typeOrTypeCheck);
     }
 
     public first(condition?: ((value: T) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<T>

@@ -5,7 +5,6 @@ import { JavascriptIterable, JavascriptIterator } from "./javascript.js";
 import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import { Type } from "./types.js";
 
 /**
  * An {@link Iterable} that only returns values that match a condition.
@@ -77,11 +76,6 @@ export class SkipIterable<T> implements Iterable<T>
     public where(condition: (value: T) => (boolean | SyncResult<boolean>)): Iterable<T>
     {
         return Iterable.where(this, condition);
-    }
-
-    public instanceOf<TOutput extends T>(typeOrTypeCheck: Type<TOutput> | ((value: T) => value is TOutput)): Iterable<TOutput>
-    {
-        return Iterable.instanceOf(this, typeOrTypeCheck);
     }
 
     public first(condition?: ((value: T) => (boolean | SyncResult<boolean>)) | undefined): SyncResult<T>

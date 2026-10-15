@@ -25,11 +25,10 @@ export abstract class Condition
      * Assert that the provided value is undefined.
      * @param value The value to check.
      * @param expression The name of the expression that produced the value.
-     * @param message An additional message that will be included with the error.
      */
-    public assertUndefined(value: unknown, expression?: string, message?: string): asserts value is undefined
+    public assertUndefined(value: unknown, expression?: string, options?: { toStringFunction?: (value: unknown) => string }): asserts value is undefined
     {
-        Condition.assertUndefined(this, value, expression, message);
+        Condition.assertUndefined(this, value, expression, options);
     }
 
     /**
@@ -38,9 +37,9 @@ export abstract class Condition
      * @param expression The name of the expression that produced the value.
      * @param message An additional message that will be included with the error.
      */
-    public static assertUndefined(condition: Condition, value: unknown, expression?: string, message?: string): asserts value is undefined
+    public static assertUndefined(condition: Condition, value: unknown, expression?: string, options?: { toStringFunction?: (value: unknown) => string }): asserts value is undefined
     {
-        condition.assertSame(undefined, value, expression, message);
+        condition.assertSame(undefined, value, expression, options);
     }
 
     /**
@@ -94,9 +93,9 @@ export abstract class Condition
      * @param expression The name of the expression that produced the value.
      * @param message An additional message that will be included with the error.
      */
-    public assertTrue(value: boolean, expression?: string, message?: string): asserts value is true
+    public assertTrue(value: boolean, expression?: string): asserts value is true
     {
-        Condition.assertTrue(this, value, expression, message);
+        Condition.assertTrue(this, value, expression);
     }
 
     /**
@@ -107,7 +106,7 @@ export abstract class Condition
      */
     public static assertTrue(condition: Condition, value: boolean, expression?: string, message?: string): asserts value is true
     {
-        condition.assertSame(true, value, expression, message);
+        condition.assertSame(true, value, expression, { message: message });
     }
 
     /**
@@ -116,9 +115,9 @@ export abstract class Condition
      * @param expression The name of the expression that produced the value.
      * @param message An additional message that will be included with the error.
      */
-    public assertFalse(value: boolean, expression?: string, message?: string): asserts value is false
+    public assertFalse(value: boolean, expression?: string): asserts value is false
     {
-        Condition.assertFalse(this, value, expression, message);
+        Condition.assertFalse(this, value, expression);
     }
 
     /**
@@ -127,9 +126,9 @@ export abstract class Condition
      * @param expression The name of the expression that produced the value.
      * @param message An additional message that will be included with the error.
      */
-    public static assertFalse(condition: Condition, value: boolean, expression?: string, message?: string): asserts value is false
+    public static assertFalse(condition: Condition, value: boolean, expression?: string): asserts value is false
     {
-        condition.assertSame(false, value, expression, message);
+        condition.assertSame(false, value, expression);
     }
 
     /**
@@ -139,7 +138,7 @@ export abstract class Condition
      * @param expression The expression that produced the actual value.
      * @param message An optional message that describes the scenario.
      */
-    public abstract assertSame<T>(expected: T, actual: T, expression?: string, message?: string): void;
+    public abstract assertSame<T>(expected: T, actual: T, expression?: string, options?: { message?: string, toStringFunction?: (value: unknown) => string }): void
 
     /**
      * Assert that the provided actual value is not the same as the provided expected value.

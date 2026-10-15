@@ -27,15 +27,15 @@ export function test(runner: TestRunner): void
                     undefined,
                     new PreConditionError({
                         expression: "value",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }));
                 createErrorTest(
                     null,
                     new PreConditionError({
                         expression: "value",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }));
 
                 function createTest(value: string): void
@@ -48,14 +48,14 @@ export function test(runner: TestRunner): void
                         test.assertThrows(() => iterator.getCurrentIndex(),
                             new PreConditionError({
                                 expression: "this.hasCurrent()",
-                                expected: "true",
-                                actual: "false",
+                                expectedString: "true",
+                                actualString: "false",
                             }));
                         test.assertThrows(() => iterator.getCurrent(),
                             new PreConditionError({
                                 expression: "this.hasCurrent()",
-                                expected: "true",
-                                actual: "false",
+                                expectedString: "true",
+                                actualString: "false",
                             }));
                     });
                 }
@@ -89,14 +89,14 @@ export function test(runner: TestRunner): void
                             test.assertThrows(() => iterator.getCurrentIndex(),
                                 new PreConditionError({
                                     expression: "this.hasCurrent()",
-                                    expected: "true",
-                                    actual: "false",
+                                    expectedString: "true",
+                                    actualString: "false",
                                 }));
                             test.assertThrows(() => iterator.getCurrent(),
                                 new PreConditionError({
                                     expression: "this.hasCurrent()",
-                                    expected: "true",
-                                    actual: "false",
+                                    expectedString: "true",
+                                    actualString: "false",
                                 }));
                         }
                     });
@@ -134,14 +134,14 @@ export function test(runner: TestRunner): void
                             test.assertThrows(() => iterator.getCurrentIndex(),
                                 new PreConditionError({
                                     expression: "this.hasCurrent()",
-                                    expected: "true",
-                                    actual: "false",
+                                    expectedString: "true",
+                                    actualString: "false",
                                 }));
                             test.assertThrows(() => iterator.getCurrent(),
                                 new PreConditionError({
                                     expression: "this.hasCurrent()",
-                                    expected: "true",
-                                    actual: "false",
+                                    expectedString: "true",
+                                    actualString: "false",
                                 }));
                         }
                     });

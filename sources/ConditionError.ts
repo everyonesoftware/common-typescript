@@ -1,14 +1,27 @@
 import { StringTable } from "./StringTable.js";
 import { isUndefinedNullOrEmpty } from "./types.js";
 
+/**
+ * Data that describes a condition assertion that failed.
+ */
 export interface ConditionErrorData
 {
+    /**
+     * An extra message that describes the scenario.
+     */
     readonly message?: string;
-
+    /**
+     * The expression that produced the actual value.
+     */
     readonly expression?: string;
-
-    readonly expected: string;
-    readonly actual: string;
+    /**
+     * The string representation of the expected value.
+     */
+    readonly expectedString: string;
+    /**
+     * The string representation of the actual value.
+     */
+    readonly actualString: string;
 }
 
 export function conditionErrorDataToMessage(data: ConditionErrorData): string
@@ -25,8 +38,8 @@ export function conditionErrorDataToMessage(data: ConditionErrorData): string
         table.addRow(["Expression:", data.expression]);
     }
 
-    table.addRow(["Expected:", data.expected]);
-    table.addRow(["Actual:", data.actual]);
+    table.addRow(["Expected:", data.expectedString]);
+    table.addRow(["Actual:", data.actualString]);
 
     return table.toString({
         betweenColumns: " ",

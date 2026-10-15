@@ -24,13 +24,13 @@ export function test(runner: TestRunner): void
 
                 createErrorTest(undefined!, new PreConditionError({
                     expression: "httpClient",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 createErrorTest(null!, new PreConditionError({
                     expression: "httpClient",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
 
                 runner.test("with default HttpClient", (test: Test) =>
@@ -54,18 +54,18 @@ export function test(runner: TestRunner): void
 
                 getPermitItineraryErrorTest(undefined!, new PreConditionError({
                     expression: "permitItineraryId",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 getPermitItineraryErrorTest(null!, new PreConditionError({
                     expression: "permitItineraryId",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 getPermitItineraryErrorTest("", new PreConditionError({
                     expression: "permitItineraryId",
-                    expected: "not empty",
-                    actual: `""`,
+                    expectedString: "not empty",
+                    actualString: `""`,
                 }));
 
                 runner.test("with invalid permit itinerary id", runner.skip(!hasNetworkAccess), async (test: Test) =>
@@ -114,18 +114,18 @@ export function test(runner: TestRunner): void
 
                 getDivisionAvailabilityErrorTest(undefined!, "fake-division-id", 5, 2026, new PreConditionError({
                     expression: "permitItineraryId",
-                    expected: "not undefined and not null",
-                    actual: "undefined",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
                 }));
                 getDivisionAvailabilityErrorTest(null!, "fake-division-id", 5, 2026, new PreConditionError({
                     expression: "permitItineraryId",
-                    expected: "not undefined and not null",
-                    actual: "null",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
                 }));
                 getDivisionAvailabilityErrorTest("", "fake-division-id", 5, 2026, new PreConditionError({
                     expression: "permitItineraryId",
-                    expected: "not empty",
-                    actual: `""`,
+                    expectedString: "not empty",
+                    actualString: `""`,
                 }));
                 getDivisionAvailabilityErrorTest("oopsie!", "fake-division-id", 5, 2026, new RecreationDotGovError(
                     `No permit itinerary found for id: "oopsie!"`,

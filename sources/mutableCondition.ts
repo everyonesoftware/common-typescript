@@ -6,9 +6,10 @@ import { ConditionErrorData, conditionErrorDataToMessage } from "./ConditionErro
 import { EqualFunctions } from "./equalFunctions.js";
 import { isJavascriptIterableEmpty, JavascriptIterable } from "./javascript.js";
 import { ToStringFunctions } from "./toStringFunctions.js";
-import {
-    hasFunction, hasProperty, instanceOf, isJavascriptIterable, isString, isUndefinedOrNull, Type
-} from "./types.js";
+import
+    {
+        hasFunction, hasProperty, instanceOf, isJavascriptIterable, isString, isUndefinedOrNull, Type
+    } from "./types.js";
 
 /**
  * A collection of condition methods that can be used to assert the state of an application.
@@ -67,9 +68,9 @@ export class MutableCondition implements Condition
         return this;
     }
 
-    public assertUndefined(value: unknown, expression?: string, message?: string): asserts value is undefined
+    public assertUndefined(value: unknown, expression?: string, options?: { message?: string, toStringFunction?: (value: unknown) => string }): asserts value is undefined
     {
-        Condition.assertUndefined(this, value, expression, message);
+        Condition.assertUndefined(this, value, expression, options);
     }
 
     public assertNotUndefined<T>(value: T, expression?: string, message?: string): asserts value is NonNullable<T>
@@ -110,8 +111,8 @@ export class MutableCondition implements Condition
         if (value === undefined || value === null)
         {
             throw this.createError({
-                expected: `not ${this.toValueString(undefined)} and not ${this.toValueString(null)}`,
-                actual: this.toValueString(value),
+                expectedString: `not ${this.toValueString(undefined)} and not ${this.toValueString(null)}`,
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });
@@ -128,23 +129,28 @@ export class MutableCondition implements Condition
         if (value !== false)
         {
             throw this.createError({
-                expected: this.toValueString(false),
-                actual: this.toValueString(value),
+                expectedString: this.toValueString(false),
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });
         }
     }
 
-    public assertSame<T>(expected: T, actual: T, expression?: string, message?: string): void
+    public assertSame<T>(expected: T, actual: T, expression?: string, options?: { message?: string, toStringFunction?: (value: unknown) => string }): void
     {
         if (expected !== actual)
         {
+            const expectedToStringFunction = (value: unknown) => this.toValueString(value);
+            const actualToStringFunction = !isUndefinedOrNull(options?.toStringFunction)
+                ? options.toStringFunction
+                : (value: unknown) => this.toValueString(value);
+
             throw this.createError({
-                expected: this.toValueString(expected),
-                actual: this.toValueString(actual),
+                expectedString: expectedToStringFunction(expected),
+                actualString: actualToStringFunction(actual),
                 expression: expression,
-                message: message,
+                message: options?.message,
             });
         }
     }
@@ -154,8 +160,8 @@ export class MutableCondition implements Condition
         if (expected === actual)
         {
             throw this.createError({
-                expected: `not ${this.toValueString(expected)}`,
-                actual: this.toValueString(actual),
+                expectedString: `not ${this.toValueString(expected)}`,
+                actualString: this.toValueString(actual),
                 expression: expression,
                 message: message,
             });
@@ -173,8 +179,8 @@ export class MutableCondition implements Condition
         if (comparison !== Comparison.Equal)
         {
             throw this.createError({
-                expected: this.toValueString(expected),
-                actual: this.toValueString(actual),
+                expectedString: this.toValueString(expected),
+                actualString: this.toValueString(actual),
                 expression: expression,
                 message: message,
             });
@@ -192,8 +198,8 @@ export class MutableCondition implements Condition
         if (comparison === Comparison.Equal)
         {
             throw this.createError({
-                expected: `not ${this.toValueString(notExpected)}`,
-                actual: this.toValueString(actual),
+                expectedString: `not ${this.toValueString(notExpected)}`,
+                actualString: this.toValueString(actual),
                 expression: expression,
                 message: message,
             });
@@ -207,8 +213,8 @@ export class MutableCondition implements Condition
             (isJavascriptIterable(value) && isJavascriptIterableEmpty(value)))
         {
             throw this.createError({
-                expected: "not empty",
-                actual: this.toValueString(value),
+                expectedString: "not empty",
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });
@@ -220,8 +226,8 @@ export class MutableCondition implements Condition
         if (!(value < upperBound))
         {
             throw this.createError({
-                expected: `less than ${this.toValueString(upperBound)}`,
-                actual: this.toValueString(value),
+                expectedString: `less than ${this.toValueString(upperBound)}`,
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });
@@ -233,8 +239,8 @@ export class MutableCondition implements Condition
         if (!(value <= upperBound))
         {
             throw this.createError({
-                expected: `less than or equal to ${this.toValueString(upperBound)}`,
-                actual: this.toValueString(value),
+                expectedString: `less than or equal to ${this.toValueString(upperBound)}`,
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });
@@ -246,8 +252,8 @@ export class MutableCondition implements Condition
         if (!(lowerBound <= value))
         {
             throw this.createError({
-                expected: `greater than or equal to ${this.toValueString(lowerBound)}`,
-                actual: this.toValueString(value),
+                expectedString: `greater than or equal to ${this.toValueString(lowerBound)}`,
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });
@@ -259,8 +265,8 @@ export class MutableCondition implements Condition
         if (!(lowerBound < value))
         {
             throw this.createError({
-                expected: `greater than ${this.toValueString(lowerBound)}`,
-                actual: this.toValueString(value),
+                expectedString: `greater than ${this.toValueString(lowerBound)}`,
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });
@@ -273,10 +279,10 @@ export class MutableCondition implements Condition
         if (isUndefinedOrNull(value) || !(lowerBound <= value && value <= upperBound))
         {
             throw this.createError({
-                expected: (lowerBound === upperBound
+                expectedString: (lowerBound === upperBound
                     ? this.toValueString(lowerBound)
                     : `between ${this.toValueString(lowerBound)} and ${this.toValueString(upperBound)}`),
-                actual: this.toValueString(value),
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });
@@ -314,8 +320,8 @@ export class MutableCondition implements Condition
         if (!found)
         {
             throw this.createError({
-                expected: `one of ${this.toValueString(possibilities)}`,
-                actual: this.toValueString(value),
+                expectedString: `one of ${this.toValueString(possibilities)}`,
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });
@@ -333,8 +339,8 @@ export class MutableCondition implements Condition
         if (value % 1 !== 0)
         {
             throw this.createError({
-                expected: `integer`,
-                actual: this.toValueString(value),
+                expectedString: `integer`,
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });
@@ -346,8 +352,8 @@ export class MutableCondition implements Condition
         if (!value || value.length !== 1)
         {
             throw this.createError({
-                expected: `character`,
-                actual: this.toValueString(value),
+                expectedString: `character`,
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });
@@ -386,8 +392,8 @@ export class MutableCondition implements Condition
         if (!instanceOf(value, type!, typeCheck))
         {
             throw this.createError({
-                expected: `instance of ${type!.name}`,
-                actual: this.toValueString(value),
+                expectedString: `instance of ${type!.name}`,
+                actualString: this.toValueString(value),
                 expression: expression,
                 message: message,
             });

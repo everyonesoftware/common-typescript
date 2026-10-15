@@ -18,8 +18,8 @@ export function test(runner: TestRunner): void
                 {
                     test.assertThrows(() => Generator.create(undefined!), new PreConditionError({
                         expression: "generatorAction",
-                        expected: "not undefined and not null",
-                        actual: "undefined",
+                        expectedString: "not undefined and not null",
+                        actualString: "undefined",
                     }));
                 });
 
@@ -27,8 +27,8 @@ export function test(runner: TestRunner): void
                 {
                     test.assertThrows(() => Generator.create(null!), new PreConditionError({
                         expression: "generatorAction",
-                        expected: "not undefined and not null",
-                        actual: "null",
+                        expectedString: "not undefined and not null",
+                        actualString: "null",
                     }));
                 });
 

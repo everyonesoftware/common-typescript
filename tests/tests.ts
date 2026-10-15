@@ -9,12 +9,14 @@ import * as byteTests from "./bytesTests.js";
 import * as characterListStreamTests from "./characterListStreamTests.js";
 import * as characterListTests from "./characterListTests.js";
 import * as clockTests from "./ClockTests.js";
+import * as commandLineCommandTests from "./CommandLineCommandTests.js";
 import * as comparerTests from "./comparerTests.js";
 import * as conditionTests from "./conditionTests.js";
 import * as consoleTestRunnerTests from "./consoleTestRunnerTests.js";
 import * as consoleTestRunnerUITests from "./ConsoleTestRunnerUITests.js";
 import * as dateTimeTests from "./dateTimeTests.js";
 import * as depthFirstSearchTests from "./depthFirstSearchTests.js";
+import * as durationTests from "./DurationTests.js";
 import * as dynamicPropertyTests from "./DynamicPropertyTests.js";
 import * as englishTests from "./englishTests.js";
 import * as equalFunctionsTests from "./equalFunctionsTests.js";
@@ -39,12 +41,16 @@ import * as mapTests from "./mapTests.js";
 import * as mutableConditionTests from "./mutableConditionTests.js";
 import * as mutableIndexableTests from "./MutableIndexableTests.js";
 import * as mutableMapTests from "./mutableMapTests.js";
+import * as nodeJSFileSystemTests from "./NodeJSFileSystemTests.js";
+import * as nodeJSHttpServerTests from "./nodeJSHttpServerTests.js";
+import * as nodeJSPathTests from "./NodeJSPathTests.js";
 import * as notFoundErrorTests from "./notFoundErrorTests.js";
+import * as pathTests from "./PathTests.js";
 import * as postConditionErrorTests from "./postConditionErrorTests.js";
 import * as preConditionErrorTests from "./preConditionErrorTests.js";
 import * as promiseAsyncResultTests from "./promiseAsyncResultTests.js";
 import * as queueTests from "./queueTests.js";
-import * as nodeJSHttpServerTests from "./nodeJSHttpServerTests.js";
+import * as realProcessRunnerTests from "./RealProcessRunnerTests.js";
 import * as recreationDotGovClientTests from "./recreationDotGovClientTests.js";
 import * as setTests from "./setTests.js";
 import * as stackTests from "./stackTests.js";
@@ -63,9 +69,7 @@ import * as toStringFunctionsTests from "./toStringFunctionsTests.js";
 import * as typesTests from "./typesTests.js";
 import * as whereIteratorTests from "./whereIteratorTests.js";
 import * as wonderlandTrailClientTests from "./wonderlandTrailClientTests.js";
-import * as commandLineCommandTests from "./CommandLineCommandTests.js";
-import * as realProcessRunnerTests from "./RealProcessRunnerTests.js";
-import * as durationTests from "./DurationTests.js";
+import * as currentProcessTests from "./CurrentProcessTests.js";
 
 export const hasNetworkAccess: boolean = true;
 
@@ -80,12 +84,14 @@ await ConsoleTestRunner.run([
     characterListStreamTests,
     characterListTests,
     clockTests,
+    commandLineCommandTests,
     comparerTests,
     conditionTests,
     consoleTestRunnerTests,
     consoleTestRunnerUITests,
     dateTimeTests,
     depthFirstSearchTests,
+    durationTests,
     dynamicPropertyTests,
     englishTests,
     equalFunctionsTests.test,
@@ -110,12 +116,13 @@ await ConsoleTestRunner.run([
     mutableConditionTests,
     mutableIndexableTests,
     mutableMapTests,
+    nodeJSHttpServerTests,
     notFoundErrorTests,
     postConditionErrorTests,
     preConditionErrorTests,
     promiseAsyncResultTests.test,
     queueTests,
-    nodeJSHttpServerTests,
+    realProcessRunnerTests,
     recreationDotGovClientTests,
     setTests,
     stackTests,
@@ -134,7 +141,8 @@ await ConsoleTestRunner.run([
     typesTests,
     whereIteratorTests,
     wonderlandTrailClientTests,
-    commandLineCommandTests,
-    realProcessRunnerTests,
-    durationTests,
+    pathTests,
+    nodeJSPathTests,
+    currentProcessTests,
+    nodeJSFileSystemTests,
 ]);
