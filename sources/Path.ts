@@ -8,6 +8,8 @@ import { isString } from "./types.js";
  */
 export abstract class Path
 {
+    public static readonly defaultSeparator: string = "/";
+
     public static parse(pathString: string): SyncResult<Path>
     {
         return NodeJSPath.parse(pathString);
@@ -19,6 +21,30 @@ export abstract class Path
         PreCondition.assertNotEmpty(separator, "separator");
 
         return pathString.replaceAll(/[\\/]/g, separator);
+    }
+
+    public static ensureTrailingSeparator(pathString: string, separator: string): string
+    {
+        PreCondition.assertNotUndefinedAndNotNull(pathString, "pathString");
+
+        const length: number = pathString.length;
+        if (length === 0)
+        {
+            pathString = separator;
+        }
+        else
+        {
+            const lastCharacter: string = pathString[length - 1];
+            if (lastCharacter !== separator)
+            {
+                if (lastCharacter === "/" || lastCharacter === "\\")
+                {
+                    pathString = pathString.substring(0, length - 1);
+                }
+                pathString += separator;
+            }
+        }
+        return pathString;
     }
 
     /**

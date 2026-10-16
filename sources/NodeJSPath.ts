@@ -2,6 +2,8 @@ import * as path from "path";
 import { Path } from "./Path.js";
 import { SyncResult } from "./syncResult.js";
 import { PreCondition } from "./preCondition.js";
+import { NotFoundError } from "./notFoundError.js";
+import { escapeAndQuote } from "./strings.js";
 
 export class NodeJSPath implements Path
 {
@@ -20,18 +22,45 @@ export class NodeJSPath implements Path
 
         return SyncResult.create(() =>
         {
-            return new NodeJSPath(path.parse(Path.convertSeparators(pathString, "/")));
+            pathString = Path.convertSeparators(pathString, Path.defaultSeparator);
+
+            let parsedPath: path.ParsedPath = path.win32.parse(pathString);
+            if (!parsedPath.root)
+            {
+                parsedPath = path.posix.parse(pathString);
+            }
+            return new NodeJSPath(parsedPath);
         });
+    }
+
+    private getParsedPath(): path.ParsedPath
+    {
+        return this.parsedPath;
     }
 
     public getName(): string
     {
-        return this.parsedPath.base;
+        const parsedPath: path.ParsedPath = this.getParsedPath();
+        let result: string = parsedPath.base
+        if (!result)
+        {
+            result = Path.ensureTrailingSeparator(parsedPath.dir, Path.defaultSeparator);
+        }
+        return result;
     }
 
     public getParent(): SyncResult<Path>
     {
-        return NodeJSPath.parse(this.parsedPath.dir);
+        return SyncResult.create(() =>
+        {
+            const parsedPath: path.ParsedPath = this.getParsedPath();
+            const parentPathString: string = parsedPath.dir;
+            if (!parentPathString)
+            {
+                throw new NotFoundError(`The path ${escapeAndQuote(this.toString())} doesn't have a parent folder.`);
+            }
+            return NodeJSPath.parse(parentPathString).await();
+        });
     }
 
     public concatenate(part: string): Path
@@ -41,7 +70,12 @@ export class NodeJSPath implements Path
 
     public toString(options?: { separator?: string }): string
     {
-        let result: string = path.format(this.parsedPath);
+        const parsedPath: path.ParsedPath = this.getParsedPath();
+        let result: string = path.format(parsedPath);
+        if (!parsedPath.base)
+        {
+            result = Path.ensureTrailingSeparator(result, Path.defaultSeparator);
+        }
         if (options?.separator)
         {
             result = Path.convertSeparators(result, options.separator);
@@ -56,6 +90,7 @@ export class NodeJSPath implements Path
 
     public isAbsolute(): boolean
     {
-        return path.isAbsolute(this.toString());
+        const pathString: string = this.toString();
+        return path.win32.isAbsolute(pathString) || path.posix.isAbsolute(pathString);
     }
 }

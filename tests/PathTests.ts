@@ -68,14 +68,16 @@ export function pathTests(runner: TestRunner, parser: (pathString: string) => Sy
                 });
             }
 
-            getNameTest("/", "");
+            getNameTest("/", "/");
             getNameTest("/hello", "hello");
             getNameTest("/hello/there", "there");
             getNameTest("/hello//there", "there");
             getNameTest("/hello/././../there", "there")
             getNameTest("/hello/./../../there", "there")
             getNameTest("/hello/../../../there", "there")
-            getNameTest("C:/", "");
+            getNameTest("C:\\", "C:/");
+            getNameTest("C:/", "C:/");
+            getNameTest("C:", "C:/");
             getNameTest("C:/Windows/System32/notepad.exe", "notepad.exe");
             getNameTest("C:\\<>:\"|?*.txt", "<>:\"|?*.txt");
         });
@@ -149,6 +151,8 @@ export function pathTests(runner: TestRunner, parser: (pathString: string) => Sy
             isAbsolute("/hello/./../../there", true)
             isAbsolute("/hello/../../../there", true)
             isAbsolute("C:\\", true);
+            isAbsolute("C:/", true);
+            isAbsolute("C:", true);
             isAbsolute("C:/Windows/System32/notepad.exe", true);
             isAbsolute("C:\\<>:\"|?*.txt", true);
 
