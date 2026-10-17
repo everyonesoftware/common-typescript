@@ -139,6 +139,28 @@ export function test(runner: TestRunner): void
                     test.assertEqual("", writeStream.getWrittenText());
                 });
 
+                runner.test("with no aliases", async (test: Test) =>
+                {
+                    const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
+                    const command: CommandLineCommand = CommandLineCommand.create({
+                        name: "fake-command",
+                        description: "fake-command-description",
+                        writeStream,
+                        arguments: ["--help"],
+                    });
+
+                    const showHelpResult: boolean = await command.showHelp();
+                    test.assertTrue(showHelpResult);
+                    test.assertEqual(writeStream.getWrittenText(), join("\n", [
+                        "Command:     fake-command",
+                        "Description: fake-command-description",
+                        "",
+                        "Parameters:",
+                        "--help [-?]: Show the command's help menu.",
+                        "",
+                    ]));
+                });
+
                 runner.test("with no command parameters", async (test: Test) =>
                 {
                     const writeStream: InMemoryCharacterWriteStream = InMemoryCharacterWriteStream.create();
@@ -213,7 +235,7 @@ export function test(runner: TestRunner): void
                         "",
                         "Commands:",
                         "subcommand1 [sc1]: The first subcommand",
-                        "subcommand2 []:    The second subcommand",
+                        "subcommand2:       The second subcommand",
                         "",
                     ]));
                 });

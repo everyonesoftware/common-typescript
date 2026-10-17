@@ -296,10 +296,13 @@ export class CommandLineCommand implements CommandLineCommandParent, CommandLine
                     const commandTable: StringTable = StringTable.create();
                     for (const command of commands)
                     {
-                        commandTable.addRow([
-                            `${command.getName()} [${join(",", command.getAliases())}]:`,
-                            command.getDescription(),
-                        ]);
+                        let commandName: string = command.getName();
+                        if (command.getAliases().any().await())
+                        {
+                            commandName += ` [${join(",", command.getAliases())}]`;
+                        }
+                        commandName += ":";
+                        commandTable.addRow([commandName, command.getDescription()]);
                     }
                     await commandTable.writeTo(writeStream, { betweenColumns: " " });
                     await writeStream.writeLine();
