@@ -5,6 +5,7 @@ import { FileSystemEntry } from "./FileSystemEntry.js";
 import { FileSystemEntryType } from "./FileSystemEntryType.js";
 import { Folder } from "./Folder.js";
 import { Path } from "./Path.js";
+import { PreCondition } from "./preCondition.js";
 import { SyncResult } from "./syncResult.js";
 
 /**
@@ -69,5 +70,38 @@ export abstract class File implements FileSystemEntry
     public static exists(file: File): AsyncResult<boolean>
     {
         return file.getFileSystem().fileExists(file.getPath());
+    }
+
+    public writeContents(fileContents: string): AsyncResult<void>
+    {
+        return File.writeContents(this, fileContents);
+    }
+
+    public static writeContents(file: File, fileContents: string): AsyncResult<void>
+    {
+        PreCondition.assertNotUndefinedAndNotNull(file, "file");
+        PreCondition.assertNotUndefinedAndNotNull(fileContents, "fileContents");
+
+        return AsyncResult.create(async () =>
+        {
+            const fileSystem: FileSystem = file.getFileSystem();
+            await fileSystem.writeFileContents(file.getPath(), fileContents);
+        });
+    }
+
+    public readContents(): AsyncResult<string>
+    {
+        return File.readContents(this);
+    }
+
+    public static readContents(file: File): AsyncResult<string>
+    {
+        PreCondition.assertNotUndefinedAndNotNull(file, "file");
+
+        return AsyncResult.create(async () =>
+        {
+            const fileSystem: FileSystem = file.getFileSystem();
+            return await fileSystem.readFileContents(file.getPath());
+        });
     }
 }

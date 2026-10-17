@@ -98,4 +98,17 @@ export abstract class FileSystem
      * @param folderPath The {@link Folder} path to iterate over the entries of.
      */
     public abstract iterateFolderEntries(folderPath: string | Path, options?: { recursive?: boolean }): AsyncResult<Iterator<File | Folder>>;
+
+    /**
+     * Write the provided contents to the file at the provided path.
+     * @param filePath The path to the {@link File} to write to.
+     * @param contents The contents to write to the {@link File}.
+     */
+    public abstract writeFileContents(filePath: string | Path, contents: string): AsyncResult<void>;
+
+    /**
+     * Read the contents from the {@link File} at the provied path.
+     * @param filePath The path to the {@link File} to read from.
+     */
+    public abstract readFileContents(filePath: string | Path): AsyncResult<string>;
 }

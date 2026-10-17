@@ -10,9 +10,11 @@ import { NodeJSCharacterWriteStream } from "./nodeJSCharacterWriteStream.js";
 import { NodeJSFileSystem } from "./NodeJSFileSystem.js";
 import { Path } from "./Path.js";
 import { PreCondition } from "./preCondition.js";
+import { ProcessRunner } from "./ProcessRunner.js";
 import { Property } from "./property.js";
 import { RealClock } from "./RealClock.js";
 import { RealNetwork } from "./realNetwork.js";
+import { RealProcessRunner } from "./RealProcessRunner.js";
 import { isIterable, isNumber, isUndefinedOrNull, toUndefinedNullOrDefinedString } from "./types.js";
 
 /**
@@ -27,6 +29,7 @@ export class CurrentProcess
     private clock: Clock | undefined;
     private fileSystem: FileSystem | undefined;
     private currentFolderString: string | undefined;
+    private processRunner: ProcessRunner | undefined;
 
     private constructor()
     {
@@ -207,5 +210,24 @@ export class CurrentProcess
         const path: Path = this.getCurrentFolderPath();
         const fileSystem: FileSystem = this.getFileSystem();
         return fileSystem.getFolder(path).await();
+    }
+
+    public getProcessRunner(): ProcessRunner
+    {
+        if (isUndefinedOrNull(this.processRunner))
+        {
+            this.processRunner = RealProcessRunner.create();
+        }
+        return this.processRunner;
+    }
+
+    public setProcessRunner(processRunner: ProcessRunner): this
+    {
+        PreCondition.assertNotUndefinedAndNotNull(processRunner, "processRunner");
+        PreCondition.assertUndefined(this.processRunner, "this.processRunner", { toStringFunction: toUndefinedNullOrDefinedString });
+
+        this.processRunner = processRunner;
+
+        return this;
     }
 }

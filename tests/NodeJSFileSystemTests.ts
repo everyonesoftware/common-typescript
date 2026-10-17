@@ -490,7 +490,7 @@ export function test(runner: TestRunner): void
             {
                 function iterateFolderEntriesErrorTest(folderPath: string | Path, expected: Error): void
                 {
-                    runner.test(`with ${folderPath}`, async (test: Test) =>
+                    runner.test(`with ${runner.toString(folderPath)}`, async (test: Test) =>
                     {
                         const fileSystem: NodeJSFileSystem = NodeJSFileSystem.create();
                         await test.assertThrowsAsync(async () => await fileSystem.iterateFolderEntries(folderPath), expected);
@@ -667,6 +667,87 @@ export function test(runner: TestRunner): void
                     finally
                     {
                         await fileSystem.deleteFolder(folderPath);
+                    }
+                });
+            });
+
+            runner.testFunction("writeFileContents()", () =>
+            {
+                function writeFileContentsErrorTest(filePath: string | Path, contents: string, expected: Error): void
+                {
+                    runner.test(`with ${runner.andList([filePath, contents])}`, async (test: Test) =>
+                    {
+                        const fileSystem: NodeJSFileSystem = NodeJSFileSystem.create();
+                        await test.assertThrowsAsync(async () => await fileSystem.writeFileContents(filePath, contents), expected);
+                    });
+                }
+
+                writeFileContentsErrorTest(undefined!, "", new PreConditionError({
+                    expression: "filePath",
+                    expectedString: "not undefined and not null",
+                    actualString: "undefined",
+                }));
+                writeFileContentsErrorTest(null!, "", new PreConditionError({
+                    expression: "filePath",
+                    expectedString: "not undefined and not null",
+                    actualString: "null",
+                }));
+                writeFileContentsErrorTest("", "", new PreConditionError({
+                    expression: "pathString",
+                    expectedString: "not empty",
+                    actualString: `""`,
+                }));
+                writeFileContentsErrorTest("/folder/file.txt", undefined!, new PreConditionError({
+                    expression: "contents",
+                    expectedString: "not undefined and not null",
+                    actualString: `undefined`,
+                }));
+                writeFileContentsErrorTest("/folder/file.txt", null!, new PreConditionError({
+                    expression: "contents",
+                    expectedString: "not undefined and not null",
+                    actualString: `null`,
+                }));
+
+                runner.test("with file that doesn't exist", async (test: Test) =>
+                {
+                    const currentFolderPath: Path = runner.getCurrentFolder().getPath();
+                    const filePath: Path = currentFolderPath.concatenate("fake-file.txt");
+
+                    const fileSystem: NodeJSFileSystem = NodeJSFileSystem.create();
+
+                    const fileContents: string = "hello there!";
+                    await fileSystem.writeFileContents(filePath, fileContents);
+                    try
+                    {
+                        test.assertEqual(await fileSystem.readFileContents(filePath), fileContents);
+                    }
+                    finally
+                    {
+                        await fileSystem.deleteFile(filePath);
+                    }
+                });
+
+                runner.test("with file that exists", async (test: Test) =>
+                {
+                    const currentFolderPath: Path = runner.getCurrentFolder().getPath();
+                    const filePath: Path = currentFolderPath.concatenate("fake-file.txt");
+
+                    const fileSystem: NodeJSFileSystem = NodeJSFileSystem.create();
+
+                    const fileContents1: string = "hello there!";
+                    await fileSystem.writeFileContents(filePath, fileContents1);
+                    try
+                    {
+                        test.assertEqual(await fileSystem.readFileContents(filePath), fileContents1);
+
+                        const fileContents2: string = "hello there again!";
+                        await fileSystem.writeFileContents(filePath, fileContents2);
+
+                        test.assertEqual(await fileSystem.readFileContents(filePath), fileContents2);
+                    }
+                    finally
+                    {
+                        await fileSystem.deleteFile(filePath);
                     }
                 });
             });

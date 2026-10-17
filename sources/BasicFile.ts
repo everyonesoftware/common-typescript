@@ -65,4 +65,14 @@ export class BasicFile implements File
     {
         return File.exists(this);
     }
+
+    public writeContents(fileContents: string): AsyncResult<void>
+    {
+        return File.writeContents(this, fileContents);
+    }
+
+    public readContents(): AsyncResult<string>
+    {
+        return File.readContents(this);
+    }
 }

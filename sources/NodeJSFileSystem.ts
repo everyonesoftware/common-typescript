@@ -269,4 +269,54 @@ export class NodeJSFileSystem implements FileSystem
             });
         }));
     }
+
+    public writeFileContents(filePath: string | Path, contents: string): AsyncResult<void>
+    {
+        PreCondition.assertNotUndefinedAndNotNull(filePath, "filePath");
+        PreCondition.assertNotUndefinedAndNotNull(contents, "contents");
+
+        return AsyncResult.create(new Promise((resolve, reject) =>
+        {
+            filePath = Path.ensurePath(filePath).await();
+            PreCondition.assertTrue(filePath.isAbsolute(), "filePath.isAbsolute()");
+
+            const options = {};
+            // https://nodejs.org/api/fs.html#fswritefilefile-data-options-callback
+            fs.writeFile(filePath.toString(), contents, options, (error: NodeJS.ErrnoException | null) =>
+            {
+                if (!isUndefinedOrNull(error))
+                {
+                    reject(error);
+                }
+                else
+                {
+                    resolve();
+                }
+            });
+        }));
+    }
+
+    public readFileContents(filePath: string | Path): AsyncResult<string>
+    {
+        PreCondition.assertNotUndefinedAndNotNull(filePath, "filePath");
+
+        return AsyncResult.create(new Promise((resolve, reject) =>
+        {
+            filePath = Path.ensurePath(filePath).await();
+            PreCondition.assertTrue(filePath.isAbsolute(), "filePath.isAbsolute()");
+
+            // https://nodejs.org/api/fs.html#fsreadfilepath-options-callback
+            fs.readFile(filePath.toString(), { encoding: "utf8" }, (error: NodeJS.ErrnoException | null, data: string) =>
+            {
+                if (!isUndefinedOrNull(error))
+                {
+                    reject(error);
+                }
+                else
+                {
+                    resolve(data);
+                }
+            });
+        }));
+    }
 }
