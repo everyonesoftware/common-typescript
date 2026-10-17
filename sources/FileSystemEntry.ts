@@ -72,31 +72,12 @@ export abstract class FileSystemEntry
     /**
      * Get whether this {@link FileSystemEntry} is a {@link File}.
      */
-    public isFile(): this is File
-    {
-        return FileSystemEntry.isFile(this);
-    }
-
-    /**
-     * Get whether the provided {@link FileSystemEntry} is a {@link File}.
-     */
-    public static isFile(entry: FileSystemEntry): entry is File
-    {
-        return entry.getType() === FileSystemEntryType.File;
-    }
+    public abstract isFile(): this is File;
 
     /**
      * Get whether this {@link FileSystemEntry} is a {@link Folder}.
      */
     public abstract isFolder(): this is Folder;
-
-    /**
-     * Get whether the provided {@link FileSystemEntry} is a {@link Folder}.
-     */
-    public static isFolder(entry: FileSystemEntry): entry is Folder
-    {
-        return entry.getType() === FileSystemEntryType.Folder;
-    }
 
     /**
      * Get whether this {@link FileSystemEntry} exists.

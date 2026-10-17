@@ -53,22 +53,12 @@ export abstract class File implements FileSystemEntry
 
     public isFile(): this is File
     {
-        return File.isFile(this);
-    }
-
-    public static isFile(file: File): file is File
-    {
-        return FileSystemEntry.isFile(file);
+        return true;
     }
 
     public isFolder(): this is Folder
     {
-        return File.isFolder(this);
-    }
-
-    public static isFolder(file: File): file is Folder
-    {
-        return FileSystemEntry.isFolder(file);
+        return false;
     }
 
     public exists(): AsyncResult<boolean>

@@ -77,12 +77,12 @@ export abstract class Path
     public abstract getParent(): SyncResult<Path>;
 
     /**
-     * Get a new {@link Path} with the provided part concatenated on to the end of this
+     * Get a new {@link Path} with the provided relative path concatenated on to the end of this
      * {@link Path}. A path separating slash will be inserted into the new {@link Path} if this
      * {@link Path} doesn't end with a trailing slash.
-     * @param part The part to concatenate.
+     * @param relativePath The relative path to concatenate.
      */
-    public abstract concatenate(part: string): Path;
+    public abstract concatenate(relativePath: string | Path): Path;
 
     /**
      * Get the string representation of this {@link Path}.

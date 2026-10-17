@@ -6,6 +6,7 @@ import { File } from "./File.js";
 import { FileSystemEntryType } from "./FileSystemEntryType.js";
 import { SyncResult } from "./syncResult.js";
 import { AsyncResult } from "./asyncResult.js";
+import { Iterator } from "./iterator.js";
 
 export class BasicFolder implements Folder
 {
@@ -53,16 +54,36 @@ export class BasicFolder implements Folder
 
     public isFile(): this is File
     {
-        return Folder.isFile(this);
+        return false;
     }
 
     public isFolder(): this is Folder
     {
-        return Folder.isFolder(this);
+        return true;
     }
 
     public exists(): AsyncResult<boolean>
     {
         return Folder.exists(this);
+    }
+
+    public getFolder(subFolderPath: string | Path): SyncResult<Folder>
+    {
+        return Folder.getFolder(this, subFolderPath);
+    }
+
+    public create(): AsyncResult<void>
+    {
+        return Folder.createFolder(this);
+    }
+
+    public delete(): AsyncResult<void>
+    {
+        return Folder.delete(this);
+    }
+
+    public iterateFolderEntries(options?: { recursive?: boolean; }): AsyncResult<Iterator<File | Folder>>
+    {
+        return Folder.iterateFolderEntries(this, options);
     }
 }

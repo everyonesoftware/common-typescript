@@ -53,12 +53,12 @@ export class BasicFile implements File
 
     public isFile(): this is File
     {
-        return File.isFile(this);
+        return true;
     }
 
     public isFolder(): this is Folder
     {
-        return File.isFolder(this);
+        return false;
     }
 
     public exists(): AsyncResult<boolean>

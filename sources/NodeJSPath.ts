@@ -63,9 +63,14 @@ export class NodeJSPath implements Path
         });
     }
 
-    public concatenate(part: string): Path
+    public concatenate(relativePath: string | Path): Path
     {
-        return NodeJSPath.parse(path.join(this.toString(), part)).await();
+        PreCondition.assertNotUndefinedAndNotNull(relativePath, "relativePath");
+
+        relativePath = Path.ensurePath(relativePath).await();
+        PreCondition.assertTrue(relativePath.isRelative(), "relativePath.isRelative()");
+
+        return NodeJSPath.parse(path.join(this.toString(), relativePath.toString())).await();
     }
 
     public toString(options?: { separator?: string }): string
